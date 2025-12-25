@@ -36,7 +36,7 @@ export default function ContactPage() {
               <li>Whether you need refurbishment, assembly, or rentals.</li>
             </ul>
             <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/70">
-              Prefer chat? We’ll embed Tawk.to; share your widget ID and we’ll wire it in.
+              Need immediate assistance? Contact us via email or schedule a factory visit to discuss your project in person.
             </div>
           </div>
         </div>
