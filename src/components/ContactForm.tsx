@@ -4,6 +4,42 @@ import { useState } from "react";
 import { copy } from "../content/copy";
 import { useLanguage } from "./language";
 
+// Simple email sending using mailto as fallback
+// For production, set up EmailJS, Resend, or SendGrid
+const sendEmail = async (data: {
+  name: string;
+  email: string;
+  phone: string;
+  country: string;
+  company: string;
+  message: string;
+}) => {
+  // Option 1: Use API route (current setup - logs to Vercel)
+  const response = await fetch("/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+
+  // Option 2: Use EmailJS (uncomment and configure)
+  // You'll need to sign up at emailjs.com and get your service ID, template ID, and public key
+  // const emailjs = (await import("@emailjs/browser")).default;
+  // return emailjs.send(
+  //   process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
+  //   process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
+  //   {
+  //     from_name: data.name,
+  //     from_email: data.email,
+  //     phone: data.phone,
+  //     country: data.country,
+  //     company: data.company,
+  //     message: data.message,
+  //   },
+  //   process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ""
+  // );
+};
+
 export function ContactForm({ action }: { action?: string }) {
   const { lang } = useLanguage();
   const c = copy(lang);
@@ -103,7 +139,7 @@ export function ContactForm({ action }: { action?: string }) {
         {isSubmitting ? "Sending..." : c.form.submit}
       </button>
       <p className="text-xs text-white/50">
-        Set CONTACT_EMAIL environment variable in Vercel to receive submissions.
+        We'll respond to your inquiry within 24 hours.
       </p>
     </form>
   );
