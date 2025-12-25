@@ -6,23 +6,18 @@
     </linearGradient>
   </defs>
   <rect width="240" height="160" rx="24" fill="#0D0D0D"/>
-  <!-- Curved outline: starts from left (M's left stroke), curves up and around to form top and right -->
-  <path d="M 65 120 
-           L 65 50 
-           Q 65 30 85 30 
-           Q 155 30 175 50 
-           Q 175 70 155 70 
-           L 115 70 
+  <!-- M with left stroke curving up and around to form top/right of oval outline -->
+  <path d="M 60 120 
+           L 60 50 
+           Q 60 25 85 25 
+           Q 155 25 180 50 
+           Q 180 75 155 75 
+           L 115 75 
            L 115 120 
+           L 95 120 
+           L 95 85 
+           L 75 105 
+           L 75 120 
            Z" 
         fill="url(#grad)"/>
-  <!-- M letter (bold sans-serif) -->
-  <path d="M 85 100 
-           L 85 60 
-           L 105 80 
-           L 125 60 
-           L 125 100" 
-        fill="url(#grad)" 
-        stroke="#0D0D0D" 
-        stroke-width="3"/>
 </svg>
