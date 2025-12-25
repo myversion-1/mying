@@ -26,36 +26,6 @@ export default function VisitPage() {
       >
         <VerificationGate />
       </Section>
-
-      <Section
-        title="How verification works"
-        subtitle="Keep high-intent clients prioritized while screening unserious requests."
-      >
-        <div className="grid gap-4 md:grid-cols-3">
-          {[
-            {
-              title: "Request",
-              desc: "Clients submit project details via the contact form or a dedicated verification form.",
-            },
-            {
-              title: "Review",
-              desc: "You confirm seriousness, timing, and budget alignment. Issue a one-time code.",
-            },
-            {
-              title: "Schedule",
-              desc: "Client enters the code, sees your Calendly, and books within your allowed windows.",
-            },
-          ].map((item) => (
-            <div
-              key={item.title}
-              className="rounded-2xl border border-white/5 bg-white/5 p-4"
-            >
-              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-              <p className="text-white/70">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
     </div>
   );
 }
