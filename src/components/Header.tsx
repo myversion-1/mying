@@ -20,38 +20,40 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/5 bg-[#0c1014]/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-8">
-        <div className="flex items-center gap-3">
-          <img
-            src="/logo.jpg"
-            alt="Miying logo"
-            width={44}
-            height={36}
-            className="h-9 w-auto"
-          />
-          <div className="text-sm font-semibold uppercase tracking-[0.08em] text-white">
-            Miying Rides
+      <div className="mx-auto max-w-6xl px-4 py-3 md:px-8">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <img
+              src="/logo.jpg"
+              alt="Miying logo"
+              width={44}
+              height={36}
+              className="h-9 w-auto"
+            />
+            <div className="text-sm font-semibold uppercase tracking-[0.08em] text-white whitespace-nowrap">
+              Miying Rides
+            </div>
           </div>
-        </div>
-        <nav className="hidden items-center gap-6 text-sm font-medium text-white md:flex">
+        <nav className="hidden items-center gap-3 text-sm font-medium text-white lg:flex flex-shrink-0">
           {links.map((link) => (
             <Link
               key={link.key}
               href={link.href}
-              className="rounded-full px-3 py-2 text-white/80 transition hover:bg-white/10 hover:text-white"
+              className="rounded-full px-2.5 py-2 text-white/80 transition hover:bg-white/10 hover:text-white whitespace-nowrap"
             >
               {c.nav[link.key as keyof typeof c.nav]}
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-3">
-          <LanguageToggle />
-          <Link
-            href="/visit"
-            className="hidden rounded-full bg-[#00eaff] px-3 py-2 text-sm font-semibold text-[#0b1116] shadow-[0_0_24px_rgba(0,234,255,0.35)] transition hover:-translate-y-[1px] hover:shadow-[0_0_32px_rgba(0,234,255,0.5)] md:inline-flex"
-          >
-            {c.cta.primary}
-          </Link>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <LanguageToggle />
+            <Link
+              href="/visit"
+              className="hidden rounded-full bg-[#00eaff] px-3 py-2 text-sm font-semibold text-[#0b1116] shadow-[0_0_24px_rgba(0,234,255,0.35)] transition hover:-translate-y-[1px] hover:shadow-[0_0_32px_rgba(0,234,255,0.5)] lg:inline-flex whitespace-nowrap"
+            >
+              {c.cta.primary}
+            </Link>
+          </div>
         </div>
       </div>
     </header>
