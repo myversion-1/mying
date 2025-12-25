@@ -363,6 +363,168 @@ export function copy(lang: Lang) {
     };
   }
   
+  if (lang === "vi") {
+    return {
+      nav: {
+        home: "Trang chủ",
+        about: "Về chúng tôi",
+        services: "Dịch vụ",
+        products: "Sản phẩm",
+        contact: "Liên hệ",
+        visit: "Tham quan nhà máy",
+      },
+      cta: {
+        primary: "Yêu cầu tham quan",
+        secondary: "Xem sản phẩm",
+      },
+      hero: {
+        title: "Trò chơi giải trí đáng tin cậy. Giao hàng toàn cầu.",
+        subtitle:
+          "Từ thiết kế đến lắp đặt, chúng tôi giúp các công viên và địa điểm khởi động các điểm tham quan thu hút đám đông đúng thời hạn và trong ngân sách.",
+        badge: "An toàn đã được kiểm tra tại nhà máy",
+      },
+      highlights: [
+        "Vận chuyển toàn cầu & tuân thủ",
+        "An toàn đã được kiểm tra tại nhà máy",
+        "Chuyên môn về cải tạo & lắp ráp",
+        "Hỗ trợ nhanh chóng, rõ ràng",
+      ],
+      servicesTitle: "Dịch vụ chuyên biệt",
+      productsTitle: "Danh mục nổi bật",
+      contactTitle: "Cho chúng tôi biết về dự án của bạn",
+      contactSubtitle:
+        "Gửi kế hoạch của bạn và chúng tôi sẽ phản hồi với các tùy chọn, thời gian biểu và các bước tiếp theo.",
+      verificationTitle: "Tham quan nhà máy (khách hàng đã xác minh)",
+      verificationSubtitle:
+        "Yêu cầu xác minh. Sau khi được phê duyệt, chúng tôi sẽ gửi mã một lần để mở khóa đặt chỗ.",
+      bookingButton: "Hiển thị lịch trình",
+      codePlaceholder: "Mã xác minh",
+      verifyButton: "Xác minh và hiển thị đặt chỗ",
+      wrongCode: "Mã không hợp lệ. Vui lòng kiểm tra email xác minh của bạn.",
+      successCode: "Mã đã được chấp nhận. Chọn khung thời gian bên dưới.",
+      form: {
+        name: "Tên",
+        email: "Email",
+        phone: "Điện thoại",
+        country: "Quốc gia",
+        company: "Công ty",
+        message: "Chi tiết dự án hoặc trò chơi quan tâm",
+        submit: "Gửi",
+      },
+      footer: {
+        rights: "© 2025 Miying. Bảo lưu mọi quyền.",
+      },
+    };
+  }
+  
+  if (lang === "id") {
+    return {
+      nav: {
+        home: "Beranda",
+        about: "Tentang Kami",
+        services: "Layanan",
+        products: "Produk",
+        contact: "Kontak",
+        visit: "Kunjungan Pabrik",
+      },
+      cta: {
+        primary: "Minta Kunjungan",
+        secondary: "Lihat Produk",
+      },
+      hero: {
+        title: "Wahana yang Terpercaya. Pengiriman Global.",
+        subtitle:
+          "Dari desain hingga instalasi, kami membantu taman hiburan dan venue meluncurkan atraksi yang disukai pengunjung tepat waktu dan sesuai anggaran.",
+        badge: "Keamanan teruji di pabrik",
+      },
+      highlights: [
+        "Pengiriman global & kepatuhan",
+        "Keamanan teruji di pabrik",
+        "Keahlian perbaikan & perakitan",
+        "Dukungan cepat dan jelas",
+      ],
+      servicesTitle: "Layanan khusus",
+      productsTitle: "Katalog unggulan",
+      contactTitle: "Ceritakan tentang proyek Anda",
+      contactSubtitle:
+        "Kirim rencana Anda dan kami akan merespons dengan opsi, timeline, dan langkah selanjutnya.",
+      verificationTitle: "Kunjungan pabrik (klien terverifikasi)",
+      verificationSubtitle:
+        "Minta verifikasi. Setelah disetujui, kami akan mengirim kode satu kali untuk membuka kunci pemesanan.",
+      bookingButton: "Tampilkan jadwal",
+      codePlaceholder: "Kode verifikasi",
+      verifyButton: "Verifikasi dan tampilkan pemesanan",
+      wrongCode: "Kode tidak valid. Periksa email verifikasi Anda.",
+      successCode: "Kode diterima. Pilih slot waktu di bawah ini.",
+      form: {
+        name: "Nama",
+        email: "Email",
+        phone: "Telepon",
+        country: "Negara",
+        company: "Perusahaan",
+        message: "Detail proyek atau wahana yang diminati",
+        submit: "Kirim",
+      },
+      footer: {
+        rights: "© 2025 Miying. Hak cipta dilindungi.",
+      },
+    };
+  }
+  
+  if (lang === "hi") {
+    return {
+      nav: {
+        home: "होम",
+        about: "हमारे बारे में",
+        services: "सेवाएं",
+        products: "उत्पाद",
+        contact: "संपर्क करें",
+        visit: "कारखाना दौरा",
+      },
+      cta: {
+        primary: "दौरे का अनुरोध करें",
+        secondary: "उत्पाद देखें",
+      },
+      hero: {
+        title: "विश्वसनीय मनोरंजन राइड्स। वैश्विक डिलीवरी।",
+        subtitle:
+          "डिज़ाइन से स्थापना तक, हम पार्कों और वेन्यू को समय पर और बजट के भीतर भीड़-प्रसन्न आकर्षण शुरू करने में मदद करते हैं।",
+        badge: "कारखाने में परीक्षित सुरक्षा",
+      },
+      highlights: [
+        "वैश्विक शिपिंग और अनुपालन",
+        "कारखाने में परीक्षित सुरक्षा",
+        "नवीकरण और असेंबली विशेषज्ञता",
+        "तेज़, स्पष्ट सहायता",
+      ],
+      servicesTitle: "विशेष सेवाएं",
+      productsTitle: "विशेष कैटलॉग",
+      contactTitle: "अपने प्रोजेक्ट के बारे में बताएं",
+      contactSubtitle:
+        "अपनी योजनाएं भेजें और हम विकल्प, समयसीमा और अगले कदमों के साथ जवाब देंगे।",
+      verificationTitle: "कारखाना दौरा (सत्यापित ग्राहक)",
+      verificationSubtitle:
+        "सत्यापन का अनुरोध करें। अनुमोदन के बाद, हम बुकिंग अनलॉक करने के लिए एक-बार का कोड भेजेंगे।",
+      bookingButton: "शेड्यूल दिखाएं",
+      codePlaceholder: "सत्यापन कोड",
+      verifyButton: "सत्यापित करें और बुकिंग दिखाएं",
+      wrongCode: "अमान्य कोड। अपना सत्यापन ईमेल जांचें।",
+      successCode: "कोड स्वीकृत। नीचे अपना समय स्लॉट चुनें।",
+      form: {
+        name: "नाम",
+        email: "ईमेल",
+        phone: "फोन",
+        country: "देश",
+        company: "कंपनी",
+        message: "प्रोजेक्ट विवरण या रुचि की राइड्स",
+        submit: "भेजें",
+      },
+      footer: {
+        rights: "© 2025 Miying. सभी अधिकार सुरक्षित।",
+      },
+    };
+  }
+  
   if (lang === "es") {
     return {
       nav: {
