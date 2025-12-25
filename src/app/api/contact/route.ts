@@ -50,28 +50,6 @@ Sent from: ${request.headers.get("referer") || "Miying Website"}
     }
     */
 
-    // Option 2: Use Gmail SMTP (simple, no API needed)
-    // Uncomment and configure if you want to use Gmail
-    /*
-    if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
-      const nodemailer = require("nodemailer");
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_APP_PASSWORD, // Use App Password, not regular password
-        },
-      });
-      
-      await transporter.sendMail({
-        from: process.env.GMAIL_USER,
-        to: recipientEmail,
-        subject: "New Contact Form Submission",
-        text: emailContent,
-      });
-    }
-    */
-
     // Option 3: Use SendGrid
     // Uncomment and configure if you have a SendGrid API key
     /*
@@ -88,20 +66,26 @@ Sent from: ${request.headers.get("referer") || "Miying Website"}
     }
     */
 
-    // Option 4: Simple webhook to email service (easiest - no setup needed)
-    // You can use a free service like webhook.site or formspree.io
-    // Just set WEBHOOK_URL in environment variables
+    // Option 4: Use Formspree (easiest - no code changes needed)
+    // Sign up at formspree.io, get your form endpoint, and set WEBHOOK_URL
     if (process.env.WEBHOOK_URL) {
-      await fetch(process.env.WEBHOOK_URL, {
+      const formspreeResponse = await fetch(process.env.WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          subject: "New Contact Form Submission",
-          to: recipientEmail,
-          text: emailContent,
-          formData: { name, email, phone, country, company, message },
+          name,
+          email,
+          phone: phone || "",
+          country: country || "",
+          company,
+          message,
+          _subject: "New Contact Form Submission from Miying Website",
         }),
       });
+      
+      if (!formspreeResponse.ok) {
+        console.error("Formspree error:", await formspreeResponse.text());
+      }
     }
 
     // For now, log the submission (you'll see this in Vercel logs)
