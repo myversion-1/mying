@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useLanguage } from "./language";
 import { copy } from "../content/copy";
 import { LanguageToggle } from "./LanguageToggle";
@@ -23,13 +22,12 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-white/5 bg-[#0c1014]/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-8">
         <div className="flex items-center gap-3">
-          <Image
+          <img
             src="/logo.jpg"
             alt="Miying logo"
             width={44}
             height={36}
-            priority
-            unoptimized
+            className="h-9 w-auto"
           />
           <div className="text-sm font-semibold uppercase tracking-[0.08em] text-white">
             Miying Rides
