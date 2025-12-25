@@ -29,6 +29,7 @@ export function Header() {
             width={44}
             height={36}
             priority
+            unoptimized
           />
           <div className="text-sm font-semibold uppercase tracking-[0.08em] text-white">
             Miying Rides
