@@ -3,12 +3,13 @@
 import { copy } from "../content/copy";
 import { useLanguage, type Lang } from "./language";
 
-const languages: Lang[] = ["en", "es", "ru", "zh", "ja", "ko", "th", "vi", "id", "hi"];
+const languages: Lang[] = ["en", "es", "ru", "ar", "zh", "ja", "ko", "th", "vi", "id", "hi"];
 
 const languageNames: Record<Lang, string> = {
   en: "English",
   es: "Español",
   ru: "Русский",
+  ar: "العربية",
   zh: "中文",
   ja: "日本語",
   ko: "한국어",
@@ -36,7 +37,7 @@ export function LanguageToggle() {
           aria-label={`Switch to ${languageNames[l]}`}
           title={languageNames[l]}
         >
-          {l === "zh" ? "中文" : l === "ja" ? "日本語" : l === "ko" ? "한국어" : l === "th" ? "ไทย" : l === "vi" ? "VI" : l === "id" ? "ID" : l === "hi" ? "हिन्दी" : l === "ru" ? "RU" : l.toUpperCase()}
+          {l === "zh" ? "中文" : l === "ja" ? "日本語" : l === "ko" ? "한국어" : l === "th" ? "ไทย" : l === "vi" ? "VI" : l === "id" ? "ID" : l === "hi" ? "हिन्दी" : l === "ru" ? "RU" : l === "ar" ? "عربي" : l.toUpperCase()}
         </button>
       ))}
     </div>
