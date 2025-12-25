@@ -72,7 +72,20 @@ The contact form is now using a Next.js API route. To receive email notification
 5. Uncomment the Gmail SMTP code in `src/app/api/contact/route.ts` (Option 2)
 6. Redeploy
 
-### Option 3: SendGrid (Free Tier: 100 emails/day)
+### Option 3: Webhook (Easiest - No Setup Needed)
+
+Use a free webhook-to-email service:
+
+1. Go to [webhook.site](https://webhook.site) or [formspree.io](https://formspree.io)
+2. Get your webhook URL
+3. In Vercel → Your Project → Settings → Environment Variables:
+   - Add `WEBHOOK_URL` = your webhook URL
+   - Add `CONTACT_EMAIL` = your email address
+4. Redeploy
+
+**Note:** The webhook code is already active in the API route (Option 4).
+
+### Option 4: SendGrid (Free Tier: 100 emails/day)
 
 1. Sign up at [sendgrid.com](https://sendgrid.com)
 2. Get your API key
