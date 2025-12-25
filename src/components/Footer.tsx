@@ -12,18 +12,18 @@ export function Footer() {
         <div>{c.footer.rights}</div>
         <div className="flex gap-4">
           <a
-            href="mailto:info@miying-rides.com"
+            href="mailto:miyingyoule@gmail.com"
             className="hover:text-white"
             aria-label="Email"
           >
-            info@miying-rides.com
+            miyingyoule@gmail.com
           </a>
           <a
-            href="tel:+0000000000"
+            href="tel:+8613112959561"
             className="hover:text-white"
             aria-label="Phone"
           >
-            +00 0000 0000
+            +86 131 1295 9561
           </a>
         </div>
       </div>
