@@ -58,7 +58,21 @@ The contact form is now using a Next.js API route. To receive email notification
 5. Install Resend: `npm install resend`
 6. Redeploy
 
-### Option 2: SendGrid (Free Tier: 100 emails/day)
+### Option 2: Gmail SMTP (Simple, No API Needed)
+
+1. Enable 2-factor authentication on your Gmail account
+2. Generate an App Password:
+   - Go to Google Account → Security → 2-Step Verification → App passwords
+   - Create an app password for "Mail"
+3. In Vercel → Your Project → Settings → Environment Variables:
+   - Add `GMAIL_USER` = your Gmail address
+   - Add `GMAIL_APP_PASSWORD` = the app password you generated
+   - Add `CONTACT_EMAIL` = your email address
+4. Install Nodemailer: `npm install nodemailer`
+5. Uncomment the Gmail SMTP code in `src/app/api/contact/route.ts` (Option 2)
+6. Redeploy
+
+### Option 3: SendGrid (Free Tier: 100 emails/day)
 
 1. Sign up at [sendgrid.com](https://sendgrid.com)
 2. Get your API key

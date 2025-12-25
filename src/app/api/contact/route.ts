@@ -50,7 +50,29 @@ Sent from: ${request.headers.get("referer") || "Miying Website"}
     }
     */
 
-    // Option 2: Use SendGrid
+    // Option 2: Use Gmail SMTP (simple, no API needed)
+    // Uncomment and configure if you want to use Gmail
+    /*
+    if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
+      const nodemailer = require("nodemailer");
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.GMAIL_USER,
+          pass: process.env.GMAIL_APP_PASSWORD, // Use App Password, not regular password
+        },
+      });
+      
+      await transporter.sendMail({
+        from: process.env.GMAIL_USER,
+        to: recipientEmail,
+        subject: "New Contact Form Submission",
+        text: emailContent,
+      });
+    }
+    */
+
+    // Option 3: Use SendGrid
     // Uncomment and configure if you have a SendGrid API key
     /*
     if (process.env.SENDGRID_API_KEY) {
