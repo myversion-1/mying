@@ -22,7 +22,7 @@ export default function VisitPage() {
       <Section
         id="gate"
         title="Unlock booking"
-        subtitle="Enter your verification code. Replace the demo code and Calendly link with your own."
+        subtitle="Enter your verification code to access factory visit scheduling."
       >
         <VerificationGate />
       </Section>

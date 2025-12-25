@@ -4,7 +4,9 @@ import { useState } from "react";
 import { useLanguage } from "./language";
 import { copy } from "../content/copy";
 
-const DEMO_CODE = "VISIT2025";
+// Get verification code from environment variable or use default
+// For production, set NEXT_PUBLIC_VERIFICATION_CODE in Vercel environment variables
+const DEMO_CODE = process.env.NEXT_PUBLIC_VERIFICATION_CODE || "VISIT2025";
 
 export function VerificationGate() {
   const { lang } = useLanguage();
@@ -45,7 +47,10 @@ export function VerificationGate() {
           <p className="text-sm text-white">{c.successCode}</p>
           <div className="overflow-hidden rounded-xl bg-[#0c1014]">
             <iframe
-              src="https://calendly.com/"
+              src={
+                process.env.NEXT_PUBLIC_CALENDLY_URL ||
+                "https://calendly.com/your-username/meeting"
+              }
               title="Calendly booking"
               className="h-[480px] w-full border-0"
             />
@@ -53,8 +58,7 @@ export function VerificationGate() {
         </div>
       )}
       <p className="mt-3 text-xs text-white/50">
-        Demo code: {DEMO_CODE}. Replace with your generated codes after manual
-        verification.
+        Contact us to receive your verification code for factory visit scheduling.
       </p>
     </div>
   );
