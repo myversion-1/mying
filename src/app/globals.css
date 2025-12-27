@@ -13,13 +13,25 @@
 }
 
 body {
-  background: radial-gradient(
+  /* Fallback background color */
+  background-color: #0c1014;
+  /* Background image with overlays */
+  background-image: 
+    /* Gradient overlays for visual effects */
+    radial-gradient(
       circle at 20% 20%,
       rgba(0, 234, 255, 0.08),
       transparent 25%
     ),
     radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.06), transparent 20%),
-    #0c1014;
+    /* Dark overlay to maintain text readability */
+    linear-gradient(rgba(12, 16, 20, 0.6), rgba(12, 16, 20, 0.6)),
+    /* Background image - replace 'background.jpg' with your image filename */
+    url('/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   min-height: 100vh;

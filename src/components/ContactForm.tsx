@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { copy } from "../content/copy";
 import { useLanguage } from "./language";
 
@@ -43,11 +44,21 @@ const sendEmail = async (data: {
 export function ContactForm({ action }: { action?: string }) {
   const { lang } = useLanguage();
   const c = copy(lang);
+  const searchParams = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
     type: "success" | "error" | null;
     message: string;
   }>({ type: null, message: "" });
+  const [message, setMessage] = useState("");
+
+  // Pre-fill message with product name if coming from product page
+  useEffect(() => {
+    const product = searchParams.get("product");
+    if (product) {
+      setMessage(`I'm interested in learning more about: ${product}\n\n`);
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,6 +92,7 @@ export function ContactForm({ action }: { action?: string }) {
           message: result.message || "Thank you! We'll get back to you soon.",
         });
         (e.target as HTMLFormElement).reset();
+        setMessage("");
       } else {
         setSubmitStatus({
           type: "error",
@@ -116,6 +128,8 @@ export function ContactForm({ action }: { action?: string }) {
         <textarea
           name="message"
           rows={4}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
           className="w-full rounded-xl border border-white/10 bg-[#0c1014] px-3 py-2 text-white outline-none transition focus:border-[#7df6ff]/60"
           required
         />

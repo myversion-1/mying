@@ -1,0 +1,16 @@
+name: Deploy to Vercel
+
+on:
+  workflow_dispatch:  # Manual trigger from GitHub Actions tab
+  push:
+    branches:
+      - main  # Auto-deploy on push to main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deployment
+        run: |
+          curl -X POST "https://api.vercel.com/v1/integrations/deploy/prj_Ea7VgMeV02qx2tm7CnzdDhZdQczo/ClNE0Koqja"
+
