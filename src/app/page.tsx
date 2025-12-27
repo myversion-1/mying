@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { PageHero } from "../components/PageHero";
 import { Section } from "../components/Section";
 import { ProductGrid } from "../components/ProductGrid";
@@ -56,7 +57,9 @@ export default function Home() {
         title={c.contactTitle}
         subtitle={c.contactSubtitle}
       >
-        <ContactForm />
+        <Suspense fallback={<div className="rounded-2xl border border-white/10 bg-white/5 p-6">Loading form...</div>}>
+          <ContactForm />
+        </Suspense>
       </Section>
 
       <Section

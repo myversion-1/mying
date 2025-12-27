@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { PageHero } from "../../components/PageHero";
 import { Section } from "../../components/Section";
 import { ContactForm } from "../../components/ContactForm";
@@ -26,7 +27,9 @@ export default function ContactPage() {
 
       <Section title={c.contactTitle} subtitle={c.contactSubtitle}>
         <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr]">
-          <ContactForm />
+          <Suspense fallback={<div className="rounded-2xl border border-white/10 bg-white/5 p-6">Loading form...</div>}>
+            <ContactForm />
+          </Suspense>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-4">
             <h3 className="text-lg font-semibold text-white">What to include</h3>
             <ul className="list-disc space-y-2 pl-5 text-white/70">
