@@ -1,6 +1,8 @@
 import type { Lang } from "../components/language";
 import { productsMultilingual, getLocalizedProduct, type ProductMultilingual } from "./products_multilingual";
 import { getLocalizedServices, services as defaultServices } from "./services_multilingual";
+import { getCopy } from "./locales";
+import type { CopyContent } from "./types";
 
 export type Product = {
   name: string;
@@ -33,7 +35,27 @@ export function getServices(lang: Lang) {
 // Export services array for backward compatibility (defaults to English)
 export const services = defaultServices;
 
-export function copy(lang: Lang) {
+// Re-export type for backward compatibility
+export type { CopyContent };
+
+// Main copy function - now uses decoupled locale files
+// Falls back to legacy implementation for languages not yet migrated
+export function copy(lang: Lang): CopyContent {
+  // Try to use the new decoupled locale system first
+  const decoupled = getCopy(lang);
+  // If we have a decoupled version and it's not just the English fallback, use it
+  if (decoupled && locales[lang as keyof typeof locales]) {
+    return decoupled;
+  }
+  
+  // Fall back to legacy implementation for languages not yet migrated
+  return copyLegacy(lang);
+}
+
+
+// Legacy implementation - used as fallback for languages not yet migrated
+// Will be removed after all languages are migrated to separate files
+function copyLegacy(lang: Lang): CopyContent {
   if (lang === "ar") {
     return {
       nav: {
