@@ -6,6 +6,7 @@ import Image from "next/image";
 import { getProducts, type Product, copy } from "../content/copy";
 import { useLanguage } from "./language";
 import { Badge } from "./ui/Badge";
+import { EmptyState } from "./EmptyState";
 
 type Props = {
   items?: Product[];
@@ -213,8 +214,8 @@ export function ProductGrid({ items }: Props) {
         </article>
           ))
         ) : (
-          <div className="col-span-2 rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
-            <p className="text-white/70">No products found in this category.</p>
+          <div className="col-span-2">
+            <EmptyState />
           </div>
         )}
       </div>

@@ -13,8 +13,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get recipient email from environment variable
-    const recipientEmail = process.env.CONTACT_EMAIL || "your-email@example.com";
+    // Get recipient email from environment variable, fallback to real contact email
+    const recipientEmail = process.env.CONTACT_EMAIL || "miyingyoule@gmail.com";
     
     // For now, we'll use a simple email format
     // You can integrate with Resend, SendGrid, or other services here
