@@ -90,6 +90,16 @@ export const metadata: Metadata = {
     // yandex: "your-yandex-verification-code",
     // bing: "your-bing-verification-code",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/logo.jpg", type: "image/jpeg", sizes: "32x32" },
+    ],
+    apple: [
+      { url: "/logo.jpg", sizes: "180x180", type: "image/jpeg" },
+    ],
+    shortcut: "/favicon.ico",
+  },
   alternates: {
     canonical: "/",
     languages: {
