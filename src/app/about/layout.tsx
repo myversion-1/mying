@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { StructuredDataServer } from "../../components/StructuredDataServer";
 
 export const metadata: Metadata = {
   title: "About Us - Factory-Tested Safety & Global Delivery",
@@ -12,6 +13,8 @@ export const metadata: Metadata = {
     "ASTM F24",
     "ride refurbishment",
     "global delivery",
+    "amusement equipment manufacturer",
+    "theme park supplier",
   ],
   openGraph: {
     title: "About Us - Factory-Tested Safety & Global Delivery | Miying Rides",
@@ -29,6 +32,11 @@ export default function AboutLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      <StructuredDataServer type="about" />
+      {children}
+    </>
+  );
 }
 

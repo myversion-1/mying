@@ -4,7 +4,7 @@ import "./globals.css";
 import { Providers } from "../components/Providers";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { StructuredData } from "../components/StructuredData";
+import { StructuredDataServer } from "../components/StructuredDataServer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s | Miying Rides",
   },
   description:
-    "Miying delivers amusement rides worldwide with factory-tested safety, consulting, refurbishment, and verified factory visits. Browse our catalog of family rides, thrill rides, and custom attractions.",
+    "Miying delivers amusement rides worldwide with factory-tested safety, consulting, refurbishment, and verified factory visits. Browse our catalog of family rides, thrill rides, water rides, and custom attractions. Request quotes and factory visits for your theme park or carnival project.",
   keywords: [
     "amusement rides",
     "theme park rides",
@@ -40,6 +40,16 @@ export const metadata: Metadata = {
     "ride consulting",
     "amusement park equipment",
     "carnival rides",
+    "amusement ride manufacturer",
+    "theme park equipment supplier",
+    "used amusement rides",
+    "new amusement rides",
+    "ride assembly service",
+    "amusement ride sourcing",
+    "factory tested rides",
+    "global ride delivery",
+    "amusement ride catalog",
+    "custom attractions",
   ],
   authors: [{ name: "Miying Amusement Equipment" }],
   creator: "Miying Amusement Equipment",
@@ -129,7 +139,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased bg-[#0c1014] text-white`}
       >
         <Providers>
-          <StructuredData />
+          <StructuredDataServer type="home" />
           <Header />
           <main className="pb-20">{children}</main>
           <Footer />

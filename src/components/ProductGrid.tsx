@@ -166,7 +166,7 @@ export function ProductGrid({ items }: Props) {
             {product.image ? (
               <Image
                 src={product.image}
-                alt={product.name}
+                alt={`${product.name} - ${product.category} amusement ride${product.status === "Used" ? " (Used)" : ""}`}
                 fill
                 className="object-cover transition group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, 50vw"

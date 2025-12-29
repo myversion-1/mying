@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { StructuredDataServer } from "../../components/StructuredDataServer";
+import { getProducts } from "../../content/copy";
 
 export const metadata: Metadata = {
   title: "Products - Amusement Rides Catalog",
@@ -13,6 +15,9 @@ export const metadata: Metadata = {
     "ferris wheel",
     "bumper cars",
     "amusement equipment",
+    "theme park rides",
+    "carnival rides",
+    "amusement park equipment",
   ],
   openGraph: {
     title: "Products - Amusement Rides Catalog | Miying Rides",
@@ -30,6 +35,19 @@ export default function ProductsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  const products = getProducts("en"); // Use English for structured data
+  const productData = products.slice(0, 10).map((p) => ({
+    name: p.name,
+    category: p.category,
+    image: p.image,
+    description: `${p.name} - ${p.category} amusement ride`,
+  }));
+
+  return (
+    <>
+      <StructuredDataServer type="products" products={productData} />
+      {children}
+    </>
+  );
 }
 

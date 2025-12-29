@@ -22,11 +22,18 @@ export const metadata: Metadata = {
   },
 };
 
+import { StructuredDataServer } from "../../components/StructuredDataServer";
+
 export default function ContactLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      <StructuredDataServer type="contact" />
+      {children}
+    </>
+  );
 }
 
