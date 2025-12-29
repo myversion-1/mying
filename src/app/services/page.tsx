@@ -2,9 +2,13 @@
 
 import { PageHero } from "../../components/PageHero";
 import { Section } from "../../components/Section";
-import { services } from "../../content/copy";
+import { getServices, copy } from "../../content/copy";
+import { useLanguage } from "../../components/language";
 
 export default function ServicesPage() {
+  const { lang } = useLanguage();
+  const c = copy(lang);
+  const services = getServices(lang);
   return (
     <div className="space-y-12">
       <div className="mx-auto max-w-6xl px-4 md:px-8">

@@ -1,5 +1,6 @@
 import type { Lang } from "../components/language";
 import { productsMultilingual, getLocalizedProduct, type ProductMultilingual } from "./products_multilingual";
+import { getLocalizedServices, services as defaultServices } from "./services_multilingual";
 
 export type Product = {
   name: string;
@@ -24,32 +25,13 @@ export const products: Product[] = getProducts("en");
 // Legacy products array removed - now using productsMultilingual from products_multilingual.ts
 // Use getProducts(lang) to get localized products
 
-export const services = [
-  {
-    title: "Purchasing & Agent Support",
-    desc: "Guidance to source, evaluate, and negotiate new or used rides globally.",
-  },
-  {
-    title: "Consulting",
-    desc: "From selecting manufacturers to planning whole park lineups with compliance in mind.",
-  },
-  {
-    title: "Appraisal",
-    desc: "Accurate market assessments before you buy, sell, refinance, or transfer assets.",
-  },
-  {
-    title: "Refurbishment",
-    desc: "End-to-end refurbishment with factory testing and transparent timelines.",
-  },
-  {
-    title: "Assembly & Installation",
-    desc: "On-site assembly by experienced engineers to get you opening-day ready.",
-  },
-  {
-    title: "Attraction Rentals",
-    desc: "Short- and long-term ride rentals for parks and event agencies worldwide.",
-  },
-];
+// Get localized services based on language
+export function getServices(lang: Lang) {
+  return getLocalizedServices(lang);
+}
+
+// Export services array for backward compatibility (defaults to English)
+export const services = defaultServices;
 
 export function copy(lang: Lang) {
   if (lang === "ar") {
@@ -79,7 +61,10 @@ export function copy(lang: Lang) {
         "دعم سريع وواضح",
       ],
       servicesTitle: "خدمات متخصصة",
+      servicesSubtitle: "الاستشارات والتوريد والترميم والتجميع للجاذبيات في جميع أنحاء العالم.",
+      serviceLabel: "خدمة",
       productsTitle: "كتالوج مميز",
+      productsSubtitle: "ألعاب ممثلة؛ اطلب المواصفات لمشروعك.",
       contactTitle: "أخبرنا عن مشروعك",
       contactSubtitle:
         "أرسل خططك وسنرد بالخيارات والجداول الزمنية والخطوات التالية.",
@@ -140,7 +125,10 @@ export function copy(lang: Lang) {
         "Быстрая и понятная поддержка",
       ],
       servicesTitle: "Специализированные услуги",
+      servicesSubtitle: "Консультации, закупки, реставрация и сборка аттракционов по всему миру.",
+      serviceLabel: "Услуга",
       productsTitle: "Рекомендуемый каталог",
+      productsSubtitle: "Представительные аттракционы; запросите спецификации для вашего проекта.",
       contactTitle: "Расскажите нам о вашем проекте",
       contactSubtitle:
         "Отправьте ваши планы, и мы ответим с вариантами, сроками и следующими шагами.",
@@ -201,7 +189,10 @@ export function copy(lang: Lang) {
         "快速、清晰的支持",
       ],
       servicesTitle: "专业服务",
+      servicesSubtitle: "为全球景点提供咨询、采购、翻新和组装服务。",
+      serviceLabel: "服务",
       productsTitle: "精选目录",
+      productsSubtitle: "代表性游乐设备；为您的项目请求规格。",
       contactTitle: "告诉我们您的项目",
       contactSubtitle:
         "发送您的计划，我们将回复选项、时间表和后续步骤。",
@@ -262,7 +253,10 @@ export function copy(lang: Lang) {
         "迅速で明確なサポート",
       ],
       servicesTitle: "専門サービス",
+      servicesSubtitle: "世界中のアトラクション向けのコンサルティング、調達、改修、組立。",
+      serviceLabel: "サービス",
       productsTitle: "おすすめカタログ",
+      productsSubtitle: "代表的なアトラクション；プロジェクトの仕様をリクエストしてください。",
       contactTitle: "プロジェクトについてお聞かせください",
       contactSubtitle:
         "計画を送信していただければ、オプション、タイムライン、次のステップをお返しします。",
@@ -316,7 +310,10 @@ export function copy(lang: Lang) {
         "빠르고 명확한 지원",
       ],
       servicesTitle: "전문 서비스",
+      servicesSubtitle: "전 세계 어트랙션을 위한 컨설팅, 조달, 개조 및 조립.",
+      serviceLabel: "서비스",
       productsTitle: "추천 카탈로그",
+      productsSubtitle: "대표적인 놀이기구；프로젝트 사양을 요청하세요.",
       contactTitle: "프로젝트에 대해 알려주세요",
       contactSubtitle:
         "계획을 보내주시면 옵션, 타임라인 및 다음 단계를 답변드리겠습니다.",
@@ -370,7 +367,10 @@ export function copy(lang: Lang) {
         "การสนับสนุนที่รวดเร็วและชัดเจน",
       ],
       servicesTitle: "บริการเฉพาะทาง",
+      servicesSubtitle: "การให้คำปรึกษา การจัดหา การปรับปรุง และการประกอบสำหรับสถานที่ท่องเที่ยวทั่วโลก",
+      serviceLabel: "บริการ",
       productsTitle: "แคตตาล็อกแนะนำ",
+      productsSubtitle: "เครื่องเล่นตัวแทน；ขอข้อมูลจำเพาะสำหรับโครงการของคุณ",
       contactTitle: "บอกเราเกี่ยวกับโครงการของคุณ",
       contactSubtitle:
         "ส่งแผนของคุณมา เราจะตอบกลับพร้อมตัวเลือก ไทม์ไลน์ และขั้นตอนถัดไป",
@@ -424,7 +424,10 @@ export function copy(lang: Lang) {
         "Hỗ trợ nhanh chóng, rõ ràng",
       ],
       servicesTitle: "Dịch vụ chuyên biệt",
+      servicesSubtitle: "Tư vấn, tìm nguồn cung, cải tạo và lắp ráp cho các điểm tham quan trên toàn thế giới.",
+      serviceLabel: "Dịch vụ",
       productsTitle: "Danh mục nổi bật",
+      productsSubtitle: "Trò chơi đại diện；yêu cầu thông số kỹ thuật cho dự án của bạn.",
       contactTitle: "Cho chúng tôi biết về dự án của bạn",
       contactSubtitle:
         "Gửi kế hoạch của bạn và chúng tôi sẽ phản hồi với các tùy chọn, thời gian biểu và các bước tiếp theo.",
@@ -478,7 +481,10 @@ export function copy(lang: Lang) {
         "Dukungan cepat dan jelas",
       ],
       servicesTitle: "Layanan khusus",
+      servicesSubtitle: "Konsultasi, pengadaan, perbaikan, dan perakitan untuk atraksi di seluruh dunia.",
+      serviceLabel: "Layanan",
       productsTitle: "Katalog unggulan",
+      productsSubtitle: "Wahana perwakilan；minta spesifikasi untuk proyek Anda.",
       contactTitle: "Ceritakan tentang proyek Anda",
       contactSubtitle:
         "Kirim rencana Anda dan kami akan merespons dengan opsi, timeline, dan langkah selanjutnya.",
@@ -532,7 +538,10 @@ export function copy(lang: Lang) {
         "तेज़, स्पष्ट सहायता",
       ],
       servicesTitle: "विशेष सेवाएं",
+      servicesSubtitle: "दुनिया भर में आकर्षण के लिए परामर्श, सोर्सिंग, नवीकरण और असेंबली।",
+      serviceLabel: "सेवा",
       productsTitle: "विशेष कैटलॉग",
+      productsSubtitle: "प्रतिनिधि राइड्स；अपने प्रोजेक्ट के लिए विनिर्देशों का अनुरोध करें।",
       contactTitle: "अपने प्रोजेक्ट के बारे में बताएं",
       contactSubtitle:
         "अपनी योजनाएं भेजें और हम विकल्प, समयसीमा और अगले कदमों के साथ जवाब देंगे।",
@@ -586,7 +595,10 @@ export function copy(lang: Lang) {
         "Soporte rápido y claro",
       ],
       servicesTitle: "Servicios especializados",
+      servicesSubtitle: "Consultoría, abastecimiento, renovación y montaje para atracciones en todo el mundo.",
+      serviceLabel: "Servicio",
       productsTitle: "Catálogo destacado",
+      productsSubtitle: "Atracciones representativas；solicite especificaciones para su proyecto.",
       contactTitle: "Conversemos de tu proyecto",
       contactSubtitle:
         "Envía tus planes y te responderemos con opciones, tiempos y próximos pasos.",

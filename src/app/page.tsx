@@ -6,12 +6,13 @@ import { Section } from "../components/Section";
 import { ProductGrid } from "../components/ProductGrid";
 import { ContactForm } from "../components/ContactForm";
 import { VerificationGate } from "../components/VerificationGate";
-import { copy, services } from "../content/copy";
+import { copy, getServices } from "../content/copy";
 import { useLanguage } from "../components/language";
 
 export default function Home() {
   const { lang } = useLanguage();
   const c = copy(lang);
+  const services = getServices(lang);
 
   return (
     <div className="space-y-12">
@@ -24,7 +25,7 @@ export default function Home() {
       <Section
         id="services"
         title={c.servicesTitle}
-        subtitle="Consulting, sourcing, refurbishment, and assembly for attractions worldwide."
+        subtitle={c.servicesSubtitle || "Consulting, sourcing, refurbishment, and assembly for attractions worldwide."}
       >
         <div className="grid gap-4 md:grid-cols-3">
           {services.map((service) => (
@@ -33,7 +34,7 @@ export default function Home() {
               className="rounded-2xl border border-white/5 bg-white/5 p-4"
             >
               <div className="text-[11px] uppercase tracking-[0.14em] text-white/50">
-                Service
+                {c.serviceLabel || "Service"}
               </div>
               <h3 className="text-lg font-semibold text-white">
                 {service.title}
@@ -47,7 +48,7 @@ export default function Home() {
       <Section
         id="products"
         title={c.productsTitle}
-        subtitle="Representative rides; request specs for your project."
+        subtitle={c.productsSubtitle || "Representative rides; request specs for your project."}
       >
         <ProductGrid />
       </Section>
