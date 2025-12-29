@@ -3,7 +3,8 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { products, type Product } from "../content/copy";
+import { getProducts, type Product, copy } from "../content/copy";
+import { useLanguage } from "./language";
 import { Badge } from "./ui/Badge";
 
 type Props = {
@@ -26,36 +27,42 @@ const RIDE_CATEGORIES = [
 
 type FilterType = "all" | "rides" | "decorative" | string;
 
-export function ProductGrid({ items = products }: Props) {
+export function ProductGrid({ items }: Props) {
+  const { lang } = useLanguage();
+  const c = copy(lang);
+  const localizedProducts = useMemo(() => {
+    const products = items || getProducts(lang);
+    return Array.isArray(products) ? products : [];
+  }, [items, lang]);
   const [filter, setFilter] = useState<FilterType>("all");
 
   // Get all unique categories
   const categories = useMemo(() => {
-    const uniqueCategories = Array.from(new Set(items.map((p) => p.category)));
+    const uniqueCategories = Array.from(new Set(localizedProducts.map((p) => p.category)));
     return uniqueCategories.sort();
-  }, [items]);
+  }, [localizedProducts]);
 
   // Filter products based on selected filter
   const filteredProducts = useMemo(() => {
-    if (filter === "all") return items;
+    if (filter === "all") return localizedProducts;
     if (filter === "rides") {
-      return items.filter((product) => RIDE_CATEGORIES.includes(product.category));
+      return localizedProducts.filter((product) => RIDE_CATEGORIES.includes(product.category));
     }
     if (filter === "decorative") {
-      return items.filter((product) => !RIDE_CATEGORIES.includes(product.category));
+      return localizedProducts.filter((product) => !RIDE_CATEGORIES.includes(product.category));
     }
     // Specific category
-    return items.filter((product) => product.category === filter);
-  }, [items, filter]);
+    return localizedProducts.filter((product) => product.category === filter);
+  }, [localizedProducts, filter]);
 
   // Count products in each group
   const rideCount = useMemo(
-    () => items.filter((p) => RIDE_CATEGORIES.includes(p.category)).length,
-    [items]
+    () => localizedProducts.filter((p) => RIDE_CATEGORIES.includes(p.category)).length,
+    [localizedProducts]
   );
   const decorativeCount = useMemo(
-    () => items.filter((p) => !RIDE_CATEGORIES.includes(p.category)).length,
-    [items]
+    () => localizedProducts.filter((p) => !RIDE_CATEGORIES.includes(p.category)).length,
+    [localizedProducts]
   );
 
   return (
@@ -70,7 +77,7 @@ export function ProductGrid({ items = products }: Props) {
               : "border-white/20 bg-white/5 text-white/70 hover:border-white/30 hover:text-white"
           }`}
         >
-          All Products ({items.length})
+          All Products ({localizedProducts.length})
         </button>
         <div className="h-4 w-px bg-white/20" />
         <button
@@ -128,7 +135,7 @@ export function ProductGrid({ items = products }: Props) {
                   .filter((cat) => RIDE_CATEGORIES.includes(cat))
                   .map((category) => (
                     <option key={category} value={category}>
-                      {category} ({items.filter((p) => p.category === category).length})
+                      {category} ({localizedProducts.filter((p) => p.category === category).length})
                     </option>
                   ))
               : null}
@@ -137,7 +144,7 @@ export function ProductGrid({ items = products }: Props) {
                   .filter((cat) => !RIDE_CATEGORIES.includes(cat))
                   .map((category) => (
                     <option key={category} value={category}>
-                      {category} ({items.filter((p) => p.category === category).length})
+                      {category} ({localizedProducts.filter((p) => p.category === category).length})
                     </option>
                   ))
               : null}
@@ -192,16 +199,16 @@ export function ProductGrid({ items = products }: Props) {
             </div>
           )}
           <dl className="grid grid-cols-2 gap-3 text-sm text-white/70">
-            <Spec label="Footprint" value={product.footprint} />
-            <Spec label="Height" value={product.height} />
-            <Spec label="Riders" value={product.riders} />
-            {product.year && <Spec label="Year" value={product.year} />}
+            <Spec label={c.productLabels?.footprint || "Footprint"} value={product.footprint} />
+            <Spec label={c.productLabels?.height || "Height"} value={product.height} />
+            <Spec label={c.productLabels?.riders || "Riders"} value={product.riders} />
+            {product.year && <Spec label={c.productLabels?.year || "Year"} value={product.year} />}
           </dl>
           <Link
             href={`/contact?product=${encodeURIComponent(product.name)}`}
             className="mt-auto w-fit rounded-full border border-white/15 px-3 py-2 text-xs font-semibold text-white transition hover:border-white/30 hover:bg-white/5"
           >
-            Request details
+            {c.productLabels?.requestDetails || "Request details"}
           </Link>
         </article>
           ))
