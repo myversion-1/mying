@@ -2,28 +2,40 @@
 import type { Lang } from "../../components/language";
 import type { CopyContent } from "../types";
 
-// Import available locale files
+// Import all locale files
 import { en } from "./en";
 import { zh } from "./zh";
 import { ar } from "./ar";
 import { ru } from "./ru";
+import { ja } from "./ja";
+import { ko } from "./ko";
+import { th } from "./th";
+import { vi } from "./vi";
+import { id } from "./id";
+import { hi } from "./hi";
+import { es } from "./es";
 
-// Locale map - add more languages as files are created
-const locales: Partial<Record<Lang, CopyContent>> = {
+// Locale map - all languages migrated
+const locales: Record<Lang, CopyContent> = {
   en,
   zh,
   ar,
   ru,
-  // TODO: Add remaining languages (ja, ko, th, vi, id, hi, es)
-  // Import and add them here as separate files are created
+  ja,
+  ko,
+  th,
+  vi,
+  id,
+  hi,
+  es,
 };
 
 // Get content for a specific language
-// Falls back to English if locale not found
+// Falls back to English if locale not found (shouldn't happen with all languages migrated)
 export function getCopy(lang: Lang): CopyContent {
-  return locales[lang] || locales.en || en;
+  return locales[lang] || locales.en;
 }
 
-// Export available locales for direct access
-export { en, zh, ar, ru };
+// Export all locales for direct access
+export { en, zh, ar, ru, ja, ko, th, vi, id, hi, es };
 
