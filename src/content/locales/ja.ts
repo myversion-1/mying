@@ -60,5 +60,22 @@ export const ja: CopyContent = {
     year: "年",
     requestDetails: "詳細をリクエスト",
   },
+  contactPage: {
+    whatToInclude: "含める内容",
+    whatToIncludeItems: [
+      "プロジェクトタイプ（パーク、カーニバル、会場）と目標オープン日。",
+      "優先するライドカテゴリーとホストできる占有面積。",
+      "コンプライアンスと配送のための地域/国。",
+      "改修、組立、またはレンタルが必要かどうか。",
+    ],
+    needAssistance: "すぐにサポートが必要ですか？メールでお問い合わせいただくか、工場見学を予約してプロジェクトについて直接ご相談ください。",
+    loadingForm: "フォームを読み込み中...",
+  },
+  pageBadges: {
+    leadCapture: "リード獲得",
+    serviceSuite: "サービススイート",
+    booking: "予約",
+    catalog: "カタログ",
+  },
 };
 

@@ -60,5 +60,22 @@ export const vi: CopyContent = {
     year: "Năm",
     requestDetails: "Yêu cầu chi tiết",
   },
+  contactPage: {
+    whatToInclude: "Những gì cần bao gồm",
+    whatToIncludeItems: [
+      "Loại dự án (công viên, lễ hội, địa điểm) và ngày khai trương mục tiêu.",
+      "Danh mục trò chơi ưu tiên và diện tích bạn có thể đặt.",
+      "Khu vực/quốc gia để tuân thủ và vận chuyển.",
+      "Bạn có cần cải tạo, lắp ráp hoặc cho thuê hay không.",
+    ],
+    needAssistance: "Cần hỗ trợ ngay lập tức? Liên hệ với chúng tôi qua email hoặc lên lịch tham quan nhà máy để thảo luận về dự án của bạn trực tiếp.",
+    loadingForm: "Đang tải biểu mẫu...",
+  },
+  pageBadges: {
+    leadCapture: "Thu hút khách hàng",
+    serviceSuite: "Bộ dịch vụ",
+    booking: "Đặt chỗ",
+    catalog: "Danh mục",
+  },
 };
 

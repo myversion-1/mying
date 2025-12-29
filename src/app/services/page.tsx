@@ -18,7 +18,7 @@ export default function ServicesPage() {
             subhead="Modeled after industry leaders, we help you choose, acquire, and deploy rides with clear documentation and timelines."
             ctaPrimaryHref="/contact"
             ctaSecondaryHref="/products"
-            badge="Service suite"
+            badge={c.pageBadges.serviceSuite}
           />
         </div>
       </div>

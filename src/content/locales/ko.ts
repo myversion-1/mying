@@ -60,5 +60,22 @@ export const ko: CopyContent = {
     year: "연도",
     requestDetails: "세부 정보 요청",
   },
+  contactPage: {
+    whatToInclude: "포함할 내용",
+    whatToIncludeItems: [
+      "프로젝트 유형(공원, 카니발, 장소) 및 목표 개장일.",
+      "우선순위 놀이기구 카테고리 및 호스팅 가능한 면적.",
+      "규정 준수 및 배송을 위한 지역/국가.",
+      "개조, 조립 또는 임대가 필요한지 여부.",
+    ],
+    needAssistance: "즉시 지원이 필요하신가요? 이메일로 문의하거나 공장 방문을 예약하여 프로젝트에 대해 직접 논의하세요.",
+    loadingForm: "양식 로딩 중...",
+  },
+  pageBadges: {
+    leadCapture: "리드 확보",
+    serviceSuite: "서비스 제품군",
+    booking: "예약",
+    catalog: "카탈로그",
+  },
 };
 

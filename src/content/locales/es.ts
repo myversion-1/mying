@@ -60,5 +60,22 @@ export const es: CopyContent = {
     year: "Año",
     requestDetails: "Solicitar detalles",
   },
+  contactPage: {
+    whatToInclude: "Qué incluir",
+    whatToIncludeItems: [
+      "Tipo de proyecto (parque, carnaval, recinto) y fecha de apertura objetivo.",
+      "Categorías de atracciones prioritarias y superficies que puedes albergar.",
+      "Región/país para cumplimiento y envío.",
+      "Si necesitas renovación, montaje o alquiler.",
+    ],
+    needAssistance: "¿Necesitas asistencia inmediata? Contáctanos por correo electrónico o programa una visita a la fábrica para discutir tu proyecto en persona.",
+    loadingForm: "Cargando formulario...",
+  },
+  pageBadges: {
+    leadCapture: "Captación de clientes",
+    serviceSuite: "Suite de servicios",
+    booking: "Reserva",
+    catalog: "Catálogo",
+  },
 };
 

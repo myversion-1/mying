@@ -60,5 +60,22 @@ export const id: CopyContent = {
     year: "Tahun",
     requestDetails: "Minta detail",
   },
+  contactPage: {
+    whatToInclude: "Yang harus disertakan",
+    whatToIncludeItems: [
+      "Jenis proyek (taman, karnaval, tempat) dan tanggal pembukaan target.",
+      "Kategori wahana prioritas dan luas yang dapat Anda tampung.",
+      "Wilayah/negara untuk kepatuhan dan pengiriman.",
+      "Apakah Anda memerlukan perbaikan, perakitan, atau sewa.",
+    ],
+    needAssistance: "Butuh bantuan segera? Hubungi kami melalui email atau jadwalkan kunjungan pabrik untuk membahas proyek Anda secara langsung.",
+    loadingForm: "Memuat formulir...",
+  },
+  pageBadges: {
+    leadCapture: "Menarik pelanggan",
+    serviceSuite: "Paket layanan",
+    booking: "Pemesanan",
+    catalog: "Katalog",
+  },
 };
 

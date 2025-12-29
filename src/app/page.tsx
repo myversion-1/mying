@@ -58,7 +58,7 @@ export default function Home() {
         title={c.contactTitle}
         subtitle={c.contactSubtitle}
       >
-        <Suspense fallback={<div className="rounded-2xl border border-white/10 bg-white/5 p-6">Loading form...</div>}>
+        <Suspense fallback={<div className="rounded-2xl border border-white/10 bg-white/5 p-6">{c.contactPage.loadingForm}</div>}>
           <ContactForm />
         </Suspense>
       </Section>

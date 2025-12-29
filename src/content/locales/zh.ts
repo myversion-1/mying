@@ -60,5 +60,22 @@ export const zh: CopyContent = {
     year: "年份",
     requestDetails: "请求详情",
   },
+  contactPage: {
+    whatToInclude: "需要包含的信息",
+    whatToIncludeItems: [
+      "项目类型（游乐园、嘉年华、场馆）和目标开业日期。",
+      "优先考虑的游乐设备类别和可容纳的占地面积。",
+      "地区/国家（用于合规和运输）。",
+      "是否需要翻新、组装或租赁服务。",
+    ],
+    needAssistance: "需要即时协助？请通过电子邮件联系我们或安排工厂参观，面对面讨论您的项目。",
+    loadingForm: "加载表单中...",
+  },
+  pageBadges: {
+    leadCapture: "潜在客户",
+    serviceSuite: "服务套件",
+    booking: "预约",
+    catalog: "目录",
+  },
 };
 

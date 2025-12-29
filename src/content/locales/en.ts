@@ -60,5 +60,22 @@ export const en: CopyContent = {
     year: "Year",
     requestDetails: "Request details",
   },
+  contactPage: {
+    whatToInclude: "What to include",
+    whatToIncludeItems: [
+      "Project type (park, carnival, venue) and target opening date.",
+      "Priority ride categories and footprints you can host.",
+      "Region/country for compliance and shipping.",
+      "Whether you need refurbishment, assembly, or rentals.",
+    ],
+    needAssistance: "Need immediate assistance? Contact us via email or schedule a factory visit to discuss your project in person.",
+    loadingForm: "Loading form...",
+  },
+  pageBadges: {
+    leadCapture: "Lead capture",
+    serviceSuite: "Service suite",
+    booking: "Booking",
+    catalog: "Catalog",
+  },
 };
 

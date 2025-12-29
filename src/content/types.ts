@@ -52,5 +52,17 @@ export type CopyContent = {
     year: string;
     requestDetails: string;
   };
+  contactPage: {
+    whatToInclude: string;
+    whatToIncludeItems: string[];
+    needAssistance: string;
+    loadingForm: string;
+  };
+  pageBadges: {
+    leadCapture: string;
+    serviceSuite: string;
+    booking: string;
+    catalog: string;
+  };
 };
 
