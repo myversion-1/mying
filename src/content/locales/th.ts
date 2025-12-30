@@ -60,6 +60,19 @@ export const th: CopyContent = {
     year: "ปี",
     requestDetails: "ขอรายละเอียด",
   },
+  productDecision: {
+    idealFor: "เหมาะสำหรับ",
+    notRecommendedFor: "ไม่แนะนำสำหรับ",
+    venueRequirements: "ข้อกำหนดของสถานที่",
+    powerSupply: "แหล่งจ่ายไฟ",
+    safetyCompliance: "ความปลอดภัยและการปฏิบัติตาม",
+    deliveryInstallation: "การจัดส่งและการติดตั้ง",
+    afterSales: "บริการหลังการขาย",
+    seeInAction: "ดูเครื่องเล่นนี้ในการทำงาน",
+    videoAvailable: "วิดีโอมีให้ดูใน YouTube / TikTok",
+    whatsappResponse: "ตอบกลับ WhatsApp ภายใน 24 ชั่วโมง",
+    contactForQuote: "ติดต่อเพื่อคำแนะนำการจัดวางและใบเสนอราคา",
+  },
   contactPage: {
     whatToInclude: "สิ่งที่ควรรวม",
     whatToIncludeItems: [

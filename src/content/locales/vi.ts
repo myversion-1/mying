@@ -60,6 +60,19 @@ export const vi: CopyContent = {
     year: "Năm",
     requestDetails: "Yêu cầu chi tiết",
   },
+  productDecision: {
+    idealFor: "Lý tưởng cho",
+    notRecommendedFor: "Không được khuyến nghị cho",
+    venueRequirements: "Yêu cầu địa điểm",
+    powerSupply: "Nguồn điện",
+    safetyCompliance: "An toàn và tuân thủ",
+    deliveryInstallation: "Giao hàng và lắp đặt",
+    afterSales: "Hỗ trợ sau bán hàng",
+    seeInAction: "Xem trò chơi này hoạt động",
+    videoAvailable: "Video có sẵn trên YouTube / TikTok",
+    whatsappResponse: "Phản hồi WhatsApp trong vòng 24 giờ",
+    contactForQuote: "Liên hệ để được tư vấn bố trí và báo giá",
+  },
   contactPage: {
     whatToInclude: "Những gì cần bao gồm",
     whatToIncludeItems: [

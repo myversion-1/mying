@@ -60,6 +60,19 @@ export const ko: CopyContent = {
     year: "연도",
     requestDetails: "세부 정보 요청",
   },
+  productDecision: {
+    idealFor: "이상적인 용도",
+    notRecommendedFor: "권장하지 않음",
+    venueRequirements: "장소 요구사항",
+    powerSupply: "전원 공급",
+    safetyCompliance: "안전 및 규정 준수",
+    deliveryInstallation: "배송 및 설치",
+    afterSales: "애프터 서비스",
+    seeInAction: "이 놀이기구 작동 보기",
+    videoAvailable: "YouTube / TikTok에서 동영상 시청 가능",
+    whatsappResponse: "24시간 이내 WhatsApp 응답",
+    contactForQuote: "레이아웃 제안 및 견적 문의",
+  },
   contactPage: {
     whatToInclude: "포함할 내용",
     whatToIncludeItems: [

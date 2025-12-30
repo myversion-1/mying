@@ -60,6 +60,19 @@ export const ru: CopyContent = {
     year: "Год",
     requestDetails: "Запросить детали",
   },
+  productDecision: {
+    idealFor: "Идеально для",
+    notRecommendedFor: "Не рекомендуется для",
+    venueRequirements: "Требования к площадке",
+    powerSupply: "Электропитание",
+    safetyCompliance: "Безопасность и соответствие",
+    deliveryInstallation: "Доставка и установка",
+    afterSales: "Послепродажная поддержка",
+    seeInAction: "Посмотрите этот аттракцион в действии",
+    videoAvailable: "Видео доступно на нашем YouTube / TikTok",
+    whatsappResponse: "Ответ WhatsApp в течение 24 часов",
+    contactForQuote: "Свяжитесь для предложения планировки и расценки",
+  },
   contactPage: {
     whatToInclude: "Что включить",
     whatToIncludeItems: [

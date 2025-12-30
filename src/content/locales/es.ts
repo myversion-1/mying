@@ -60,6 +60,19 @@ export const es: CopyContent = {
     year: "Año",
     requestDetails: "Solicitar detalles",
   },
+  productDecision: {
+    idealFor: "Ideal para",
+    notRecommendedFor: "No recomendado para",
+    venueRequirements: "Requisitos del lugar",
+    powerSupply: "Suministro de energía",
+    safetyCompliance: "Seguridad y cumplimiento",
+    deliveryInstallation: "Entrega e instalación",
+    afterSales: "Soporte postventa",
+    seeInAction: "Ver esta atracción en funcionamiento",
+    videoAvailable: "Video disponible en nuestro YouTube / TikTok",
+    whatsappResponse: "Respuesta de WhatsApp en 24 horas",
+    contactForQuote: "Contactar para sugerencia de diseño y cotización",
+  },
   contactPage: {
     whatToInclude: "Qué incluir",
     whatToIncludeItems: [

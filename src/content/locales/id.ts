@@ -60,6 +60,19 @@ export const id: CopyContent = {
     year: "Tahun",
     requestDetails: "Minta detail",
   },
+  productDecision: {
+    idealFor: "Ideal untuk",
+    notRecommendedFor: "Tidak direkomendasikan untuk",
+    venueRequirements: "Persyaratan tempat",
+    powerSupply: "Pasokan listrik",
+    safetyCompliance: "Keselamatan dan kepatuhan",
+    deliveryInstallation: "Pengiriman dan instalasi",
+    afterSales: "Dukungan purna jual",
+    seeInAction: "Lihat wahana ini beroperasi",
+    videoAvailable: "Video tersedia di YouTube / TikTok kami",
+    whatsappResponse: "Respon WhatsApp dalam 24 jam",
+    contactForQuote: "Hubungi untuk saran tata letak dan penawaran",
+  },
   contactPage: {
     whatToInclude: "Yang harus disertakan",
     whatToIncludeItems: [

@@ -60,6 +60,19 @@ export const ar: CopyContent = {
     year: "السنة",
     requestDetails: "طلب التفاصيل",
   },
+  productDecision: {
+    idealFor: "مثالي لـ",
+    notRecommendedFor: "غير موصى به لـ",
+    venueRequirements: "متطلبات المكان",
+    powerSupply: "مصدر الطاقة",
+    safetyCompliance: "السلامة والامتثال",
+    deliveryInstallation: "التسليم والتركيب",
+    afterSales: "دعم ما بعد البيع",
+    seeInAction: "شاهد هذه اللعبة في العمل",
+    videoAvailable: "الفيديو متاح على YouTube / TikTok",
+    whatsappResponse: "رد WhatsApp خلال 24 ساعة",
+    contactForQuote: "اتصل للحصول على اقتراح التخطيط والاقتباس",
+  },
   contactPage: {
     whatToInclude: "ما يجب تضمينه",
     whatToIncludeItems: [

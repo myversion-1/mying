@@ -60,6 +60,19 @@ export const hi: CopyContent = {
     year: "वर्ष",
     requestDetails: "विवरण अनुरोध करें",
   },
+  productDecision: {
+    idealFor: "के लिए आदर्श",
+    notRecommendedFor: "के लिए अनुशंसित नहीं",
+    venueRequirements: "स्थान आवश्यकताएं",
+    powerSupply: "बिजली आपूर्ति",
+    safetyCompliance: "सुरक्षा और अनुपालन",
+    deliveryInstallation: "डिलीवरी और स्थापना",
+    afterSales: "बिक्री के बाद सहायता",
+    seeInAction: "इस राइड को कार्रवाई में देखें",
+    videoAvailable: "हमारे YouTube / TikTok पर वीडियो उपलब्ध",
+    whatsappResponse: "24 घंटे के भीतर WhatsApp प्रतिक्रिया",
+    contactForQuote: "लेआउट सुझाव और उद्धरण के लिए संपर्क करें",
+  },
   contactPage: {
     whatToInclude: "क्या शामिल करना है",
     whatToIncludeItems: [

@@ -60,6 +60,19 @@ export const ja: CopyContent = {
     year: "年",
     requestDetails: "詳細をリクエスト",
   },
+  productDecision: {
+    idealFor: "理想的な用途",
+    notRecommendedFor: "推奨されない用途",
+    venueRequirements: "会場要件",
+    powerSupply: "電源",
+    safetyCompliance: "安全性とコンプライアンス",
+    deliveryInstallation: "配送と設置",
+    afterSales: "アフターサービス",
+    seeInAction: "このライドの動作を見る",
+    videoAvailable: "YouTube / TikTokで動画を視聴できます",
+    whatsappResponse: "24時間以内にWhatsAppで返信",
+    contactForQuote: "レイアウト提案と見積もりのお問い合わせ",
+  },
   contactPage: {
     whatToInclude: "含める内容",
     whatToIncludeItems: [
