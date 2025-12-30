@@ -79,5 +79,28 @@ export type CopyContent = {
     booking: string;
     catalog: string;
   };
+  aboutPage: {
+    manufacturingCapabilities: {
+      title: string;
+      subtitle: string;
+      items: string[];
+    };
+    certifications: {
+      title: string;
+      subtitle: string;
+    };
+    factoryTour: {
+      title: string;
+      subtitle: string;
+      videoTitle: string;
+      galleryTitle: string;
+      ctaText: string;
+    };
+    partnership: {
+      title: string;
+      subtitle: string;
+      items: string[];
+    };
+  };
 };
 

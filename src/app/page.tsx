@@ -18,7 +18,7 @@ export default function Home() {
     <div className="space-y-12">
       <div className="mx-auto max-w-6xl px-4 md:px-8">
         <div className="my-10">
-          <PageHero ctaPrimaryHref="/contact" />
+          <PageHero ctaPrimaryHref="/quote" />
         </div>
       </div>
 

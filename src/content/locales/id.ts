@@ -90,5 +90,42 @@ export const id: CopyContent = {
     booking: "Pemesanan",
     catalog: "Katalog",
   },
+  aboutPage: {
+    manufacturingCapabilities: {
+      title: "Kemampuan Manufaktur",
+      subtitle: "Fasilitas produksi canggih dengan kontrol kualitas yang ketat dan kepatuhan terhadap standar internasional.",
+      items: [
+        "Peralatan manufaktur canggih dan rekayasa presisi",
+        "Jaminan kualitas komprehensif di setiap tahap produksi",
+        "Kapasitas produksi yang dapat diskalakan dari pesanan kecil hingga besar",
+        "Layanan desain dan rekayasa khusus",
+        "Kepatuhan ketat terhadap standar keselamatan internasional",
+        "Manajemen rantai pasokan dan logistik yang efisien",
+      ],
+    },
+    certifications: {
+      title: "Sertifikasi dan Kepatuhan Industri",
+      subtitle: "Komitmen kami terhadap kualitas dan keselamatan divalidasi oleh sertifikasi dan standar internasional.",
+    },
+    factoryTour: {
+      title: "Tur Pabrik",
+      subtitle: "Lihat proses manufaktur kami dalam aksi. Alami fasilitas produksi dan sistem kontrol kualitas kami secara langsung.",
+      videoTitle: "Tur Pabrik Virtual",
+      galleryTitle: "Galeri Jalur Produksi",
+      ctaText: "Jadwalkan Kunjungan Pabrik",
+    },
+    partnership: {
+      title: "Membangun Kemitraan Jangka Panjang",
+      subtitle: "Kami tidak hanya mengirimkan wahana - kami membangun hubungan yang langgeng dengan klien kami melalui keandalan, transparansi, dan dukungan berkelanjutan.",
+      items: [
+        "Manajemen akun khusus untuk komunikasi yang mulus",
+        "Pasokan suku cadang dan dukungan teknis jangka panjang",
+        "Audit kualitas dan tinjauan kinerja rutin",
+        "Solusi fleksibel yang disesuaikan dengan kebutuhan bisnis Anda",
+        "Harga transparan tanpa biaya tersembunyi",
+        "Rekam jejak terbukti pengiriman tepat waktu dan kepuasan pelanggan",
+      ],
+    },
+  },
 };
 

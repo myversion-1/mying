@@ -156,9 +156,9 @@ export function ProductGrid({ items }: Props) {
       {/* Products Grid */}
       <div className="grid gap-4 md:grid-cols-2">
         {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
+          filteredProducts.map((product, index) => (
         <article
-          key={product.name}
+          key={`${product.name}-${index}`}
           className="group flex flex-col gap-3 rounded-2xl border border-white/5 bg-gradient-to-br from-white/5 to-white/0 p-4 transition hover:border-white/20"
         >
           {/* Product Image */}
@@ -251,7 +251,7 @@ export function ProductGrid({ items }: Props) {
           
           {/* ⑦ Clear CTA */}
           <Link
-            href={`/contact?product=${encodeURIComponent(product.name)}`}
+            href={`/quote?product=${encodeURIComponent(product.name)}`}
             className="mt-auto w-full rounded-full bg-[#00eaff] px-4 py-2.5 text-center text-sm font-semibold text-[#0b1116] shadow-[0_0_20px_rgba(0,234,255,0.3)] transition hover:-translate-y-[1px] hover:shadow-[0_0_28px_rgba(0,234,255,0.5)]"
           >
             {product.ctaText || (lang === "zh" ? "获取布局建议与报价" : "Contact for layout suggestion & quotation")}

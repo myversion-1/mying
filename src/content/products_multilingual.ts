@@ -193,7 +193,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     },
   },
   {
-    name: { en: "SPATIOTEMPORAL EDDY CURRENT", zh: "时空涡流" },
+    name: { en: "SPATIOTEMPORAL EDDY CURRENT - Model 2", zh: "时空涡流 - 型号2" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "12.44M*10.34M*6.3M", zh: "12.44M*10.34M*6.3M" },
     height: { en: "N/A", zh: "N/A" },
@@ -275,7 +275,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     },
   },
   {
-    name: { en: "Star Nucleus Explorer", zh: "星核探险家" },
+    name: { en: "Star Nucleus Explorer - Model 2", zh: "星核探险家 - 型号2" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "Diameter:10M*Height:6.3M (Including Fence)", zh: "直径:10M*高6.3M (含围栏)" },
     height: { en: "6.3 m", zh: "6.3米" },
@@ -316,7 +316,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     },
   },
   {
-    name: { en: "Meow Nuclear Team", zh: "星核旋转木马" },
+    name: { en: "Meow Nuclear Carousel", zh: "星核旋转木马" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "D6.6M*H5.7M() (Including Fence)", zh: "直径6.6M*高5.7M(含围栏)" },
     height: { en: "5.7 m", zh: "5.7米" },
@@ -439,7 +439,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     },
   },
   {
-    name: { en: "Super warrior", zh: "超能战士" },
+    name: { en: "Super Warrior", zh: "超能战士" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "D9M*H6.3M () (Including Fence)", zh: "直径9M*高6.3M (包含围栏)" },
     height: { en: "6.3 m", zh: "6.3米" },
@@ -566,7 +566,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     },
   },
   {
-    name: { en: "Rotating matrix", zh: "旋转矩阵" },
+    name: { en: "Rotating Matrix", zh: "旋转矩阵" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "D9M*H6.7M () (Including Fence)", zh: "直径9M*高6.7M (含围栏)" },
     height: { en: "6.7 m", zh: "6.7米" },
@@ -584,7 +584,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备产品介绍 conv 21.jpeg",
   },
   {
-    name: { en: "MEOW NUCLEAR MECHA CAR", zh: "喵核机甲车 MEOW NUCLEAR MECHA CAR" },
+    name: { en: "MEOW NUCLEAR MECHA CAR (Single)", zh: "喵核机甲车（单座）" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "L1.6M*W1.2M*H2.3M", zh: "长1.6M*宽1.2M*高2.3M" },
     height: { en: "2.3 m", zh: "2.3米" },
@@ -602,7 +602,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备产品介绍 conv 23.jpeg",
   },
   {
-    name: { en: "MEOW CORE TRAIN", zh: "喵核小火车" },
+    name: { en: "MEOW CORE TRAIN - Model 2", zh: "喵核小火车 - 型号2" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "L12M*W1.2M*H1.4M-1.6M", zh: "长12M*宽1.2M*高1.4M-1.6M" },
     height: { en: "1.4 m", zh: "1.4米" },
@@ -815,7 +815,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 10.jpeg",
   },
   {
-    name: { en: "SPATIOTEMPORAL EDDY CURRENT", zh: "时空涡流" },
+    name: { en: "SPATIOTEMPORAL EDDY CURRENT - Model 2", zh: "时空涡流 - 型号2" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "L12.44M*W10.34M*H6.3M", zh: "长12.44M*宽10.34M*高6.3M" },
     height: { en: "6.3 m", zh: "6.3米" },
@@ -842,7 +842,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 13.jpeg",
   },
   {
-    name: { en: "MEOW NUCLEAR MECHA CAR", zh: "喵核机甲车" },
+    name: { en: "MEOW NUCLEAR MECHA CAR (Single) - Model 2", zh: "喵核机甲车（单座）- 型号2" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "L1.6M*W1.2M*H2.3M", zh: "长1.6M*宽1.2M*高2.3M" },
     height: { en: "2.3 m", zh: "2.3米" },
@@ -851,7 +851,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 14.jpeg",
   },
   {
-    name: { en: "MEOW NUCLEAR MECHA CAR", zh: "喵核机甲车" },
+    name: { en: "MEOW NUCLEAR MECHA CAR (Single) - Model 3", zh: "喵核机甲车（单座）- 型号3" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "L1.6M*W1.2M*H2.3M (L1.6M*W1.2M*H2.3M)", zh: "长1.6M*宽1.2M*高2.3M (L1.6M*W1.2M*H2.3M)" },
     height: { en: "2.3 m", zh: "2.3米" },
@@ -860,7 +860,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 15.jpeg",
   },
   {
-    name: { en: "MEOW CORE TRAIN", zh: "喵核小火车" },
+    name: { en: "MEOW CORE TRAIN - Model 3", zh: "喵核小火车 - 型号3" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "L12M*W1.2M*H1.4-1.6M", zh: "长12M*宽1.2M*高1.4-1.6M" },
     height: { en: "N/A", zh: "N/A" },
@@ -869,7 +869,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 16.jpeg",
   },
   {
-    name: { en: "MEOW CORE TRAIN", zh: "喵核小火车" },
+    name: { en: "MEOW CORE TRAIN - Model 4", zh: "喵核小火车 - 型号4" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "L12M*W1.2M*H1.4-1.6M", zh: "长12M*宽1.2M*高1.4-1.6M" },
     height: { en: "N/A", zh: "N/A" },
@@ -896,7 +896,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 19.jpeg",
   },
   {
-    name: { en: "Quantum Jump", zh: "量子弹跳" },
+    name: { en: "Quantum Jump - Model 2", zh: "量子弹跳 - 型号2" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "D8.6M*H6.1M () (Including Fence)", zh: "直径8.6M*高6.1M (含围栏)" },
     height: { en: "6.1 m", zh: "6.1米" },
@@ -995,7 +995,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 29.jpeg",
   },
   {
-    name: { en: "Rotating matrix", zh: "旋转矩阵" },
+    name: { en: "Rotating Matrix - Model 2", zh: "旋转矩阵 - 型号2" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "D9M*H6.7M (Including Fence)", zh: "直径9M*高6.7M (含围栏)" },
     height: { en: "6.7 m", zh: "6.7米" },
@@ -1085,7 +1085,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 39.jpeg",
   },
   {
-    name: { en: "Star Nucleus Explorer", zh: "星核探险家" },
+    name: { en: "Star Nucleus Explorer - Model 2", zh: "星核探险家 - 型号2" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "D10M*H6.3M () (Including Fence)", zh: "直径10M*高6.3M (含围栏)" },
     height: { en: "6.3 m", zh: "6.3米" },
@@ -1166,7 +1166,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 49.jpeg",
   },
   {
-    name: { en: "Super warrior", zh: "超能战士" },
+    name: { en: "Super Warrior - Model 2", zh: "超能战士 - 型号2" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "D9M*H6.3M () (Including Fence)", zh: "直径9M*高6.3M (含围栏)" },
     height: { en: "6.3 m", zh: "6.3米" },
@@ -1175,7 +1175,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 5.jpeg",
   },
   {
-    name: { en: "Pendulum Play", zh: "玩转钟摆" },
+    name: { en: "Pendulum Play - Model 2", zh: "玩转钟摆 - 型号2" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "L8M*W7M*H6M () (Including Fence)", zh: "长8M*宽7M*高6M (含围栏)" },
     height: { en: "6 m", zh: "6米" },

@@ -91,5 +91,42 @@ export const en: CopyContent = {
     booking: "Booking",
     catalog: "Catalog",
   },
+  aboutPage: {
+    manufacturingCapabilities: {
+      title: "Manufacturing Capabilities",
+      subtitle: "State-of-the-art production facilities with rigorous quality control and international standards compliance.",
+      items: [
+        "Advanced manufacturing equipment and precision engineering",
+        "Comprehensive quality assurance at every production stage",
+        "Scalable production capacity for small to large orders",
+        "Custom design and engineering services",
+        "Strict adherence to international safety standards",
+        "Efficient supply chain and logistics management",
+      ],
+    },
+    certifications: {
+      title: "Industry Certifications & Compliance",
+      subtitle: "Our commitment to quality and safety is validated by international certifications and standards.",
+    },
+    factoryTour: {
+      title: "Factory Tour",
+      subtitle: "See our manufacturing process in action. Experience our production facilities and quality control systems firsthand.",
+      videoTitle: "Virtual Factory Tour",
+      galleryTitle: "Production Line Gallery",
+      ctaText: "Schedule Factory Visit",
+    },
+    partnership: {
+      title: "Building Long-Term Partnerships",
+      subtitle: "We don't just deliver rides—we build lasting relationships with our clients through reliability, transparency, and ongoing support.",
+      items: [
+        "Dedicated account management for seamless communication",
+        "Long-term parts supply and technical support",
+        "Regular quality audits and performance reviews",
+        "Flexible solutions tailored to your business needs",
+        "Transparent pricing with no hidden costs",
+        "Proven track record of on-time delivery and customer satisfaction",
+      ],
+    },
+  },
 };
 

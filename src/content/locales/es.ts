@@ -90,5 +90,42 @@ export const es: CopyContent = {
     booking: "Reserva",
     catalog: "Catálogo",
   },
+  aboutPage: {
+    manufacturingCapabilities: {
+      title: "Capacidades de Fabricación",
+      subtitle: "Instalaciones de producción de última generación con control de calidad riguroso y cumplimiento de estándares internacionales.",
+      items: [
+        "Equipos de fabricación avanzados e ingeniería de precisión",
+        "Garantía de calidad integral en cada etapa de producción",
+        "Capacidad de producción escalable para pedidos pequeños y grandes",
+        "Servicios de diseño e ingeniería personalizados",
+        "Estricto cumplimiento de estándares internacionales de seguridad",
+        "Gestión eficiente de la cadena de suministro y logística",
+      ],
+    },
+    certifications: {
+      title: "Certificaciones y Cumplimiento de la Industria",
+      subtitle: "Nuestro compromiso con la calidad y la seguridad está validado por certificaciones y estándares internacionales.",
+    },
+    factoryTour: {
+      title: "Tour de la Fábrica",
+      subtitle: "Vea nuestro proceso de fabricación en acción. Experimente nuestras instalaciones de producción y sistemas de control de calidad de primera mano.",
+      videoTitle: "Tour Virtual de la Fábrica",
+      galleryTitle: "Galería de Línea de Producción",
+      ctaText: "Programar Visita a la Fábrica",
+    },
+    partnership: {
+      title: "Construyendo Asociaciones a Largo Plazo",
+      subtitle: "No solo entregamos atracciones: construimos relaciones duraderas con nuestros clientes a través de la confiabilidad, transparencia y apoyo continuo.",
+      items: [
+        "Gestión de cuentas dedicada para comunicación fluida",
+        "Suministro de repuestos y soporte técnico a largo plazo",
+        "Auditorías de calidad y revisiones de rendimiento regulares",
+        "Soluciones flexibles adaptadas a las necesidades de su negocio",
+        "Precios transparentes sin costos ocultos",
+        "Historial comprobado de entrega puntual y satisfacción del cliente",
+      ],
+    },
+  },
 };
 

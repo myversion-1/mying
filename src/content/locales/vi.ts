@@ -90,5 +90,42 @@ export const vi: CopyContent = {
     booking: "Đặt chỗ",
     catalog: "Danh mục",
   },
+  aboutPage: {
+    manufacturingCapabilities: {
+      title: "Năng Lực Sản Xuất",
+      subtitle: "Cơ sở sản xuất hiện đại với kiểm soát chất lượng nghiêm ngặt và tuân thủ các tiêu chuẩn quốc tế.",
+      items: [
+        "Thiết bị sản xuất tiên tiến và kỹ thuật chính xác",
+        "Đảm bảo chất lượng toàn diện ở mọi giai đoạn sản xuất",
+        "Năng lực sản xuất có thể mở rộng từ đơn hàng nhỏ đến lớn",
+        "Dịch vụ thiết kế và kỹ thuật tùy chỉnh",
+        "Tuân thủ nghiêm ngặt các tiêu chuẩn an toàn quốc tế",
+        "Quản lý chuỗi cung ứng và hậu cần hiệu quả",
+      ],
+    },
+    certifications: {
+      title: "Chứng Nhận và Tuân Thủ Ngành",
+      subtitle: "Cam kết của chúng tôi về chất lượng và an toàn được xác nhận bởi các chứng nhận và tiêu chuẩn quốc tế.",
+    },
+    factoryTour: {
+      title: "Tham Quan Nhà Máy",
+      subtitle: "Xem quy trình sản xuất của chúng tôi hoạt động. Trải nghiệm trực tiếp cơ sở sản xuất và hệ thống kiểm soát chất lượng của chúng tôi.",
+      videoTitle: "Tham Quan Nhà Máy Ảo",
+      galleryTitle: "Thư Viện Dây Chuyền Sản Xuất",
+      ctaText: "Lên Lịch Tham Quan Nhà Máy",
+    },
+    partnership: {
+      title: "Xây Dựng Quan Hệ Đối Tác Dài Hạn",
+      subtitle: "Chúng tôi không chỉ cung cấp trò chơi - chúng tôi xây dựng mối quan hệ lâu dài với khách hàng thông qua độ tin cậy, minh bạch và hỗ trợ liên tục.",
+      items: [
+        "Quản lý tài khoản chuyên dụng cho giao tiếp liền mạch",
+        "Cung cấp phụ tùng và hỗ trợ kỹ thuật dài hạn",
+        "Kiểm toán chất lượng và đánh giá hiệu suất thường xuyên",
+        "Giải pháp linh hoạt phù hợp với nhu cầu kinh doanh của bạn",
+        "Định giá minh bạch không có chi phí ẩn",
+        "Hồ sơ đã được chứng minh về giao hàng đúng hạn và sự hài lòng của khách hàng",
+      ],
+    },
+  },
 };
 
