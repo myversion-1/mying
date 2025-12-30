@@ -182,7 +182,7 @@ export function ProductGrid({ items }: Props) {
             )}
           </div>
           <div className="flex items-start justify-between gap-2">
-            <div>
+            <div className="flex-1">
               <div className="text-sm uppercase tracking-[0.14em] text-white/50">
                 {product.category}
               </div>
@@ -194,23 +194,78 @@ export function ProductGrid({ items }: Props) {
               {product.status}
             </Badge>
           </div>
+          
+          {/* ① Product Positioning Statement */}
+          {product.positioning && (
+            <p className="text-sm leading-relaxed text-white/80">
+              {product.positioning}
+            </p>
+          )}
+          
+          {/* ② Ideal For Scenarios */}
+          {product.idealFor && product.idealFor.length > 0 && (
+            <div className="space-y-1">
+              <div className="text-xs font-semibold uppercase tracking-[0.1em] text-white/60">
+                {lang === "zh" ? "适用场景" : "Ideal for"}
+              </div>
+              <ul className="space-y-1">
+                {product.idealFor.slice(0, 3).map((scenario, idx) => (
+                  <li key={idx} className="flex items-start gap-2 text-xs text-white/70">
+                    <span className="mt-1 text-[#7df6ff]">•</span>
+                    <span>{scenario}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
           {product.badge && (
             <div className="text-xs font-semibold text-[#7df6ff]">
               {product.badge}
             </div>
           )}
+          
+          {/* ③ Venue Requirements (with explanation) */}
           <dl className="grid grid-cols-2 gap-3 text-sm text-white/70">
-            <Spec label={c.productLabels?.footprint || "Footprint"} value={product.footprint} />
+            <Spec 
+              label={c.productLabels?.footprint || "Footprint"} 
+              value={product.footprint}
+              explanation={product.venueRequirements}
+            />
             <Spec label={c.productLabels?.height || "Height"} value={product.height} />
             <Spec label={c.productLabels?.riders || "Riders"} value={product.riders} />
             {product.year && <Spec label={c.productLabels?.year || "Year"} value={product.year} />}
           </dl>
+          
+          {/* ④ Safety & Compliance (brief) */}
+          {product.safetyCompliance && product.safetyCompliance.length > 0 && (
+            <div className="rounded-lg border border-[#7df6ff]/20 bg-[#7df6ff]/5 px-3 py-2">
+              <div className="mb-1 text-xs font-semibold uppercase tracking-[0.1em] text-[#7df6ff]">
+                {lang === "zh" ? "安全认证" : "Safety & Compliance"}
+              </div>
+              <div className="text-xs text-white/70">
+                {product.safetyCompliance[0]}
+              </div>
+            </div>
+          )}
+          
+          {/* ⑦ Clear CTA */}
           <Link
             href={`/contact?product=${encodeURIComponent(product.name)}`}
-            className="mt-auto w-fit rounded-full border border-white/15 px-3 py-2 text-xs font-semibold text-white transition hover:border-white/30 hover:bg-white/5"
+            className="mt-auto w-full rounded-full bg-[#00eaff] px-4 py-2.5 text-center text-sm font-semibold text-[#0b1116] shadow-[0_0_20px_rgba(0,234,255,0.3)] transition hover:-translate-y-[1px] hover:shadow-[0_0_28px_rgba(0,234,255,0.5)]"
           >
-            {c.productLabels?.requestDetails || "Request details"}
+            {product.ctaText || (lang === "zh" ? "获取布局建议与报价" : "Contact for layout suggestion & quotation")}
           </Link>
+          
+          {/* WhatsApp quick link */}
+          <a
+            href="https://wa.me/8613112959561"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full rounded-full border border-white/20 bg-white/5 px-4 py-2 text-center text-xs font-semibold text-white transition hover:border-white/40 hover:bg-white/10"
+          >
+            {lang === "zh" ? "💬 WhatsApp 24小时内回复" : "💬 WhatsApp response within 24h"}
+          </a>
         </article>
           ))
         ) : (
@@ -223,13 +278,16 @@ export function ProductGrid({ items }: Props) {
   );
 }
 
-function Spec({ label, value }: { label: string; value: string }) {
+function Spec({ label, value, explanation }: { label: string; value: string; explanation?: string }) {
   return (
     <div className="flex flex-col rounded-lg border border-white/5 bg-white/5 px-3 py-2">
       <span className="text-[11px] uppercase tracking-[0.14em] text-white/50">
         {label}
       </span>
       <span className="text-white">{value}</span>
+      {explanation && (
+        <span className="mt-1 text-xs text-white/60">({explanation})</span>
+      )}
     </div>
   );
 }

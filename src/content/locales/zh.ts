@@ -61,6 +61,19 @@ export const zh: CopyContent = {
     year: "年份",
     requestDetails: "请求详情",
   },
+  productDecision: {
+    idealFor: "适用场景",
+    notRecommendedFor: "不推荐用于",
+    venueRequirements: "场地要求",
+    powerSupply: "电源要求",
+    safetyCompliance: "安全认证",
+    deliveryInstallation: "运输与安装",
+    afterSales: "售后服务",
+    seeInAction: "观看设备运行视频",
+    videoAvailable: "视频可在我们的 YouTube / TikTok 观看",
+    whatsappResponse: "WhatsApp 24小时内回复",
+    contactForQuote: "获取布局建议与报价",
+  },
   contactPage: {
     whatToInclude: "需要包含的信息",
     whatToIncludeItems: [

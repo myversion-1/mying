@@ -14,6 +14,17 @@ export type Product = {
   year?: string;
   badge?: string;
   image?: string; // Path to image in /public folder (e.g., "/products/product-name.jpg")
+  // Decision-making content fields
+  positioning?: string;
+  idealFor?: string[];
+  notRecommendedFor?: string[];
+  venueRequirements?: string;
+  powerSupply?: string;
+  safetyCompliance?: string[];
+  deliveryInstallation?: string[];
+  afterSales?: string[];
+  videoLinks?: { youtube?: string; tiktok?: string };
+  ctaText?: string;
 };
 
 // Get localized products based on language

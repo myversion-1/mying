@@ -54,6 +54,19 @@ export type CopyContent = {
     year: string;
     requestDetails: string;
   };
+  productDecision: {
+    idealFor: string;
+    notRecommendedFor: string;
+    venueRequirements: string;
+    powerSupply: string;
+    safetyCompliance: string;
+    deliveryInstallation: string;
+    afterSales: string;
+    seeInAction: string;
+    videoAvailable: string;
+    whatsappResponse: string;
+    contactForQuote: string;
+  };
   contactPage: {
     whatToInclude: string;
     whatToIncludeItems: string[];

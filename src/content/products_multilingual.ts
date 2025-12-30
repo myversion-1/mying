@@ -10,6 +10,17 @@ export type ProductMultilingual = {
   year?: string;
   badge?: string;
   image?: string;
+  // Decision-making content fields
+  positioning?: { en: string; zh: string }; // ① Product positioning statement
+  idealFor?: { en: string[]; zh: string[] }; // ② Ideal scenarios
+  notRecommendedFor?: { en: string[]; zh: string[] }; // ② Not recommended scenarios
+  venueRequirements?: { en: string; zh: string }; // ③ Venue & requirements explanation
+  powerSupply?: { en: string; zh: string }; // ③ Power supply info
+  safetyCompliance?: { en: string[]; zh: string[] }; // ④ Safety & compliance
+  deliveryInstallation?: { en: string[]; zh: string[] }; // ⑤ Delivery & installation
+  afterSales?: { en: string[]; zh: string[] }; // ⑤ After-sales support
+  videoLinks?: { youtube?: string; tiktok?: string }; // ⑥ Video & social media
+  ctaText?: { en: string; zh: string }; // ⑦ Clear next action CTA
 };
 
 export const productsMultilingual: ProductMultilingual[] = [
@@ -21,6 +32,38 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "36",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 0.jpeg",
+    positioning: { 
+      en: "A family-friendly ride designed for indoor amusement centers. Suitable for small to medium-size venues.", 
+      zh: "专为室内娱乐中心设计的家庭友好型游乐设备。适合中小型场地。" 
+    },
+    idealFor: { 
+      en: ["Indoor amusement parks", "FECs / shopping mall entertainment areas", "Family & kids zones"], 
+      zh: ["室内游乐园", "家庭娱乐中心/购物中心娱乐区", "家庭和儿童区域"] 
+    },
+    venueRequirements: { 
+      en: "Suitable for medium-size venues", 
+      zh: "适合中型场地" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "Energy Plan", zh: "能源计划" },
@@ -30,6 +73,42 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "30",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 1.jpeg",
+    positioning: { 
+      en: "A medium-scale family attraction perfect for theme parks and large FECs. Requires adequate ceiling height.", 
+      zh: "适合主题公园和大型家庭娱乐中心的中型家庭游乐设备。需要足够的层高。" 
+    },
+    idealFor: { 
+      en: ["Theme parks", "Large FECs", "Shopping malls with high ceilings"], 
+      zh: ["主题公园", "大型家庭娱乐中心", "高天花板的购物中心"] 
+    },
+    notRecommendedFor: { 
+      en: ["Very limited ceiling height", "Outdoor without shelter"], 
+      zh: ["层高非常有限", "无遮挡的户外环境"] 
+    },
+    venueRequirements: { 
+      en: "Requires minimum 12m ceiling height", 
+      zh: "需要至少12米层高" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "Star Nuclear Guard", zh: "星核护卫队" },
@@ -39,6 +118,38 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "24",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 10.jpeg",
+    positioning: { 
+      en: "A large-capacity family ride perfect for high-traffic entertainment venues. Low height design makes it ideal for venues with standard ceiling clearance.", 
+      zh: "适合高客流量娱乐场所的大容量家庭游乐设备。低高度设计使其适合标准层高的场地。" 
+    },
+    idealFor: { 
+      en: ["Large FECs", "Shopping malls", "Indoor theme parks", "High-traffic entertainment zones"], 
+      zh: ["大型家庭娱乐中心", "购物中心", "室内主题公园", "高客流量娱乐区"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 154 sqm area. Suitable for venues with standard ceiling height (5m+).", 
+      zh: "需要约154平方米场地。适合标准层高（5米以上）的场地。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "Meow Nuclear Team", zh: "喵核战队" },
@@ -48,6 +159,38 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "12",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 11.jpeg",
+    positioning: { 
+      en: "A compact family ride designed for small to medium venues. Perfect for maximizing space efficiency in limited areas.", 
+      zh: "专为中小型场地设计的紧凑型家庭游乐设备。非常适合在有限空间内最大化利用效率。" 
+    },
+    idealFor: { 
+      en: ["Small FECs", "Shopping mall entertainment corners", "Family entertainment centers", "Compact indoor spaces"], 
+      zh: ["小型家庭娱乐中心", "购物中心娱乐角落", "家庭娱乐中心", "紧凑型室内空间"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 50 sqm area. Suitable for venues with standard ceiling height (5.5m+).", 
+      zh: "需要约50平方米场地。适合标准层高（5.5米以上）的场地。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "SPATIOTEMPORAL EDDY CURRENT", zh: "时空涡流" },
@@ -57,6 +200,38 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 12.jpeg",
+    positioning: { 
+      en: "A medium-scale interactive family attraction with unique design. Ideal for venues seeking distinctive entertainment experiences.", 
+      zh: "具有独特设计的中型互动家庭游乐设备。适合寻求独特娱乐体验的场地。" 
+    },
+    idealFor: { 
+      en: ["Theme parks", "Medium to large FECs", "Entertainment centers", "Indoor amusement facilities"], 
+      zh: ["主题公园", "中大型家庭娱乐中心", "娱乐中心", "室内游乐设施"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 129 sqm area. Minimum ceiling height 7m recommended.", 
+      zh: "需要约129平方米场地。建议最低层高7米。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "Stellar core ripples", zh: "星核涟漪" },
@@ -66,6 +241,38 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "20",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 13.jpeg",
+    positioning: { 
+      en: "A compact yet high-capacity family ride perfect for space-constrained venues. Excellent rider-to-space ratio.", 
+      zh: "适合空间受限场地的紧凑型高容量家庭游乐设备。出色的载客数与空间比。" 
+    },
+    idealFor: { 
+      en: ["Small to medium FECs", "Shopping malls", "Compact entertainment areas", "Space-optimized venues"], 
+      zh: ["中小型家庭娱乐中心", "购物中心", "紧凑型娱乐区", "空间优化的场地"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 29 sqm area. Suitable for venues with ceiling height 7m+.", 
+      zh: "需要约29平方米场地。适合层高7米以上的场地。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "Star Nucleus Explorer", zh: "星核探险家" },
@@ -75,6 +282,38 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 14.jpeg",
+    positioning: { 
+      en: "A medium-scale family ride with moderate height requirements. Perfect balance of capacity and space efficiency.", 
+      zh: "中等规模的家庭游乐设备，层高要求适中。容量与空间效率的完美平衡。" 
+    },
+    idealFor: { 
+      en: ["Medium FECs", "Indoor theme parks", "Shopping mall entertainment areas", "Family entertainment centers"], 
+      zh: ["中型家庭娱乐中心", "室内主题公园", "购物中心娱乐区", "家庭娱乐中心"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 79 sqm area. Minimum ceiling height 7m recommended.", 
+      zh: "需要约79平方米场地。建议最低层高7米。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "Meow Nuclear Team", zh: "星核旋转木马" },
@@ -84,24 +323,120 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 15.jpeg",
+    positioning: { 
+      en: "A compact carousel-style family ride perfect for small venues. Classic design with modern safety features.", 
+      zh: "适合小型场地的紧凑型旋转木马式家庭游乐设备。经典设计，配备现代安全功能。" 
+    },
+    idealFor: { 
+      en: ["Small FECs", "Shopping mall entertainment corners", "Compact indoor spaces", "Family entertainment zones"], 
+      zh: ["小型家庭娱乐中心", "购物中心娱乐角落", "紧凑型室内空间", "家庭娱乐区"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 34 sqm area. Suitable for venues with ceiling height 6.5m+.", 
+      zh: "需要约34平方米场地。适合层高6.5米以上的场地。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
-    name: { en: "银河大碰撞", zh: "银河大碰撞" },
+    name: { en: "Galaxy Collision", zh: "银河大碰撞" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "L 1.5M*W 0.9M*H 0.7M", zh: "长 1.5M*宽 0.9M*高 0.7M" },
     height: { en: "0.7 m", zh: "0.7米" },
     riders: "150",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 16.jpeg",
+    positioning: { 
+      en: "A compact interactive attraction perfect for high-capacity entertainment zones. Ideal for venues with limited space but high traffic.", 
+      zh: "适合高容量娱乐区的紧凑型互动游乐设备。非常适合空间有限但客流量高的场地。" 
+    },
+    idealFor: { 
+      en: ["High-traffic entertainment zones", "Compact FECs", "Shopping mall play areas", "Family entertainment centers"], 
+      zh: ["高客流量娱乐区", "紧凑型家庭娱乐中心", "购物中心游戏区", "家庭娱乐中心"] 
+    },
+    venueRequirements: { 
+      en: "Requires minimal space (approximately 1.4 sqm). Perfect for space-constrained venues.", 
+      zh: "需要最小空间（约1.4平方米）。非常适合空间受限的场地。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
-    name: { en: "Meow Nuclear Team", zh: "猫核风暴" },
+    name: { en: "Meow Nuclear Storm", zh: "猫核风暴" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "D7M*H6M() (Including Fence)", zh: "直径7M*高6M(含围栏)" },
     height: { en: "6 m", zh: "6米" },
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 17.jpeg",
+    positioning: { 
+      en: "A medium-scale family ride with dynamic design. Perfect for venues seeking engaging entertainment experiences.", 
+      zh: "具有动感设计的中型家庭游乐设备。适合寻求引人入胜娱乐体验的场地。" 
+    },
+    idealFor: { 
+      en: ["Medium FECs", "Indoor theme parks", "Entertainment centers", "Family entertainment zones"], 
+      zh: ["中型家庭娱乐中心", "室内主题公园", "娱乐中心", "家庭娱乐区"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 38 sqm area. Suitable for venues with ceiling height 7m+.", 
+      zh: "需要约38平方米场地。适合层高7米以上的场地。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "Super warrior", zh: "超能战士" },
@@ -111,6 +446,38 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "12",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 18.jpeg",
+    positioning: { 
+      en: "A medium-scale themed family ride with exciting design. Perfect for venues looking to add a unique attraction.", 
+      zh: "具有激动人心设计的中型主题家庭游乐设备。适合寻求独特景点的场地。" 
+    },
+    idealFor: { 
+      en: ["Theme parks", "Medium FECs", "Entertainment centers", "Indoor amusement facilities"], 
+      zh: ["主题公园", "中型家庭娱乐中心", "娱乐中心", "室内游乐设施"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 64 sqm area. Minimum ceiling height 7.5m recommended.", 
+      zh: "需要约64平方米场地。建议最低层高7.5米。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "Star core jumping bed", zh: "星核蹦乐床" },
@@ -120,6 +487,38 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "6",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 19.jpeg",
+    positioning: { 
+      en: "A compact trampoline-style attraction perfect for active play areas. Ideal for venues focusing on physical activity and fun.", 
+      zh: "适合活跃游戏区的紧凑型蹦床式游乐设备。适合专注于体育活动和娱乐的场地。" 
+    },
+    idealFor: { 
+      en: ["Trampoline parks", "Activity centers", "Family entertainment zones", "Indoor play areas"], 
+      zh: ["蹦床公园", "活动中心", "家庭娱乐区", "室内游戏区"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 42 sqm area. Suitable for venues with ceiling height 6.5m+.", 
+      zh: "需要约42平方米场地。适合层高6.5米以上的场地。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "Future Engine", zh: "未来引擎" },
@@ -129,6 +528,42 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "12",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 2.jpeg",
+    positioning: { 
+      en: "A large-scale themed family attraction perfect for major entertainment venues. Requires substantial space but delivers impressive visual impact.", 
+      zh: "适合大型娱乐场所的大规模主题家庭游乐设备。需要较大空间，但能带来令人印象深刻的视觉效果。" 
+    },
+    idealFor: { 
+      en: ["Large theme parks", "Major FECs", "Entertainment complexes", "Large-scale indoor venues"], 
+      zh: ["大型主题公园", "大型家庭娱乐中心", "娱乐综合体", "大型室内场地"] 
+    },
+    notRecommendedFor: { 
+      en: ["Small venues", "Limited space areas"], 
+      zh: ["小型场地", "空间有限的区域"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 150 sqm area. Suitable for large venues with adequate space.", 
+      zh: "需要约150平方米场地。适合有足够空间的大型场地。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "Rotating matrix", zh: "旋转矩阵" },
@@ -203,22 +638,86 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备产品介绍 conv 3.jpeg",
   },
   {
-    name: { en: "Measure bullets and jump", zh: "量子弹跳" },
+    name: { en: "Quantum Jump", zh: "量子弹跳" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "D8.6M*H6.1M (Including Fence)", zh: "直径8.6M*高6.1M (含围栏)" },
     height: { en: "6.1 m", zh: "6.1米" },
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 4.jpeg",
+    positioning: { 
+      en: "A medium-scale trampoline-style family attraction perfect for active play areas. Ideal for venues focusing on physical activity and fun.", 
+      zh: "适合活跃游戏区的中型蹦床式家庭游乐设备。适合专注于体育活动和娱乐的场地。" 
+    },
+    idealFor: { 
+      en: ["Trampoline parks", "Activity centers", "Family entertainment zones", "Indoor play areas"], 
+      zh: ["蹦床公园", "活动中心", "家庭娱乐区", "室内游戏区"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 58 sqm area. Suitable for venues with ceiling height 7m+.", 
+      zh: "需要约58平方米场地。适合层高7米以上的场地。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
-    name: { en: "Play with the pendulum", zh: "玩转钟摆" },
+    name: { en: "Pendulum Play", zh: "玩转钟摆" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "L8M*W7M*H6M (Including Fence)", zh: "长8M*宽7M*高6M (含围栏)" },
     height: { en: "6 m", zh: "6米" },
     riders: "20",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 5.jpeg",
+    positioning: { 
+      en: "A medium-scale pendulum-style family ride perfect for entertainment centers. Engaging motion experience for all ages.", 
+      zh: "适合娱乐中心的中型钟摆式家庭游乐设备。为所有年龄段提供引人入胜的运动体验。" 
+    },
+    idealFor: { 
+      en: ["Medium FECs", "Indoor theme parks", "Entertainment centers", "Family entertainment zones"], 
+      zh: ["中型家庭娱乐中心", "室内主题公园", "娱乐中心", "家庭娱乐区"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 56 sqm area. Suitable for venues with ceiling height 7m+.", 
+      zh: "需要约56平方米场地。适合层高7米以上的场地。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "CrossFire", zh: "穿越火线" },
@@ -228,6 +727,38 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "24",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 6.jpeg",
+    positioning: { 
+      en: "A high-capacity family ride perfect for high-traffic entertainment venues. Compact footprint with excellent capacity.", 
+      zh: "适合高客流量娱乐场所的高容量家庭游乐设备。紧凑的占地面积，出色的载客量。" 
+    },
+    idealFor: { 
+      en: ["Large FECs", "Shopping malls", "Indoor theme parks", "High-traffic entertainment zones"], 
+      zh: ["大型家庭娱乐中心", "购物中心", "室内主题公园", "高客流量娱乐区"] 
+    },
+    venueRequirements: { 
+      en: "Requires approximately 39 sqm area. Suitable for venues with ceiling height 8m+.", 
+      zh: "需要约39平方米场地。适合层高8米以上的场地。" 
+    },
+    powerSupply: { 
+      en: "Standard industrial power supported", 
+      zh: "支持标准工业电源" 
+    },
+    safetyCompliance: { 
+      en: ["Designed according to international safety standards", "CE / ISO compliance available upon request", "Tested before delivery"], 
+      zh: ["按照国际安全标准设计", "可根据要求提供CE/ISO认证", "交付前经过测试"] 
+    },
+    deliveryInstallation: { 
+      en: ["Standard export packaging", "Installation guidance provided", "Remote technical support available"], 
+      zh: ["标准出口包装", "提供安装指导", "提供远程技术支持"] 
+    },
+    afterSales: { 
+      en: ["Spare parts support", "Online assistance during operation"], 
+      zh: ["备件支持", "运营期间在线协助"] 
+    },
+    ctaText: { 
+      en: "Contact for layout suggestion & quotation", 
+      zh: "获取布局建议与报价" 
+    },
   },
   {
     name: { en: "Nuclear Disco", zh: "核能迪斯科" },
@@ -365,7 +896,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 19.jpeg",
   },
   {
-    name: { en: "Measure bullets and jump", zh: "量子弹跳" },
+    name: { en: "Quantum Jump", zh: "量子弹跳" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "D8.6M*H6.1M () (Including Fence)", zh: "直径8.6M*高6.1M (含围栏)" },
     height: { en: "6.1 m", zh: "6.1米" },
@@ -491,7 +1022,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 31.jpeg",
   },
   {
-    name: { en: "星际探险六人蹦床", zh: "星际探险六人蹦床" },
+    name: { en: "Interstellar Adventure Six-Person Trampoline", zh: "星际探险六人蹦床" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "L7M*W6M*H5.6M", zh: "长7M*宽6M*高5.6M" },
     height: { en: "5.6 m", zh: "5.6米" },
@@ -644,16 +1175,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     image: "/products/米盈游乐设备(1) [10-76] conv 5.jpeg",
   },
   {
-    name: { en: "Interstellar", zh: "穿越时空 Interstellar" },
-    category: { en: "Family Ride", zh: "家庭游乐设备" },
-    footprint: { en: "未找到", zh: "未找到" },
-    height: { en: "N/A", zh: "N/A" },
-    riders: "N/A",
-    status: "New",
-    image: "/products/米盈游乐设备(1) [10-76] conv 51.jpeg",
-  },
-  {
-    name: { en: "玩转钟摆", zh: "玩转钟摆" },
+    name: { en: "Pendulum Play", zh: "玩转钟摆" },
     category: { en: "Family Ride", zh: "家庭游乐设备" },
     footprint: { en: "L8M*W7M*H6M () (Including Fence)", zh: "长8M*宽7M*高6M (含围栏)" },
     height: { en: "6 m", zh: "6米" },
@@ -676,6 +1198,17 @@ export function getLocalizedProduct(product: ProductMultilingual, lang: Lang) {
     year: product.year,
     badge: product.badge,
     image: product.image,
+    // Decision-making fields
+    positioning: product.positioning?.[isZh ? "zh" : "en"],
+    idealFor: product.idealFor?.[isZh ? "zh" : "en"] || [],
+    notRecommendedFor: product.notRecommendedFor?.[isZh ? "zh" : "en"] || [],
+    venueRequirements: product.venueRequirements?.[isZh ? "zh" : "en"],
+    powerSupply: product.powerSupply?.[isZh ? "zh" : "en"],
+    safetyCompliance: product.safetyCompliance?.[isZh ? "zh" : "en"] || [],
+    deliveryInstallation: product.deliveryInstallation?.[isZh ? "zh" : "en"] || [],
+    afterSales: product.afterSales?.[isZh ? "zh" : "en"] || [],
+    videoLinks: product.videoLinks,
+    ctaText: product.ctaText?.[isZh ? "zh" : "en"],
   };
 }
 
