@@ -12,6 +12,8 @@ export type CopyContent = {
   cta: {
     primary: string;
     secondary: string;
+    whatsapp?: string;
+    requestQuote?: string;
   };
   hero: {
     title: string;

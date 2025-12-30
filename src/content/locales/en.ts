@@ -12,18 +12,19 @@ export const en: CopyContent = {
   cta: {
     primary: "Request Factory Visit",
     secondary: "View Products",
+    whatsapp: "WhatsApp Chat Now",
+    requestQuote: "Request Quote",
   },
   hero: {
-    title: "Reliable Amusement Rides. Delivered Worldwide.",
+    title: "Reliable Amusement Equipment Manufacturer for FECs & Theme Parks",
     subtitle:
       "From design to installation, we help parks and venues launch crowd-pleasing attractions on time and on budget.",
     badge: "Factory-tested safety",
   },
   highlights: [
-    "Global shipping & compliance",
-    "Factory-tested safety",
-    "Refurbishment & assembly expertise",
-    "Fast, clear support",
+    "Worldwide Delivery",
+    "Safety Certified",
+    "Custom Solutions",
   ],
   servicesTitle: "Specialized services",
   servicesSubtitle: "Consulting, sourcing, refurbishment, and assembly for attractions worldwide.",

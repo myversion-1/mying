@@ -12,18 +12,19 @@ export const zh: CopyContent = {
   cta: {
     primary: "申请工厂参观",
     secondary: "查看产品",
+    whatsapp: "WhatsApp 立即聊天",
+    requestQuote: "请求报价",
   },
   hero: {
-    title: "可靠的游乐设备。全球交付。",
+    title: "面向家庭娱乐中心和主题公园的可靠游乐设备制造商",
     subtitle:
       "从设计到安装，我们帮助公园和场所按时按预算推出受欢迎的景点。",
     badge: "工厂测试安全",
   },
   highlights: [
-    "全球运输与合规",
-    "工厂测试安全",
-    "翻新与组装专业知识",
-    "快速、清晰的支持",
+    "全球交付",
+    "安全认证",
+    "定制解决方案",
   ],
   servicesTitle: "专业服务",
   servicesSubtitle: "为全球景点提供咨询、采购、翻新和组装服务。",
