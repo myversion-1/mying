@@ -7,6 +7,7 @@ import { getProducts, type Product, copy } from "../content/copy";
 import { useLanguage } from "./language";
 import { Badge } from "./ui/Badge";
 import { EmptyState } from "./EmptyState";
+import type { ProductUsage, VenueType, TargetAudience } from "../content/products_multilingual";
 
 type Props = {
   items?: Product[];
@@ -27,6 +28,11 @@ const RIDE_CATEGORIES = [
 ];
 
 type FilterType = "all" | "rides" | "decorative" | string;
+type MultiDimensionFilter = {
+  usage?: ProductUsage;
+  venueType?: VenueType;
+  targetAudience?: TargetAudience;
+};
 
 export function ProductGrid({ items }: Props) {
   const { lang } = useLanguage();
@@ -36,6 +42,7 @@ export function ProductGrid({ items }: Props) {
     return Array.isArray(products) ? products : [];
   }, [items, lang]);
   const [filter, setFilter] = useState<FilterType>("all");
+  const [multiFilter, setMultiFilter] = useState<MultiDimensionFilter>({});
 
   // Get all unique categories
   const categories = useMemo(() => {
@@ -43,18 +50,48 @@ export function ProductGrid({ items }: Props) {
     return uniqueCategories.sort();
   }, [localizedProducts]);
 
-  // Filter products based on selected filter
+  // Get unique values for multi-dimensional filters
+  const usageTypes = useMemo(() => {
+    return Array.from(new Set(localizedProducts.map((p) => p.usage).filter(Boolean))) as ProductUsage[];
+  }, [localizedProducts]);
+  
+  const venueTypes = useMemo(() => {
+    return Array.from(new Set(localizedProducts.map((p) => p.venueType).filter(Boolean))) as VenueType[];
+  }, [localizedProducts]);
+  
+  const targetAudiences = useMemo(() => {
+    return Array.from(new Set(localizedProducts.map((p) => p.targetAudience).filter(Boolean))) as TargetAudience[];
+  }, [localizedProducts]);
+
+  // Filter products based on selected filter and multi-dimensional filters
   const filteredProducts = useMemo(() => {
-    if (filter === "all") return localizedProducts;
-    if (filter === "rides") {
-      return localizedProducts.filter((product) => RIDE_CATEGORIES.includes(product.category));
+    let result = localizedProducts;
+    
+    // Apply category filter
+    if (filter === "all") {
+      result = localizedProducts;
+    } else if (filter === "rides") {
+      result = localizedProducts.filter((product) => RIDE_CATEGORIES.includes(product.category));
+    } else if (filter === "decorative") {
+      result = localizedProducts.filter((product) => !RIDE_CATEGORIES.includes(product.category));
+    } else {
+      // Specific category
+      result = localizedProducts.filter((product) => product.category === filter);
     }
-    if (filter === "decorative") {
-      return localizedProducts.filter((product) => !RIDE_CATEGORIES.includes(product.category));
+    
+    // Apply multi-dimensional filters
+    if (multiFilter.usage) {
+      result = result.filter((product) => product.usage === multiFilter.usage);
     }
-    // Specific category
-    return localizedProducts.filter((product) => product.category === filter);
-  }, [localizedProducts, filter]);
+    if (multiFilter.venueType) {
+      result = result.filter((product) => product.venueType === multiFilter.venueType);
+    }
+    if (multiFilter.targetAudience) {
+      result = result.filter((product) => product.targetAudience === multiFilter.targetAudience);
+    }
+    
+    return result;
+  }, [localizedProducts, filter, multiFilter]);
 
   // Count products in each group
   const rideCount = useMemo(
@@ -114,6 +151,89 @@ export function ProductGrid({ items }: Props) {
               </button>
             </div>
           </>
+        )}
+      </div>
+
+      {/* Multi-dimensional Filters (similar to Arrowy's approach) */}
+      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
+        <div className="flex items-center gap-2">
+          <label className="text-sm font-medium text-white/70">Usage:</label>
+          <select
+            value={multiFilter.usage || ""}
+            onChange={(e) => {
+              setMultiFilter((prev) => ({
+                ...prev,
+                usage: e.target.value ? (e.target.value as ProductUsage) : undefined,
+              }));
+            }}
+            className="rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-white outline-none transition focus:border-[#7df6ff]/60"
+          >
+            <option value="">All Types</option>
+            {usageTypes.map((usage) => (
+              <option key={usage} value={usage}>
+                {usage === "Family Entertainment" ? (lang === "zh" ? "家庭娱乐" : "Family Entertainment") :
+                 usage === "Thrill Adventure" ? (lang === "zh" ? "刺激冒险" : "Thrill Adventure") :
+                 usage === "Water Attraction" ? (lang === "zh" ? "水上项目" : "Water Attraction") :
+                 usage === "Kiddie Fun" ? (lang === "zh" ? "儿童游乐" : "Kiddie Fun") : usage}
+              </option>
+            ))}
+          </select>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <label className="text-sm font-medium text-white/70">Venue:</label>
+          <select
+            value={multiFilter.venueType || ""}
+            onChange={(e) => {
+              setMultiFilter((prev) => ({
+                ...prev,
+                venueType: e.target.value ? (e.target.value as VenueType) : undefined,
+              }));
+            }}
+            className="rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-white outline-none transition focus:border-[#7df6ff]/60"
+          >
+            <option value="">All Venues</option>
+            {venueTypes.map((venue) => (
+              <option key={venue} value={venue}>
+                {venue === "Indoor" ? (lang === "zh" ? "室内" : "Indoor") :
+                 venue === "Outdoor" ? (lang === "zh" ? "户外" : "Outdoor") :
+                 venue === "Both" ? (lang === "zh" ? "室内外通用" : "Both") : venue}
+              </option>
+            ))}
+          </select>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <label className="text-sm font-medium text-white/70">Audience:</label>
+          <select
+            value={multiFilter.targetAudience || ""}
+            onChange={(e) => {
+              setMultiFilter((prev) => ({
+                ...prev,
+                targetAudience: e.target.value ? (e.target.value as TargetAudience) : undefined,
+              }));
+            }}
+            className="rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-white outline-none transition focus:border-[#7df6ff]/60"
+          >
+            <option value="">All Audiences</option>
+            {targetAudiences.map((audience) => (
+              <option key={audience} value={audience}>
+                {audience === "Family" ? (lang === "zh" ? "家庭" : "Family") :
+                 audience === "Adults" ? (lang === "zh" ? "成人" : "Adults") :
+                 audience === "Kids" ? (lang === "zh" ? "儿童" : "Kids") :
+                 audience === "All Ages" ? (lang === "zh" ? "全年龄" : "All Ages") : audience}
+              </option>
+            ))}
+          </select>
+        </div>
+        
+        {(multiFilter.usage || multiFilter.venueType || multiFilter.targetAudience) && (
+          <button
+            onClick={() => setMultiFilter({})}
+            className="ml-auto rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-white/70 hover:border-white/30 hover:text-white"
+          >
+            {lang === "zh" ? "清除筛选" : "Clear Filters"}
+          </button>
         )}
       </div>
 

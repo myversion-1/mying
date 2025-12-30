@@ -1,5 +1,5 @@
 import type { Lang } from "../components/language";
-import { productsMultilingual, getLocalizedProduct, type ProductMultilingual } from "./products_multilingual";
+import { productsMultilingual, getLocalizedProduct, type ProductMultilingual, type ProductUsage, type VenueType, type TargetAudience } from "./products_multilingual";
 import { getLocalizedServices, services as defaultServices } from "./services_multilingual";
 import { getCopy } from "./locales";
 import type { CopyContent } from "./types";
@@ -14,6 +14,10 @@ export type Product = {
   year?: string;
   badge?: string;
   image?: string; // Path to image in /public folder (e.g., "/products/product-name.jpg")
+  // Enhanced classification fields (multi-dimensional like Arrowy)
+  usage?: ProductUsage;           // Usage type: Family Entertainment, Thrill Adventure, etc.
+  venueType?: VenueType;          // Venue type: Indoor, Outdoor, Both
+  targetAudience?: TargetAudience; // Target audience: Family, Adults, Kids, All Ages
   // Decision-making content fields
   positioning?: string;
   idealFor?: string[];

@@ -1,5 +1,23 @@
 import type { Lang } from "../components/language";
 
+// Product classification dimensions (similar to Arrowy's multi-dimensional approach)
+export type ProductUsage = 
+  | "Family Entertainment"  // 家庭娱乐
+  | "Thrill Adventure"      // 刺激冒险
+  | "Water Attraction"       // 水上项目
+  | "Kiddie Fun";           // 儿童游乐
+
+export type VenueType = 
+  | "Indoor"    // 室内
+  | "Outdoor"   // 户外
+  | "Both";     // 室内外通用
+
+export type TargetAudience = 
+  | "Family"    // 家庭
+  | "Adults"    // 成人
+  | "Kids"      // 儿童
+  | "All Ages"; // 全年龄
+
 export type ProductMultilingual = {
   name: { en: string; zh: string };
   category: { en: string; zh: string };
@@ -10,6 +28,10 @@ export type ProductMultilingual = {
   year?: string;
   badge?: string;
   image?: string;
+  // Enhanced classification fields (multi-dimensional like Arrowy)
+  usage?: ProductUsage;           // Usage type: Family Entertainment, Thrill Adventure, etc.
+  venueType?: VenueType;          // Venue type: Indoor, Outdoor, Both
+  targetAudience?: TargetAudience; // Target audience: Family, Adults, Kids, All Ages
   // Decision-making content fields
   positioning?: { en: string; zh: string }; // ① Product positioning statement
   idealFor?: { en: string[]; zh: string[] }; // ② Ideal scenarios
@@ -1185,9 +1207,65 @@ export const productsMultilingual: ProductMultilingual[] = [
   }
 ];
 
+// Helper function to infer classification from product data (similar to Arrowy's approach)
+function inferProductClassification(product: ProductMultilingual): {
+  usage?: ProductUsage;
+  venueType?: VenueType;
+  targetAudience?: TargetAudience;
+} {
+  const idealFor = product.idealFor?.en || [];
+  const idealForText = idealFor.join(" ").toLowerCase();
+  const positioning = product.positioning?.en?.toLowerCase() || "";
+  const combined = idealForText + " " + positioning;
+  
+  // Infer usage type
+  let usage: ProductUsage | undefined = product.usage;
+  if (!usage) {
+    if (combined.includes("thrill") || combined.includes("extreme") || combined.includes("adrenaline") || combined.includes("刺激")) {
+      usage = "Thrill Adventure";
+    } else if (combined.includes("water") || combined.includes("aqua") || combined.includes("splash") || combined.includes("水上")) {
+      usage = "Water Attraction";
+    } else if (combined.includes("kid") || combined.includes("children") || combined.includes("儿童") || combined.includes("kiddie")) {
+      usage = "Kiddie Fun";
+    } else {
+      usage = "Family Entertainment"; // Default
+    }
+  }
+  
+  // Infer venue type
+  let venueType: VenueType | undefined = product.venueType;
+  if (!venueType) {
+    if (combined.includes("indoor") || combined.includes("室内")) {
+      venueType = "Indoor";
+    } else if (combined.includes("outdoor") || combined.includes("户外")) {
+      venueType = "Outdoor";
+    } else {
+      venueType = "Both"; // Default
+    }
+  }
+  
+  // Infer target audience
+  let targetAudience: TargetAudience | undefined = product.targetAudience;
+  if (!targetAudience) {
+    if (combined.includes("adult") || combined.includes("成人")) {
+      targetAudience = "Adults";
+    } else if (combined.includes("kid") || combined.includes("children") || combined.includes("儿童")) {
+      targetAudience = "Kids";
+    } else if (combined.includes("family") || combined.includes("家庭")) {
+      targetAudience = "Family";
+    } else {
+      targetAudience = "All Ages"; // Default
+    }
+  }
+  
+  return { usage, venueType, targetAudience };
+}
+
 // Helper function to get localized product
 export function getLocalizedProduct(product: ProductMultilingual, lang: Lang) {
   const isZh = lang === "zh";
+  const classification = inferProductClassification(product);
+  
   return {
     name: product.name[isZh ? "zh" : "en"] || product.name["en"],
     category: product.category[isZh ? "zh" : "en"] || product.category["en"],
@@ -1198,6 +1276,10 @@ export function getLocalizedProduct(product: ProductMultilingual, lang: Lang) {
     year: product.year,
     badge: product.badge,
     image: product.image,
+    // Enhanced classification fields
+    usage: classification.usage,
+    venueType: classification.venueType,
+    targetAudience: classification.targetAudience,
     // Decision-making fields
     positioning: product.positioning?.[isZh ? "zh" : "en"],
     idealFor: product.idealFor?.[isZh ? "zh" : "en"] || [],

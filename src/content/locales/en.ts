@@ -108,6 +108,10 @@ export const en: CopyContent = {
       title: "Industry Certifications & Compliance",
       subtitle: "Our commitment to quality and safety is validated by international certifications and standards.",
     },
+    patents: {
+      title: "Patent Certificates",
+      subtitle: "Our innovative designs are protected by patents, demonstrating our commitment to original engineering and intellectual property.",
+    },
     factoryTour: {
       title: "Factory Tour",
       subtitle: "See our manufacturing process in action. Experience our production facilities and quality control systems firsthand.",

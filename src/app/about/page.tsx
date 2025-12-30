@@ -3,9 +3,11 @@
 import { PageHero } from "../../components/PageHero";
 import { Section } from "../../components/Section";
 import { CertificationGrid, type Certification } from "../../components/CertificationGrid";
+import { PatentCertificateGrid } from "../../components/PatentCertificateGrid";
 import { FactoryTour } from "../../components/FactoryTour";
 import { useLanguage } from "../../components/language";
 import { copy } from "../../content/copy";
+import { patentCertificates } from "../../content/patentCertificates";
 
 export default function AboutPage() {
   const { lang } = useLanguage();
@@ -99,6 +101,14 @@ export default function AboutPage() {
         subtitle={c.aboutPage?.certifications?.subtitle || "Our commitment to quality and safety is validated by international certifications and standards."}
       >
         <CertificationGrid certifications={certifications} />
+      </Section>
+
+      {/* Patent Certificates */}
+      <Section
+        title={c.patents?.title || "Patent Certificates"}
+        subtitle={c.patents?.subtitle || "Our innovative designs are protected by patents, demonstrating our commitment to original engineering and intellectual property."}
+      >
+        <PatentCertificateGrid certificates={patentCertificates} lang={lang} />
       </Section>
 
       {/* Factory Tour */}

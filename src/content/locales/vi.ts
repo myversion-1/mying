@@ -107,6 +107,10 @@ export const vi: CopyContent = {
       title: "Chứng Nhận và Tuân Thủ Ngành",
       subtitle: "Cam kết của chúng tôi về chất lượng và an toàn được xác nhận bởi các chứng nhận và tiêu chuẩn quốc tế.",
     },
+    patents: {
+      title: "Chứng Nhận Bằng Sáng Chế",
+      subtitle: "Các thiết kế sáng tạo của chúng tôi được bảo vệ bởi bằng sáng chế, thể hiện cam kết của chúng tôi về kỹ thuật gốc và sở hữu trí tuệ.",
+    },
     factoryTour: {
       title: "Tham Quan Nhà Máy",
       subtitle: "Xem quy trình sản xuất của chúng tôi hoạt động. Trải nghiệm trực tiếp cơ sở sản xuất và hệ thống kiểm soát chất lượng của chúng tôi.",

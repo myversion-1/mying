@@ -108,6 +108,10 @@ export const zh: CopyContent = {
       title: "行业认证与合规性",
       subtitle: "我们对质量和安全的承诺得到了国际认证和标准的验证。",
     },
+    patents: {
+      title: "专利证书",
+      subtitle: "我们的创新设计受到专利保护，体现了我们对原创工程和知识产权的承诺。",
+    },
     factoryTour: {
       title: "工厂参观",
       subtitle: "亲眼见证我们的制造过程。亲身体验我们的生产设施和质量控制系统。",

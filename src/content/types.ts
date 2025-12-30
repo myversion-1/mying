@@ -110,5 +110,9 @@ export type CopyContent = {
     whatsappLabel: string;
     emailLabel: string;
   };
+  patents: {
+    title: string;
+    subtitle: string;
+  };
 };
 

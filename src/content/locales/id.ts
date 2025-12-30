@@ -107,6 +107,10 @@ export const id: CopyContent = {
       title: "Sertifikasi dan Kepatuhan Industri",
       subtitle: "Komitmen kami terhadap kualitas dan keselamatan divalidasi oleh sertifikasi dan standar internasional.",
     },
+    patents: {
+      title: "Sertifikat Paten",
+      subtitle: "Desain inovatif kami dilindungi oleh paten, menunjukkan komitmen kami terhadap rekayasa orisinal dan kekayaan intelektual.",
+    },
     factoryTour: {
       title: "Tur Pabrik",
       subtitle: "Lihat proses manufaktur kami dalam aksi. Alami fasilitas produksi dan sistem kontrol kualitas kami secara langsung.",
