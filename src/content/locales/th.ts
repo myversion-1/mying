@@ -1,4 +1,4 @@
-import type { CopyContent } from "./types";
+import type { CopyContent } from "../types";
 
 export const th: CopyContent = {
   nav: {
