@@ -37,13 +37,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
         es: "es-ES",
       };
 
-      const langCode = langCodeMap[lang] || lang;
       const isDefault = lang === "en";
       
-      // Build URL - use ? for first param, & for subsequent
+      // Build URL - always use ? for query parameter (routes don't have existing params)
       const langUrl = isDefault 
         ? `${baseUrl}${route}`
-        : `${baseUrl}${route}${route === "" ? "?" : "&"}lang=${lang}`;
+        : `${baseUrl}${route}?lang=${lang}`;
 
       entries.push({
         url: langUrl,
