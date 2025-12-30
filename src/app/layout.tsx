@@ -99,6 +99,9 @@ export const metadata: Metadata = {
     // yandex: "your-yandex-verification-code",
     // bing: "your-bing-verification-code",
   },
+  other: {
+    "google-site-verification": "vviaZwKjyQ-TUZK-khVTefSUq_ecF8H0o0Wwwj1_u7g",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -134,12 +137,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" dir="ltr">
-      <head>
-        <meta
-          name="google-site-verification"
-          content="vviaZwKjyQ-TUZK-khVTefSUq_ecF8H0o0Wwwj1_u7g"
-        />
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased bg-[#0c1014] text-white`}
       >

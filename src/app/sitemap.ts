@@ -1,5 +1,4 @@
 import { MetadataRoute } from "next";
-import { getProducts } from "../src/content/copy";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
