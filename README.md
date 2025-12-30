@@ -1,104 +1,256 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Miying Rides - Amusement Rides Portfolio & Factory Visits
 
-## Getting Started
+A modern, multilingual Next.js website for Miying Amusement Equipment, showcasing amusement rides, services, and factory visit booking capabilities.
 
-First, run the development server:
+## 🌟 Features
 
+### Core Features
+- **Multilingual Support**: 11 languages (English, Chinese, Arabic, Russian, Japanese, Korean, Thai, Vietnamese, Indonesian, Hindi, Spanish)
+- **Product Catalog**: Interactive product grid with filtering and search
+- **Service Showcase**: Consulting, sourcing, refurbishment, and assembly services
+- **Factory Visit Booking**: Verification-based booking system for verified clients
+- **Contact Forms**: Integrated contact forms with multiple email service options
+- **Responsive Design**: Mobile-first, fully responsive UI
+
+### SEO & Performance
+- **Comprehensive SEO**: Metadata, Open Graph, Twitter Cards, structured data (JSON-LD)
+- **Sitemap & Robots**: Auto-generated sitemap.xml and robots.txt
+- **Google Search Console**: Integrated verification
+- **Structured Data**: Organization, WebSite, Product, Service, BreadcrumbList, LocalBusiness schemas
+- **Multilingual SEO**: Hreflang tags for all language variants
+
+### Content Management
+- **Decoupled Content**: Content separated from components for easy maintenance
+- **Type-Safe**: Full TypeScript support with strict type checking
+- **Modular Locales**: Individual language files for easy updates
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+ 
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd mying-web
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables (optional):
+```bash
+# Create .env.local for local development
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Run the development server:
+```bash
+npm run dev
+```
 
-## Learn More
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+mying-web/
+├── src/
+│   ├── app/                    # Next.js App Router pages
+│   │   ├── layout.tsx          # Root layout with global metadata
+│   │   ├── page.tsx            # Home page
+│   │   ├── about/              # About page
+│   │   ├── services/           # Services page
+│   │   ├── products/           # Products catalog page
+│   │   ├── contact/            # Contact page
+│   │   ├── visit/              # Factory visit booking page
+│   │   ├── not-found.tsx       # 404 page
+│   │   ├── robots.ts           # robots.txt generator
+│   │   ├── sitemap.ts          # sitemap.xml generator
+│   │   └── api/                # API routes
+│   │       └── contact/        # Contact form API
+│   ├── components/             # React components
+│   │   ├── Header.tsx          # Navigation header
+│   │   ├── Footer.tsx          # Site footer
+│   │   ├── ProductGrid.tsx     # Product display grid
+│   │   ├── ContactForm.tsx     # Contact form component
+│   │   ├── StructuredDataServer.tsx  # Server-side structured data
+│   │   └── ui/                 # UI components
+│   └── content/                # Content management
+│       ├── copy.ts             # Main content loader (backward compatible)
+│       ├── types.ts            # TypeScript types
+│       ├── locales/            # Language-specific files
+│       │   ├── index.ts        # Locale loader
+│       │   ├── en.ts           # English
+│       │   ├── zh.ts           # Chinese
+│       │   └── ...             # Other languages
+│       ├── products_multilingual.ts  # Product data
+│       └── services_multilingual.ts  # Service data
+├── public/                     # Static assets
+│   ├── logo.jpg               # Site logo
+│   └── products/              # Product images
+├── SEO_OPTIMIZATION.md         # SEO documentation
+├── CONTENT_DECOUPLING.md       # Content management guide
+├── CONTENT_MANAGEMENT.md       # Content structure guide
+├── GOOGLE_VERIFICATION_GUIDE.md # Google Search Console setup
+└── MAINTENANCE.md              # Maintenance guide
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🌐 Multilingual Support
 
-## Deploy on Vercel
+The website supports 11 languages with automatic language detection and manual switching:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- English (en)
+- Chinese (zh)
+- Arabic (ar)
+- Russian (ru)
+- Japanese (ja)
+- Korean (ko)
+- Thai (th)
+- Vietnamese (vi)
+- Indonesian (id)
+- Hindi (hi)
+- Spanish (es)
 
-### Automatic Deployment
+Language is managed via URL query parameter (`?lang=xx`) and stored in browser localStorage.
 
-This project includes a GitHub Actions workflow that automatically deploys to Vercel:
-- **Auto-deploy**: Pushes to `main` branch trigger automatic deployment
-- **Manual deploy**: Go to GitHub Actions tab → "Deploy to Vercel" → "Run workflow"
+See [CONTENT_DECOUPLING.md](./CONTENT_DECOUPLING.md) for details on content management.
 
-The deploy hook is configured in `.github/workflows/deploy.yml`.
+## 📝 Content Management
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All content is centralized in `src/content/`:
 
-## Contact Form Setup
+- **UI Text**: `src/content/locales/{lang}.ts` - Language-specific UI strings
+- **Products**: `src/content/products_multilingual.ts` - Product catalog data
+- **Services**: `src/content/services_multilingual.ts` - Service descriptions
 
-The contact form is now using a Next.js API route. To receive email notifications:
+### Adding/Editing Content
 
-### Option 1: Resend (Recommended - Free Tier: 3,000 emails/month)
+1. **UI Text**: Edit the appropriate language file in `src/content/locales/`
+2. **Products**: Edit `src/content/products_multilingual.ts`
+3. **Services**: Edit `src/content/services_multilingual.ts`
 
-1. Sign up at [resend.com](https://resend.com)
-2. Get your API key from the dashboard
-3. In Vercel → Your Project → Settings → Environment Variables:
-   - Add `RESEND_API_KEY` = your API key
-   - Add `CONTACT_EMAIL` = your email address
-4. Uncomment the Resend code in `src/app/api/contact/route.ts`
-5. Install Resend: `npm install resend`
-6. Redeploy
+See [CONTENT_MANAGEMENT.md](./CONTENT_MANAGEMENT.md) for detailed instructions.
 
-### Option 2: Gmail SMTP (Simple, No API Needed)
+## 🔍 SEO Features
 
-1. Enable 2-factor authentication on your Gmail account
-2. Generate an App Password:
-   - Go to Google Account → Security → 2-Step Verification → App passwords
-   - Create an app password for "Mail"
-3. In Vercel → Your Project → Settings → Environment Variables:
-   - Add `GMAIL_USER` = your Gmail address
-   - Add `GMAIL_APP_PASSWORD` = the app password you generated
-   - Add `CONTACT_EMAIL` = your email address
-4. Install Nodemailer: `npm install nodemailer`
-5. Uncomment the Gmail SMTP code in `src/app/api/contact/route.ts` (Option 2)
-6. Redeploy
+### Implemented
+- ✅ Page-specific metadata (title, description, keywords)
+- ✅ Open Graph and Twitter Cards
+- ✅ Structured data (JSON-LD) for Organization, WebSite, Product, Service, BreadcrumbList, LocalBusiness
+- ✅ Auto-generated sitemap.xml with all language variants
+- ✅ robots.txt configuration
+- ✅ Google Search Console verification
+- ✅ Canonical URLs
+- ✅ Hreflang tags for multilingual SEO
 
-### Option 3: Webhook (Easiest - No Setup Needed)
+### SEO Documentation
+See [SEO_OPTIMIZATION.md](./SEO_OPTIMIZATION.md) for detailed SEO implementation and optimization suggestions.
 
-Use a free webhook-to-email service:
+## 📧 Contact Form Setup
 
-1. Go to [webhook.site](https://webhook.site) or [formspree.io](https://formspree.io)
-2. Get your webhook URL
-3. In Vercel → Your Project → Settings → Environment Variables:
-   - Add `WEBHOOK_URL` = your webhook URL
-   - Add `CONTACT_EMAIL` = your email address
-4. Redeploy
+The contact form supports multiple email service providers. See the contact form section in the original README or configure one of these options:
 
-**Note:** The webhook code is already active in the API route (Option 4).
+### Option 1: Resend (Recommended)
+- Free tier: 3,000 emails/month
+- Set `RESEND_API_KEY` and `CONTACT_EMAIL` in Vercel environment variables
 
-### Option 4: SendGrid (Free Tier: 100 emails/day)
+### Option 2: Gmail SMTP
+- Set `GMAIL_USER`, `GMAIL_APP_PASSWORD`, and `CONTACT_EMAIL`
+- Requires Gmail App Password
 
-1. Sign up at [sendgrid.com](https://sendgrid.com)
-2. Get your API key
-3. In Vercel → Your Project → Settings → Environment Variables:
-   - Add `SENDGRID_API_KEY` = your API key
-   - Add `CONTACT_EMAIL` = your email address
-4. Install SendGrid: `npm install @sendgrid/mail`
-5. Uncomment the SendGrid code in `src/app/api/contact/route.ts`
-6. Redeploy
+### Option 3: Webhook
+- Use webhook.site or formspree.io
+- Set `WEBHOOK_URL` and `CONTACT_EMAIL`
 
-### Option 3: View in Vercel Logs (Temporary)
+### Option 4: SendGrid
+- Free tier: 100 emails/day
+- Set `SENDGRID_API_KEY` and `CONTACT_EMAIL`
 
-For now, form submissions are logged to Vercel's function logs. You can view them in:
-- Vercel Dashboard → Your Project → Logs
+Configure in `src/app/api/contact/route.ts` and set environment variables in Vercel.
 
-**Note:** Currently, the API route logs submissions but doesn't send emails. You must set up one of the email services above for production use.
+## 🚢 Deployment
+
+### Vercel (Recommended)
+
+This project is configured for automatic deployment on Vercel:
+
+1. **Automatic Deployment**: Pushes to `main` branch trigger automatic deployment
+2. **Manual Deploy**: Use GitHub Actions → "Deploy to Vercel" workflow
+
+### Environment Variables
+
+Set these in Vercel → Project Settings → Environment Variables:
+
+- `NEXT_PUBLIC_SITE_URL`: Your production URL (e.g., `https://mying.vercel.app`)
+- `RESEND_API_KEY` (or other email service keys)
+- `CONTACT_EMAIL`: Email address to receive form submissions
+
+### Build Commands
+
+```bash
+npm run build  # Build for production
+npm run start  # Start production server
+```
+
+## 🛠️ Development
+
+### Available Scripts
+
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run start    # Start production server
+npm run lint     # Run ESLint
+```
+
+### Local Cleanup
+
+To clean build files locally:
+
+```powershell
+# Windows PowerShell
+cd mying-web
+Remove-Item -Recurse -Force .next
+Remove-Item -Recurse -Force node_modules  # Optional
+```
+
+Or use the provided script:
+```powershell
+.\clean.ps1
+```
+
+See [MAINTENANCE.md](./MAINTENANCE.md) for more maintenance tips.
+
+## 📚 Documentation
+
+- [SEO_OPTIMIZATION.md](./SEO_OPTIMIZATION.md) - SEO implementation and optimization
+- [CONTENT_DECOUPLING.md](./CONTENT_DECOUPLING.md) - Content decoupling architecture
+- [CONTENT_MANAGEMENT.md](./CONTENT_MANAGEMENT.md) - Content management guide
+- [GOOGLE_VERIFICATION_GUIDE.md](./GOOGLE_VERIFICATION_GUIDE.md) - Google Search Console setup
+- [MAINTENANCE.md](./MAINTENANCE.md) - Maintenance and cleanup guide
+
+## 🛡️ Tech Stack
+
+- **Framework**: Next.js 16.1.1 (App Router)
+- **Language**: TypeScript 5
+- **Styling**: Tailwind CSS 4
+- **React**: 19.2.3
+- **Email**: Nodemailer (optional, for Gmail SMTP)
+
+## 📄 License
+
+Private project - All rights reserved.
+
+## 🤝 Support
+
+For questions or issues, please contact the development team.
+
+---
+
+**Built with ❤️ for Miying Amusement Equipment**

@@ -114,3 +114,4 @@ const c = copy(lang);
 - 迁移完成后，可以从 `copy.ts` 中移除 `copyLegacy` 函数
 
 
+
