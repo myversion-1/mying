@@ -102,5 +102,13 @@ export type CopyContent = {
       items: string[];
     };
   };
+  customerService: {
+    whatsapp: string;
+    email: string;
+    open: string;
+    close: string;
+    whatsappLabel: string;
+    emailLabel: string;
+  };
 };
 

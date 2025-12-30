@@ -5,6 +5,7 @@ import { Providers } from "../components/Providers";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { StructuredDataServer } from "../components/StructuredDataServer";
+import { CustomerServiceWidget } from "../components/CustomerServiceWidget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -197,6 +198,7 @@ export default function RootLayout({
           <Header />
           <main className="pb-20">{children}</main>
           <Footer />
+          <CustomerServiceWidget />
         </Providers>
       </body>
     </html>

@@ -127,5 +127,13 @@ export const ar: CopyContent = {
       ],
     },
   },
+  customerService: {
+    whatsapp: "واتساب",
+    email: "البريد الإلكتروني",
+    open: "فتح خدمة العملاء",
+    close: "إغلاق خدمة العملاء",
+    whatsappLabel: "اتصل بنا عبر واتساب",
+    emailLabel: "اتصل بنا عبر البريد الإلكتروني",
+  },
 };
 

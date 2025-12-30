@@ -128,5 +128,13 @@ export const zh: CopyContent = {
       ],
     },
   },
+  customerService: {
+    whatsapp: "WhatsApp",
+    email: "邮箱",
+    open: "打开在线客服",
+    close: "关闭在线客服",
+    whatsappLabel: "通过 WhatsApp 联系我们",
+    emailLabel: "通过邮箱联系我们",
+  },
 };
 

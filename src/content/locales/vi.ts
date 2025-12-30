@@ -127,5 +127,13 @@ export const vi: CopyContent = {
       ],
     },
   },
+  customerService: {
+    whatsapp: "WhatsApp",
+    email: "Email",
+    open: "Mở dịch vụ khách hàng",
+    close: "Đóng dịch vụ khách hàng",
+    whatsappLabel: "Liên hệ với chúng tôi qua WhatsApp",
+    emailLabel: "Liên hệ với chúng tôi qua email",
+  },
 };
 

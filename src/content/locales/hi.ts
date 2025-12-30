@@ -127,5 +127,13 @@ export const hi: CopyContent = {
       ],
     },
   },
+  customerService: {
+    whatsapp: "WhatsApp",
+    email: "ईमेल",
+    open: "ग्राहक सेवा खोलें",
+    close: "ग्राहक सेवा बंद करें",
+    whatsappLabel: "WhatsApp के माध्यम से हमसे संपर्क करें",
+    emailLabel: "ईमेल के माध्यम से हमसे संपर्क करें",
+  },
 };
 

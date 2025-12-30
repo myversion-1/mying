@@ -127,5 +127,13 @@ export const ko: CopyContent = {
       ],
     },
   },
+  customerService: {
+    whatsapp: "WhatsApp",
+    email: "이메일",
+    open: "고객 서비스 열기",
+    close: "고객 서비스 닫기",
+    whatsappLabel: "WhatsApp로 문의하기",
+    emailLabel: "이메일로 문의하기",
+  },
 };
 

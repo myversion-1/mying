@@ -127,5 +127,13 @@ export const id: CopyContent = {
       ],
     },
   },
+  customerService: {
+    whatsapp: "WhatsApp",
+    email: "Email",
+    open: "Buka layanan pelanggan",
+    close: "Tutup layanan pelanggan",
+    whatsappLabel: "Hubungi kami melalui WhatsApp",
+    emailLabel: "Hubungi kami melalui email",
+  },
 };
 

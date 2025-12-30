@@ -128,5 +128,13 @@ export const en: CopyContent = {
       ],
     },
   },
+  customerService: {
+    whatsapp: "WhatsApp",
+    email: "Email",
+    open: "Open customer service",
+    close: "Close customer service",
+    whatsappLabel: "Contact us via WhatsApp",
+    emailLabel: "Contact us via email",
+  },
 };
 

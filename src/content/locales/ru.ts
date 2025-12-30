@@ -127,5 +127,13 @@ export const ru: CopyContent = {
       ],
     },
   },
+  customerService: {
+    whatsapp: "WhatsApp",
+    email: "Электронная почта",
+    open: "Открыть службу поддержки",
+    close: "Закрыть службу поддержки",
+    whatsappLabel: "Свяжитесь с нами через WhatsApp",
+    emailLabel: "Свяжитесь с нами по электронной почте",
+  },
 };
 

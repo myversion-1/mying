@@ -127,5 +127,13 @@ export const th: CopyContent = {
       ],
     },
   },
+  customerService: {
+    whatsapp: "WhatsApp",
+    email: "อีเมล",
+    open: "เปิดบริการลูกค้า",
+    close: "ปิดบริการลูกค้า",
+    whatsappLabel: "ติดต่อเราผ่าน WhatsApp",
+    emailLabel: "ติดต่อเราผ่านอีเมล",
+  },
 };
 

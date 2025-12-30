@@ -127,5 +127,13 @@ export const ja: CopyContent = {
       ],
     },
   },
+  customerService: {
+    whatsapp: "WhatsApp",
+    email: "メール",
+    open: "カスタマーサービスを開く",
+    close: "カスタマーサービスを閉じる",
+    whatsappLabel: "WhatsAppでお問い合わせ",
+    emailLabel: "メールでお問い合わせ",
+  },
 };
 
