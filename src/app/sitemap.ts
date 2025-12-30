@@ -21,6 +21,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Add main routes with language variants
   mainRoutes.forEach((route) => {
+    // Map language codes
+    const langCodeMap: Record<string, string> = {
+      en: "en-US",
+      zh: "zh-CN",
+      ar: "ar-SA",
+      ru: "ru-RU",
+      ja: "ja-JP",
+      ko: "ko-KR",
+      th: "th-TH",
+      vi: "vi-VN",
+      id: "id-ID",
+      hi: "hi-IN",
+      es: "es-ES",
+    };
+
+    // Build language alternates
+    const languageAlternates: Record<string, string> = {};
+    languages.forEach((lang) => {
+      const langCode = langCodeMap[lang] || lang;
+      const langUrl = `${baseUrl}${route}${route === "" ? "?" : "&"}lang=${lang}`;
+      languageAlternates[langCode] = langUrl;
+    });
+
     // Default (English) version
     entries.push({
       url: `${baseUrl}${route}`,
@@ -28,22 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: route === "" ? "weekly" : "monthly",
       priority: route === "" ? 1 : 0.8,
       alternates: {
-        languages: Object.fromEntries(
-          languages.map((lang) => [
-            lang === "en" ? "en-US" : 
-            lang === "zh" ? "zh-CN" :
-            lang === "ar" ? "ar-SA" :
-            lang === "ru" ? "ru-RU" :
-            lang === "ja" ? "ja-JP" :
-            lang === "ko" ? "ko-KR" :
-            lang === "th" ? "th-TH" :
-            lang === "vi" ? "vi-VN" :
-            lang === "id" ? "id-ID" :
-            lang === "hi" ? "hi-IN" :
-            "es-ES",
-            `${baseUrl}${route}${route === "" ? "?" : "&"}lang=${lang}`
-          ])
-        ),
+        languages: languageAlternates,
       },
     });
   });
