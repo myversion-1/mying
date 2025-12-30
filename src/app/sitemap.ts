@@ -19,40 +19,38 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Generate sitemap entries
   const entries: MetadataRoute.Sitemap = [];
 
-  // Add main routes with language variants
+  // Add main routes - create separate entries for each language
   mainRoutes.forEach((route) => {
-    // Map language codes
-    const langCodeMap: Record<string, string> = {
-      en: "en-US",
-      zh: "zh-CN",
-      ar: "ar-SA",
-      ru: "ru-RU",
-      ja: "ja-JP",
-      ko: "ko-KR",
-      th: "th-TH",
-      vi: "vi-VN",
-      id: "id-ID",
-      hi: "hi-IN",
-      es: "es-ES",
-    };
-
-    // Build language alternates
-    const languageAlternates: Record<string, string> = {};
     languages.forEach((lang) => {
-      const langCode = langCodeMap[lang] || lang;
-      const langUrl = `${baseUrl}${route}${route === "" ? "?" : "&"}lang=${lang}`;
-      languageAlternates[langCode] = langUrl;
-    });
+      // Map language codes
+      const langCodeMap: Record<string, string> = {
+        en: "en-US",
+        zh: "zh-CN",
+        ar: "ar-SA",
+        ru: "ru-RU",
+        ja: "ja-JP",
+        ko: "ko-KR",
+        th: "th-TH",
+        vi: "vi-VN",
+        id: "id-ID",
+        hi: "hi-IN",
+        es: "es-ES",
+      };
 
-    // Default (English) version
-    entries.push({
-      url: `${baseUrl}${route}`,
-      lastModified: new Date(),
-      changeFrequency: route === "" ? "weekly" : "monthly",
-      priority: route === "" ? 1 : 0.8,
-      alternates: {
-        languages: languageAlternates,
-      },
+      const langCode = langCodeMap[lang] || lang;
+      const isDefault = lang === "en";
+      
+      // Build URL - use ? for first param, & for subsequent
+      const langUrl = isDefault 
+        ? `${baseUrl}${route}`
+        : `${baseUrl}${route}${route === "" ? "?" : "&"}lang=${lang}`;
+
+      entries.push({
+        url: langUrl,
+        lastModified: new Date(),
+        changeFrequency: route === "" ? "weekly" : "monthly",
+        priority: route === "" ? 1 : 0.8,
+      });
     });
   });
 
