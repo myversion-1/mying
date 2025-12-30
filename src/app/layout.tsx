@@ -30,26 +30,78 @@ export const metadata: Metadata = {
   description:
     "Miying delivers amusement rides worldwide with factory-tested safety, consulting, refurbishment, and verified factory visits. Browse our catalog of family rides, thrill rides, water rides, and custom attractions. Request quotes and factory visits for your theme park or carnival project.",
   keywords: [
+    // Core Keywords
     "amusement rides",
     "theme park rides",
     "family rides",
     "thrill rides",
     "amusement equipment",
+    "amusement park equipment",
+    "carnival rides",
+    
+    // Manufacturer & Supplier
+    "amusement ride manufacturer",
+    "theme park equipment supplier",
+    "amusement ride factory",
+    "ride manufacturer China",
+    "amusement equipment supplier",
+    "theme park rides manufacturer",
+    "carnival equipment supplier",
+    
+    // Product Types
+    "carousel rides",
+    "ferris wheel",
+    "bumper cars",
+    "water rides",
+    "roller coaster",
+    "spinning rides",
+    "kiddie rides",
+    "adult rides",
+    "indoor rides",
+    "outdoor rides",
+    
+    // Services
     "factory visit",
     "ride refurbishment",
     "ride consulting",
-    "amusement park equipment",
-    "carnival rides",
-    "amusement ride manufacturer",
-    "theme park equipment supplier",
-    "used amusement rides",
-    "new amusement rides",
     "ride assembly service",
     "amusement ride sourcing",
+    "ride installation service",
+    "ride maintenance",
+    "attraction rentals",
+    "ride appraisal",
+    
+    // Quality & Safety
     "factory tested rides",
-    "global ride delivery",
-    "amusement ride catalog",
+    "EN 13814 compliant",
+    "ASTM F24 certified",
+    "safety tested rides",
+    "certified amusement rides",
+    "quality amusement equipment",
+    
+    // Business Terms
+    "used amusement rides",
+    "new amusement rides",
     "custom attractions",
+    "amusement ride catalog",
+    "ride specifications",
+    "ride quotes",
+    "amusement ride prices",
+    
+    // Global & Delivery
+    "global ride delivery",
+    "worldwide shipping",
+    "international ride supplier",
+    "export amusement rides",
+    
+    // Long-tail Keywords
+    "buy amusement rides online",
+    "where to buy theme park rides",
+    "amusement ride manufacturer directory",
+    "best amusement ride supplier",
+    "affordable theme park equipment",
+    "professional ride consulting",
+    "verified factory visit booking",
   ],
   authors: [{ name: "Miying Amusement Equipment" }],
   creator: "Miying Amusement Equipment",
