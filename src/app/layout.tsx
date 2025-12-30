@@ -95,7 +95,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "QDPwgqh-2ZUJNzYKrbazCZ7C5OGe5-OWAkTFf5xsCcE",
+    google: "vviaZwKjyQ-TUZK-khVTefSUq_ecF8H0o0Wwwj1_u7g",
     // yandex: "your-yandex-verification-code",
     // bing: "your-bing-verification-code",
   },
@@ -137,7 +137,7 @@ export default function RootLayout({
       <head>
         <meta
           name="google-site-verification"
-          content="QDPwgqh-2ZUJNzYKrbazCZ7C5OGe5-OWAkTFf5xsCcE"
+          content="vviaZwKjyQ-TUZK-khVTefSUq_ecF8H0o0Wwwj1_u7g"
         />
       </head>
       <body
