@@ -140,5 +140,9 @@ export const en: CopyContent = {
     whatsappLabel: "Contact us via WhatsApp",
     emailLabel: "Contact us via email",
   },
+  patents: {
+    title: "Patent Certificates",
+    subtitle: "Our innovative designs are protected by patents, demonstrating our commitment to original engineering and intellectual property.",
+  },
 };
 

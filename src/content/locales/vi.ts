@@ -139,5 +139,9 @@ export const vi: CopyContent = {
     whatsappLabel: "Liên hệ với chúng tôi qua WhatsApp",
     emailLabel: "Liên hệ với chúng tôi qua email",
   },
+  patents: {
+    title: "Chứng Nhận Bằng Sáng Chế",
+    subtitle: "Các thiết kế sáng tạo của chúng tôi được bảo vệ bởi bằng sáng chế, thể hiện cam kết của chúng tôi về kỹ thuật gốc và sở hữu trí tuệ.",
+  },
 };
 

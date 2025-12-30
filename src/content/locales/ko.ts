@@ -139,5 +139,9 @@ export const ko: CopyContent = {
     whatsappLabel: "WhatsApp로 문의하기",
     emailLabel: "이메일로 문의하기",
   },
+  patents: {
+    title: "특허 증명서",
+    subtitle: "우리의 혁신적인 디자인은 특허로 보호되며, 독창적인 엔지니어링과 지적 재산권에 대한 우리의 약속을 보여줍니다.",
+  },
 };
 

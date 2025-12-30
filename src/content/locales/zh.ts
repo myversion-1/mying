@@ -140,5 +140,9 @@ export const zh: CopyContent = {
     whatsappLabel: "通过 WhatsApp 联系我们",
     emailLabel: "通过邮箱联系我们",
   },
+  patents: {
+    title: "专利证书",
+    subtitle: "我们的创新设计受到专利保护，体现了我们对原创工程和知识产权的承诺。",
+  },
 };
 

@@ -139,5 +139,9 @@ export const id: CopyContent = {
     whatsappLabel: "Hubungi kami melalui WhatsApp",
     emailLabel: "Hubungi kami melalui email",
   },
+  patents: {
+    title: "Sertifikat Paten",
+    subtitle: "Desain inovatif kami dilindungi oleh paten, menunjukkan komitmen kami terhadap rekayasa orisinal dan kekayaan intelektual.",
+  },
 };
 

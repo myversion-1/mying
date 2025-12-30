@@ -89,6 +89,10 @@ export type CopyContent = {
       title: string;
       subtitle: string;
     };
+    patents: {
+      title: string;
+      subtitle: string;
+    };
     factoryTour: {
       title: string;
       subtitle: string;

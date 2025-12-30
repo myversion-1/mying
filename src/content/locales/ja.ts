@@ -139,5 +139,9 @@ export const ja: CopyContent = {
     whatsappLabel: "WhatsAppでお問い合わせ",
     emailLabel: "メールでお問い合わせ",
   },
+  patents: {
+    title: "特許証明書",
+    subtitle: "私たちの革新的なデザインは特許によって保護されており、オリジナルエンジニアリングと知的財産への取り組みを示しています。",
+  },
 };
 
