@@ -1,4 +1,4 @@
-import type { StatItem } from "../components/StatsGrid";
+import type { StatItem } from "./types/stats";
 
 // Company statistics data
 export const companyStats: StatItem[] = [

@@ -1,17 +1,9 @@
 "use client";
 
 import { StatsCard } from "./StatsCard";
+import type { StatItem } from "../content/types/stats";
 
-export type StatItem = {
-  number: string;
-  label: string;
-  labelEn?: string;
-  labelZh?: string;
-  description?: string;
-  descriptionEn?: string;
-  descriptionZh?: string;
-  icon?: string | React.ReactNode;
-};
+export type { StatItem };
 
 // Icon mapping function
 function getIcon(iconName?: string | React.ReactNode): React.ReactNode {
