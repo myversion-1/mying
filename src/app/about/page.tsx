@@ -4,10 +4,12 @@ import { PageHero } from "../../components/PageHero";
 import { Section } from "../../components/Section";
 import { CertificationGrid, type Certification } from "../../components/CertificationGrid";
 import { PatentCertificateGrid } from "../../components/PatentCertificateGrid";
+import { StatsGrid } from "../../components/StatsGrid";
 import { FactoryTour } from "../../components/FactoryTour";
 import { useLanguage } from "../../components/language";
 import { copy } from "../../content/copy";
 import { patentCertificates } from "../../content/patentCertificates";
+import { rdStats } from "../../content/companyStats";
 
 export default function AboutPage() {
   const { lang } = useLanguage();
@@ -101,6 +103,14 @@ export default function AboutPage() {
         subtitle={c.aboutPage?.certifications?.subtitle || "Our commitment to quality and safety is validated by international certifications and standards."}
       >
         <CertificationGrid certifications={certifications} />
+      </Section>
+
+      {/* R&D Capabilities Statistics */}
+      <Section
+        title={lang === "zh" ? "研发实力" : "R&D Capabilities"}
+        subtitle={lang === "zh" ? "我们的研发团队致力于持续创新和技术突破" : "Our R&D team is dedicated to continuous innovation and technological breakthroughs"}
+      >
+        <StatsGrid stats={rdStats} lang={lang} columns={4} />
       </Section>
 
       {/* Patent Certificates */}

@@ -113,3 +113,4 @@ export function PatentCertificateGrid({ certificates, lang = "en" }: PatentCerti
   );
 }
 
+
