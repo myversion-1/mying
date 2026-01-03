@@ -2,6 +2,13 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "crons": [
+    {
+      "path": "/api/seo-tracker/cron",
+      "schedule": "0 0 * * 0"
+    }
+  ]
 }
 

@@ -1,0 +1,31 @@
+{
+  "total_products": 69,
+  "total_filenames": 737,
+  "sample_filenames": [
+    "nuclear-energy-crisis-family-ride-manufacturer-usa-en.jpg",
+    "nuclear-energy-crisis-family-ride-manufacturer-china-zh.jpg",
+    "nuclear-energy-crisis-family-ride-manufacturer-saudi-ar.jpg",
+    "nuclear-energy-crisis-family-ride-manufacturer-russia-ru.jpg",
+    "nuclear-energy-crisis-family-ride-manufacturer-japan-ja.jpg"
+  ],
+  "sample_entry": {
+    "product_name_en": "Nuclear energy crisis",
+    "product_name_zh": "核能危机",
+    "category": "Family Ride",
+    "target_language": "en",
+    "country_code": "usa",
+    "alt_texts": {
+      "en": "Nuclear energy crisis - Premium Amusement Ride Equipment by Miying Manufacturer",
+      "zh": "核能危机 - 米盈优质游乐设备制造商",
+      "ar": "Nuclear energy crisis - معدات ألعاب ترفيهية عالية الجودة من شركة Miying",
+      "ru": "Nuclear energy crisis - Премиальное оборудование для аттракционов от производителя Miying",
+      "ja": "Nuclear energy crisis - Miyingメーカーのプレミアムアトラクション設備",
+      "ko": "Nuclear energy crisis - Miying 제조사의 프리미엄 놀이기구 장비",
+      "th": "Nuclear energy crisis - อุปกรณ์เครื่องเล่นคุณภาพสูงจากผู้ผลิต Miying",
+      "vi": "Nuclear energy crisis - Thiết bị trò chơi giải trí cao cấp từ nhà sản xuất Miying",
+      "id": "Nuclear energy crisis - Peralatan Wahana Hiburan Premium dari Produsen Miying",
+      "hi": "Nuclear energy crisis - Miying निर्माता द्वारा प्रीमियम मनोरंजन सवारी उपकरण",
+      "es": "Nuclear energy crisis - Equipamiento de Atracciones Premium del Fabricante Miying"
+    }
+  }
+}
