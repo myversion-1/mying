@@ -56,7 +56,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: `${post.title} | Miying Rides Blog`,
-      description: post.excerpt || post.content.substring(0, 160) + "...",
+      description: post.excerpt || (post.content ? post.content.substring(0, 160) + "..." : ""),
       images: post.image ? [`${baseUrl}${post.image}`] : undefined,
     },
     alternates: {
