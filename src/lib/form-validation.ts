@@ -242,5 +242,26 @@ export function validateFields(
   return { isValid, errors };
 }
 
+/**
+ * Check if email is a work email (not personal email domains)
+ * Returns boolean (true if work email, false if personal)
+ */
+export function isWorkEmail(email: string): boolean {
+  if (!email) return false;
+  
+  const personalDomains = [
+    "gmail.com",
+    "yahoo.com",
+    "hotmail.com",
+    "outlook.com",
+    "icloud.com",
+    "mail.com",
+    "qq.com",
+    "163.com",
+    "126.com",
+  ];
 
+  const domain = email.split("@")[1]?.toLowerCase();
+  return domain ? !personalDomains.includes(domain) : false;
+}
 

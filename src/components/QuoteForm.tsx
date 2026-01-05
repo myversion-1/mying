@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { copy } from "../content/copy";
 import { useLanguage } from "./language";
 import { getProducts } from "../content/copy";
-import { validateEmail, validateWorkEmail, validateRequired, validateNumber, validateMinLength, validateFields } from "../lib/form-validation";
+import { validateEmail, validateWorkEmail, validateRequired, validateNumber, validateMinLength, validateFields, isWorkEmail } from "../lib/form-validation";
 import { toast } from "./Toast";
 
 export function QuoteForm() {
