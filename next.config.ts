@@ -9,20 +9,8 @@ const nextConfig: NextConfig = {
   // 压缩
   compress: true,
   
-  // Webpack configuration for optional dependencies
-  webpack: (config, { isServer }) => {
-    // Make @sendgrid/mail optional (won't fail build if not installed)
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-    };
-    
-    // Externalize optional dependencies
-    if (!isServer) {
-      config.externals = config.externals || [];
-    }
-    
-    return config;
-  },
+  // Turbopack configuration (Next.js 16 uses Turbopack by default)
+  turbopack: {},
   
   // 图片优化
   images: {
