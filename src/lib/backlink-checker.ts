@@ -131,7 +131,7 @@ export async function checkBacklink(
 
     return {
       status: "Lost",
-      error: error.message || "Unknown error",
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 }
