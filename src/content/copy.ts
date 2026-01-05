@@ -14,6 +14,7 @@ export type Product = {
   year?: string;
   badge?: string;
   image?: string; // Path to image in /public folder (e.g., "/products/product-name.jpg")
+  patentCount?: number; // Number of patents for this product (e.g., 2, 3, 5)
   // Enhanced classification fields (multi-dimensional like Arrowy)
   usage?: ProductUsage;           // Usage type: Family Entertainment, Thrill Adventure, etc.
   venueType?: VenueType;          // Venue type: Indoor, Outdoor, Both

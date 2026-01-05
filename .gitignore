@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+
+# SEO tracker data
+/data/seo-tracker.json
+
+.vercel
+.env*.local

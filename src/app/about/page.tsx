@@ -6,10 +6,14 @@ import { CertificationGrid, type Certification } from "../../components/Certific
 import { PatentCertificateGrid } from "../../components/PatentCertificateGrid";
 import { StatsGrid } from "../../components/StatsGrid";
 import { FactoryTour } from "../../components/FactoryTour";
+import { AwardsGrid } from "../../components/AwardsGrid";
+import { TestimonialsGrid } from "../../components/TestimonialsGrid";
 import { useLanguage } from "../../components/language";
 import { copy } from "../../content/copy";
 import { patentCertificates } from "../../content/patentCertificates";
 import { rdStats } from "../../content/companyStats";
+import { awards, getLocalizedAward } from "../../content/awards";
+import { testimonials, getLocalizedTestimonial } from "../../content/testimonials";
 
 export default function AboutPage() {
   const { lang } = useLanguage();
@@ -105,6 +109,14 @@ export default function AboutPage() {
         <CertificationGrid certifications={certifications} />
       </Section>
 
+      {/* Awards & Recognition */}
+      <Section
+        title={lang === "zh" ? "荣誉奖项" : "Awards & Recognition"}
+        subtitle={lang === "zh" ? "我们获得的国际认可和行业奖项" : "International recognition and industry awards we've received"}
+      >
+        <AwardsGrid awards={awards.map(a => getLocalizedAward(a, lang))} lang={lang} />
+      </Section>
+
       {/* R&D Capabilities Statistics */}
       <Section
         title={lang === "zh" ? "研发实力" : "R&D Capabilities"}
@@ -132,6 +144,14 @@ export default function AboutPage() {
           ctaText={c.aboutPage?.factoryTour?.ctaText || "Schedule Factory Visit"}
           ctaHref="/visit"
         />
+      </Section>
+
+      {/* Customer Testimonials */}
+      <Section
+        title={lang === "zh" ? "客户评价" : "What Our Clients Say"}
+        subtitle={lang === "zh" ? "来自全球客户的真实反馈" : "Real feedback from our clients worldwide"}
+      >
+        <TestimonialsGrid testimonials={testimonials.map(t => getLocalizedTestimonial(t, lang))} lang={lang} />
       </Section>
 
       {/* Long-Term Partnership */}

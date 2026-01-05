@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getProducts, type Product, copy } from "../content/copy";
@@ -8,9 +8,11 @@ import { useLanguage } from "./language";
 import { Badge } from "./ui/Badge";
 import { EmptyState } from "./EmptyState";
 import type { ProductUsage, VenueType, TargetAudience } from "../content/products_multilingual";
+import { generateProductSlug } from "../utils/hreflang";
 
 type Props = {
   items?: Product[];
+  initialSearchQuery?: string;
 };
 
 // Define which categories are "rides" vs "decorative"
@@ -34,7 +36,7 @@ type MultiDimensionFilter = {
   targetAudience?: TargetAudience;
 };
 
-export function ProductGrid({ items }: Props) {
+export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
   const { lang } = useLanguage();
   const c = copy(lang);
   const localizedProducts = useMemo(() => {
@@ -43,6 +45,14 @@ export function ProductGrid({ items }: Props) {
   }, [items, lang]);
   const [filter, setFilter] = useState<FilterType>("all");
   const [multiFilter, setMultiFilter] = useState<MultiDimensionFilter>({});
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
+  
+  // Update search query when initialSearchQuery changes (from URL params)
+  useEffect(() => {
+    if (initialSearchQuery) {
+      setSearchQuery(initialSearchQuery);
+    }
+  }, [initialSearchQuery]);
 
   // Get all unique categories
   const categories = useMemo(() => {
@@ -63,7 +73,7 @@ export function ProductGrid({ items }: Props) {
     return Array.from(new Set(localizedProducts.map((p) => p.targetAudience).filter(Boolean))) as TargetAudience[];
   }, [localizedProducts]);
 
-  // Filter products based on selected filter and multi-dimensional filters
+  // Filter products based on selected filter, multi-dimensional filters, and search query
   const filteredProducts = useMemo(() => {
     let result = localizedProducts;
     
@@ -90,8 +100,19 @@ export function ProductGrid({ items }: Props) {
       result = result.filter((product) => product.targetAudience === multiFilter.targetAudience);
     }
     
+    // Apply search query filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim();
+      result = result.filter((product) => {
+        const nameMatch = product.name.toLowerCase().includes(query);
+        const categoryMatch = product.category.toLowerCase().includes(query);
+        const positioningMatch = product.positioning?.toLowerCase().includes(query);
+        return nameMatch || categoryMatch || positioningMatch;
+      });
+    }
+    
     return result;
-  }, [localizedProducts, filter, multiFilter]);
+  }, [localizedProducts, filter, multiFilter, searchQuery]);
 
   // Count products in each group
   const rideCount = useMemo(
@@ -105,6 +126,41 @@ export function ProductGrid({ items }: Props) {
 
   return (
     <div className="space-y-6">
+      {/* Search Bar */}
+      <div className="relative">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder={lang === "zh" ? "搜索产品名称、类别或描述..." : "Search products by name, category, or description..."}
+          className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3 pl-12 text-white placeholder:text-white/50 outline-none transition focus:border-[#7df6ff]/60 focus:bg-white/10"
+        />
+        <svg
+          className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-white/50"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery("")}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
+            aria-label="Clear search"
+          >
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+      </div>
+
       {/* Filter Buttons */}
       <div className="flex flex-wrap items-center gap-3">
         <button
@@ -276,39 +332,55 @@ export function ProductGrid({ items }: Props) {
       {/* Products Grid */}
       <div className="grid gap-4 md:grid-cols-2">
         {filteredProducts.length > 0 ? (
-          filteredProducts.map((product, index) => (
+          filteredProducts.map((product, index) => {
+            const productSlug = generateProductSlug(product.name);
+            const productUrl = `/products/${productSlug}`;
+            
+            return (
         <article
           key={`${product.name}-${index}`}
           className="group flex flex-col gap-3 rounded-2xl border border-white/5 bg-gradient-to-br from-white/5 to-white/0 p-4 transition hover:border-white/20"
         >
-          {/* Product Image */}
-          <div className="relative h-48 w-full overflow-hidden rounded-xl bg-gradient-to-br from-white/10 to-white/5">
-            {product.image ? (
-              <Image
-                src={product.image}
-                alt={`${product.name} - ${product.category} amusement ride${product.status === "Used" ? " (Used)" : ""}`}
-                fill
-                className="object-cover transition group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                unoptimized
-              />
-            ) : (
-              <div className="flex h-full items-center justify-center">
-                <div className="text-center">
-                  <div className="mb-2 text-4xl opacity-30">🎠</div>
-                  <div className="text-xs text-white/40">No image available</div>
+          {/* Product Image - Clickable link to product detail */}
+          <Link href={productUrl} className="block">
+            <div className="relative h-48 w-full overflow-hidden rounded-xl bg-gradient-to-br from-white/10 to-white/5">
+              {product.image ? (
+                <Image
+                  src={product.image}
+                  alt={`${product.name} - ${product.category} amusement ride${product.status === "Used" ? " (Used)" : ""}`}
+                  fill
+                  className="object-cover transition group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  unoptimized
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center">
+                  <div className="text-center">
+                    <div className="mb-2 text-4xl opacity-30">🎠</div>
+                    <div className="text-xs text-white/40">No image available</div>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+              {/* Patent Badge - Overlay on image */}
+              {product.patentCount && product.patentCount > 0 && (
+                <div className="absolute top-3 right-3 z-10">
+                  <Badge tone="patent">
+                    {product.patentCount}+ {lang === "zh" ? "专利" : "Patents"}
+                  </Badge>
+                </div>
+              )}
+            </div>
+          </Link>
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1">
               <div className="text-sm uppercase tracking-[0.14em] text-white/50">
                 {product.category}
               </div>
-              <h3 className="text-xl font-semibold text-white">
-                {product.name}
-              </h3>
+              <Link href={productUrl}>
+                <h3 className="text-xl font-semibold text-white transition hover:text-[#00eaff]">
+                  {product.name}
+                </h3>
+              </Link>
             </div>
             <Badge tone={product.status === "New" ? "positive" : "warning"}>
               {product.status}
@@ -369,25 +441,24 @@ export function ProductGrid({ items }: Props) {
             </div>
           )}
           
-          {/* ⑦ Clear CTA */}
+          {/* ⑦ Clear CTA - Link to product detail page */}
           <Link
-            href={`/quote?product=${encodeURIComponent(product.name)}`}
+            href={productUrl}
             className="mt-auto w-full rounded-full bg-[#00eaff] px-4 py-2.5 text-center text-sm font-semibold text-[#0b1116] shadow-[0_0_20px_rgba(0,234,255,0.3)] transition hover:-translate-y-[1px] hover:shadow-[0_0_28px_rgba(0,234,255,0.5)]"
           >
-            {product.ctaText || (lang === "zh" ? "获取布局建议与报价" : "Contact for layout suggestion & quotation")}
+            {lang === "zh" ? "查看详情" : "View Details"}
           </Link>
           
-          {/* WhatsApp quick link */}
-          <a
-            href="https://wa.me/8613112959561"
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* Quick Quote Link */}
+          <Link
+            href={`/quote?product=${encodeURIComponent(product.name)}`}
             className="w-full rounded-full border border-white/20 bg-white/5 px-4 py-2 text-center text-xs font-semibold text-white transition hover:border-white/40 hover:bg-white/10"
           >
-            {lang === "zh" ? "💬 WhatsApp 24小时内回复" : "💬 WhatsApp response within 24h"}
-          </a>
+            {lang === "zh" ? "快速询价" : "Quick Quote"}
+          </Link>
         </article>
-          ))
+            );
+          })
         ) : (
           <div className="col-span-2">
             <EmptyState />

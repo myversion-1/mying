@@ -1,11 +1,31 @@
 "use client";
 
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { PageHero } from "../../components/PageHero";
 import { Section } from "../../components/Section";
 import { ProductGrid } from "../../components/ProductGrid";
 import { StatsCard } from "../../components/StatsCard";
+import { ProductGridSkeleton } from "../../components/Skeleton";
 import { getProducts, copy } from "../../content/copy";
 import { useLanguage } from "../../components/language";
+
+function ProductsContent() {
+  const { lang } = useLanguage();
+  const c = copy(lang);
+  const products = getProducts(lang);
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+
+  return (
+    <Section
+      title={c.productsTitle}
+      subtitle={c.productsSubtitle}
+    >
+      <ProductGrid items={products} initialSearchQuery={searchQuery} />
+    </Section>
+  );
+}
 
 export default function ProductsPage() {
   const { lang } = useLanguage();
@@ -52,13 +72,16 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      <Section
-        title={c.productsTitle}
-        subtitle={c.productsSubtitle}
-      >
-        <ProductGrid items={products} />
-      </Section>
+      <Suspense fallback={
+        <Section
+          title={c.productsTitle}
+          subtitle={c.productsSubtitle}
+        >
+          <ProductGridSkeleton count={6} />
+        </Section>
+      }>
+        <ProductsContent />
+      </Suspense>
     </div>
   );
 }
-

@@ -6,6 +6,8 @@ export const hi: CopyContent = {
     about: "हमारे बारे में",
     services: "सेवाएं",
     products: "उत्पाद",
+    cases: "केस स्टडी",
+    blog: "ब्लॉग",
     contact: "संपर्क करें",
     visit: "कारखाना दौरा",
   },

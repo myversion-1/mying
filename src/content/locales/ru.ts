@@ -6,6 +6,8 @@ export const ru: CopyContent = {
     about: "О нас",
     services: "Услуги",
     products: "Продукция",
+    cases: "Кейсы",
+    blog: "Блог",
     contact: "Контакты",
     visit: "Посещение завода",
   },

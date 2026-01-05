@@ -6,6 +6,8 @@ export const ko: CopyContent = {
     about: "회사 소개",
     services: "서비스",
     products: "제품",
+    cases: "사례",
+    blog: "블로그",
     contact: "문의하기",
     visit: "공장 방문",
   },

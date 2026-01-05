@@ -120,9 +120,9 @@ export async function checkBacklink(
       status: "Lost",
       httpStatus: response.status,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Handle timeout and other errors
-    if (error.name === "AbortError" || error.name === "TimeoutError") {
+    if (error instanceof Error && (error.name === "AbortError" || error.name === "TimeoutError")) {
       return {
         status: "Lost",
         error: "Request timeout",
@@ -135,4 +135,5 @@ export async function checkBacklink(
     };
   }
 }
+
 

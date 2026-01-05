@@ -6,7 +6,11 @@ import { Section } from "../components/Section";
 import { ProductGrid } from "../components/ProductGrid";
 import { ContactForm } from "../components/ContactForm";
 import { VerificationGate } from "../components/VerificationGate";
+import { StatsGrid } from "../components/StatsGrid";
+import { TestimonialsGrid } from "../components/TestimonialsGrid";
 import { copy, getServices } from "../content/copy";
+import { homePageStats } from "../content/homePageStats";
+import { testimonials, getLocalizedTestimonial } from "../content/testimonials";
 import { useLanguage } from "../components/language";
 
 export default function Home() {
@@ -21,6 +25,17 @@ export default function Home() {
           <PageHero ctaPrimaryHref="/quote" />
         </div>
       </div>
+
+      {/* Home Page Statistics - Trust Building Section */}
+      {/* Stats Section with background - positioned right after Hero */}
+      <section 
+        id="stats" 
+        className="py-12 md:py-16 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent"
+      >
+        <div className="mx-auto max-w-6xl px-4 md:px-8">
+          <StatsGrid stats={homePageStats} lang={lang} columns={4} />
+        </div>
+      </section>
 
       <Section
         id="services"
@@ -53,6 +68,15 @@ export default function Home() {
         <ProductGrid />
       </Section>
 
+      {/* Customer Testimonials */}
+      <Section
+        id="testimonials"
+        title={lang === "zh" ? "客户评价" : "What Our Clients Say"}
+        subtitle={lang === "zh" ? "来自全球客户的真实反馈" : "Real feedback from our clients worldwide"}
+      >
+        <TestimonialsGrid testimonials={testimonials.slice(0, 3).map(t => getLocalizedTestimonial(t, lang))} lang={lang} />
+      </Section>
+
       <Section
         id="contact"
         title={c.contactTitle}
@@ -73,3 +97,4 @@ export default function Home() {
     </div>
   );
 }
+

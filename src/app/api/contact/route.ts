@@ -1,114 +1,154 @@
 import { NextRequest, NextResponse } from "next/server";
+import { sendEmail, validateEmail, sanitizeInput } from "@/lib/email";
+import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit-simple";
+import { handleError } from "@/lib/errors";
+import { createRequestLogger } from "@/lib/logger";
 
 export async function POST(request: NextRequest) {
+  const logger = createRequestLogger("POST", "/api/contact", request);
+  
   try {
+    // Rate limiting
+    const clientId = getClientIdentifier(request);
+    const rateLimit = checkRateLimit(clientId);
+    
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        {
+          error: "Too many requests. Please try again later.",
+          resetTime: rateLimit.resetTime,
+        },
+        {
+          status: 429,
+          headers: {
+            "X-RateLimit-Limit": "5",
+            "X-RateLimit-Remaining": "0",
+            "X-RateLimit-Reset": rateLimit.resetTime.toString(),
+            "Retry-After": Math.ceil((rateLimit.resetTime - Date.now()) / 1000).toString(),
+          },
+        }
+      );
+    }
+
     const body = await request.json();
     const { name, email, phone, country, company, message } = body;
 
     // Validate required fields
     if (!name || !email || !company || !message) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Missing required fields: name, email, company, and message are required" },
         { status: 400 }
       );
     }
 
-    // Get recipient email from environment variable, fallback to real contact email
+    // Validate email format
+    if (!validateEmail(email)) {
+      return NextResponse.json(
+        { error: "Invalid email format" },
+        { status: 400 }
+      );
+    }
+
+    // Sanitize inputs to prevent XSS
+    const sanitizedName = sanitizeInput(name);
+    const sanitizedEmail = sanitizeInput(email);
+    const sanitizedPhone = phone ? sanitizeInput(phone) : "";
+    const sanitizedCountry = country ? sanitizeInput(country) : "";
+    const sanitizedCompany = sanitizeInput(company);
+    const sanitizedMessage = sanitizeInput(message);
+
+    // Get recipient email from environment variable
     const recipientEmail = process.env.CONTACT_EMAIL || "miyingyoule@gmail.com";
     
-    // For now, we'll use a simple email format
-    // You can integrate with Resend, SendGrid, or other services here
-    const emailContent = `
+    // Format email content
+    const emailText = `
 New Contact Form Submission from Miying Website
 
-Name: ${name}
-Email: ${email}
-Phone: ${phone || "Not provided"}
-Country: ${country || "Not provided"}
-Company: ${company}
+Name: ${sanitizedName}
+Email: ${sanitizedEmail}
+Phone: ${sanitizedPhone || "Not provided"}
+Country: ${sanitizedCountry || "Not provided"}
+Company: ${sanitizedCompany}
 
 Message:
-${message}
+${sanitizedMessage}
 
 ---
 Sent from: ${request.headers.get("referer") || "Miying Website"}
+Timestamp: ${new Date().toISOString()}
     `.trim();
 
-    // Option 1: Use Resend (recommended - free tier: 3,000 emails/month)
-    // Uncomment and configure if you have a Resend API key
-    /*
-    if (process.env.RESEND_API_KEY) {
-      const resend = require("resend").default;
-      const resendClient = new resend(process.env.RESEND_API_KEY);
-      
-      await resendClient.emails.send({
-        from: "Miying Website <noreply@yourdomain.com>",
-        to: recipientEmail,
-        subject: "New Contact Form Submission",
-        text: emailContent,
-      });
-    }
-    */
+    const emailHtml = `
+<h2>New Contact Form Submission from Miying Website</h2>
+<p><strong>Name:</strong> ${sanitizedName}</p>
+<p><strong>Email:</strong> ${sanitizedEmail}</p>
+<p><strong>Phone:</strong> ${sanitizedPhone || "Not provided"}</p>
+<p><strong>Country:</strong> ${sanitizedCountry || "Not provided"}</p>
+<p><strong>Company:</strong> ${sanitizedCompany}</p>
+<p><strong>Message:</strong></p>
+<p>${sanitizedMessage.replace(/\n/g, "<br>")}</p>
+<hr>
+<p><small>Sent from: ${request.headers.get("referer") || "Miying Website"}</small></p>
+<p><small>Timestamp: ${new Date().toISOString()}</small></p>
+    `.trim();
 
-    // Option 3: Use SendGrid
-    // Uncomment and configure if you have a SendGrid API key
-    /*
-    if (process.env.SENDGRID_API_KEY) {
-      const sgMail = require("@sendgrid/mail");
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-      
-      await sgMail.send({
-        to: recipientEmail,
-        from: "noreply@yourdomain.com",
-        subject: "New Contact Form Submission",
-        text: emailContent,
-      });
-    }
-    */
-
-    // Option 4: Use Formspree (easiest - no code changes needed)
-    // Sign up at formspree.io, get your form endpoint, and set WEBHOOK_URL
-    if (process.env.WEBHOOK_URL) {
-      const formspreeResponse = await fetch(process.env.WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          phone: phone || "",
-          country: country || "",
-          company,
-          message,
-          _subject: "New Contact Form Submission from Miying Website",
-        }),
-      });
-      
-      if (!formspreeResponse.ok) {
-        console.error("Formspree error:", await formspreeResponse.text());
-      }
-    }
-
-    // For now, log the submission (you'll see this in Vercel logs)
-    console.log("Contact form submission:", {
-      name,
-      email,
-      company,
-      message: message.substring(0, 50) + "...",
+    // Send email using the email utility
+    // For Formspree, we also send the form fields directly
+    const emailResult = await sendEmail({
+      to: recipientEmail,
+      subject: "New Contact Form Submission from Miying Website",
+      text: emailText,
+      html: emailHtml,
+      // Include form data for Formspree compatibility
+      formData: {
+        name: sanitizedName,
+        email: sanitizedEmail,
+        phone: sanitizedPhone,
+        country: sanitizedCountry,
+        company: sanitizedCompany,
+        message: sanitizedMessage,
+      },
     });
 
-    // TODO: Replace this with actual email sending
-    // For production, you MUST set up one of the email services above
-    // or use a service like Formspree, EmailJS, etc.
+    if (!emailResult.success) {
+      console.error("Email sending failed:", emailResult.error);
+      // Still return success to user, but log the error
+      // In production, you might want to queue this for retry
+    }
 
-    return NextResponse.json(
-      { message: "Thank you! We'll get back to you soon." },
-      { status: 200 }
+    // Log the submission for debugging
+    console.log("Contact form submission:", {
+      name: sanitizedName,
+      email: sanitizedEmail,
+      company: sanitizedCompany,
+      messageLength: sanitizedMessage.length,
+      emailSent: emailResult.success,
+      provider: emailResult.provider,
+    });
+
+    const response = NextResponse.json(
+      { 
+        message: "Thank you! We'll get back to you soon.",
+        success: true 
+      },
+      {
+        status: 200,
+        headers: {
+          "X-RateLimit-Limit": "5",
+          "X-RateLimit-Remaining": rateLimit.remaining.toString(),
+          "X-RateLimit-Reset": rateLimit.resetTime.toString(),
+        },
+      }
     );
-  } catch (error) {
-    console.error("Contact form error:", error);
+    
+    logger.log(200);
+    return response;
+  } catch (error: unknown) {
+    const errorResponse = handleError(error);
+    logger.log(errorResponse.statusCode);
     return NextResponse.json(
-      { error: "Failed to send message. Please try again." },
-      { status: 500 }
+      { error: errorResponse.message },
+      { status: errorResponse.statusCode }
     );
   }
 }

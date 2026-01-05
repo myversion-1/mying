@@ -6,6 +6,8 @@ export const vi: CopyContent = {
     about: "Về chúng tôi",
     services: "Dịch vụ",
     products: "Sản phẩm",
+    cases: "Dự án",
+    blog: "Blog",
     contact: "Liên hệ",
     visit: "Tham quan nhà máy",
   },

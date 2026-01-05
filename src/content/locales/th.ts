@@ -6,6 +6,8 @@ export const th: CopyContent = {
     about: "เกี่ยวกับเรา",
     services: "บริการ",
     products: "ผลิตภัณฑ์",
+    cases: "กรณีศึกษา",
+    blog: "บล็อก",
     contact: "ติดต่อ",
     visit: "เยี่ยมชมโรงงาน",
   },

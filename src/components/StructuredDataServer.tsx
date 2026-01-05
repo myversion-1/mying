@@ -1,8 +1,10 @@
 import type { Lang } from "./language";
+import { FAQSchema } from "./FAQSchema";
+import { HowToSchema } from "./HowToSchema";
 
 type StructuredDataProps = {
   lang?: Lang;
-  type?: "home" | "products" | "services" | "contact" | "about" | "visit";
+  type?: "home" | "products" | "services" | "contact" | "about" | "visit" | "blog" | "cases";
   products?: Array<{
     name: string;
     category: string;
@@ -146,6 +148,10 @@ export function StructuredDataServer({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
+      {/* FAQ Schema for Voice Search Optimization */}
+      <FAQSchema lang={lang} baseUrl={baseUrl} />
+      {/* HowTo Schema for Process-based Queries */}
+      <HowToSchema lang={lang} baseUrl={baseUrl} />
     </>
   );
 }
@@ -209,10 +215,28 @@ function getBreadcrumbs(
         item: `${baseUrl}/visit`,
       });
       break;
+    case "blog":
+      breadcrumbs.push({
+        "@type": "ListItem" as const,
+        position: 2,
+        name: "Blog",
+        item: `${baseUrl}/blog`,
+      });
+      break;
+    case "cases":
+      breadcrumbs.push({
+        "@type": "ListItem" as const,
+        position: 2,
+        name: "Cases",
+        item: `${baseUrl}/cases`,
+      });
+      break;
   }
 
   return breadcrumbs;
 }
+
+
 
 
 

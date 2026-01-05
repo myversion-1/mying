@@ -1,81 +1,54 @@
 import type { Metadata } from "next";
 import { StructuredDataServer } from "../../components/StructuredDataServer";
-import { getProducts } from "../../content/copy";
 
 export const metadata: Metadata = {
-  title: "Products - Amusement Rides Catalog",
+  title: "Products - Amusement Rides Catalog | Miying Rides",
   description:
-    "Browse our catalog of amusement rides including family rides, thrill rides, water rides, and custom attractions. Request specifications and quotes for your project.",
+    "Browse our complete catalog of amusement rides including family rides, thrill rides, water rides, and custom attractions. All rides are factory-tested and certified for safety.",
   keywords: [
-    // Core Product Keywords
     "amusement rides catalog",
-    "amusement ride catalog",
-    "theme park rides catalog",
-    "carnival rides catalog",
-    
-    // Ride Categories
+    "theme park rides",
     "family rides",
     "thrill rides",
     "water rides",
-    "kiddie rides",
-    "adult rides",
-    "indoor amusement rides",
-    "outdoor amusement rides",
-    
-    // Specific Ride Types
-    "carousel",
-    "merry go round",
-    "ferris wheel",
-    "bumper cars",
-    "spinning rides",
-    "swinging rides",
-    "flying rides",
-    "drop tower",
-    "roller coaster",
-    "dark ride",
-    "simulator ride",
-    
-    // Equipment Types
-    "amusement equipment",
-    "theme park rides",
     "carnival rides",
-    "amusement park equipment",
-    "fairground rides",
-    "funtime rides",
-    
-    // Product Attributes
-    "new amusement rides",
-    "used amusement rides",
-    "custom amusement rides",
-    "indoor rides",
-    "outdoor rides",
-    "portable rides",
-    "stationary rides",
-    
-    // Search Intent
+    "amusement equipment",
+    "ride catalog",
     "buy amusement rides",
-    "amusement ride prices",
-    "ride specifications",
-    "ride dimensions",
-    "ride capacity",
-    "amusement ride quotes",
-    "compare amusement rides",
-    
-    // Long-tail Keywords
-    "best family rides for theme park",
-    "affordable carnival rides",
-    "indoor amusement rides for sale",
-    "water park rides catalog",
-    "thrill ride manufacturers",
+    "amusement ride manufacturer",
+    "theme park equipment",
+    "custom attractions",
+    "factory tested rides",
+    "certified rides",
   ],
   openGraph: {
     title: "Products - Amusement Rides Catalog | Miying Rides",
     description:
-      "Browse our catalog of amusement rides including family rides, thrill rides, water rides, and custom attractions.",
+      "Browse our complete catalog of amusement rides including family rides, thrill rides, water rides, and custom attractions.",
     url: "/products",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Products - Amusement Rides Catalog | Miying Rides",
+    description:
+      "Browse our complete catalog of amusement rides including family rides, thrill rides, water rides, and custom attractions.",
   },
   alternates: {
     canonical: "/products",
+    languages: {
+      "en-US": "/products",
+      "zh-CN": "/products?lang=zh",
+      "ar-SA": "/products?lang=ar",
+      "ru-RU": "/products?lang=ru",
+      "ja-JP": "/products?lang=ja",
+      "ko-KR": "/products?lang=ko",
+      "th-TH": "/products?lang=th",
+      "vi-VN": "/products?lang=vi",
+      "id-ID": "/products?lang=id",
+      "hi-IN": "/products?lang=hi",
+      "es-ES": "/products?lang=es",
+    },
   },
 };
 
@@ -84,19 +57,10 @@ export default function ProductsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const products = getProducts("en"); // Use English for structured data
-  const productData = products.slice(0, 10).map((p) => ({
-    name: p.name,
-    category: p.category,
-    image: p.image,
-    description: `${p.name} - ${p.category} amusement ride`,
-  }));
-
   return (
     <>
-      <StructuredDataServer type="products" products={productData} />
+      <StructuredDataServer type="products" />
       {children}
     </>
   );
 }
-

@@ -6,6 +6,8 @@ export const ja: CopyContent = {
     about: "会社概要",
     services: "サービス",
     products: "製品",
+    cases: "事例",
+    blog: "ブログ",
     contact: "お問い合わせ",
     visit: "工場見学",
   },

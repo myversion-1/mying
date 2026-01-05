@@ -5,7 +5,10 @@ import { Providers } from "../components/Providers";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { StructuredDataServer } from "../components/StructuredDataServer";
-import { CustomerServiceWidget } from "../components/CustomerServiceWidget";
+import { ErrorBoundary } from "../components/ErrorBoundary";
+import { ToastContainer } from "../components/Toast";
+import { CustomerServiceWidgetWrapper } from "../components/CustomerServiceWidgetWrapper";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -193,13 +196,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased bg-[#0c1014] text-white`}
       >
-        <Providers>
-          <StructuredDataServer type="home" />
-          <Header />
-          <main className="pb-20">{children}</main>
+        <ErrorBoundary>
+          <Providers>
+            <StructuredDataServer type="home" />
+            <Header />
+            <main className="pb-20">{children}</main>
           <Footer />
-          <CustomerServiceWidget />
+          <CustomerServiceWidgetWrapper />
+          <ToastContainer />
         </Providers>
+        <Analytics />
+      </ErrorBoundary>
       </body>
     </html>
   );

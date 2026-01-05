@@ -44,3 +44,9 @@ export function CertificationGrid({ certifications }: CertificationGridProps) {
 }
 
 
+
+
+
+
+
+

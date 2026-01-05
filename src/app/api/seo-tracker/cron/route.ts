@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
         } else if (result.status === "No-Follow") {
           results.noFollow++;
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error(`Error checking backlink ${backlink.id}:`, error);
         results.errors++;
       }
@@ -78,12 +78,13 @@ export async function GET(request: NextRequest) {
       results,
       timestamp: new Date().toISOString(),
     }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
     console.error("Cron job error:", error);
     return NextResponse.json(
       { 
         error: "Cron job failed",
-        details: error.message 
+        details: errorMessage 
       },
       { status: 500 }
     );

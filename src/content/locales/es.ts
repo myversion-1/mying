@@ -6,6 +6,8 @@ export const es: CopyContent = {
     about: "Nosotros",
     services: "Servicios",
     products: "Productos",
+    cases: "Casos",
+    blog: "Blog",
     contact: "Contacto",
     visit: "Visita a fábrica",
   },

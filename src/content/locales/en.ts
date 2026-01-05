@@ -6,6 +6,8 @@ export const en: CopyContent = {
     about: "About",
     services: "Services",
     products: "Products",
+    cases: "Cases",
+    blog: "Blog",
     contact: "Contact",
     visit: "Factory Visit",
   },

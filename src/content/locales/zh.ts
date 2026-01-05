@@ -6,6 +6,8 @@ export const zh: CopyContent = {
     about: "关于我们",
     services: "服务",
     products: "产品",
+    cases: "案例",
+    blog: "博客",
     contact: "联系我们",
     visit: "工厂参观",
   },

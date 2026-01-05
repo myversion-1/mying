@@ -7,6 +7,8 @@ A modern, multilingual Next.js website for Miying Amusement Equipment, showcasin
 ### Core Features
 - **Multilingual Support**: 11 languages (English, Chinese, Arabic, Russian, Japanese, Korean, Thai, Vietnamese, Indonesian, Hindi, Spanish)
 - **Product Catalog**: Interactive product grid with filtering and search
+- **Dynamic Product Pages**: Individual product detail pages (`/products/[id]`) with comprehensive information
+- **Breadcrumbs Navigation**: Visual navigation trail for better UX and SEO
 - **Service Showcase**: Consulting, sourcing, refurbishment, and assembly services
 - **Factory Visit Booking**: Verification-based booking system for verified clients
 - **Contact Forms**: Integrated contact forms with multiple email service options
@@ -14,10 +16,11 @@ A modern, multilingual Next.js website for Miying Amusement Equipment, showcasin
 
 ### SEO & Performance
 - **Comprehensive SEO**: Metadata, Open Graph, Twitter Cards, structured data (JSON-LD)
-- **Sitemap & Robots**: Auto-generated sitemap.xml and robots.txt
+- **Sitemap & Robots**: Auto-generated sitemap.xml and robots.txt (includes all product pages)
 - **Google Search Console**: Integrated verification
 - **Structured Data**: Organization, WebSite, Product, Service, BreadcrumbList, LocalBusiness schemas
-- **Multilingual SEO**: Hreflang tags for all language variants
+- **Multilingual SEO**: Hreflang tags for all language variants (automatic for product pages)
+- **Dynamic Product SEO**: Each product page has hreflang tags for all 11 languages
 
 ### Content Management
 - **Decoupled Content**: Content separated from components for easy maintenance
@@ -133,6 +136,8 @@ All content is centralized in `src/content/`:
 
 1. **UI Text**: Edit the appropriate language file in `src/content/locales/`
 2. **Products**: Edit `src/content/products_multilingual.ts`
+   - Product detail pages are automatically available at `/products/{slug}`
+   - Hreflang tags are automatically generated for all 11 languages
 3. **Services**: Edit `src/content/services_multilingual.ts`
 
 See [CONTENT_MANAGEMENT.md](./CONTENT_MANAGEMENT.md) for detailed instructions.
@@ -143,36 +148,44 @@ See [CONTENT_MANAGEMENT.md](./CONTENT_MANAGEMENT.md) for detailed instructions.
 - ✅ Page-specific metadata (title, description, keywords)
 - ✅ Open Graph and Twitter Cards
 - ✅ Structured data (JSON-LD) for Organization, WebSite, Product, Service, BreadcrumbList, LocalBusiness
-- ✅ Auto-generated sitemap.xml with all language variants
+- ✅ Auto-generated sitemap.xml with all language variants (includes all product pages)
 - ✅ robots.txt configuration
 - ✅ Google Search Console verification
 - ✅ Canonical URLs
-- ✅ Hreflang tags for multilingual SEO
+- ✅ Hreflang tags for multilingual SEO (automatic for all product pages)
+- ✅ Dynamic product page SEO with hreflang for all 11 languages
 
 ### SEO Documentation
 See [SEO_OPTIMIZATION.md](./SEO_OPTIMIZATION.md) for detailed SEO implementation and optimization suggestions.
 
 ## 📧 Contact Form Setup
 
-The contact form supports multiple email service providers. See the contact form section in the original README or configure one of these options:
+The contact form supports multiple email service providers with automatic fallback. The system will try providers in this order: Resend → SendGrid → Webhook.
 
 ### Option 1: Resend (Recommended)
 - Free tier: 3,000 emails/month
+- Sign up at [resend.com](https://resend.com)
 - Set `RESEND_API_KEY` and `CONTACT_EMAIL` in Vercel environment variables
 
-### Option 2: Gmail SMTP
-- Set `GMAIL_USER`, `GMAIL_APP_PASSWORD`, and `CONTACT_EMAIL`
-- Requires Gmail App Password
-
-### Option 3: Webhook
-- Use webhook.site or formspree.io
-- Set `WEBHOOK_URL` and `CONTACT_EMAIL`
-
-### Option 4: SendGrid
+### Option 2: SendGrid
 - Free tier: 100 emails/day
+- Sign up at [sendgrid.com](https://sendgrid.com)
+- Install: `npm install @sendgrid/mail`
 - Set `SENDGRID_API_KEY` and `CONTACT_EMAIL`
 
-Configure in `src/app/api/contact/route.ts` and set environment variables in Vercel.
+### Option 3: Webhook (Formspree)
+- Easiest option - no code changes needed
+- Sign up at [formspree.io](https://formspree.io) or use [webhook.site](https://webhook.site)
+- Set `WEBHOOK_URL` and `CONTACT_EMAIL`
+
+### Email Features
+- ✅ Automatic provider fallback
+- ✅ HTML and plain text email support
+- ✅ Input sanitization (XSS protection)
+- ✅ Email validation
+- ✅ Error handling and logging
+
+See `src/lib/email.ts` for the email utility implementation.
 
 ## 🚢 Deployment
 
@@ -207,6 +220,9 @@ npm run dev      # Start development server
 npm run build    # Build for production
 npm run start    # Start production server
 npm run lint     # Run ESLint
+npm test         # Run tests
+npm run test:watch    # Run tests in watch mode
+npm run test:coverage # Run tests with coverage
 ```
 
 ### Local Cleanup
@@ -229,11 +245,23 @@ See [MAINTENANCE.md](./MAINTENANCE.md) for more maintenance tips.
 
 ## 📚 Documentation
 
+### Core Documentation
 - [SEO_OPTIMIZATION.md](./SEO_OPTIMIZATION.md) - SEO implementation and optimization
 - [CONTENT_DECOUPLING.md](./CONTENT_DECOUPLING.md) - Content decoupling architecture
 - [CONTENT_MANAGEMENT.md](./CONTENT_MANAGEMENT.md) - Content management guide
 - [GOOGLE_VERIFICATION_GUIDE.md](./GOOGLE_VERIFICATION_GUIDE.md) - Google Search Console setup
 - [MAINTENANCE.md](./MAINTENANCE.md) - Maintenance and cleanup guide
+- [TESTING.md](./TESTING.md) - Testing guide and setup
+
+### Security & Improvements
+- [CRITICAL_IMPROVEMENTS.md](./CRITICAL_IMPROVEMENTS.md) - Completed critical improvements
+- [ADMIN_AUTH_SETUP.md](./ADMIN_AUTH_SETUP.md) - Admin authentication setup guide
+- [IMPROVEMENT_RECOMMENDATIONS.md](./IMPROVEMENT_RECOMMENDATIONS.md) - Comprehensive improvement recommendations
+- [QUICK_WINS.md](./QUICK_WINS.md) - Quick improvements you can make today
+
+### Email Setup
+- [FORMSPREE_SETUP.md](./FORMSPREE_SETUP.md) - Formspree webhook setup guide
+- [FORMSPREE_QUICK_SETUP.md](./FORMSPREE_QUICK_SETUP.md) - Quick Formspree reference
 
 ## 🛡️ Tech Stack
 

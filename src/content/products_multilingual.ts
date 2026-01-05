@@ -28,6 +28,7 @@ export type ProductMultilingual = {
   year?: string;
   badge?: string;
   image?: string;
+  patentCount?: number; // Number of patents for this product (e.g., 2, 3, 5)
   // Enhanced classification fields (multi-dimensional like Arrowy)
   usage?: ProductUsage;           // Usage type: Family Entertainment, Thrill Adventure, etc.
   venueType?: VenueType;          // Venue type: Indoor, Outdoor, Both
@@ -54,6 +55,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "36",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 0.jpeg",
+    patentCount: 2, // Example: 2 patents for this product
     positioning: { 
       en: "A family-friendly ride designed for indoor amusement centers. Suitable for small to medium-size venues.", 
       zh: "专为室内娱乐中心设计的家庭友好型游乐设备。适合中小型场地。" 
@@ -95,6 +97,7 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "30",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 1.jpeg",
+    patentCount: 3, // Example: 3 patents for this product
     positioning: { 
       en: "A medium-scale family attraction perfect for theme parks and large FECs. Requires adequate ceiling height.", 
       zh: "适合主题公园和大型家庭娱乐中心的中型家庭游乐设备。需要足够的层高。" 
@@ -1280,6 +1283,8 @@ export function getLocalizedProduct(product: ProductMultilingual, lang: Lang) {
     usage: classification.usage,
     venueType: classification.venueType,
     targetAudience: classification.targetAudience,
+    // Patent count
+    patentCount: product.patentCount,
     // Decision-making fields
     positioning: product.positioning?.[isZh ? "zh" : "en"],
     idealFor: product.idealFor?.[isZh ? "zh" : "en"] || [],
@@ -1296,3 +1301,42 @@ export function getLocalizedProduct(product: ProductMultilingual, lang: Lang) {
 
 // Export products array for backward compatibility (defaults to English)
 export const products = productsMultilingual.map(p => getLocalizedProduct(p, "en"));
+
+/**
+ * Generate slug from product name (English version)
+ * Used for URL-friendly product identifiers
+ */
+function generateProductSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "") // Remove special characters
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/-+/g, "-") // Replace multiple hyphens with single
+    .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
+}
+
+/**
+ * Get product by slug
+ * Finds a product by matching the slug generated from its English name
+ * 
+ * @param slug - URL-friendly product identifier
+ * @param lang - Language code for localization
+ * @returns Localized product or undefined if not found
+ */
+export function getProductBySlug(slug: string, lang: Lang = "en") {
+  const product = productsMultilingual.find((p) => {
+    const productSlug = generateProductSlug(p.name.en);
+    return productSlug === slug;
+  });
+  
+  return product ? getLocalizedProduct(product, lang) : undefined;
+}
+
+/**
+ * Get all product slugs
+ * Returns array of slugs for all products (useful for static generation)
+ */
+export function getAllProductSlugs(): string[] {
+  return productsMultilingual.map((p) => generateProductSlug(p.name.en));
+}

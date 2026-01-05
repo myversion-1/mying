@@ -6,13 +6,27 @@ import {
   deleteBacklink,
   type Backlink,
 } from "@/lib/seo-tracker-storage";
+import { verifyAdminAuth, createUnauthorizedResponse } from "@/lib/auth";
+import { CachePresets } from "@/lib/cache";
 
 // GET - Get all backlinks
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Verify admin authentication
+  if (!verifyAdminAuth(request)) {
+    return createUnauthorizedResponse();
+  }
   try {
     const backlinks = await getAllBacklinks();
-    return NextResponse.json({ backlinks }, { status: 200 });
-  } catch (error: any) {
+    return NextResponse.json(
+      { backlinks },
+      {
+        status: 200,
+        headers: {
+          "Cache-Control": CachePresets.dynamic(), // Backlinks can change, use dynamic cache
+        },
+      }
+    );
+  } catch (error: unknown) {
     console.error("Error fetching backlinks:", error);
     return NextResponse.json(
       { error: "Failed to fetch backlinks" },
@@ -23,6 +37,11 @@ export async function GET() {
 
 // POST - Create new backlink
 export async function POST(request: NextRequest) {
+  // Verify admin authentication
+  if (!verifyAdminAuth(request)) {
+    return createUnauthorizedResponse();
+  }
+
   try {
     const body = await request.json();
     const { externalUrl, targetUrl, language, notes } = body;
@@ -44,7 +63,7 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ backlink: newBacklink }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error creating backlink:", error);
     return NextResponse.json(
       { error: "Failed to create backlink" },
@@ -55,6 +74,11 @@ export async function POST(request: NextRequest) {
 
 // PUT - Update backlink
 export async function PUT(request: NextRequest) {
+  // Verify admin authentication
+  if (!verifyAdminAuth(request)) {
+    return createUnauthorizedResponse();
+  }
+
   try {
     const body = await request.json();
     const { id, ...updates } = body;
@@ -76,7 +100,7 @@ export async function PUT(request: NextRequest) {
     }
 
     return NextResponse.json({ backlink: updatedBacklink }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error updating backlink:", error);
     return NextResponse.json(
       { error: "Failed to update backlink" },
@@ -87,6 +111,11 @@ export async function PUT(request: NextRequest) {
 
 // DELETE - Delete backlink
 export async function DELETE(request: NextRequest) {
+  // Verify admin authentication
+  if (!verifyAdminAuth(request)) {
+    return createUnauthorizedResponse();
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
@@ -108,7 +137,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error deleting backlink:", error);
     return NextResponse.json(
       { error: "Failed to delete backlink" },
@@ -116,4 +145,5 @@ export async function DELETE(request: NextRequest) {
     );
   }
 }
+
 

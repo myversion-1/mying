@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkBacklink } from "@/lib/backlink-checker";
 import { updateBacklink, getBacklinkById } from "@/lib/seo-tracker-storage";
+import { verifyAdminAuth, createUnauthorizedResponse } from "@/lib/auth";
 
 // POST - Check a single backlink
 export async function POST(request: NextRequest) {
+  // Verify admin authentication
+  if (!verifyAdminAuth(request)) {
+    return createUnauthorizedResponse();
+  }
+
   try {
     const body = await request.json();
     const { id, externalUrl, targetUrl } = body;
@@ -45,12 +51,14 @@ export async function POST(request: NextRequest) {
     const result = await checkBacklink(externalUrl, targetUrl);
     
     return NextResponse.json({ checkResult: result }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
     console.error("Error checking backlink:", error);
     return NextResponse.json(
-      { error: "Failed to check backlink", details: error.message },
+      { error: "Failed to check backlink", details: errorMessage },
       { status: 500 }
     );
   }
 }
+
 

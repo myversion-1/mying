@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { SUPPORTED_LANGUAGES } from "@/utils/hreflang";
+import { AdminAuth } from "@/components/AdminAuth";
+import { getAdminPassword } from "@/lib/auth";
 
 type BacklinkStatus = "Active" | "Lost" | "No-Follow" | "Pending";
 
@@ -43,10 +45,18 @@ export default function SEOTrackerPage() {
   // Fetch backlinks
   const fetchBacklinks = async () => {
     try {
-      const response = await fetch("/api/seo-tracker/backlinks");
+      const password = getAdminPassword();
+      const response = await fetch("/api/seo-tracker/backlinks", {
+        headers: password ? {
+          "Authorization": `Bearer ${password}`,
+        } : {},
+      });
       if (response.ok) {
         const data = await response.json();
         setBacklinks(data.backlinks || []);
+      } else if (response.status === 401) {
+        // Unauthorized - password might have changed
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error fetching backlinks:", error);
@@ -56,10 +66,18 @@ export default function SEOTrackerPage() {
   // Fetch product URLs
   const fetchProductUrls = async () => {
     try {
-      const response = await fetch("/api/seo-tracker/product-urls");
+      const password = getAdminPassword();
+      const response = await fetch("/api/seo-tracker/product-urls", {
+        headers: password ? {
+          "Authorization": `Bearer ${password}`,
+        } : {},
+      });
       if (response.ok) {
         const data = await response.json();
         setProductUrls(data.productUrls || []);
+      } else if (response.status === 401) {
+        // Unauthorized - password might have changed
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error fetching product URLs:", error);
@@ -79,9 +97,13 @@ export default function SEOTrackerPage() {
     setSubmitting(true);
 
     try {
+      const password = getAdminPassword();
       const response = await fetch("/api/seo-tracker/backlinks", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(password ? { "Authorization": `Bearer ${password}` } : {}),
+        },
         body: JSON.stringify(formData),
       });
 
@@ -111,9 +133,13 @@ export default function SEOTrackerPage() {
   const handleCheck = async (id: string) => {
     setChecking(id);
     try {
+      const password = getAdminPassword();
       const response = await fetch("/api/seo-tracker/check", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(password ? { "Authorization": `Bearer ${password}` } : {}),
+        },
         body: JSON.stringify({ id }),
       });
 
@@ -142,9 +168,15 @@ export default function SEOTrackerPage() {
     }
 
     try {
+      const password = getAdminPassword();
       const response = await fetch(
         `/api/seo-tracker/backlinks?id=${id}`,
-        { method: "DELETE" }
+        {
+          method: "DELETE",
+          headers: password ? {
+            "Authorization": `Bearer ${password}`,
+          } : {},
+        }
       );
 
       if (response.ok) {
@@ -184,9 +216,10 @@ export default function SEOTrackerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0c1014] text-white p-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold mb-2">SEO Backlink Tracker</h1>
+    <AdminAuth>
+      <div className="min-h-screen bg-[#0c1014] text-white p-8">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-4xl font-bold mb-2">SEO Backlink Tracker</h1>
         <p className="text-white/70 mb-8">
           Track and monitor backlinks to your product pages
         </p>
@@ -387,7 +420,7 @@ export default function SEOTrackerPage() {
           </p>
         </div>
       </div>
-    </div>
+    </AdminAuth>
   );
 }
 

@@ -6,6 +6,8 @@ export const ar: CopyContent = {
     about: "من نحن",
     services: "الخدمات",
     products: "المنتجات",
+    cases: "الحالات",
+    blog: "المدونة",
     contact: "اتصل بنا",
     visit: "زيارة المصنع",
   },

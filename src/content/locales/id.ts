@@ -6,6 +6,8 @@ export const id: CopyContent = {
     about: "Tentang Kami",
     services: "Layanan",
     products: "Produk",
+    cases: "Kasus",
+    blog: "Blog",
     contact: "Kontak",
     visit: "Kunjungan Pabrik",
   },

@@ -5,19 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { copy } from "../content/copy";
 import { useLanguage } from "./language";
 import { getProducts } from "../content/copy";
-
-// Email validation function
-const isValidEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
-
-// Work email validation (should not be common personal email domains)
-const isWorkEmail = (email: string): boolean => {
-  const personalDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com', 'mail.com'];
-  const domain = email.split('@')[1]?.toLowerCase();
-  return domain ? !personalDomains.includes(domain) : false;
-};
+import { validateEmail, validateWorkEmail, validateRequired, validateNumber, validateMinLength, validateFields } from "../lib/form-validation";
+import { toast } from "./Toast";
 
 export function QuoteForm() {
   const { lang } = useLanguage();
@@ -36,10 +25,6 @@ export function QuoteForm() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{
-    type: "success" | "error" | null;
-    message: string;
-  }>({ type: null, message: "" });
 
   // Pre-fill product if coming from product page
   useEffect(() => {
@@ -50,41 +35,31 @@ export function QuoteForm() {
   }, [searchParams]);
 
   const validateForm = (): boolean => {
-    const newErrors: Record<string, string> = {};
+    const fieldLabels = {
+      name: lang === "zh" ? "姓名" : "Name",
+      email: lang === "zh" ? "工作邮箱" : "Work email",
+      company: lang === "zh" ? "公司名称" : "Company name",
+      product: lang === "zh" ? "产品" : "Product",
+      quantity: lang === "zh" ? "订购数量" : "Order quantity",
+      message: lang === "zh" ? "消息" : "Message",
+    };
 
-    if (!formData.name.trim()) {
-      newErrors.name = lang === "zh" ? "请输入姓名" : "Name is required";
-    }
+    const validationResults = validateFields({
+      name: validateRequired(formData.name, fieldLabels.name),
+      email: validateWorkEmail(formData.email, false), // Not strict, just warning
+      company: validateRequired(formData.company, fieldLabels.company),
+      product: validateRequired(formData.product, fieldLabels.product),
+      quantity: validateNumber(formData.quantity, {
+        min: 1,
+        integer: true,
+        required: true,
+        fieldName: fieldLabels.quantity,
+      }),
+      message: validateMinLength(formData.message, 10, fieldLabels.message),
+    });
 
-    if (!formData.email.trim()) {
-      newErrors.email = lang === "zh" ? "请输入工作邮箱" : "Work email is required";
-    } else if (!isValidEmail(formData.email)) {
-      newErrors.email = lang === "zh" ? "请输入有效的邮箱地址" : "Please enter a valid email address";
-    } else if (!isWorkEmail(formData.email)) {
-      // Warning but not blocking - just a suggestion
-      // You can make this stricter if needed
-    }
-
-    if (!formData.company.trim()) {
-      newErrors.company = lang === "zh" ? "请输入公司名称" : "Company name is required";
-    }
-
-    if (!formData.product.trim()) {
-      newErrors.product = lang === "zh" ? "请选择感兴趣的产品" : "Please select a product of interest";
-    }
-
-    if (!formData.quantity.trim()) {
-      newErrors.quantity = lang === "zh" ? "请输入订购数量" : "Order quantity is required";
-    } else if (isNaN(Number(formData.quantity)) || Number(formData.quantity) <= 0) {
-      newErrors.quantity = lang === "zh" ? "请输入有效的数量" : "Please enter a valid quantity";
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = lang === "zh" ? "请输入消息" : "Message is required";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setErrors(validationResults.errors);
+    return validationResults.isValid;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -122,12 +97,12 @@ export function QuoteForm() {
       const result = await response.json();
 
       if (response.ok) {
-        setSubmitStatus({
-          type: "success",
-          message: lang === "zh" 
-            ? "感谢您的询价！我们将在24小时内回复您。" 
-            : "Thank you for your quote request! We'll get back to you within 24 hours.",
-        });
+        toast.success(
+          result.message || 
+          (lang === "zh" 
+            ? "报价请求已提交成功！我们会在24小时内回复您。" 
+            : "Quote request submitted successfully. We'll get back to you within 24 hours.")
+        );
         // Reset form
         setFormData({
           name: "",
@@ -137,24 +112,19 @@ export function QuoteForm() {
           quantity: "",
           message: "",
         });
+        setErrors({});
       } else {
-        setSubmitStatus({
-          type: "error",
-          message: result.error || (lang === "zh" ? "提交失败，请重试。" : "Failed to submit. Please try again."),
-        });
+        toast.error(
+          result.error || 
+          (lang === "zh" ? "提交失败，请重试。" : "Failed to submit quote request. Please try again.")
+        );
       }
     } catch (error) {
-      setSubmitStatus({
-        type: "error",
-        message: lang === "zh" ? "网络错误，请稍后重试。" : "Network error. Please try again later.",
-      });
+      toast.error(lang === "zh" ? "网络错误，请稍后重试。" : "Network error. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  // Show success message
-  if (submitStatus.type === "success") {
     return (
       <div className="rounded-2xl border border-green-500/30 bg-gradient-to-br from-green-500/10 to-green-500/5 p-8 text-center">
         <div className="mb-4 flex justify-center">
@@ -324,11 +294,6 @@ export function QuoteForm() {
         {errors.message && <p className="text-xs text-red-400">{errors.message}</p>}
       </div>
 
-      {submitStatus.type === "error" && (
-        <div className="rounded-xl border border-red-500/50 bg-red-500/10 p-3 text-sm text-red-400">
-          {submitStatus.message}
-        </div>
-      )}
 
       <button
         type="submit"

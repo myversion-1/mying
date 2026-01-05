@@ -6,6 +6,8 @@ export type CopyContent = {
     about: string;
     services: string;
     products: string;
+    cases: string;
+    blog: string;
     contact: string;
     visit: string;
   };
@@ -119,4 +121,32 @@ export type CopyContent = {
     subtitle: string;
   };
 };
+
+/**
+ * Interface for localized SEO metadata
+ * Supports 11 languages: en, zh, ar, ru, ja, ko, th, vi, id, hi, es
+ */
+export interface LocalizedSEO {
+  title: string;
+  description: string;
+  keywords: string;
+  ogTitle: string;
+  ogDescription: string;
+}
+
+/**
+ * Global SEO configuration for static pages
+ */
+export interface SiteMetaContent {
+  home: LocalizedSEO;
+  about: LocalizedSEO;
+  products: LocalizedSEO;
+  services: LocalizedSEO;
+  cases: LocalizedSEO;
+  blog: LocalizedSEO;
+  contact: LocalizedSEO;
+  // Specific templates for dynamic routes
+  productDetailTemplate: (name: string) => string;
+  blogDetailTemplate: (title: string) => string;
+}
 

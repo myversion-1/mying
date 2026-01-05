@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { copy } from "../content/copy";
 import { useLanguage } from "./language";
+import { validateEmail, validateRequired, validateMinLength, validateFields } from "../lib/form-validation";
+import { toast } from "./Toast";
 
 // Simple email sending using mailto as fallback
 // For production, set up EmailJS, Resend, or SendGrid
@@ -46,10 +48,7 @@ export function ContactForm({ action }: { action?: string }) {
   const c = copy(lang);
   const searchParams = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{
-    type: "success" | "error" | null;
-    message: string;
-  }>({ type: null, message: "" });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [message, setMessage] = useState("");
 
   // Pre-fill message with product name if coming from product page
@@ -63,16 +62,38 @@ export function ContactForm({ action }: { action?: string }) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus({ type: null, message: "" });
+    setErrors({});
 
     const formData = new FormData(e.currentTarget);
+    const name = (formData.get("name") as string) || "";
+    const email = (formData.get("email") as string) || "";
+    const phone = (formData.get("phone") as string) || "";
+    const country = (formData.get("country") as string) || "";
+    const company = (formData.get("company") as string) || "";
+    const messageValue = message || (formData.get("message") as string) || "";
+
+    // Validate form fields
+    const validationResults = validateFields({
+      name: validateRequired(name, lang === "zh" ? "姓名" : "Name"),
+      email: validateEmail(email),
+      company: validateRequired(company, lang === "zh" ? "公司名称" : "Company name"),
+      message: validateMinLength(messageValue, 10, lang === "zh" ? "消息" : "Message"),
+    });
+
+    if (!validationResults.isValid) {
+      setErrors(validationResults.errors);
+      setIsSubmitting(false);
+      toast.error(lang === "zh" ? "请检查表单错误" : "Please check form errors");
+      return;
+    }
+
     const data = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      country: formData.get("country"),
-      company: formData.get("company"),
-      message: formData.get("message"),
+      name,
+      email,
+      phone,
+      country,
+      company,
+      message: messageValue,
     };
 
     try {
@@ -87,23 +108,15 @@ export function ContactForm({ action }: { action?: string }) {
       const result = await response.json();
 
       if (response.ok) {
-        setSubmitStatus({
-          type: "success",
-          message: result.message || "Thank you! We'll get back to you soon.",
-        });
+        toast.success(result.message || (lang === "zh" ? "感谢您的留言！我们会尽快回复。" : "Thank you! We'll get back to you soon."));
         (e.target as HTMLFormElement).reset();
         setMessage("");
+        setErrors({});
       } else {
-        setSubmitStatus({
-          type: "error",
-          message: result.error || "Failed to send message. Please try again.",
-        });
+        toast.error(result.error || (lang === "zh" ? "发送失败，请重试。" : "Failed to send message. Please try again."));
       }
     } catch (error) {
-      setSubmitStatus({
-        type: "error",
-        message: "Network error. Please try again later.",
-      });
+      toast.error(lang === "zh" ? "网络错误，请稍后重试。" : "Network error. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -115,36 +128,46 @@ export function ContactForm({ action }: { action?: string }) {
       className="grid gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur"
     >
       <div className="grid gap-3 md:grid-cols-2">
-        <LabeledInput name="name" label={c.form.name} required />
-        <LabeledInput name="email" label={c.form.email} type="email" required />
-        <LabeledInput name="phone" label={c.form.phone} />
-        <LabeledInput name="country" label={c.form.country} />
-        <LabeledInput name="company" label={c.form.company} required />
+        <LabeledInput name="name" label={c.form.name} required error={errors.name} />
+        <LabeledInput name="email" label={c.form.email} type="email" required error={errors.email} />
+        <LabeledInput name="phone" label={c.form.phone} error={errors.phone} />
+        <LabeledInput name="country" label={c.form.country} error={errors.country} />
+        <LabeledInput name="company" label={c.form.company} required error={errors.company} />
       </div>
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-white/80">
+        <label className="text-sm font-medium text-white/80" htmlFor="message">
           {c.form.message}
         </label>
         <textarea
+          id="message"
           name="message"
           rows={4}
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="w-full rounded-xl border border-white/10 bg-[#0c1014] px-3 py-2 text-white outline-none transition focus:border-[#7df6ff]/60"
-          required
-        />
-      </div>
-      {submitStatus.type && (
-        <div
-          className={`rounded-xl border p-3 text-sm ${
-            submitStatus.type === "success"
-              ? "border-green-500/50 bg-green-500/10 text-green-400"
-              : "border-red-500/50 bg-red-500/10 text-red-400"
+          onChange={(e) => {
+            setMessage(e.target.value);
+            if (errors.message) {
+              setErrors((prev) => {
+                const newErrors = { ...prev };
+                delete newErrors.message;
+                return newErrors;
+              });
+            }
+          }}
+          className={`w-full rounded-xl border bg-[#0c1014] px-3 py-2 text-white outline-none transition ${
+            errors.message
+              ? "border-red-500/50 focus:border-red-500"
+              : "border-white/10 focus:border-[#7df6ff]/60"
           }`}
-        >
-          {submitStatus.message}
-        </div>
-      )}
+          required
+          aria-invalid={!!errors.message}
+          aria-describedby={errors.message ? "message-error" : undefined}
+        />
+        {errors.message && (
+          <p id="message-error" className="text-xs text-red-400" role="alert">
+            {errors.message}
+          </p>
+        )}
+      </div>
       <button
         type="submit"
         disabled={isSubmitting}
@@ -186,21 +209,34 @@ type InputProps = {
   label: string;
   type?: string;
   required?: boolean;
+  error?: string;
 };
 
-function LabeledInput({ name, label, type = "text", required }: InputProps) {
+function LabeledInput({ name, label, type = "text", required, error }: InputProps) {
   return (
     <div className="flex flex-col gap-2">
       <label className="text-sm font-medium text-white/80" htmlFor={name}>
         {label}
+        {required && <span className="text-red-400 ml-1">*</span>}
       </label>
       <input
         id={name}
         name={name}
         type={type}
         required={required}
-        className="w-full rounded-xl border border-white/10 bg-[#0c1014] px-3 py-2 text-white outline-none transition focus:border-[#7df6ff]/60"
+        className={`w-full rounded-xl border bg-[#0c1014] px-3 py-2 text-white outline-none transition ${
+          error
+            ? "border-red-500/50 focus:border-red-500"
+            : "border-white/10 focus:border-[#7df6ff]/60"
+        }`}
+        aria-invalid={!!error}
+        aria-describedby={error ? `${name}-error` : undefined}
       />
+      {error && (
+        <p id={`${name}-error`} className="text-xs text-red-400" role="alert">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
