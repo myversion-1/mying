@@ -38,7 +38,7 @@ export async function generateMetadata({
     authors: [{ name: "Miying Amusement Equipment" }],
     openGraph: {
       title: `${post.title} | Miying Rides Blog`,
-      description: post.excerpt || post.content.substring(0, 160) + "...",
+      description: post.excerpt || (post.content ? post.content.substring(0, 160) + "..." : ""),
       url: postUrl,
       type: "article",
       publishedTime: post.date,
