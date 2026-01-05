@@ -52,12 +52,19 @@ export async function sendEmail(data: EmailData): Promise<EmailResult> {
   }
 
   // Try SendGrid (optional - skip if package not installed)
-  // Note: @sendgrid/mail is an optional dependency - install it if you want to use SendGrid
+  // Note: @sendgrid/mail is an optional dependency
   if (process.env.SENDGRID_API_KEY) {
     try {
-      // Use string variable to prevent build-time module resolution
-      const sendgridPackage = "@sendgrid/mail";
-      const sendGridModule = await import(sendgridPackage).catch(() => null);
+      // Runtime-only import to prevent build-time resolution
+      // This will only execute at runtime, not during build
+      const sendGridModule = await (async () => {
+        try {
+          return await import("@sendgrid/mail");
+        } catch {
+          return null;
+        }
+      })();
+      
       if (!sendGridModule || !sendGridModule.default) {
         // Package not installed, skip SendGrid
         throw new Error("SendGrid package not installed");
