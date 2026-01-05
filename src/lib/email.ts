@@ -9,6 +9,7 @@ interface EmailData {
   text: string;
   html?: string;
   from?: string;
+  formData?: Record<string, string>;
 }
 
 interface EmailResult {
