@@ -220,9 +220,10 @@ export default function SEOTrackerPage() {
       <div className="min-h-screen bg-[#0c1014] text-white p-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-bold mb-2">SEO Backlink Tracker</h1>
-        <p className="text-white/70 mb-8">
-          Track and monitor backlinks to your product pages
-        </p>
+          <p className="text-white/70 mb-8">
+            Track and monitor backlinks to your product pages
+          </p>
+        </div>
 
         {/* Add Backlink Form */}
         <div className="bg-[#1a1f2e] rounded-lg p-6 mb-8 border border-white/10">

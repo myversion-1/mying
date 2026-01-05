@@ -25,6 +25,7 @@ export function QuoteForm() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ type: "success" | null; message: string }>({ type: null, message: "" });
 
   // Pre-fill product if coming from product page
   useEffect(() => {
@@ -97,12 +98,12 @@ export function QuoteForm() {
       const result = await response.json();
 
       if (response.ok) {
-        toast.success(
-          result.message || 
+        const successMessage = result.message || 
           (lang === "zh" 
             ? "报价请求已提交成功！我们会在24小时内回复您。" 
-            : "Quote request submitted successfully. We'll get back to you within 24 hours.")
-        );
+            : "Quote request submitted successfully. We'll get back to you within 24 hours.");
+        toast.success(successMessage);
+        setSubmitStatus({ type: "success", message: successMessage });
         // Reset form
         setFormData({
           name: "",
@@ -125,6 +126,8 @@ export function QuoteForm() {
       setIsSubmitting(false);
     }
   };
+
+  if (submitStatus.type === "success") {
     return (
       <div className="rounded-2xl border border-green-500/30 bg-gradient-to-br from-green-500/10 to-green-500/5 p-8 text-center">
         <div className="mb-4 flex justify-center">

@@ -54,7 +54,14 @@ export async function sendEmail(data: EmailData): Promise<EmailResult> {
   // Try SendGrid
   if (process.env.SENDGRID_API_KEY) {
     try {
-      const sgMail = (await import("@sendgrid/mail")).default;
+      // Dynamic import with error handling for optional dependency
+      let sgMail;
+      try {
+        sgMail = (await import("@sendgrid/mail")).default;
+      } catch (importError) {
+        // @sendgrid/mail is optional, skip if not installed
+        throw new Error("SendGrid package not installed");
+      }
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
       
       await sgMail.send({
