@@ -26,7 +26,7 @@ export async function generateMetadata({
 
   return {
     title: `${post.title} | Miying Rides Blog`,
-    description: post.excerpt || post.content.substring(0, 160) + "...",
+    description: post.excerpt || (post.content ? post.content.substring(0, 160) + "..." : ""),
     keywords: [
       post.category,
       "amusement rides",
