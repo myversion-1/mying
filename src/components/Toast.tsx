@@ -11,6 +11,24 @@ export interface Toast {
   duration?: number;
 }
 
+/**
+ * Toast 自定义事件详情接口
+ */
+export interface ToastEventDetail {
+  message: string;
+  type: ToastType;
+  duration?: number;
+}
+
+/**
+ * Toast 自定义事件接口
+ * 扩展标准 Event 接口
+ */
+export interface ToastCustomEvent extends CustomEvent<ToastEventDetail> {
+  type: "show-toast";
+  detail: ToastEventDetail;
+}
+
 interface ToastProps {
   toast: Toast;
   onClose: (id: string) => void;
@@ -102,17 +120,18 @@ export function ToastContainer() {
 
   // Listen for toast events
   useEffect(() => {
-    const handleToast = (event: CustomEvent<Omit<Toast, "id">>) => {
+    const handleToast = (event: Event) => {
+      const toastEvent = event as ToastCustomEvent;
       const newToast: Toast = {
-        ...event.detail,
+        ...toastEvent.detail,
         id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
       };
       setToasts((prev) => [...prev, newToast]);
     };
 
-    window.addEventListener("show-toast" as any, handleToast as EventListener);
+    window.addEventListener("show-toast", handleToast);
     return () => {
-      window.removeEventListener("show-toast" as any, handleToast as EventListener);
+      window.removeEventListener("show-toast", handleToast);
     };
   }, []);
 

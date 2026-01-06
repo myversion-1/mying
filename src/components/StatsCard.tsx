@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import CountUp from "react-countup";
+// Dynamic import for CountUp to reduce initial bundle size
+import dynamic from "next/dynamic";
+
+const CountUp = dynamic(() => import("react-countup").then((mod) => mod.default), {
+  ssr: false, // CountUp doesn't need SSR
+  loading: () => <span>0</span>, // Fallback during loading
+});
 
 type StatsCardProps = {
   number: string | number;

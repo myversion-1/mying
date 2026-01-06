@@ -12,9 +12,17 @@ export function CustomerServiceWidget() {
   const { lang } = useLanguage();
   const c = copy(lang);
   const [isOpen, setIsOpen] = useState(false);
+  const isRTL = lang === "ar";
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+    <div 
+      className={`fixed bottom-4 z-50 flex flex-col gap-3 ${
+        isRTL 
+          ? "right-1/2 translate-x-1/2 md:right-6 md:translate-x-0 md:left-auto md:items-start" 
+          : "left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-6 md:items-end"
+      } items-center`}
+      dir={isRTL ? "rtl" : "ltr"}
+    >
       {/* Contact Options Panel */}
       {isOpen && (
         <div

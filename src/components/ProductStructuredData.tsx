@@ -12,6 +12,13 @@ interface ProductStructuredDataProps {
 /**
  * Structured data (JSON-LD) for product pages
  * Provides rich results data for Google Search
+ * 
+ * B2B Standard Compliance:
+ * - ✅ Product Schema with all required fields
+ * - ✅ BreadcrumbList Schema for navigation
+ * - ✅ Technical parameters (footprint, height, capacity) in additionalProperty
+ * - ✅ All URLs use absolute paths
+ * - ✅ Manufacturer information included
  */
 export function ProductStructuredData({
   product,
@@ -22,7 +29,7 @@ export function ProductStructuredData({
     : "https://mying.vercel.app",
 }: ProductStructuredDataProps) {
 
-  // Build product schema
+  // Build product schema (B2B Standard: Product Schema required)
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -52,7 +59,8 @@ export function ProductStructuredData({
         name: "Miying Amusement Equipment",
       },
     },
-    // Additional properties
+    // Additional properties (B2B Standard: Technical parameters required)
+    // Must include footprint, height, and capacity (riders) as per b2b-catalog-standards.mdc
     ...(product.footprint && {
       additionalProperty: [
         {
@@ -67,7 +75,7 @@ export function ProductStructuredData({
         },
         {
           "@type": "PropertyValue",
-          name: "Riders",
+          name: "Riders", // Also known as Capacity
           value: product.riders,
         },
         ...(product.year
@@ -83,7 +91,7 @@ export function ProductStructuredData({
     }),
   };
 
-  // Breadcrumb schema
+  // Breadcrumb schema (B2B Standard: BreadcrumbList Schema required)
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

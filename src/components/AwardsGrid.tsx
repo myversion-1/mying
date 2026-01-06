@@ -40,7 +40,9 @@ export function AwardsGrid({ awards, lang = "en" }: AwardsGridProps) {
                     alt={getLocalizedName(award)}
                     fill
                     className="object-contain p-2"
-                    unoptimized
+                    quality={85}
+                    loading="lazy"
+                    sizes="64px"
                   />
                 </div>
               ) : (
@@ -99,6 +101,7 @@ export function AwardsGrid({ awards, lang = "en" }: AwardsGridProps) {
     </div>
   );
 }
+
 
 
 

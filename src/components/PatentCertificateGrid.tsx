@@ -51,7 +51,8 @@ export function PatentCertificateGrid({ certificates, lang = "en" }: PatentCerti
                 fill
                 className="object-contain p-4 transition-transform group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                unoptimized
+                quality={85}
+                loading="lazy"
               />
             </div>
             <div className="p-4 space-y-2">
@@ -103,7 +104,8 @@ export function PatentCertificateGrid({ certificates, lang = "en" }: PatentCerti
                 fill
                 className="object-contain"
                 sizes="90vw"
-                unoptimized
+                quality={85}
+                loading="lazy"
               />
             </div>
           </div>
@@ -112,6 +114,7 @@ export function PatentCertificateGrid({ certificates, lang = "en" }: PatentCerti
     </>
   );
 }
+
 
 
 

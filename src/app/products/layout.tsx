@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { StructuredDataServer } from "../../components/StructuredDataServer";
 
+/**
+ * ISR Configuration for Products Layout
+ * Revalidate every 60 seconds for optimal performance
+ */
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Products - Amusement Rides Catalog | Miying Rides",
   description:

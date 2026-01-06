@@ -86,7 +86,9 @@ export default function CasesPage() {
                 alt={selectedCase.title}
                 fill
                 className="object-cover"
-                unoptimized
+                quality={85}
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, 90vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0c1014] to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
@@ -184,6 +186,7 @@ export default function CasesPage() {
     </div>
   );
 }
+
 
 
 

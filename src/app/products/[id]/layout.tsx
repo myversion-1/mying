@@ -96,7 +96,10 @@ export async function generateMetadata({
       description: description,
       images: product.image ? [`${baseUrl}${product.image}`] : undefined,
     },
-    alternates: alternates,
+    alternates: {
+      canonical: productUrl, // Unique canonical URL for each product to prevent keyword cannibalization
+      ...alternates, // Includes hreflang languages and x-default
+    },
   };
 }
 

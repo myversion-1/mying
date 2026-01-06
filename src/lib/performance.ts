@@ -3,6 +3,35 @@
  * Tracks Web Vitals and performance metrics
  */
 
+/**
+ * Google Analytics gtag 函数类型定义
+ */
+interface GtagFunction {
+  (
+    command: "event" | "config" | "set" | "js",
+    targetId: string | Date,
+    config?: Record<string, unknown>
+  ): void;
+  (
+    command: "event",
+    eventName: string,
+    eventParams?: {
+      value?: number;
+      metric_id?: string;
+      metric_value?: number;
+      metric_delta?: number;
+      [key: string]: unknown;
+    }
+  ): void;
+}
+
+/**
+ * 扩展 Window 接口以包含 gtag
+ */
+interface WindowWithGtag extends Window {
+  gtag?: GtagFunction;
+}
+
 export interface WebVitalsMetric {
   id: string;
   name: string;
@@ -26,8 +55,9 @@ export function reportWebVitals(metric: WebVitalsMetric): void {
   if (process.env.NODE_ENV === "production") {
     // Example: Send to Vercel Analytics, Google Analytics, etc.
     // You can extend this to send to your analytics service
-    if (typeof window !== "undefined" && (window as any).gtag) {
-      (window as any).gtag("event", metric.name, {
+    if (typeof window !== "undefined") {
+      const windowWithGtag = window as WindowWithGtag;
+      windowWithGtag.gtag?.("event", metric.name, {
         value: Math.round(metric.value),
         metric_id: metric.id,
         metric_value: metric.value,

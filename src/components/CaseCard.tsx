@@ -27,7 +27,8 @@ export function CaseCard({ caseItem, onClick }: CaseCardProps) {
             className="object-cover transition-transform group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             onError={() => setImageError(true)}
-            unoptimized
+            quality={85}
+            loading="lazy"
           />
         ) : (
           <div className="flex h-full items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
@@ -112,6 +113,7 @@ export function CaseCard({ caseItem, onClick }: CaseCardProps) {
     </div>
   );
 }
+
 
 
 

@@ -1,0 +1,49 @@
+﻿{
+    "timestamp":  "2026-01-06T10:17:22Z",
+    "server":  "not_running",
+    "checks":  [
+                   {
+                       "value":  1037.22,
+                       "name":  "bundle_size",
+                       "details":  {
+                                       "mainBundleName":  "14700d4ef775cd8d.js",
+                                       "mainBundleSize":  219.25,
+                                       "totalChunks":  26
+                                   },
+                       "target":  "\u003c 500 KB",
+                       "unit":  "KB",
+                       "status":  "warning"
+                   },
+                   {
+                       "value":  0,
+                       "name":  "image_optimization",
+                       "target":  "0 files with unoptimized",
+                       "message":  "All images optimized",
+                       "unit":  "files",
+                       "status":  "pass"
+                   },
+                   {
+                       "status":  "pass",
+                       "name":  "isr_configuration",
+                       "target":  "revalidate = 60",
+                       "value":  "configured"
+                   },
+                   {
+                       "value":  2,
+                       "name":  "code_splitting",
+                       "target":  "\u003e 0",
+                       "message":  "2 components use dynamic imports",
+                       "unit":  "dynamic imports",
+                       "status":  "pass"
+                   },
+                   {
+                       "status":  "pass",
+                       "name":  "nextjs_config",
+                       "details":  {
+                                       "compression":  true,
+                                       "imageOptimization":  true,
+                                       "swcMinify":  true
+                                   }
+                   }
+               ]
+}

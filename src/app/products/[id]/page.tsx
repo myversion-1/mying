@@ -9,8 +9,22 @@ import { copy } from "../../../content/copy";
 import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { Badge } from "../../../components/ui/Badge";
 import { ProductStructuredData } from "../../../components/ProductStructuredData";
-import { TechnicalCertification } from "../../../components/TechnicalCertification";
+import { ProductSpecs } from "../../../components/ProductSpecs";
+import dynamic from "next/dynamic";
 import Link from "next/link";
+
+// Code splitting: Lazy load TechnicalCertification (not critical for LCP)
+const TechnicalCertification = dynamic(
+  () => import("../../../components/TechnicalCertification").then((mod) => ({ default: mod.TechnicalCertification })),
+  {
+    loading: () => (
+      <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+        <div className="h-8 w-48 animate-pulse rounded bg-white/10" />
+      </div>
+    ),
+    ssr: true, // Keep SSR for SEO
+  }
+);
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -81,7 +95,7 @@ export default function ProductPage({ params }: Props) {
           </div>
         </div>
 
-        {/* Product Image */}
+        {/* Product Image - Priority for LCP optimization */}
         {product.image && (
           <div className="relative aspect-video overflow-hidden rounded-2xl">
             <Image
@@ -89,8 +103,9 @@ export default function ProductPage({ params }: Props) {
               alt={product.name}
               fill
               className="object-cover"
-              sizes="100vw"
-              unoptimized
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+              priority // Critical: Priority loading for LCP optimization
+              quality={85} // Optimized quality for WebP/AVIF
             />
           </div>
         )}
@@ -112,39 +127,8 @@ export default function ProductPage({ params }: Props) {
 
         {/* Specifications Grid */}
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <h2 className="mb-4 text-2xl font-semibold text-white">
-              {lang === "zh" ? "规格参数" : "Specifications"}
-            </h2>
-            <dl className="space-y-3">
-              <div className="flex justify-between border-b border-white/10 pb-2">
-                <dt className="text-sm text-white/60">
-                  {c.productLabels?.footprint || (lang === "zh" ? "占地面积" : "Footprint")}
-                </dt>
-                <dd className="font-medium text-white">{product.footprint}</dd>
-              </div>
-              <div className="flex justify-between border-b border-white/10 pb-2">
-                <dt className="text-sm text-white/60">
-                  {c.productLabels?.height || (lang === "zh" ? "高度" : "Height")}
-                </dt>
-                <dd className="font-medium text-white">{product.height}</dd>
-              </div>
-              <div className="flex justify-between border-b border-white/10 pb-2">
-                <dt className="text-sm text-white/60">
-                  {c.productLabels?.riders || (lang === "zh" ? "载客量" : "Riders")}
-                </dt>
-                <dd className="font-medium text-white">{product.riders}</dd>
-              </div>
-              {product.year && (
-                <div className="flex justify-between border-b border-white/10 pb-2">
-                  <dt className="text-sm text-white/60">
-                    {c.productLabels?.year || (lang === "zh" ? "年份" : "Year")}
-                  </dt>
-                  <dd className="font-medium text-white">{product.year}</dd>
-                </div>
-              )}
-            </dl>
-          </div>
+          {/* Technical Specifications - Structured Component */}
+          <ProductSpecs product={product} lang={lang} variant="detail" />
 
           {/* ③ Venue Requirements & Power Supply */}
           <div className="space-y-6">
@@ -289,38 +273,33 @@ export default function ProductPage({ params }: Props) {
           </div>
         )}
 
-        {/* ⑦ Call to Action */}
+        {/* ⑦ Call to Action - Primary: Get Quote Only */}
         <div className="rounded-2xl border border-[#00eaff]/30 bg-gradient-to-r from-[#00eaff]/10 to-[#7df6ff]/10 p-8 text-center">
           <p className="mb-6 text-xl font-semibold text-white">
             {product.ctaText || (c.productDecision?.contactForQuote || (lang === "zh" ? "获取布局建议与报价" : "Contact for layout suggestion & quotation"))}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
+            {/* Primary CTA: Get Quote */}
             <Link
               href={`/quote?product=${encodeURIComponent(product.name)}`}
               className="rounded-lg bg-[#00eaff] px-8 py-3 font-semibold text-[#0b1116] shadow-[0_0_20px_rgba(0,234,255,0.3)] transition hover:bg-[#7df6ff] hover:shadow-[0_0_28px_rgba(0,234,255,0.5)]"
             >
               {lang === "zh" ? "获取报价" : "Request Quote"}
             </Link>
+            {/* Secondary: Contact Us (optional) */}
             <Link
               href="/contact"
               className="rounded-lg border border-white/20 bg-white/5 px-8 py-3 font-semibold text-white transition hover:border-white/40 hover:bg-white/10"
             >
               {lang === "zh" ? "联系我们" : "Contact Us"}
             </Link>
-            <a
-              href="https://wa.me/8613112959561"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg border border-[#25D366] bg-[#25D366]/20 px-8 py-3 font-semibold text-white transition hover:bg-[#25D366]/30"
-            >
-              {c.customerService?.whatsapp || (lang === "zh" ? "WhatsApp 咨询" : "WhatsApp Chat")}
-            </a>
           </div>
-          {c.productDecision?.whatsappResponse && (
-            <p className="mt-4 text-sm text-white/60">
-              {c.productDecision.whatsappResponse}
-            </p>
-          )}
+          {/* Note: WhatsApp is available via the floating action button (FAB) */}
+          <p className="mt-4 text-sm text-white/60">
+            {lang === "zh" 
+              ? "💬 需要即时咨询？点击右下角的浮动按钮，选择 WhatsApp 咨询" 
+              : "💬 Need instant consultation? Click the floating button in the bottom right corner and select WhatsApp Chat"}
+          </p>
         </div>
       </div>
     </div>

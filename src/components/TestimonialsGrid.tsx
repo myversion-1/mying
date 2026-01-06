@@ -57,7 +57,9 @@ export function TestimonialsGrid({ testimonials, lang = "en" }: TestimonialsGrid
                   alt={testimonial.name}
                   fill
                   className="object-cover"
-                  unoptimized
+                  quality={85}
+                  loading="lazy"
+                  sizes="48px"
                 />
               </div>
             ) : (
@@ -96,6 +98,7 @@ export function TestimonialsGrid({ testimonials, lang = "en" }: TestimonialsGrid
     </div>
   );
 }
+
 
 
 

@@ -1,0 +1,30 @@
+﻿{
+    "timestamp":  "2026-01-06 10:04:57",
+    "before":  {
+                   "tti":  null,
+                   "lcp":  null,
+                   "cls":  null,
+                   "totalBlockingTime":  null,
+                   "speedIndex":  null,
+                   "performanceScore":  0,
+                   "fcp":  null
+               },
+    "improvements":  {
+                         "tti":  0,
+                         "lcp":  0,
+                         "cls":  0,
+                         "totalBlockingTime":  0,
+                         "speedIndex":  0,
+                         "performanceScore":  0,
+                         "fcp":  0
+                     },
+    "after":  {
+                  "tti":  null,
+                  "lcp":  null,
+                  "cls":  null,
+                  "totalBlockingTime":  null,
+                  "speedIndex":  null,
+                  "performanceScore":  0,
+                  "fcp":  null
+              }
+}

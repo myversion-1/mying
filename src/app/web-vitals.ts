@@ -5,7 +5,28 @@
 
 import { reportWebVitals } from "@/lib/performance";
 
-export function onCLS(metric: any) {
+/**
+ * Web Vitals 指标接口
+ * 符合 Web Vitals API 标准
+ */
+export interface WebVitalsMetric {
+  /** 指标唯一标识符 */
+  id: string;
+  /** 指标名称 (CLS, FID, FCP, LCP, TTFB, INP) */
+  name: string;
+  /** 指标值 */
+  value: number;
+  /** 指标变化量 */
+  delta: number;
+  /** 性能评级 */
+  rating: "good" | "needs-improvement" | "poor";
+  /** 导航类型 (可选) */
+  navigationType?: "navigate" | "reload" | "back-forward" | "prerender";
+  /** 指标条目类型 (可选) */
+  entries?: PerformanceEntry[];
+}
+
+export function onCLS(metric: WebVitalsMetric) {
   reportWebVitals({
     id: metric.id,
     name: "CLS",
@@ -15,7 +36,7 @@ export function onCLS(metric: any) {
   });
 }
 
-export function onFID(metric: any) {
+export function onFID(metric: WebVitalsMetric) {
   reportWebVitals({
     id: metric.id,
     name: "FID",
@@ -25,7 +46,7 @@ export function onFID(metric: any) {
   });
 }
 
-export function onFCP(metric: any) {
+export function onFCP(metric: WebVitalsMetric) {
   reportWebVitals({
     id: metric.id,
     name: "FCP",
@@ -35,7 +56,7 @@ export function onFCP(metric: any) {
   });
 }
 
-export function onLCP(metric: any) {
+export function onLCP(metric: WebVitalsMetric) {
   reportWebVitals({
     id: metric.id,
     name: "LCP",
@@ -45,7 +66,7 @@ export function onLCP(metric: any) {
   });
 }
 
-export function onTTFB(metric: any) {
+export function onTTFB(metric: WebVitalsMetric) {
   reportWebVitals({
     id: metric.id,
     name: "TTFB",
@@ -55,7 +76,7 @@ export function onTTFB(metric: any) {
   });
 }
 
-export function onINP(metric: any) {
+export function onINP(metric: WebVitalsMetric) {
   reportWebVitals({
     id: metric.id,
     name: "INP",

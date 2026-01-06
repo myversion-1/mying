@@ -29,6 +29,9 @@ const nextConfig: NextConfig = {
     optimizeCss: true,
   },
   
+  // JavaScript 压缩优化
+  // Note: Next.js 16+ uses SWC minification by default, no configuration needed
+  
   // 安全头部
   async headers() {
     return [

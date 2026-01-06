@@ -41,7 +41,8 @@ export function BlogPostCard({ post, featured = false }: BlogPostCardProps) {
               className="object-cover transition-transform group-hover:scale-105"
               sizes={featured ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 50vw"}
               onError={() => setImageError(true)}
-              unoptimized
+              quality={85}
+              loading="lazy"
             />
           ) : (
             <div className="flex h-full items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
@@ -149,6 +150,7 @@ export function BlogPostCard({ post, featured = false }: BlogPostCardProps) {
     </Link>
   );
 }
+
 
 
 

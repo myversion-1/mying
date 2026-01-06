@@ -77,7 +77,8 @@ export default function BlogPostPage({ params }: Props) {
             fill
             className="object-cover"
             sizes="100vw"
-            unoptimized
+            quality={85}
+            priority
           />
         </div>
 

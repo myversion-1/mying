@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Container Queries Support for Product Cards
+ * Tailwind CSS 4 supports @container syntax natively
+ * The @container class enables container-type: inline-size
+ */
+
 :root {
   --background: #0c1014;
   --foreground: #e6f7ff;
