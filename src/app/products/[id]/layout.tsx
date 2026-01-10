@@ -93,7 +93,7 @@ export async function generateMetadata({
   return {
     title: title,
     description: description,
-    keywords: `buy ${product.name}, ${product.name} price, ${product.category} manufacturer, ${product.category.toLowerCase()} for sale, ${product.mainCategory.toLowerCase()} supplier, theme park equipment, FEC rides, amusement ride quote, ${product.name} specifications`,
+    keywords: `buy ${product.name}, ${product.name} price, ${product.category} manufacturer, ${product.category.toLowerCase()} for sale, ${product.mainCategory?.toLowerCase() || "amusement ride"} supplier, theme park equipment, FEC rides, amusement ride quote, ${product.name} specifications`,
     openGraph: {
       title: title,
       description: description,
