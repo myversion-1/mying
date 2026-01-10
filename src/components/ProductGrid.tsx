@@ -3,18 +3,23 @@
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { getProducts, type Product, copy } from "../content/copy";
 import { useLanguage } from "./language";
 import { Badge } from "./ui/Badge";
 import { EmptyState } from "./EmptyState";
 import { ProductSpecs } from "./ProductSpecs";
 import { ProductCard } from "./ProductCard";
+import { SmartSelector } from "./SmartSelector";
 import type { ProductUsage, VenueType, TargetAudience } from "../content/products_multilingual";
 import { generateProductSlug } from "../utils/hreflang";
 
 type Props = {
   items?: Product[];
   initialSearchQuery?: string;
+  initialCategoryFilter?: string; // Legacy support
+  initialMainCategoryFilter?: string;
+  initialSubCategoryFilter?: string;
 };
 
 // Define which categories are "rides" vs "decorative"
@@ -29,7 +34,13 @@ const RIDE_CATEGORIES = [
   "Kiddie Rides",
 ];
 
-export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
+export function ProductGrid({ 
+  items, 
+  initialSearchQuery = "", 
+  initialCategoryFilter = "",
+  initialMainCategoryFilter = "",
+  initialSubCategoryFilter = ""
+}: Props) {
   const { lang } = useLanguage();
   const c = copy(lang);
   const isRTL = lang === "ar";
@@ -37,19 +48,38 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
   // Get products - use provided items or fetch all
   const allProducts = items || getProducts(lang);
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
-  const [filter, setFilter] = useState<"all" | "rides" | "decorative" | string>("all");
+  const [filter, setFilter] = useState<"all" | "rides" | "decorative" | string>(
+    initialCategoryFilter || "all"
+  );
+  const [mainCategoryFilter, setMainCategoryFilter] = useState<string>(initialMainCategoryFilter || "");
+  const [subCategoryFilter, setSubCategoryFilter] = useState<string>(initialSubCategoryFilter || "");
+  
+  // Initialize filters from URL parameters
+  useEffect(() => {
+    if (initialCategoryFilter) {
+      setFilter(initialCategoryFilter);
+    }
+    if (initialMainCategoryFilter) {
+      setMainCategoryFilter(initialMainCategoryFilter);
+    }
+    if (initialSubCategoryFilter) {
+      setSubCategoryFilter(initialSubCategoryFilter);
+    }
+  }, [initialCategoryFilter, initialMainCategoryFilter, initialSubCategoryFilter]);
   const [multiFilter, setMultiFilter] = useState<{
     usage?: ProductUsage;
     venueType?: VenueType;
     targetAudience?: TargetAudience;
   }>({});
+  const [spaceFilteredProducts, setSpaceFilteredProducts] = useState<Product[] | null>(null);
 
   // Get unique categories
   const categories = Array.from(new Set(allProducts.map((p) => p.category)));
 
   // Filter products based on search and filters
   const filteredProducts = useMemo(() => {
-    let filtered = allProducts;
+    // Start with space-filtered products if available, otherwise use all products
+    let filtered = spaceFilteredProducts || allProducts;
 
     // Text search
     if (searchQuery) {
@@ -63,12 +93,20 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
       );
     }
 
-    // Category filter
-    if (filter === "rides") {
+    // Multi-level category filter (priority: mainCategory + subCategory > legacy category)
+    if (mainCategoryFilter) {
+      filtered = filtered.filter((p) => p.mainCategory === mainCategoryFilter);
+      if (subCategoryFilter) {
+        filtered = filtered.filter((p) => p.subCategory === subCategoryFilter);
+      }
+    } else if (filter === "rides") {
+      // Legacy filter support
       filtered = filtered.filter((p) => RIDE_CATEGORIES.includes(p.category));
     } else if (filter === "decorative") {
+      // Legacy filter support
       filtered = filtered.filter((p) => !RIDE_CATEGORIES.includes(p.category));
     } else if (filter !== "all") {
+      // Legacy category filter support
       filtered = filtered.filter((p) => p.category === filter);
     }
 
@@ -84,7 +122,7 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
     }
 
     return filtered;
-  }, [allProducts, searchQuery, filter, multiFilter]);
+  }, [allProducts, spaceFilteredProducts, searchQuery, filter, mainCategoryFilter, subCategoryFilter, multiFilter]);
 
   // Usage types for filter
   const usageTypes: ProductUsage[] = [
@@ -106,6 +144,12 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
 
   return (
     <div className="space-y-6" dir={isRTL ? "rtl" : "ltr"}>
+      {/* Smart Selector Tool */}
+      <SmartSelector
+        products={allProducts}
+        onFilteredProductsChange={setSpaceFilteredProducts}
+      />
+
       {/* Search Bar */}
       <div className="relative">
         <input
@@ -113,10 +157,10 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder={lang === "zh" ? "搜索产品..." : "Search products..."}
-          className="w-full rounded-xl border border-white/10 bg-white/5 px-12 py-3 text-white placeholder:text-white/50 focus:border-[#7df6ff]/60 focus:outline-none focus:ring-2 focus:ring-[#7df6ff]/20"
+          className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] px-12 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20"
         />
         <svg
-          className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 text-white/50 ${isRTL ? "right-4" : "left-4"}`}
+          className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 text-[var(--text-tertiary)] ${isRTL ? "right-4" : "left-4"}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -131,10 +175,10 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
         {searchQuery && (
           <button
             onClick={() => setSearchQuery("")}
-            className={`absolute top-1/2 -translate-y-1/2 text-white/50 hover:text-white ${isRTL ? "left-4" : "right-4"}`}
+            className={`absolute top-1/2 -translate-y-1/2 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] ${isRTL ? "left-4" : "right-4"} min-h-[44px] min-w-[44px] flex items-center justify-center touch-manipulation`}
             aria-label="Clear search"
           >
-            ×
+            <span className="text-2xl">×</span>
           </button>
         )}
       </div>
@@ -145,10 +189,10 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
           <button
             key={filterOption}
             onClick={() => setFilter(filterOption)}
-            className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+            className={`rounded-full border px-4 py-3 text-sm font-medium transition min-h-[44px] min-w-[44px] touch-manipulation ${
               filter === filterOption
-                ? "border-[#7df6ff] bg-[#7df6ff]/10 text-[#7df6ff]"
-                : "border-white/20 bg-white/5 text-white/70 hover:border-white/30 hover:text-white"
+                ? "border-[var(--accent-primary)] bg-[var(--accent-primary-light)] text-[var(--accent-primary)]"
+                : "border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:border-[var(--border-hover)] hover:text-[var(--text-primary)]"
             }`}
           >
             {filterOption === "all"
@@ -166,12 +210,12 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
         ))}
         {filter !== "all" && (
           <>
-            <div className="h-4 w-px bg-white/20" />
+            <div className="h-4 w-px bg-[var(--border)]" />
             <div className="flex items-center gap-2">
-              <span className="text-sm text-white/50">Category:</span>
+              <span className="text-sm text-[var(--text-tertiary)]">Category:</span>
               <button
                 onClick={() => setFilter("all")}
-                className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium text-white/70 hover:border-white/30 hover:text-white"
+                className="rounded-full border border-[var(--border)] bg-[var(--surface-elevated)] px-3 py-2.5 text-xs font-medium text-[var(--text-secondary)] hover:border-[var(--border-hover)] hover:text-[var(--text-primary)] min-h-[44px] min-w-[44px] touch-manipulation"
               >
                 {filter} ×
               </button>
@@ -181,9 +225,9 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
       </div>
 
       {/* Multi-dimensional Filters (similar to Arrowy's approach) */}
-      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
+      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] p-4">
         <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-white/70">Usage:</label>
+          <label className="text-sm font-medium text-[var(--text-secondary)]">Usage:</label>
           <select
             value={multiFilter.usage || ""}
             onChange={(e) => {
@@ -192,7 +236,7 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
                 usage: e.target.value ? (e.target.value as ProductUsage) : undefined,
               }));
             }}
-            className="rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-white outline-none transition focus:border-[#7df6ff]/60"
+            className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--text-primary)] outline-none transition focus:border-[var(--accent-primary)] min-h-[44px] touch-manipulation"
           >
             <option value="">All Types</option>
             {usageTypes.map((usage) => (
@@ -207,7 +251,7 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
         </div>
         
         <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-white/70">Venue:</label>
+          <label className="text-sm font-medium text-[var(--text-secondary)]">Venue:</label>
           <select
             value={multiFilter.venueType || ""}
             onChange={(e) => {
@@ -216,7 +260,7 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
                 venueType: e.target.value ? (e.target.value as VenueType) : undefined,
               }));
             }}
-            className="rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-white outline-none transition focus:border-[#7df6ff]/60"
+            className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--text-primary)] outline-none transition focus:border-[var(--accent-primary)] min-h-[44px] touch-manipulation"
           >
             <option value="">All Venues</option>
             {venueTypes.map((venue) => (
@@ -230,7 +274,7 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
         </div>
         
         <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-white/70">Audience:</label>
+          <label className="text-sm font-medium text-[var(--text-secondary)]">Audience:</label>
           <select
             value={multiFilter.targetAudience || ""}
             onChange={(e) => {
@@ -239,7 +283,7 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
                 targetAudience: e.target.value ? (e.target.value as TargetAudience) : undefined,
               }));
             }}
-            className="rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-white outline-none transition focus:border-[#7df6ff]/60"
+            className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--text-primary)] outline-none transition focus:border-[var(--accent-primary)] min-h-[44px] touch-manipulation"
           >
             <option value="">All Audiences</option>
             {audienceTypes.map((audience) => (
@@ -255,7 +299,7 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
         {(multiFilter.usage || multiFilter.venueType || multiFilter.targetAudience) && (
           <button
             onClick={() => setMultiFilter({})}
-            className={`${isRTL ? "mr-auto" : "ml-auto"} rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-white/70 hover:border-white/30 hover:text-white`}
+            className={`${isRTL ? "mr-auto" : "ml-auto"} rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-3 text-sm text-[var(--text-secondary)] hover:border-[var(--border-hover)] hover:text-[var(--text-primary)] min-h-[44px] min-w-[44px] touch-manipulation`}
           >
             {lang === "zh" ? "清除筛选" : "Clear Filters"}
           </button>
@@ -265,7 +309,7 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
       {/* Category Dropdown for Specific Filtering */}
       {(filter === "rides" || filter === "decorative" || filter === "all") && (
         <div className="flex items-center gap-3">
-          <label className="text-sm text-white/70">Specific category:</label>
+          <label className="text-sm text-[var(--text-secondary)]">Specific category:</label>
           <select
             value=""
             onChange={(e) => {
@@ -273,7 +317,7 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
                 setFilter(e.target.value);
               }
             }}
-            className="rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-sm text-white outline-none transition focus:border-[#7df6ff]/60"
+            className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--text-primary)] outline-none transition focus:border-[var(--accent-primary)] min-h-[44px] touch-manipulation"
           >
             <option value="">Select a category...</option>
             {filter === "rides" || filter === "all"
@@ -298,23 +342,43 @@ export function ProductGrid({ items, initialSearchQuery = "" }: Props) {
         </div>
       )}
 
-      {/* Products Grid - Container Queries enabled */}
+      {/* Products Grid - Container Queries enabled with Framer Motion animations */}
       <div className="grid gap-4 md:grid-cols-2">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product, index) => (
-            <ProductCard
-              key={`${product.name}-${index}`}
-              product={product}
-              lang={lang}
-              index={index}
-              isRTL={isRTL}
-            />
-          ))
-        ) : (
-          <div className="col-span-2">
-            <EmptyState />
-          </div>
-        )}
+        <AnimatePresence mode="popLayout">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product, index) => (
+              <motion.div
+                key={`${product.name}-${index}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.05,
+                  ease: "easeOut",
+                }}
+                layout
+              >
+                <ProductCard
+                  product={product}
+                  lang={lang}
+                  index={index}
+                  isRTL={isRTL}
+                />
+              </motion.div>
+            ))
+          ) : (
+            <motion.div
+              key="empty-state"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="col-span-2"
+            >
+              <EmptyState />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

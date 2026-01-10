@@ -9,6 +9,11 @@ type TestimonialsGridProps = {
 };
 
 export function TestimonialsGrid({ testimonials, lang = "en" }: TestimonialsGridProps) {
+  // Debug logging (only in development)
+  if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+    console.log('[TestimonialsGrid] Rendering with testimonials:', testimonials?.length || 0);
+  }
+
   const getLocalizedText = (testimonial: Testimonial) => {
     if (lang === "zh") {
       return testimonial.textZh || testimonial.text;
@@ -21,7 +26,7 @@ export function TestimonialsGrid({ testimonials, lang = "en" }: TestimonialsGrid
       <svg
         key={i}
         className={`h-4 w-4 ${
-          i < rating ? "text-yellow-400 fill-yellow-400" : "text-white/20"
+          i < rating ? "text-yellow-400 fill-yellow-400" : "text-[var(--text-tertiary)]"
         }`}
         fill="currentColor"
         viewBox="0 0 20 20"
@@ -31,12 +36,27 @@ export function TestimonialsGrid({ testimonials, lang = "en" }: TestimonialsGrid
     ));
   };
 
+  // Handle empty testimonials
+  if (!testimonials || testimonials.length === 0) {
+    return (
+      <div className="text-center py-8 text-[var(--text-secondary)]">
+        <p>No testimonials available at the moment.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {testimonials.map((testimonial) => (
+      {testimonials.map((testimonial) => {
+        // Safety check for testimonial data
+        if (!testimonial || !testimonial.id) {
+          return null;
+        }
+        
+        return (
         <div
           key={testimonial.id}
-          className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-white/0 p-6 transition hover:border-[#7df6ff]/30 hover:bg-white/10"
+          className="group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 transition-colors hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
         >
           {/* Rating Stars */}
           <div className="mb-4 flex items-center gap-1">
@@ -44,9 +64,18 @@ export function TestimonialsGrid({ testimonials, lang = "en" }: TestimonialsGrid
           </div>
 
           {/* Testimonial Text */}
-          <blockquote className="mb-4 text-white/90 italic">
+          <blockquote className="mb-4 text-[var(--text-primary)] italic leading-relaxed">
             "{getLocalizedText(testimonial)}"
           </blockquote>
+
+          {/* Project Type Badge */}
+          {testimonial.projectType && (
+            <div className="mb-4">
+              <span className="inline-flex items-center rounded-full bg-[var(--surface-elevated)] px-3 py-1 text-xs font-semibold text-[var(--text-primary)] border border-[var(--accent-primary)]/30">
+                {testimonial.projectType}
+              </span>
+            </div>
+          )}
 
           {/* Customer Info */}
           <div className="flex items-center gap-3">
@@ -63,38 +92,52 @@ export function TestimonialsGrid({ testimonials, lang = "en" }: TestimonialsGrid
                 />
               </div>
             ) : (
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#00eaff]/20 text-[#00eaff] font-semibold">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent-primary)]/20 text-[var(--accent-primary)] font-semibold">
                 {testimonial.name[0].toUpperCase()}
               </div>
             )}
             <div className="flex-1">
-              <div className="font-semibold text-white">{testimonial.name}</div>
-              <div className="text-sm text-white/60">
-                {testimonial.position && `${testimonial.position}, `}
-                {testimonial.company}
-              </div>
+              <div className="font-semibold text-[var(--text-primary)] leading-tight">{testimonial.name}</div>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-xs text-white/50">{testimonial.country}</span>
+                {testimonial.companyLogo ? (
+                  <div className="relative h-5 w-5 overflow-hidden rounded">
+                    <Image
+                      src={testimonial.companyLogo}
+                      alt={testimonial.company}
+                      fill
+                      className="object-contain"
+                      quality={85}
+                      loading="lazy"
+                      sizes="20px"
+                    />
+                  </div>
+                ) : null}
+                <div className="text-sm text-[var(--text-secondary)] leading-relaxed">
+                  {testimonial.position && `${testimonial.position}, `}
+                  {testimonial.company}
+                </div>
+              </div>
+              <div className="flex items-center gap-2 mt-1.5">
+                <span className="text-xs text-[var(--text-tertiary)] leading-relaxed">{testimonial.country}</span>
                 {testimonial.project && (
                   <>
-                    <span className="text-xs text-white/30">•</span>
-                    <span className="text-xs text-white/50">{testimonial.project}</span>
+                    <span className="text-xs text-[var(--text-tertiary)]">•</span>
+                    <span className="text-xs text-[var(--text-tertiary)]">{testimonial.project}</span>
                   </>
                 )}
                 {testimonial.year && (
                   <>
-                    <span className="text-xs text-white/30">•</span>
-                    <span className="text-xs text-white/50">{testimonial.year}</span>
+                    <span className="text-xs text-[var(--text-tertiary)]">•</span>
+                    <span className="text-xs text-[var(--text-tertiary)]">{testimonial.year}</span>
                   </>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Hover overlay */}
-          <div className="absolute inset-0 bg-[#7df6ff]/0 transition-colors group-hover:bg-[#7df6ff]/5 pointer-events-none" />
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

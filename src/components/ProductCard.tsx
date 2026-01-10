@@ -35,8 +35,8 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
     <article
       className="
         @container
-        group flex flex-col gap-3 rounded-2xl border border-white/5 
-        bg-gradient-to-br from-white/5 to-white/0 p-4 transition hover:border-white/20
+        group flex flex-col gap-3 rounded-2xl border border-[var(--border)] 
+        bg-[var(--surface-elevated)] p-4 transition hover:border-[var(--border-hover)] hover:bg-[var(--surface-hover)]
       "
     >
       {/* Product Image - Container Query responsive aspect ratio */}
@@ -65,8 +65,27 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
             <div className="flex h-full items-center justify-center">
               <div className="text-center">
                 <div className="mb-2 text-4xl opacity-30">🎠</div>
-                <div className="text-xs text-white/40">No image available</div>
+                <div className="text-xs text-[var(--text-tertiary)]">No image available</div>
               </div>
+            </div>
+          )}
+          {/* Product Type Badge - Similar to Arrowy's EV/GAS/FE system */}
+          {product.type && (
+            <div
+              className={`
+                absolute z-10
+                top-2 ${isRTL ? "left-2" : "right-2"}
+                @[300px]:top-3
+                ${isRTL ? "@[300px]:left-3 @[300px]:right-auto" : "@[300px]:right-3"}
+              `}
+            >
+              <Badge tone={product.type}>
+                {product.type === "electric" 
+                  ? "EV" 
+                  : product.type === "mechanical" 
+                    ? "MECH" 
+                    : "HYBRID"}
+              </Badge>
             </div>
           )}
           {/* Patent Badge - Container Query responsive positioning */}
@@ -74,8 +93,8 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
             <div
               className={`
                 absolute z-10
-                top-2 right-2
-                @[300px]:top-3
+                ${product.type ? "top-12" : "top-2"} ${isRTL ? "left-2" : "right-2"}
+                @[300px]:${product.type ? "top-14" : "top-3"}
                 ${isRTL ? "@[300px]:left-3 @[300px]:right-auto" : "@[300px]:right-3"}
               `}
             >
@@ -95,14 +114,14 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
         "
       >
         <div className="flex-1">
-          <div className="text-xs @[300px]:text-sm uppercase tracking-[0.14em] text-white/50">
+          <div className="text-xs @[300px]:text-sm uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
             {product.category}
           </div>
           <Link href={productUrl}>
             <h3
               className="
-                text-lg @[300px]:text-xl font-semibold text-white 
-                transition hover:text-[#00eaff]
+                text-lg @[300px]:text-xl font-semibold text-[var(--text-primary)] 
+                transition hover:text-[var(--accent-primary)]
               "
             >
               {product.name}
@@ -118,7 +137,7 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
       {product.positioning && (
         <p
           className="
-            text-xs @[300px]:text-sm leading-relaxed text-white/80
+            text-xs @[300px]:text-sm leading-relaxed text-[var(--text-secondary)]
             line-clamp-2 @[500px]:line-clamp-3
           "
         >
@@ -134,13 +153,13 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
             hidden @[300px]:block
           "
         >
-          <div className="text-xs font-semibold uppercase tracking-[0.1em] text-white/60">
+          <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
             {lang === "zh" ? "适用场景" : "Ideal for"}
           </div>
           <ul className="space-y-1">
             {product.idealFor.slice(0, 3).map((scenario, idx) => (
-              <li key={idx} className="flex items-start gap-2 text-xs text-white/70">
-                <span className="mt-1 text-[#7df6ff]">•</span>
+              <li key={idx} className="flex items-start gap-2 text-xs text-[var(--text-secondary)]">
+                <span className="mt-1 text-[var(--accent-primary)]">•</span>
                 <span>{scenario}</span>
               </li>
             ))}
@@ -149,7 +168,7 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
       )}
 
       {product.badge && (
-        <div className="text-xs @[300px]:text-sm font-semibold text-[#7df6ff]">
+        <div className="text-xs @[300px]:text-sm font-semibold text-[var(--accent-primary)]">
           {product.badge}
         </div>
       )}
@@ -161,14 +180,14 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
       {product.safetyCompliance && product.safetyCompliance.length > 0 && (
         <div
           className="
-            rounded-lg border border-[#7df6ff]/20 bg-[#7df6ff]/5 px-3 py-2
+            rounded-lg border border-[var(--accent-primary)]/20 bg-[var(--accent-primary-light)] px-3 py-2
             hidden @[300px]:block
           "
         >
-          <div className="mb-1 text-xs font-semibold uppercase tracking-[0.1em] text-[#7df6ff]">
+          <div className="mb-1 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--accent-primary)]">
             {lang === "zh" ? "安全认证" : "Safety & Compliance"}
           </div>
-          <div className="text-xs text-white/70">
+          <div className="text-xs text-[var(--text-secondary)]">
             {product.safetyCompliance[0]}
           </div>
         </div>
@@ -184,11 +203,11 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
         <Link
           href={productUrl}
           className="
-            w-full @[300px]:flex-1 rounded-full bg-[#00eaff] 
+            w-full @[300px]:flex-1 rounded-lg bg-[var(--action-primary)] 
             px-4 py-2 @[300px]:py-2.5 text-center text-xs @[300px]:text-sm 
-            font-semibold text-[#0b1116] 
-            shadow-[0_0_20px_rgba(0,234,255,0.3)] 
-            transition hover:-translate-y-[1px] hover:shadow-[0_0_28px_rgba(0,234,255,0.5)]
+            font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)]
+            transition-colors hover:bg-[var(--action-primary-hover)]
+            min-h-[44px] min-w-[44px] touch-manipulation
           "
         >
           {lang === "zh" ? "查看详情" : "View Details"}
@@ -196,9 +215,11 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
         <Link
           href={`/quote?product=${encodeURIComponent(product.name)}`}
           className="
-            w-full @[300px]:flex-1 rounded-full border border-white/20 
-            bg-white/5 px-4 py-2 text-center text-xs font-semibold text-white 
-            transition hover:border-white/40 hover:bg-white/10
+            w-full @[300px]:flex-1 rounded-full border border-[var(--border)] 
+            bg-[var(--surface-elevated)] px-4 py-2 text-center text-xs font-semibold 
+            text-[var(--text-primary)] !text-[var(--text-primary)]
+            transition-colors hover:border-[var(--border-hover)] hover:bg-[var(--surface-hover)]
+            min-h-[44px] min-w-[44px] touch-manipulation
           "
         >
           {lang === "zh" ? "快速询价" : "Quick Quote"}

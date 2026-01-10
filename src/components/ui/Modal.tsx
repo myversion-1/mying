@@ -52,7 +52,7 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
             <h3 className="text-xl font-semibold text-white">{title}</h3>
             <button
               onClick={onClose}
-              className="rounded-lg p-2 text-white/70 transition hover:bg-white/10 hover:text-white"
+              className="rounded-lg p-2 text-[var(--dark-bg-text-secondary)] transition-colors hover:bg-white/10 hover:text-[var(--dark-bg-text)] min-h-[44px] min-w-[44px] touch-manipulation"
               aria-label="Close"
             >
               <X className="h-5 w-5" />
@@ -68,6 +68,8 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
     </div>
   );
 }
+
+
 
 
 

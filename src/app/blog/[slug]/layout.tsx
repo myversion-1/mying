@@ -24,21 +24,71 @@ export async function generateMetadata({
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
   const postUrl = `${baseUrl}/blog/${slug}`;
 
+  // Use optimized meta description if available, otherwise fall back to excerpt or content
+  const metaDescription = post.metaDescription || post.excerpt || (post.content ? post.content.substring(0, 157) + "..." : "");
+  
+  // Ensure description is within optimal length (150-160 chars for SEO)
+  const optimizedDescription = metaDescription.length > 160 
+    ? metaDescription.substring(0, 157) + "..." 
+    : metaDescription;
+
+  // Determine if this is a refurbishment post for specific SEO
+  const isRefurbishmentPost = post.slug.includes("refurbishment") || post.slug.includes("renaissance");
+  const isCornerStrategyPost = post.slug.includes("corner-strategy") || post.slug.includes("mall-spaces");
+  
+  const baseKeywords = [
+    post.category,
+    "amusement rides",
+    "theme park",
+    "industry news",
+    "amusement equipment",
+  ];
+  
+  const specificKeywords = isRefurbishmentPost
+    ? [
+        "amusement ride restoration",
+        "asset lifecycle",
+        "ride refurbishment",
+        "equipment refurbishment",
+        "FEC maintenance",
+        "ride modernization",
+        "asset management",
+        "sustainable operations",
+      ]
+    : isCornerStrategyPost
+    ? [
+        "amusement equipment for shopping mall corners",
+        "mall corner equipment",
+        "retail space optimization",
+        "dead corner monetization",
+        "mall space efficiency",
+        "corner-specific engineering",
+        "RevPAM optimization",
+        "secondary anchor effect",
+      ]
+    : [
+        "low-height engineering",
+        "indoor rides",
+        "FEC equipment",
+        "space optimization",
+      ];
+
   return {
-    title: `${post.title} | Miying Rides Blog`,
-    description: post.excerpt || (post.content ? post.content.substring(0, 160) + "..." : ""),
+    title: isRefurbishmentPost 
+      ? "Professional Refurbishment Services for Amusement Rides | Miying Rides"
+      : isCornerStrategyPost
+      ? "Amusement Equipment for Shopping Mall Corners | Space Efficiency Solutions"
+      : `${post.title} | Miying Rides Blog`,
+    description: optimizedDescription,
     keywords: [
-      post.category,
-      "amusement rides",
-      "theme park",
-      "industry news",
-      "amusement equipment",
+      ...baseKeywords,
+      ...specificKeywords,
       ...(post.tags || []),
     ],
     authors: [{ name: "Miying Amusement Equipment" }],
     openGraph: {
       title: `${post.title} | Miying Rides Blog`,
-      description: post.excerpt || (post.content ? post.content.substring(0, 160) + "..." : ""),
+      description: optimizedDescription,
       url: postUrl,
       type: "article",
       publishedTime: post.date,
@@ -48,7 +98,7 @@ export async function generateMetadata({
               url: `${baseUrl}${post.image}`,
               width: 1200,
               height: 630,
-              alt: post.title,
+              alt: post.imageAlt || post.title,
             },
           ]
         : undefined,
@@ -56,7 +106,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: `${post.title} | Miying Rides Blog`,
-      description: post.excerpt || (post.content ? post.content.substring(0, 160) + "..." : ""),
+      description: optimizedDescription,
       images: post.image ? [`${baseUrl}${post.image}`] : undefined,
     },
     alternates: {

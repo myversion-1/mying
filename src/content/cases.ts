@@ -10,6 +10,7 @@ export const cases: CaseItem[] = [
     titleZh: "迪拜主题公园",
     country: "UAE",
     countryCode: "AE",
+    coordinates: { latitude: 25.2048, longitude: 55.2708 },
     projectType: "Theme Park",
     projectTypeEn: "Theme Park",
     projectTypeZh: "主题公园",
@@ -38,6 +39,42 @@ export const cases: CaseItem[] = [
     descriptionEn: "A comprehensive theme park project featuring 25 custom-designed amusement rides, delivered and installed within 8 months.",
     descriptionZh: "一个综合主题公园项目，包含25个定制设计的游乐设备，在8个月内完成交付和安装。",
     year: "2023",
+    slug: "dubai-theme-park",
+    datePublished: "2023-06-15",
+    city: "Dubai",
+    cityEn: "Dubai",
+    cityZh: "迪拜",
+    // New fields for case study detail page
+    clientPainPoints: {
+      en: "The client faced challenges with limited space availability and needed to maximize ride capacity within a constrained area. Additionally, they required fast-track delivery to meet a tight opening deadline.",
+      zh: "客户面临空间有限的挑战，需要在受限区域内最大化设备容量。此外，他们需要快速交付以满足紧张的开放期限。",
+      ar: "واجه العميل تحديات مع توفر مساحة محدودة واحتاج إلى زيادة سعة الألعاب في منطقة محدودة. بالإضافة إلى ذلك، احتاجوا إلى تسليم سريع للوفاء بموعد افتتاح ضيق.",
+    },
+    spaceConstraints: {
+      ceilingHeight: "12m",
+      ceilingHeightEn: "12 meters",
+      ceilingHeightZh: "12米",
+      floorArea: "15,000 sqm",
+      floorAreaEn: "15,000 square meters",
+      floorAreaZh: "15,000平方米",
+    },
+    solution: {
+      en: "Miying designed a comprehensive solution featuring compact ride layouts optimized for space efficiency. We implemented a modular installation approach that allowed for parallel construction, reducing overall timeline by 30%. Custom-designed rides were engineered to maximize capacity while maintaining safety standards. Our team provided on-site installation support and training to ensure smooth operations from day one.",
+      zh: "Miying 设计了一个综合解决方案，采用紧凑的设备布局以优化空间效率。我们实施了模块化安装方法，允许并行施工，将总体时间线缩短了30%。定制设计的设备经过工程优化，在保持安全标准的同时最大化容量。我们的团队提供现场安装支持和培训，确保从第一天起顺利运营。",
+      ar: "صممت Miying حلاً شاملاً يتميز بتخطيطات ألعاب مدمجة محسّنة لكفاءة المساحة. قمنا بتنفيذ نهج تثبيت معياري يسمح بالبناء المتوازي، مما قلل الجدول الزمني الإجمالي بنسبة 30٪. تم تصميم الألعاب المخصصة هندسياً لزيادة السعة مع الحفاظ على معايير السلامة. قدم فريقنا دعم التثبيت في الموقع والتدريب لضمان العمليات السلسة من اليوم الأول.",
+    },
+    completionPhotos: [
+      "/cases/迪拜主题公园 - 鸟瞰图.png",
+      // Add more completion photos as available
+    ],
+    safetyCompliance: {
+      standards: ["EN13814", "ASTM F24"],
+      complianceStatement: {
+        en: "This project complies with international safety standards including EN13814 and ASTM F24, ensuring the highest level of safety for all riders.",
+        zh: "本项目符合国际安全标准，包括 EN13814 和 ASTM F24，确保所有乘客的最高安全水平。",
+        ar: "يتوافق هذا المشروع مع معايير السلامة الدولية بما في ذلك EN13814 و ASTM F24، مما يضمن أعلى مستوى من السلامة لجميع الركاب.",
+      },
+    },
   },
   {
     id: "singapore-fec",

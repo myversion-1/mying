@@ -173,3 +173,8 @@ npm run lighthouse:compare
 **状态：** ✅ Bundle 分析构建成功  
 **下一步：** 查看浏览器中的分析报告
 
+
+
+
+
+

@@ -60,7 +60,7 @@ export function PatentCertificateGrid({ certificates, lang = "en" }: PatentCerti
                 {getLocalizedName(cert)}
               </h3>
               {getLocalizedDescription(cert) && (
-                <p className="text-xs text-white/70 line-clamp-2">
+                <p className="text-xs text-[var(--dark-bg-text-secondary)] line-clamp-2">
                   {getLocalizedDescription(cert)}
                 </p>
               )}

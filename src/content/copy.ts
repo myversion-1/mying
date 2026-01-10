@@ -3,10 +3,11 @@ import { productsMultilingual, getLocalizedProduct, type ProductMultilingual, ty
 import { getLocalizedServices, services as defaultServices } from "./services_multilingual";
 import { getCopy } from "./locales";
 import type { CopyContent } from "./types";
+import type { MainCategory } from "./product-categories";
 
 export type Product = {
   name: string;
-  category: string;
+  category: string; // Legacy category field (kept for backward compatibility)
   footprint: string;
   height: string;
   riders: string;
@@ -15,6 +16,12 @@ export type Product = {
   badge?: string;
   image?: string; // Path to image in /public folder (e.g., "/products/product-name.jpg")
   patentCount?: number; // Number of patents for this product (e.g., 2, 3, 5)
+  // Multi-level category system
+  mainCategory?: MainCategory;    // Main category: Family Rides, Thrill Rides, etc.
+  subCategory?: string;           // Sub category ID: carousel, swing, train, etc.
+  // Product type and series (similar to Arrowy's system)
+  type?: "electric" | "mechanical" | "hybrid";  // Power source type
+  series?: "Classic" | "Premium" | "Compact" | "Thrill" | "Family";  // Product series
   // Enhanced classification fields (multi-dimensional like Arrowy)
   usage?: ProductUsage;           // Usage type: Family Entertainment, Thrill Adventure, etc.
   venueType?: VenueType;          // Venue type: Indoor, Outdoor, Both

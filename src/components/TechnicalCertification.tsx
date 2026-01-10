@@ -86,7 +86,7 @@ export function TechnicalCertification({ product, lang }: TechnicalCertification
           </h3>
         </div>
         
-        <p className="mb-6 text-sm text-white/60">
+        <p className="mb-6 text-sm text-[var(--dark-bg-text-tertiary)]">
           {getLocalizedText(
             "Quality Guaranteed",
             "品质保证"
@@ -116,11 +116,11 @@ export function TechnicalCertification({ product, lang }: TechnicalCertification
                 <div className="text-sm font-semibold text-white">
                   {isZh ? isoCert.nameZh : isoCert.nameEn || isoCert.name}
                 </div>
-                <div className="text-xs text-white/60">
+                <div className="text-xs text-[var(--dark-bg-text-tertiary)]">
                   {getLocalizedText("Quality Standard", "质量标准")}
                 </div>
               </div>
-              <ChevronRight className="h-4 w-4 text-white/40 transition-transform group-hover:translate-x-1" />
+              <ChevronRight className="h-4 w-4 text-[var(--dark-bg-text-tertiary)] transition-transform group-hover:translate-x-1" />
             </button>
           )}
 
@@ -146,11 +146,11 @@ export function TechnicalCertification({ product, lang }: TechnicalCertification
                 <div className="text-sm font-semibold text-white">
                   {isZh ? ceCert.nameZh : ceCert.nameEn || ceCert.name}
                 </div>
-                <div className="text-xs text-white/60">
+                <div className="text-xs text-[var(--dark-bg-text-tertiary)]">
                   {getLocalizedText("Safety Standard", "安全标准")}
                 </div>
               </div>
-              <ChevronRight className="h-4 w-4 text-white/40 transition-transform group-hover:translate-x-1" />
+              <ChevronRight className="h-4 w-4 text-[var(--dark-bg-text-tertiary)] transition-transform group-hover:translate-x-1" />
             </button>
           )}
 
@@ -198,11 +198,11 @@ export function TechnicalCertification({ product, lang }: TechnicalCertification
                     `${product.patentCount}+ 专利`
                   )}
                 </div>
-                <div className="text-xs text-white/60">
+                <div className="text-xs text-[var(--dark-bg-text-tertiary)]">
                   {getLocalizedText("Patent Number", "专利编号")}
                 </div>
               </div>
-              <ChevronRight className="h-4 w-4 text-white/40 transition-transform group-hover:translate-x-1" />
+              <ChevronRight className="h-4 w-4 text-[var(--dark-bg-text-tertiary)] transition-transform group-hover:translate-x-1" />
             </button>
           )}
         </div>
@@ -230,7 +230,7 @@ export function TechnicalCertification({ product, lang }: TechnicalCertification
                 />
               ) : (
                 <div className="flex h-full items-center justify-center p-8">
-                  <div className="text-center text-white/60">
+                  <div className="text-center text-[var(--dark-bg-text-tertiary)]">
                     <FileCheck className="mx-auto mb-2 h-12 w-12 opacity-50" />
                     <p className="text-sm">
                       {getLocalizedText(
@@ -242,7 +242,7 @@ export function TechnicalCertification({ product, lang }: TechnicalCertification
                 </div>
               )}
             </div>
-            <p className="text-center text-sm text-white/70">
+            <p className="text-center text-sm text-[var(--dark-bg-text-secondary)]">
               {selectedCert.description}
             </p>
           </div>

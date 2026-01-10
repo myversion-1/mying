@@ -24,7 +24,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
   return (
     <nav
       aria-label="Breadcrumb"
-      className="flex items-center gap-2 text-sm text-white/70"
+      className="flex items-center gap-2 text-sm text-[var(--dark-bg-text-secondary)]"
     >
       {/* Home */}
       <Link
@@ -39,7 +39,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
       {items.map((item, index) => (
         <span key={index} className="flex items-center gap-2">
           <svg
-            className="h-4 w-4 text-white/40"
+            className="h-4 w-4 text-[var(--dark-bg-text-tertiary)]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -52,13 +52,13 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
             />
           </svg>
           {index === items.length - 1 ? (
-            <span className="text-white" aria-current="page">
+            <span className="text-[var(--dark-bg-text)]" aria-current="page">
               {item.label}
             </span>
           ) : (
             <Link
               href={item.href}
-              className="transition hover:text-[#00eaff]"
+              className="transition-colors hover:text-[var(--accent-primary)] min-h-[44px] min-w-[44px] touch-manipulation"
             >
               {item.label}
             </Link>
@@ -68,6 +68,8 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
     </nav>
   );
 }
+
+
 
 
 

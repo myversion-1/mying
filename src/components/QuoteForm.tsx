@@ -287,10 +287,10 @@ export function QuoteForm() {
           rows={4}
           value={formData.message}
           onChange={handleChange}
-          className={`w-full rounded-xl border bg-[#0c1014] px-3 py-2 text-white outline-none transition ${
+          className={`w-full rounded-xl border bg-[var(--dark-bg-base)] px-3 py-2 text-[var(--dark-bg-text)] outline-none transition min-h-[44px] touch-manipulation ${
             errors.message
               ? "border-red-500/50 focus:border-red-500"
-              : "border-white/10 focus:border-[#7df6ff]/60"
+              : "border-white/10 focus:border-[var(--accent-secondary)]/60"
           }`}
           placeholder={lang === "zh" ? "请提供项目详情、特殊要求或其他信息..." : "Please provide project details, special requirements, or any other information..."}
         />
@@ -301,7 +301,7 @@ export function QuoteForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-full bg-[#00eaff] px-6 py-3 text-sm font-semibold text-[#0b1116] shadow-[0_0_28px_rgba(0,234,255,0.35)] transition hover:-translate-y-[1px] hover:shadow-[0_0_36px_rgba(0,234,255,0.5)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2"
+        className="w-full rounded-lg bg-[var(--action-primary)] px-6 py-3 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-h-[44px] min-w-[44px] touch-manipulation"
       >
         {isSubmitting && (
           <svg
@@ -334,7 +334,7 @@ export function QuoteForm() {
           : "Request Quote"}
       </button>
 
-      <p className="text-xs text-white/50 text-center">
+      <p className="text-xs text-[var(--dark-bg-text-tertiary)] text-center">
         {lang === "zh"
           ? "我们将在24小时内回复您的询价。"
           : "We'll respond to your quote request within 24 hours."}

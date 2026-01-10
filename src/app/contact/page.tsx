@@ -27,17 +27,17 @@ export default function ContactPage() {
 
       <Section title={c.contactTitle} subtitle={c.contactSubtitle}>
         <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr]">
-          <Suspense fallback={<div className="rounded-2xl border border-white/10 bg-white/5 p-6">{c.contactPage.loadingForm}</div>}>
+          <Suspense fallback={<div className="rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[#0a1628] to-[#0c1014] p-6 dark:border-white/10 dark:bg-white/5">{c.contactPage.loadingForm}</div>}>
             <ContactForm />
           </Suspense>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-4">
-            <h3 className="text-lg font-semibold text-white">{c.contactPage.whatToInclude}</h3>
-            <ul className="list-disc space-y-2 pl-5 text-white/70">
+          <div className="rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[#0a1628] to-[#0c1014] p-5 space-y-4 dark:border-white/10 dark:bg-white/5">
+            <h3 className="text-lg font-semibold text-[var(--dark-bg-text)]">{c.contactPage.whatToInclude}</h3>
+            <ul className="list-disc space-y-2 pl-5 text-[var(--dark-bg-text-secondary)]">
               {c.contactPage.whatToIncludeItems.map((item, index) => (
                 <li key={index}>{item}</li>
               ))}
             </ul>
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/70">
+            <div className="rounded-xl border border-white/20 bg-white/5 p-4 text-sm text-[var(--dark-bg-text-secondary)]">
               {c.contactPage.needAssistance}
             </div>
           </div>

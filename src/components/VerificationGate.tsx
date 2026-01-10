@@ -24,17 +24,17 @@ export function VerificationGate() {
   };
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+    <div className="rounded-2xl border border-[var(--border)] dark-bg-component p-6">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:flex-row">
         <input
           value={code}
           onChange={(e) => setCode(e.target.value)}
           placeholder={c.codePlaceholder}
-          className="flex-1 rounded-xl border border-white/10 bg-[#0c1014] px-3 py-3 text-white outline-none transition focus:border-[#7df6ff]/60"
+          className="flex-1 rounded-xl border border-white/20 bg-[var(--dark-bg-base)] px-3 py-3 text-[var(--dark-bg-text)] outline-none transition focus:border-[var(--accent-primary)]/60 min-h-[44px] touch-manipulation"
         />
         <button
           type="submit"
-          className="rounded-full bg-[#00eaff] px-5 py-3 text-sm font-semibold text-[#0b1116] shadow-[0_0_28px_rgba(0,234,255,0.35)] transition hover:-translate-y-[1px] hover:shadow-[0_0_36px_rgba(0,234,255,0.5)]"
+          className="rounded-lg bg-[var(--action-primary)] px-6 py-3 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] min-w-[44px] touch-manipulation"
         >
           {c.verifyButton}
         </button>
@@ -43,9 +43,9 @@ export function VerificationGate() {
         <p className="mt-3 text-sm text-amber-300">{c.wrongCode}</p>
       )}
       {status === "success" && (
-        <div className="mt-4 space-y-3 rounded-xl border border-[#00eaff]/30 bg-[#00eaff]/10 p-4">
-          <p className="text-sm text-white">{c.successCode}</p>
-          <div className="overflow-hidden rounded-xl bg-[#0c1014]">
+        <div className="mt-4 space-y-3 rounded-xl border border-[var(--accent-primary)]/30 bg-[var(--accent-primary-light)] p-4">
+          <p className="text-sm text-[var(--dark-bg-text)]">{c.successCode}</p>
+          <div className="overflow-hidden rounded-xl bg-[var(--dark-bg-base)]">
             <iframe
               src={
                 process.env.NEXT_PUBLIC_CALENDLY_URL ||
@@ -57,7 +57,7 @@ export function VerificationGate() {
           </div>
         </div>
       )}
-      <p className="mt-3 text-xs text-white/50">
+      <p className="mt-3 text-xs text-[var(--dark-bg-text-tertiary)]">
         Contact us to receive your verification code for factory visit scheduling.
       </p>
     </div>

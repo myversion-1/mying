@@ -8,6 +8,9 @@ export type CopyContent = {
     products: string;
     cases: string;
     blog: string;
+    resources: string;
+    faq: string;
+    "trade-shows": string;
     contact: string;
     visit: string;
   };
@@ -48,6 +51,39 @@ export type CopyContent = {
   };
   footer: {
     rights: string;
+    companyName: string;
+    tagline: string;
+    contact: {
+      title: string;
+      email: string;
+      phone: string;
+      address: string;
+      workingHours: string;
+    };
+    quickLinks: {
+      title: string;
+      products: string;
+      services: string;
+      cases: string;
+      about: string;
+      blog: string;
+      resources: string;
+      faq: string;
+    };
+    socialMedia: {
+      title: string;
+      followUs: string;
+      email: string;
+      tiktok: string;
+      youtube: string;
+      whatsapp: string;
+    };
+    newsletter: {
+      title: string;
+      subtitle: string;
+      placeholder: string;
+      subscribe: string;
+    };
   };
   productLabels: {
     footprint: string;

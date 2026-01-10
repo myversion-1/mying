@@ -1,6 +1,9 @@
 import type { Lang } from "./language";
+import type { FAQ } from "../content/types/faq";
+import { getLocalizedFAQ } from "../content/faq";
 
 interface FAQSchemaProps {
+  faqs?: FAQ[];
   lang?: Lang;
   baseUrl?: string;
 }
@@ -9,9 +12,9 @@ interface FAQSchemaProps {
  * FAQ Schema for Voice Search Optimization
  * Helps Google understand common questions and provide featured snippets
  */
-export function FAQSchema({ lang = "en", baseUrl = "https://mying.vercel.app" }: FAQSchemaProps) {
-  // FAQ content in multiple languages
-  const faqs: Record<Lang, Array<{ question: string; answer: string }>> = {
+export function FAQSchema({ faqs, lang = "en", baseUrl = "https://mying.vercel.app" }: FAQSchemaProps) {
+  // Hardcoded FAQ content in multiple languages (fallback)
+  const hardcodedFAQs: Record<Lang, Array<{ question: string; answer: string }>> = {
     en: [
       {
         question: "What types of amusement rides does Miying manufacture?",
@@ -124,17 +127,32 @@ export function FAQSchema({ lang = "en", baseUrl = "https://mying.vercel.app" }:
     ],
   };
 
+  // Use dynamic FAQs if provided, otherwise fall back to hardcoded FAQs
+  const faqItems = faqs
+    ? faqs.map((faq) => {
+        const localized = getLocalizedFAQ(faq, lang);
+        return {
+          "@type": "Question" as const,
+          name: localized.question,
+          acceptedAnswer: {
+            "@type": "Answer" as const,
+            text: localized.answer,
+          },
+        };
+      })
+    : hardcodedFAQs[lang].map((faq) => ({
+        "@type": "Question" as const,
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer" as const,
+          text: faq.answer,
+        },
+      }));
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs[lang].map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
+    mainEntity: faqItems,
   };
 
   return (
@@ -144,6 +162,9 @@ export function FAQSchema({ lang = "en", baseUrl = "https://mying.vercel.app" }:
     />
   );
 }
+
+
+
 
 
 

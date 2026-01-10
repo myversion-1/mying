@@ -23,11 +23,18 @@ export type BlogPost = {
   contentEn?: string;
   contentZh?: string;
   image: string; // Path to featured image in /public folder
+  imageAlt?: string; // Alt text for the hero image
   readTime?: string; // Estimated reading time (e.g., "5 min")
   author?: string;
   tags?: string[]; // SEO tags
   featured?: boolean; // Featured post
+  keyTakeaways?: string[]; // Key takeaways for the takeaways box
+  metaDescription?: string; // SEO-optimized meta description (150-160 chars)
+  metaDescriptionEn?: string;
+  metaDescriptionZh?: string;
 };
+
+
 
 
 

@@ -4,7 +4,8 @@ import {
   Calendar, 
   CheckCircle2, 
   Award, 
-  Globe 
+  Globe,
+  Users
 } from "lucide-react";
 import { StatsCard } from "./StatsCard";
 import type { StatItem } from "../content/types/stats";
@@ -22,11 +23,12 @@ function getIcon(iconName?: string | React.ReactNode): React.ReactNode {
     "check-circle": <CheckCircle2 className="h-7 w-7" />,
     award: <Award className="h-7 w-7" />,
     globe: <Globe className="h-7 w-7" />,
+    users: <Users className="h-7 w-7" />,
     // Legacy icon names for backward compatibility
     patent: <Award className="h-7 w-7" />,
     products: <CheckCircle2 className="h-7 w-7" />,
     clock: <Calendar className="h-7 w-7" />,
-    team: <CheckCircle2 className="h-7 w-7" />,
+    team: <Users className="h-7 w-7" />,
     chart: <Award className="h-7 w-7" />,
     book: <Award className="h-7 w-7" />,
   };
@@ -37,7 +39,7 @@ function getIcon(iconName?: string | React.ReactNode): React.ReactNode {
 type StatsGridProps = {
   stats: StatItem[];
   lang?: string;
-  columns?: 2 | 3 | 4;
+  columns?: 2 | 3 | 4 | 5;
 };
 
 export function StatsGrid({ stats, lang = "en", columns = 4 }: StatsGridProps) {
@@ -55,11 +57,12 @@ export function StatsGrid({ stats, lang = "en", columns = 4 }: StatsGridProps) {
     return stat.descriptionEn || stat.description;
   };
 
-  // Responsive grid: 2x2 on mobile, 4 columns on desktop
+  // Responsive grid layouts
   const gridCols = {
     2: "grid-cols-2",
     3: "grid-cols-2 md:grid-cols-3",
     4: "grid-cols-2 md:grid-cols-2 lg:grid-cols-4", // 2x2 on mobile, 4 columns on large screens
+    5: "grid-cols-2 md:grid-cols-3 lg:grid-cols-5", // 2 columns on mobile, 3 on tablet, 5 on desktop
   };
 
   return (

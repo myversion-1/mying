@@ -1,4 +1,6 @@
 import type { Lang } from "../components/language";
+import type { MainCategory } from "./product-categories";
+import { applyCategoryMapping } from "../utils/product-category-mapper";
 
 // Product classification dimensions (similar to Arrowy's multi-dimensional approach)
 export type ProductUsage = 
@@ -18,9 +20,23 @@ export type TargetAudience =
   | "Kids"      // 儿童
   | "All Ages"; // 全年龄
 
+// Product type (power source) - similar to Arrowy's EV/GAS/FE system
+export type ProductType = 
+  | "electric"     // 电动 (EV)
+  | "mechanical"   // 机械 (MECH)
+  | "hybrid";      // 混合动力 (HYBRID)
+
+// Product series - for brand consistency (similar to Arrowy's BADGER series)
+export type ProductSeries = 
+  | "Classic"      // 经典系列
+  | "Premium"      // 高端系列
+  | "Compact"      // 紧凑系列
+  | "Thrill"       // 刺激系列
+  | "Family";      // 家庭系列
+
 export type ProductMultilingual = {
   name: { en: string; zh: string };
-  category: { en: string; zh: string };
+  category: { en: string; zh: string }; // Legacy category field (kept for backward compatibility)
   footprint: { en: string; zh: string };
   height: { en: string; zh: string };
   riders: string;
@@ -29,6 +45,12 @@ export type ProductMultilingual = {
   badge?: string;
   image?: string;
   patentCount?: number; // Number of patents for this product (e.g., 2, 3, 5)
+  // Multi-level category system (main category → sub category)
+  mainCategory?: MainCategory;    // Main category: Family Rides, Thrill Rides, etc.
+  subCategory?: string;           // Sub category ID: carousel, swing, train, etc.
+  // Product type and series (similar to Arrowy's system)
+  type?: ProductType;            // Power source: electric, mechanical, hybrid
+  series?: ProductSeries;         // Product series: Classic, Premium, Compact, etc.
   // Enhanced classification fields (multi-dimensional like Arrowy)
   usage?: ProductUsage;           // Usage type: Family Entertainment, Thrill Adventure, etc.
   venueType?: VenueType;          // Venue type: Indoor, Outdoor, Both
@@ -56,6 +78,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 0.jpeg",
     patentCount: 2, // Example: 2 patents for this product
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - family-friendly design
     positioning: { 
       en: "A family-friendly ride designed for indoor amusement centers. Suitable for small to medium-size venues.", 
       zh: "专为室内娱乐中心设计的家庭友好型游乐设备。适合中小型场地。" 
@@ -98,6 +122,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 1.jpeg",
     patentCount: 3, // Example: 3 patents for this product
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - large scale, high capacity
     positioning: { 
       en: "A medium-scale family attraction perfect for theme parks and large FECs. Requires adequate ceiling height.", 
       zh: "适合主题公园和大型家庭娱乐中心的中型家庭游乐设备。需要足够的层高。" 
@@ -143,6 +169,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "24",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 10.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - large capacity, low height
     positioning: { 
       en: "A large-capacity family ride perfect for high-traffic entertainment venues. Low height design makes it ideal for venues with standard ceiling clearance.", 
       zh: "适合高客流量娱乐场所的大容量家庭游乐设备。低高度设计使其适合标准层高的场地。" 
@@ -184,6 +212,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "12",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 11.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - small footprint, space-efficient
     positioning: { 
       en: "A compact family ride designed for small to medium venues. Perfect for maximizing space efficiency in limited areas.", 
       zh: "专为中小型场地设计的紧凑型家庭游乐设备。非常适合在有限空间内最大化利用效率。" 
@@ -225,6 +255,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 12.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - unique design, interactive
     positioning: { 
       en: "A medium-scale interactive family attraction with unique design. Ideal for venues seeking distinctive entertainment experiences.", 
       zh: "具有独特设计的中型互动家庭游乐设备。适合寻求独特娱乐体验的场地。" 
@@ -266,6 +298,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "20",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 13.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - space-efficient design
     positioning: { 
       en: "A compact yet high-capacity family ride perfect for space-constrained venues. Excellent rider-to-space ratio.", 
       zh: "适合空间受限场地的紧凑型高容量家庭游乐设备。出色的载客数与空间比。" 
@@ -307,6 +341,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 14.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - balanced design
     positioning: { 
       en: "A medium-scale family ride with moderate height requirements. Perfect balance of capacity and space efficiency.", 
       zh: "中等规模的家庭游乐设备，层高要求适中。容量与空间效率的完美平衡。" 
@@ -348,6 +384,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 15.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - carousel design
     positioning: { 
       en: "A compact carousel-style family ride perfect for small venues. Classic design with modern safety features.", 
       zh: "适合小型场地的紧凑型旋转木马式家庭游乐设备。经典设计，配备现代安全功能。" 
@@ -389,6 +427,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "150",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 16.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - minimal space, high capacity
     positioning: { 
       en: "A compact interactive attraction perfect for high-capacity entertainment zones. Ideal for venues with limited space but high traffic.", 
       zh: "适合高容量娱乐区的紧凑型互动游乐设备。非常适合空间有限但客流量高的场地。" 
@@ -430,6 +470,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 17.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - medium scale
     positioning: { 
       en: "A medium-scale family ride with dynamic design. Perfect for venues seeking engaging entertainment experiences.", 
       zh: "具有动感设计的中型家庭游乐设备。适合寻求引人入胜娱乐体验的场地。" 
@@ -471,6 +513,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "12",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 18.jpeg",
+    type: "electric", // Electric powered
+    series: "Thrill", // Thrill series - themed design
     positioning: { 
       en: "A medium-scale themed family ride with exciting design. Perfect for venues looking to add a unique attraction.", 
       zh: "具有激动人心设计的中型主题家庭游乐设备。适合寻求独特景点的场地。" 
@@ -512,6 +556,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "6",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 19.jpeg",
+    type: "electric", // Electric powered
+    series: "Family", // Family series - active play
     positioning: { 
       en: "A compact trampoline-style attraction perfect for active play areas. Ideal for venues focusing on physical activity and fun.", 
       zh: "适合活跃游戏区的紧凑型蹦床式游乐设备。适合专注于体育活动和娱乐的场地。" 
@@ -553,6 +599,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "12",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 2.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - large scale themed
     positioning: { 
       en: "A large-scale themed family attraction perfect for major entertainment venues. Requires substantial space but delivers impressive visual impact.", 
       zh: "适合大型娱乐场所的大规模主题家庭游乐设备。需要较大空间，但能带来令人印象深刻的视觉效果。" 
@@ -598,6 +646,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 20.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - medium scale
   },
   {
     name: { en: "MEOW NUCLEAR MECHA CAR", zh: "喵核机甲车" },
@@ -607,6 +657,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "12",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 21.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - small individual vehicles
   },
   {
     name: { en: "MEOW NUCLEAR MECHA CAR (Single)", zh: "喵核机甲车（单座）" },
@@ -616,6 +668,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "1",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 22.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - single rider vehicle
   },
   {
     name: { en: "Meow Core Train", zh: "喵核小火车" },
@@ -625,6 +679,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "11",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 23.jpeg",
+    type: "electric", // Electric powered
+    series: "Family", // Family series - train ride for families
   },
   {
     name: { en: "MEOW CORE TRAIN - Model 2", zh: "喵核小火车 - 型号2" },
@@ -634,6 +690,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "11",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 24.jpeg",
+    type: "electric", // Electric powered
+    series: "Family", // Family series - train ride for families
   },
   {
     name: { en: "Cat-core bumper cars", zh: "Cat-core bumper cars" },
@@ -643,6 +701,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "2",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 25.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - individual bumper cars
   },
   {
     name: { en: "Cobra bumper cars", zh: "Cobra bumper cars" },
@@ -652,6 +712,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "2",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 26.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - individual bumper cars
   },
   {
     name: { en: "Alien Invasion", zh: "Alien Invasion" },
@@ -661,6 +723,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 3.jpeg",
+    type: "electric", // Electric powered
+    series: "Thrill", // Thrill series - themed design
   },
   {
     name: { en: "Quantum Jump", zh: "量子弹跳" },
@@ -670,6 +734,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 4.jpeg",
+    type: "electric", // Electric powered
+    series: "Family", // Family series - active play, trampoline style
     positioning: { 
       en: "A medium-scale trampoline-style family attraction perfect for active play areas. Ideal for venues focusing on physical activity and fun.", 
       zh: "适合活跃游戏区的中型蹦床式家庭游乐设备。适合专注于体育活动和娱乐的场地。" 
@@ -711,6 +777,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "20",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 5.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - pendulum motion
     positioning: { 
       en: "A medium-scale pendulum-style family ride perfect for entertainment centers. Engaging motion experience for all ages.", 
       zh: "适合娱乐中心的中型钟摆式家庭游乐设备。为所有年龄段提供引人入胜的运动体验。" 
@@ -752,6 +820,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "24",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 6.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - high capacity, compact footprint
     positioning: { 
       en: "A high-capacity family ride perfect for high-traffic entertainment venues. Compact footprint with excellent capacity.", 
       zh: "适合高客流量娱乐场所的高容量家庭游乐设备。紧凑的占地面积，出色的载客量。" 
@@ -793,6 +863,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 7.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - medium scale, themed
   },
   {
     name: { en: "RoboCop", zh: "星际迷航" },
@@ -802,6 +874,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 8.jpeg",
+    type: "electric", // Electric powered
+    series: "Thrill", // Thrill series - themed design, low height
   },
   {
     name: { en: "Catnip Knight", zh: "喵核骑士" },
@@ -811,6 +885,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "20",
     status: "New",
     image: "/products/米盈游乐设备产品介绍 conv 9.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - medium-large scale
   },
   {
     name: { en: "Nuclear Energy Crisis Flying Chair", zh: "核能危机 空中飞椅" },
@@ -820,6 +896,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "36",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 0.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - large scale, high capacity
   },
   {
     name: { en: "MOUNTAINEER", zh: "爬山车 MOUNTAINEER" },
@@ -829,6 +907,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "30",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 1.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - large scale, high capacity
   },
   {
     name: { en: "The Great Collision of Galaxies", zh: "银河大碰撞- 碰碰车" },
@@ -838,6 +918,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "150",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 10.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - individual bumper cars, high capacity fleet
   },
   {
     name: { en: "SPATIOTEMPORAL EDDY CURRENT - Model 2", zh: "时空涡流 - 型号2" },
@@ -847,6 +929,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 11.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - large scale, unique design
   },
   {
     name: { en: "GLOBAL SPACE", zh: "太空环球记 GLOBAL SPACE" },
@@ -856,6 +940,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 12.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - medium scale, themed
   },
   {
     name: { en: "INTERSTELLAR MADNESS STATION", zh: "星际疯狂站)" },
@@ -865,6 +951,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 13.jpeg",
+    type: "electric", // Electric powered
+    series: "Thrill", // Thrill series - themed design, low height
   },
   {
     name: { en: "MEOW NUCLEAR MECHA CAR (Single) - Model 2", zh: "喵核机甲车（单座）- 型号2" },
@@ -874,6 +962,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "1",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 14.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - single rider vehicle
   },
   {
     name: { en: "MEOW NUCLEAR MECHA CAR (Single) - Model 3", zh: "喵核机甲车（单座）- 型号3" },
@@ -883,6 +973,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "1",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 15.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - single rider vehicle
   },
   {
     name: { en: "MEOW CORE TRAIN - Model 3", zh: "喵核小火车 - 型号3" },
@@ -892,6 +984,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "11",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 16.jpeg",
+    type: "electric", // Electric powered
+    series: "Family", // Family series - train ride for families
   },
   {
     name: { en: "MEOW CORE TRAIN - Model 4", zh: "喵核小火车 - 型号4" },
@@ -901,6 +995,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "11",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 17.jpeg",
+    type: "electric", // Electric powered
+    series: "Family", // Family series - train ride for families
   },
   {
     name: { en: "POSEIDON", zh: "海神号 POSEIDON" },
@@ -910,6 +1006,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "24",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 18.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - large scale, themed
   },
   {
     name: { en: "INTERSTELLAR", zh: "穿越时空 INTERSTELLAR" },
@@ -919,6 +1017,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "18",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 19.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - large scale, themed, low operating height
   },
   {
     name: { en: "Quantum Jump - Model 2", zh: "量子弹跳 - 型号2" },
@@ -928,6 +1028,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 2.jpeg",
+    type: "electric", // Electric powered
+    series: "Family", // Family series - trampoline style, active play
   },
   {
     name: { en: "LUCKY CAROUSEL", zh: "幸运转马" },
@@ -937,6 +1039,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 20.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - carousel design
   },
   {
     name: { en: "ROMANTIC CAROUSEL", zh: "浪漫拾光转马" },
@@ -946,6 +1050,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 21.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - carousel design
   },
   {
     name: { en: "Astronaut Self-Control Aircraft", zh: "宇航员自控飞机" },
@@ -955,6 +1061,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "12",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 22.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - self-control aircraft, medium scale
   },
   {
     name: { en: "MOE DUCK LAND", zh: "萌鸭乐园" },
@@ -964,6 +1072,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "12",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 23.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - large scale themed attraction
   },
   {
     name: { en: "PET WARS CLIMBING CAR", zh: "宠物作战儿童爬山车)" },
@@ -973,6 +1083,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "30",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 24.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - large scale, high capacity
   },
   {
     name: { en: "MAGIC CASTLE WATER RAFTING", zh: "童话城堡水道漂流" },
@@ -982,6 +1094,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "N/A",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 25.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - very large scale water attraction
   },
   {
     name: { en: "FANTASY STAR INTERNET CELEBRITY SWING", zh: "梦幻星网红秋千" },
@@ -991,6 +1105,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "20",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 26.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - swing ride, medium scale
   },
   {
     name: { en: "OFF ROAD VEHICLE", zh: "越野战车 OFF-ROAD VEHICLE" },
@@ -1000,6 +1116,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "24",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 27.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - high capacity, themed
   },
   {
     name: { en: "Spinning Ferris Wheel", zh: "旋转飞椅" },
@@ -1009,6 +1127,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "24",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 28.jpeg",
+    type: "electric", // Electric powered
+    series: "Premium", // Premium series - high capacity, ferris wheel style
   },
   {
     name: { en: "MOE DUCK LAND", zh: "喷球车" },
@@ -1018,6 +1138,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 29.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - ball shooting ride, medium scale
   },
   {
     name: { en: "Rotating Matrix - Model 2", zh: "旋转矩阵 - 型号2" },
@@ -1027,6 +1149,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 3.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - medium scale
   },
   {
     name: { en: "GLOBAL GLIDING", zh: "环球滑翔" },
@@ -1036,6 +1160,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 30.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - gliding ride, low operating height
   },
   {
     name: { en: "PIRATE SHIP", zh: "海盗船 PIRATE SHIP" },
@@ -1045,6 +1171,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "12",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 31.jpeg",
+    type: "electric", // Electric powered
+    series: "Thrill", // Thrill series - pirate ship themed, compact
   },
   {
     name: { en: "Interstellar Adventure Six-Person Trampoline", zh: "星际探险六人蹦床" },
@@ -1054,6 +1182,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "6",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 32.jpeg",
+    type: "electric", // Electric powered
+    series: "Family", // Family series - trampoline, active play
   },
   {
     name: { en: "MAGIC CASTLE WATER RAFTING", zh: "打地鼠儿童单人蹦床" },
@@ -1063,6 +1193,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "1",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 34.jpeg",
+    type: "electric", // Electric powered
+    series: "Family", // Family series - single person trampoline, kids
   },
   {
     name: { en: "KUPAO GO KART", zh: "酷跑卡丁车)" },
@@ -1072,6 +1204,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "1",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 35.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - single go-kart
   },
   {
     name: { en: "KODUCK MINI TRAIN", zh: "哒哒鸭小火车)" },
@@ -1081,6 +1215,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "11",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 36.jpeg",
+    type: "electric", // Electric powered
+    series: "Family", // Family series - train ride for families
   },
   {
     name: { en: "SPACE MINI TRAIN", zh: "太空队小火车)" },
@@ -1090,6 +1226,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "11",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 37.jpeg",
+    type: "electric", // Electric powered
+    series: "Family", // Family series - train ride for families
   },
   {
     name: { en: "WILD DRIFT BUMPER CAR", zh: "狂飙漂移碰碰车" },
@@ -1099,6 +1237,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "150",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 38.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - individual bumper cars, high capacity fleet
   },
   {
     name: { en: "TORNADO DRIFT BUMPER CAR", zh: "旋风漂移碰碰车" },
@@ -1108,6 +1248,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "150",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 39.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - individual bumper cars, high capacity fleet
   },
   {
     name: { en: "Star Nucleus Explorer - Model 2", zh: "星核探险家 - 型号2" },
@@ -1117,6 +1259,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "16",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 4.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - medium scale, balanced design
   },
   {
     name: { en: "VICTORY DRIFT BUMPER CAR", zh: "赛赢漂移碰碰车" },
@@ -1126,6 +1270,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "150",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 41.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - individual bumper cars, high capacity fleet
   },
   {
     name: { en: "WIND DRIVEN DRIFT COLLISION CAR", zh: "风驰漂移碰碰车" },
@@ -1135,6 +1281,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "150",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 42.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - individual bumper cars, high capacity fleet
   },
   {
     name: { en: "MAIXUAN DRIFT COLLISION CAR", zh: "MAIXUAN DRIFT COLLISION CAR" },
@@ -1144,6 +1292,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "2",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 43.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - two-seater bumper car
   },
   {
     name: { en: "TORNADO RACING CAR", zh: "旋风飞车" },
@@ -1153,6 +1303,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "2",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 44.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - two-seater racing car
   },
   {
     name: { en: "Q MOE RACING CAR", zh: "萌飞车" },
@@ -1162,6 +1314,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "2",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 45.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - two-seater racing car
   },
   {
     name: { en: "OFF ROAD TANK", zh: "越野战车" },
@@ -1171,6 +1325,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "2",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 46.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - two-seater off-road vehicle
   },
   {
     name: { en: "SUPER RACING CAR", zh: "急速飞车" },
@@ -1180,6 +1336,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "2",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 47.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - two-seater racing car
   },
   {
     name: { en: "BIG EYES RACING CAR", zh: "大眼酷飞车" },
@@ -1189,6 +1347,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "2",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 49.jpeg",
+    type: "electric", // Electric powered
+    series: "Compact", // Compact series - two-seater racing car
   },
   {
     name: { en: "Super Warrior - Model 2", zh: "超能战士 - 型号2" },
@@ -1198,6 +1358,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "12",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 5.jpeg",
+    type: "electric", // Electric powered
+    series: "Thrill", // Thrill series - themed design
   },
   {
     name: { en: "Pendulum Play - Model 2", zh: "玩转钟摆 - 型号2" },
@@ -1207,6 +1369,8 @@ export const productsMultilingual: ProductMultilingual[] = [
     riders: "20",
     status: "New",
     image: "/products/米盈游乐设备(1) [10-76] conv 9.jpeg",
+    type: "electric", // Electric powered
+    series: "Classic", // Classic series - pendulum motion
   }
 ];
 
@@ -1269,6 +1433,9 @@ export function getLocalizedProduct(product: ProductMultilingual, lang: Lang) {
   const isZh = lang === "zh";
   const classification = inferProductClassification(product);
   
+  // Apply category mapping if not already set
+  const productWithCategory = applyCategoryMapping(product);
+  
   return {
     name: product.name[isZh ? "zh" : "en"] || product.name["en"],
     category: product.category[isZh ? "zh" : "en"] || product.category["en"],
@@ -1279,10 +1446,16 @@ export function getLocalizedProduct(product: ProductMultilingual, lang: Lang) {
     year: product.year,
     badge: product.badge,
     image: product.image,
+    // Multi-level category system
+    mainCategory: productWithCategory.mainCategory,
+    subCategory: productWithCategory.subCategory,
     // Enhanced classification fields
     usage: classification.usage,
     venueType: classification.venueType,
     targetAudience: classification.targetAudience,
+    // Product type and series (similar to Arrowy's system)
+    type: product.type,
+    series: product.series,
     // Patent count
     patentCount: product.patentCount,
     // Decision-making fields

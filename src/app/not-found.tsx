@@ -75,13 +75,13 @@ export default function NotFound() {
         <div className="mb-8">
           <h1 className="text-9xl font-bold text-[#00eaff] mb-4">404</h1>
           <h2 className="text-3xl font-semibold text-white mb-4">{text.title}</h2>
-          <p className="text-lg text-white/70 mb-8">{text.message}</p>
+          <p className="text-lg text-[var(--dark-bg-text-secondary)] mb-8">{text.message}</p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
             href="/"
-            className="rounded-full bg-[#00eaff] px-6 py-3 text-sm font-semibold text-[#0b1116] shadow-[0_0_28px_rgba(0,234,255,0.35)] transition hover:-translate-y-[1px] hover:shadow-[0_0_36px_rgba(0,234,255,0.5)]"
+            className="rounded-lg bg-[var(--action-primary)] px-6 py-3 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
           >
             {text.backHome}
           </Link>
@@ -96,25 +96,25 @@ export default function NotFound() {
         <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
           <Link
             href="/"
-            className="rounded-2xl border border-white/5 bg-white/5 p-4 text-sm text-white/70 transition hover:border-white/20 hover:text-white"
+            className="rounded-2xl border border-white/5 bg-white/5 p-4 text-sm text-[var(--dark-bg-text-secondary)] transition-colors hover:border-white/20 hover:text-[var(--dark-bg-text)] min-h-[44px] min-w-[44px] touch-manipulation"
           >
             {c.nav.home}
           </Link>
           <Link
             href="/about"
-            className="rounded-2xl border border-white/5 bg-white/5 p-4 text-sm text-white/70 transition hover:border-white/20 hover:text-white"
+            className="rounded-2xl border border-white/5 bg-white/5 p-4 text-sm text-[var(--dark-bg-text-secondary)] transition-colors hover:border-white/20 hover:text-[var(--dark-bg-text)] min-h-[44px] min-w-[44px] touch-manipulation"
           >
             {c.nav.about}
           </Link>
           <Link
             href="/services"
-            className="rounded-2xl border border-white/5 bg-white/5 p-4 text-sm text-white/70 transition hover:border-white/20 hover:text-white"
+            className="rounded-2xl border border-white/5 bg-white/5 p-4 text-sm text-[var(--dark-bg-text-secondary)] transition-colors hover:border-white/20 hover:text-[var(--dark-bg-text)] min-h-[44px] min-w-[44px] touch-manipulation"
           >
             {c.nav.services}
           </Link>
           <Link
             href="/products"
-            className="rounded-2xl border border-white/5 bg-white/5 p-4 text-sm text-white/70 transition hover:border-white/20 hover:text-white"
+            className="rounded-2xl border border-white/5 bg-white/5 p-4 text-sm text-[var(--dark-bg-text-secondary)] transition-colors hover:border-white/20 hover:text-[var(--dark-bg-text)] min-h-[44px] min-w-[44px] touch-manipulation"
           >
             {c.nav.products}
           </Link>
@@ -123,6 +123,8 @@ export default function NotFound() {
     </div>
   );
 }
+
+
 
 
 

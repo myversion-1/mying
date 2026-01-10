@@ -1,22 +1,64 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { PageHero } from "../../components/PageHero";
 import { Section } from "../../components/Section";
 import { CasesGrid } from "../../components/CasesGrid";
+import { GlobalMap } from "../../components/GlobalMap";
 import { useLanguage } from "../../components/language";
 import { cases, getLocalizedCase } from "../../content/cases";
 import Image from "next/image";
+import type { CaseItem } from "../../content/types/case";
 
 export default function CasesPage() {
   const { lang } = useLanguage();
-  const [selectedCase, setSelectedCase] = useState<typeof cases[0] | null>(null);
+  const router = useRouter();
+  const [selectedCase, setSelectedCase] = useState<CaseItem | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [selectedProjectType, setSelectedProjectType] = useState<string | null>(null);
+  const [selectedYear, setSelectedYear] = useState<string | null>(null);
 
   const localizedCases = cases.map((caseItem) => getLocalizedCase(caseItem, lang));
 
+  // Get unique filter options
+  const countries = Array.from(new Set(cases.map((c) => c.country))).sort();
+  const projectTypes = Array.from(new Set(cases.map((c) => c.projectType))).sort();
+  const years = Array.from(new Set(cases.map((c) => c.year).filter(Boolean))).sort((a, b) => (b || "").localeCompare(a || ""));
+
+  // Filter cases
+  const filteredCases = localizedCases.filter((caseItem) => {
+    if (selectedCountry && caseItem.country !== selectedCountry) return false;
+    if (selectedProjectType && caseItem.projectType !== selectedProjectType) return false;
+    if (selectedYear && caseItem.year !== selectedYear) return false;
+    return true;
+  });
+
+  // Calculate statistics
+  const totalCases = cases.length;
+  const uniqueCountries = new Set(cases.map((c) => c.countryCode || c.country)).size;
+  const totalInvestment = cases.reduce((sum, c) => {
+    const investmentStat = c.stats.find((s) => s.labelEn === "Investment" || s.labelZh === "投资额");
+    if (investmentStat) {
+      const value = investmentStat.value.replace(/[^0-9.]/g, "");
+      return sum + parseFloat(value || "0");
+    }
+    return sum;
+  }, 0);
+
+  const handleCountryClick = (countryCode: string, countryCases: CaseItem[]) => {
+    setSelectedCountry(countryCode);
+    // Optionally filter cases by country
+  };
+
+  const handleCaseClick = (caseItem: CaseItem) => {
+    // Navigate to case detail page instead of modal
+    router.push(`/cases/${caseItem.id}${lang !== "en" ? `?lang=${lang}` : ""}`);
+  };
+
   return (
     <div className="space-y-12">
-      <div className="mx-auto max-w-6xl px-4 md:px-8">
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="my-10">
           <PageHero
             headline={
@@ -33,6 +75,58 @@ export default function CasesPage() {
         </div>
       </div>
 
+      {/* Global Map Section */}
+      <Section
+        id="global-map"
+        title={lang === "zh" ? "全球项目分布" : "Global Project Distribution"}
+        subtitle={
+          lang === "zh"
+            ? "查看 Miying 在全球各地的项目分布，点击国家查看详细案例"
+            : "View Miying's project distribution worldwide. Click on countries to see detailed case studies"
+        }
+      >
+        <GlobalMap
+          cases={localizedCases}
+          onCountryClick={handleCountryClick}
+          className="mb-8"
+        />
+      </Section>
+
+      {/* Statistics Section */}
+      <Section
+        id="case-stats"
+        title={lang === "zh" ? "案例统计" : "Case Statistics"}
+        subtitle={
+          lang === "zh"
+            ? "我们的成功案例遍布全球，为各种类型的项目提供专业解决方案"
+            : "Our successful cases span the globe, delivering professional solutions for various project types"
+        }
+      >
+        <div className="grid gap-6 md:grid-cols-3 mb-8">
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 text-center">
+            <div className="text-4xl font-bold text-[var(--accent-primary)] mb-2">{totalCases}+</div>
+            <div className="text-[var(--text-secondary)]">
+              {lang === "zh" ? "成功案例" : "Successful Cases"}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 text-center">
+            <div className="text-4xl font-bold text-[var(--accent-primary)] mb-2">{uniqueCountries}+</div>
+            <div className="text-[var(--text-secondary)]">
+              {lang === "zh" ? "覆盖国家" : "Countries Covered"}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 text-center">
+            <div className="text-4xl font-bold text-[var(--accent-primary)] mb-2">
+              ${totalInvestment > 0 ? `${(totalInvestment / 1000).toFixed(0)}M+` : "N/A"}
+            </div>
+            <div className="text-[var(--text-secondary)]">
+              {lang === "zh" ? "总投资额" : "Total Investment"}
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Filter Section */}
       <Section
         id="cases"
         title={lang === "zh" ? "项目案例" : "Project Cases"}
@@ -42,10 +136,142 @@ export default function CasesPage() {
             : "From theme parks to family entertainment centers, we deliver professional solutions for clients worldwide."
         }
       >
-        <CasesGrid
-          cases={localizedCases}
-          onCaseClick={(caseItem) => setSelectedCase(caseItem)}
-        />
+        {/* Filters */}
+        <div className="mb-8 space-y-4">
+          <div className="flex flex-wrap gap-3">
+            {/* Country Filter */}
+            <div className="flex-1 min-w-[200px]">
+              <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
+                {lang === "zh" ? "按国家筛选" : "Filter by Country"}
+              </label>
+              <select
+                value={selectedCountry || ""}
+                onChange={(e) => setSelectedCountry(e.target.value || null)}
+                className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-2 text-[var(--text-primary)] focus:border-[var(--accent-primary)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20 min-h-[44px] touch-manipulation"
+              >
+                <option value="">{lang === "zh" ? "所有国家" : "All Countries"}</option>
+                {countries.map((country) => (
+                  <option key={country} value={country}>
+                    {country}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Project Type Filter */}
+            <div className="flex-1 min-w-[200px]">
+              <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
+                {lang === "zh" ? "按项目类型筛选" : "Filter by Project Type"}
+              </label>
+              <select
+                value={selectedProjectType || ""}
+                onChange={(e) => setSelectedProjectType(e.target.value || null)}
+                className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-2 text-[var(--text-primary)] focus:border-[var(--accent-primary)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20 min-h-[44px] touch-manipulation"
+              >
+                <option value="">{lang === "zh" ? "所有类型" : "All Types"}</option>
+                {projectTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Year Filter */}
+            <div className="flex-1 min-w-[200px]">
+              <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
+                {lang === "zh" ? "按年份筛选" : "Filter by Year"}
+              </label>
+              <select
+                value={selectedYear || ""}
+                onChange={(e) => setSelectedYear(e.target.value || null)}
+                className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-2 text-[var(--text-primary)] focus:border-[var(--accent-primary)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20 min-h-[44px] touch-manipulation"
+              >
+                <option value="">{lang === "zh" ? "所有年份" : "All Years"}</option>
+                {years.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Active Filters & Clear */}
+          {(selectedCountry || selectedProjectType || selectedYear) && (
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-sm text-[var(--text-secondary)]">
+                {lang === "zh" ? "当前筛选：" : "Active filters:"}
+              </span>
+              {selectedCountry && (
+                <button
+                  onClick={() => setSelectedCountry(null)}
+                  className="inline-flex items-center gap-1 rounded-full bg-[var(--action-informational)] px-3 py-1 text-sm font-semibold text-[var(--action-informational-text)] border border-[var(--accent-primary)]/30 hover:bg-[var(--accent-primary)]/20 transition min-h-[32px] touch-manipulation"
+                >
+                  {selectedCountry}
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+              {selectedProjectType && (
+                <button
+                  onClick={() => setSelectedProjectType(null)}
+                  className="inline-flex items-center gap-1 rounded-full bg-[var(--action-informational)] px-3 py-1 text-sm font-semibold text-[var(--action-informational-text)] border border-[var(--accent-primary)]/30 hover:bg-[var(--accent-primary)]/20 transition min-h-[32px] touch-manipulation"
+                >
+                  {selectedProjectType}
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+              {selectedYear && (
+                <button
+                  onClick={() => setSelectedYear(null)}
+                  className="inline-flex items-center gap-1 rounded-full bg-[var(--action-informational)] px-3 py-1 text-sm font-semibold text-[var(--action-informational-text)] border border-[var(--accent-primary)]/30 hover:bg-[var(--accent-primary)]/20 transition min-h-[32px] touch-manipulation"
+                >
+                  {selectedYear}
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  setSelectedCountry(null);
+                  setSelectedProjectType(null);
+                  setSelectedYear(null);
+                }}
+                className="text-sm text-[var(--accent-primary)] hover:text-[var(--accent-primary-hover)] transition min-h-[32px] touch-manipulation"
+              >
+                {lang === "zh" ? "清除所有" : "Clear all"}
+              </button>
+            </div>
+          )}
+
+          {/* Results Count */}
+          <div className="text-sm text-[var(--text-secondary)]">
+            {lang === "zh" 
+              ? `显示 ${filteredCases.length} 个案例（共 ${localizedCases.length} 个）`
+              : `Showing ${filteredCases.length} of ${localizedCases.length} cases`}
+          </div>
+        </div>
+
+        {/* Cases Grid */}
+        {filteredCases.length > 0 ? (
+          <CasesGrid
+            cases={filteredCases}
+            onCaseClick={handleCaseClick}
+          />
+        ) : (
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-12 text-center">
+            <p className="text-[var(--text-secondary)]">
+              {lang === "zh" 
+                ? "没有找到匹配的案例，请尝试其他筛选条件" 
+                : "No cases found matching your filters. Try different criteria."}
+            </p>
+          </div>
+        )}
       </Section>
 
       {/* Case Detail Modal */}
@@ -129,7 +355,7 @@ export default function CasesPage() {
                       key={index}
                       className="rounded-xl bg-white/5 p-4 border border-white/10"
                     >
-                      <div className="text-sm text-white/60 mb-1">{stat.label}</div>
+                      <div className="text-sm text-[var(--dark-bg-text-tertiary)] mb-1">{stat.label}</div>
                       <div className="text-2xl font-bold text-[#00eaff]">{stat.value}</div>
                     </div>
                   ))}
@@ -171,7 +397,7 @@ export default function CasesPage() {
                         {selectedCase.testimonial.author}
                       </div>
                       {selectedCase.testimonial.position && (
-                        <div className="text-sm text-white/60">
+                        <div className="text-sm text-[var(--dark-bg-text-tertiary)]">
                           {selectedCase.testimonial.position}
                         </div>
                       )}

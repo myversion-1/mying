@@ -69,7 +69,7 @@ export function FactoryTour({
                       </svg>
                     </div>
                   </div>
-                  <p className="text-sm text-white/70">Factory Tour Video</p>
+                  <p className="text-sm text-[var(--dark-bg-text-secondary)]">Factory Tour Video</p>
                   <a
                     href={videoUrl}
                     target="_blank"
@@ -144,7 +144,7 @@ export function FactoryTour({
       <div className="flex justify-center">
         <Link
           href={ctaHref}
-          className="rounded-full bg-[#00eaff] px-8 py-3 text-sm font-semibold text-[#0b1116] shadow-[0_0_28px_rgba(0,234,255,0.35)] transition hover:-translate-y-[1px] hover:shadow-[0_0_36px_rgba(0,234,255,0.5)]"
+          className="rounded-lg bg-[var(--action-primary)] px-8 py-3 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
         >
           {ctaText}
         </Link>

@@ -100,7 +100,7 @@ export function StatsCard({
           
           {/* Description */}
           {description && (
-            <p className="text-sm text-white/60 md:text-base">
+            <p className="text-sm text-[var(--dark-bg-text-tertiary)] md:text-base">
               {description}
             </p>
           )}

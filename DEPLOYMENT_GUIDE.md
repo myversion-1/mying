@@ -1,117 +1,160 @@
-# 部署指南
+# Deployment Guide - Miying Web
 
-## 快速部署到 Vercel
+## 构建状态
 
-### 方法 1: 使用 Vercel CLI（推荐）
+✅ **构建成功** - 所有代码已通过构建检查
 
-1. **登录 Vercel**（如果还没有登录）：
+## 部署方式
+
+### 方式 1: Vercel 自动部署（推荐）
+
+如果项目已连接到 Vercel，推送代码到 Git 仓库后会自动触发部署。
+
+#### 步骤：
+
+1. **提交所有更改到 Git**:
    ```bash
-   cd mying-web
+   git add .
+   git commit -m "feat: Add mobile usability improvements, tests, and documentation"
+   git push origin main
+   ```
+
+2. **Vercel 会自动检测并部署**
+   - 访问 Vercel Dashboard 查看部署状态
+   - 部署完成后，网站会自动更新
+
+### 方式 2: Vercel CLI 手动部署
+
+1. **安装 Vercel CLI**（如果尚未安装）:
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **登录 Vercel**:
+   ```bash
    vercel login
    ```
 
-2. **部署项目**：
+3. **部署到生产环境**:
    ```bash
-   vercel
-   ```
-   
-   首次部署会提示：
-   - 是否链接到现有项目？选择 `N`（新建项目）
-   - 项目名称：输入 `mying-web` 或使用默认名称
-   - 项目目录：确认是 `./mying-web` 或 `.`
-   - 是否覆盖设置：选择 `N`
-
-3. **部署到生产环境**：
-   ```bash
+   cd mying-web
    vercel --prod
    ```
 
-### 方法 2: 通过 Vercel 网站
+### 方式 3: 通过 Vercel Dashboard
 
-1. 访问 [vercel.com](https://vercel.com)
-2. 使用 GitHub/GitLab/Bitbucket 登录
-3. 点击 "Add New Project"
-4. 导入你的 Git 仓库
-5. Vercel 会自动检测 Next.js 项目并配置
+1. 访问 [Vercel Dashboard](https://vercel.com/dashboard)
+2. 选择项目
+3. 点击 "Deployments" 标签
+4. 点击 "Redeploy" 按钮
+5. 选择最新的提交并确认部署
 
-### 环境变量配置
+## 环境变量配置
 
-在 Vercel 项目设置中（Settings → Environment Variables）添加：
+### 必需的环境变量
 
-**必需变量：**
-- `NEXT_PUBLIC_SITE_URL`: 你的生产环境 URL（例如：`https://mying.vercel.app`）
+在 Vercel Dashboard → Settings → Environment Variables 中设置：
 
-**可选变量（用于联系表单）：**
-- `CONTACT_EMAIL`: 接收表单提交的邮箱地址
-- `WEBHOOK_URL`: 如果使用 Formspree 或 webhook.site
-- `RESEND_API_KEY`: 如果使用 Resend 邮件服务
-- `GMAIL_USER` 和 `GMAIL_APP_PASSWORD`: 如果使用 Gmail SMTP
-- `SENDGRID_API_KEY`: 如果使用 SendGrid
-
-**其他变量：**
-- `NEXT_PUBLIC_VERIFICATION_CODE`: 工厂参观验证码（默认：VISIT2025）
-
-### 部署后检查清单
-
-- [ ] 网站可以正常访问
-- [ ] 首页显示新的标题和 CTA 按钮
-- [ ] 所有页面正常加载
-- [ ] 语言切换功能正常
-- [ ] 联系表单可以提交（如果配置了邮件服务）
-- [ ] WhatsApp 按钮链接正确
-- [ ] 响应式设计在移动设备上正常显示
-
-## 其他部署选项
-
-### Netlify
-
-1. 访问 [netlify.com](https://netlify.com)
-2. 拖拽 `mying-web` 文件夹到 Netlify
-3. 或连接 Git 仓库自动部署
-
-**构建设置：**
-- Build command: `npm run build`
-- Publish directory: `.next`
-
-### 自托管
-
-如果需要自托管：
-
-```bash
-# 构建项目
-npm run build
-
-# 启动生产服务器
-npm run start
+```
+NEXT_PUBLIC_SITE_URL=https://mying.vercel.app
+CONTACT_EMAIL=miyingyoule@gmail.com
 ```
 
-需要配置：
-- Node.js 服务器（推荐使用 PM2）
-- 反向代理（Nginx 或 Apache）
-- SSL 证书（Let's Encrypt）
+### 可选的环境变量
+
+```
+BAIDU_API_KEY=bce-v3/ALTAK-yuuMsh8AZCukZ1jQUyBG6/45bbc60643930bcd5304b3ae731a426817a02667
+ADMIN_PASSWORD=your-admin-password
+RESEND_API_KEY=your-resend-key
+SENDGRID_API_KEY=your-sendgrid-key
+```
+
+**注意**: 百度云 API Key 已配置，用于支持翻译和地图服务。详细配置说明请参考 `BAIDU_API_SETUP.md`。
+
+## 部署前检查清单
+
+- [x] ✅ 代码构建成功（`npm run build`）
+- [x] ✅ 所有 TypeScript 类型检查通过
+- [x] ✅ 所有测试通过（如果适用）
+- [x] ✅ 环境变量已配置
+- [x] ✅ 代码已提交到 Git 仓库
+
+## 本次部署包含的功能
+
+### 1. 移动端可用性优化
+- ✅ 触摸目标优化（44×44 像素）
+- ✅ 移动端粘性导航条
+- ✅ 装饰性图像隐藏
+- ✅ 技术参数表移动端优化
+- ✅ 多语言字体渲染优化
+
+### 2. 测试和文档
+- ✅ SmartSelector 组件单元测试
+- ✅ 产品尺寸解析工具测试
+- ✅ 完整的 README 文档
+
+### 3. 代码修复
+- ✅ Footer 组件语法错误修复
+- ✅ Cases 页面类型错误修复
+
+## 部署后验证
+
+部署完成后，请验证以下功能：
+
+### 移动端测试
+1. [ ] 触摸目标大小符合 44×44 像素标准
+2. [ ] 移动端粘性导航条正常显示
+3. [ ] 技术参数表在移动端无横向滚动
+4. [ ] 所有语言字体渲染正常
+
+### 功能测试
+1. [ ] 智能选型工具正常工作
+2. [ ] 产品过滤功能正常
+3. [ ] 案例展示页面正常
+4. [ ] 所有 CTA 按钮正常
+
+### 性能测试
+1. [ ] 页面加载速度正常
+2. [ ] Lighthouse 评分符合预期
+3. [ ] 移动端性能优化生效
+
+## 回滚步骤
+
+如果部署后出现问题，可以快速回滚：
+
+1. 访问 Vercel Dashboard
+2. 进入项目的 "Deployments" 页面
+3. 找到之前的成功部署
+4. 点击 "..." 菜单 → "Promote to Production"
+
+## 监控和日志
+
+### 查看部署日志
+- Vercel Dashboard → Deployments → 选择部署 → "View Function Logs"
+
+### 性能监控
+- 使用 Lighthouse 测试工具
+- 查看 Vercel Analytics（如果已启用）
 
 ## 故障排除
 
 ### 构建失败
-- 检查 Node.js 版本（需要 18+）
-- 确保所有依赖已安装：`npm install`
-- 检查 TypeScript 错误：`npm run lint`
+1. 检查环境变量是否配置正确
+2. 查看构建日志中的错误信息
+3. 确保所有依赖已正确安装
 
-### 环境变量未生效
-- 确保在 Vercel 中设置了环境变量
-- 重新部署项目
-- 检查变量名是否正确（区分大小写）
+### 运行时错误
+1. 检查浏览器控制台错误
+2. 查看 Vercel Function Logs
+3. 验证 API 路由是否正常工作
 
-### 图片不显示
-- 确保图片在 `public` 文件夹中
-- 检查图片路径是否正确
-- 清除浏览器缓存
+## 联系支持
 
+如有问题，请联系：
+- 技术团队：miyingyoule@gmail.com
+- WhatsApp：+86-131-1295-9561
 
+---
 
-
-
-
-
-
-
+**最后更新**: 2025-01-27  
+**部署状态**: ✅ 准备就绪

@@ -87,7 +87,7 @@ export function EmptyState({
       {icon || (
         <div className="mb-6 rounded-full bg-white/5 p-6">
           <svg
-            className="h-12 w-12 text-white/30"
+            className="h-12 w-12 text-[var(--dark-bg-text-tertiary)]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -102,11 +102,11 @@ export function EmptyState({
         </div>
       )}
       <h3 className="text-xl font-semibold text-white mb-2">{title || text.title}</h3>
-      <p className="text-white/70 mb-6 max-w-md">{message || text.message}</p>
+      <p className="text-[var(--dark-bg-text-secondary)] mb-6 max-w-md">{message || text.message}</p>
       {actionHref && (
         <Link
           href={actionHref}
-          className="rounded-full bg-[#00eaff] px-5 py-3 text-sm font-semibold text-[#0b1116] shadow-[0_0_28px_rgba(0,234,255,0.35)] transition hover:-translate-y-[1px] hover:shadow-[0_0_36px_rgba(0,234,255,0.5)]"
+          className="rounded-lg bg-[var(--action-primary)] px-5 py-3 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
         >
           {actionLabel || text.action}
         </Link>
@@ -114,6 +114,8 @@ export function EmptyState({
     </div>
   );
 }
+
+
 
 
 

@@ -75,10 +75,10 @@ export function AwardsGrid({ awards, lang = "en" }: AwardsGridProps) {
                 {getLocalizedName(award)}
               </h3>
               {award.issuer && (
-                <p className="text-xs text-white/60 mb-2">{award.issuer}</p>
+                <p className="text-xs text-[var(--dark-bg-text-tertiary)] mb-2">{award.issuer}</p>
               )}
               {getLocalizedDescription(award) && (
-                <p className="text-sm text-white/70">
+                <p className="text-sm text-[var(--dark-bg-text-secondary)]">
                   {getLocalizedDescription(award)}
                 </p>
               )}
@@ -87,7 +87,7 @@ export function AwardsGrid({ awards, lang = "en" }: AwardsGridProps) {
             {/* Category Badge */}
             {award.category && (
               <div className="mt-auto">
-                <span className="inline-block rounded-full bg-white/5 px-2 py-1 text-xs text-white/60">
+                <span className="inline-block rounded-full bg-white/5 px-2 py-1 text-xs text-[var(--dark-bg-text-tertiary)]">
                   {award.category}
                 </span>
               </div>

@@ -174,3 +174,8 @@ We detected multiple lockfiles
 **报告生成时间：** 2025-01-06  
 **下一步：** 查看 bundle 分析报告，识别优化机会
 
+
+
+
+
+

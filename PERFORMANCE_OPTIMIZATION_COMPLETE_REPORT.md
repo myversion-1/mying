@@ -322,3 +322,8 @@ npm run lighthouse:compare    # 生成对比报告
 **优化状态：** ✅ 所有任务已完成  
 **下一步：** 继续优化图片和 JavaScript 以进一步提升性能
 
+
+
+
+
+

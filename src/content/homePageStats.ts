@@ -27,6 +27,17 @@ export const homePageStats: StatItem[] = [
     icon: "check-circle",
   },
   {
+    number: "200",
+    suffix: "+",
+    label: "Clients",
+    labelEn: "Clients",
+    labelZh: "客户",
+    description: "Satisfied Customers",
+    descriptionEn: "Satisfied Customers",
+    descriptionZh: "满意客户",
+    icon: "users",
+  },
+  {
     number: "30",
     suffix: "+",
     label: "R&D Patents",

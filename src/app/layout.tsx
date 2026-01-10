@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Crimson_Text } from "next/font/google";
 import "./globals.css";
 import { Providers } from "../components/Providers";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
+import { MobileStickyNav } from "../components/MobileStickyNav";
 import { StructuredDataServer } from "../components/StructuredDataServer";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import { ToastContainer } from "../components/Toast";
@@ -23,6 +24,12 @@ const geistMono = Geist_Mono({
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+});
+
+const crimsonText = Crimson_Text({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -192,16 +199,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" dir="ltr">
+    <html lang="en" dir="ltr" className="dark" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased bg-[#0c1014] text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${crimsonText.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
+        suppressHydrationWarning
       >
         <ErrorBoundary>
           <Providers>
             <StructuredDataServer type="home" />
             <Header />
-            <main className="pb-20">{children}</main>
+            <main className="pb-28 md:pb-0">{children}</main>
           <Footer />
+          <MobileStickyNav />
           <CustomerServiceWidgetWrapper />
           <ToastContainer />
         </Providers>

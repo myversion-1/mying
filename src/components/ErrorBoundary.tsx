@@ -91,7 +91,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <h2 className="mb-2 text-2xl font-bold text-white">
               Something went wrong
             </h2>
-            <p className="mb-6 text-white/70">
+            <p className="mb-6 text-[var(--dark-bg-text-secondary)]">
               We're sorry, but something unexpected happened. Please try refreshing the page.
             </p>
 
@@ -106,13 +106,13 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="flex gap-4 justify-center">
               <button
                 onClick={this.handleReset}
-                className="rounded-lg bg-[#7df6ff] px-6 py-3 font-semibold text-[#0c1014] transition hover:bg-[#00eaff]"
+                className="rounded-lg bg-[var(--accent-secondary)] px-6 py-3 font-semibold text-[var(--text-inverse)] transition hover:bg-[var(--accent-primary)] min-h-[44px] min-w-[44px] touch-manipulation"
               >
                 Try Again
               </button>
               <button
                 onClick={() => window.location.reload()}
-                className="rounded-lg border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
+                className="rounded-lg border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white transition hover:bg-white/10 min-h-[44px] min-w-[44px] touch-manipulation"
               >
                 Refresh Page
               </button>
@@ -137,6 +137,8 @@ export function useErrorHandler(): (error: Error) => void {
     throw error;
   };
 }
+
+
 
 
 

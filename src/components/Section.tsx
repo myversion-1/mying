@@ -13,17 +13,17 @@ export function Section({ id, title, eyebrow, subtitle, children }: SectionProps
         {(title || subtitle) && (
           <div className="mb-8 max-w-3xl space-y-2">
             {eyebrow && (
-              <div className="inline-flex rounded-full bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#7df6ff]">
+              <div className="inline-flex rounded-full bg-[var(--accent-primary-light)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--accent-primary)]">
                 {eyebrow}
               </div>
             )}
             {title && (
-              <h2 className="text-2xl font-semibold text-white md:text-3xl">
+              <h2 className="text-2xl font-semibold text-[var(--text-primary)] md:text-3xl">
                 {title}
               </h2>
             )}
             {subtitle && (
-              <p className="text-white/70 md:text-lg">{subtitle}</p>
+              <p className="text-[var(--text-secondary)] md:text-lg">{subtitle}</p>
             )}
           </div>
         )}

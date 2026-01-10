@@ -147,3 +147,8 @@ export const patentCertificates: PatentCertificate[] = [
 
 
 
+
+
+
+
+

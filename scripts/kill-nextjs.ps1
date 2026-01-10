@@ -25,3 +25,8 @@ if (Test-Path $lockFile) {
 Write-Host ""
 Write-Host "You can now run: npm run dev" -ForegroundColor Cyan
 
+
+
+
+
+

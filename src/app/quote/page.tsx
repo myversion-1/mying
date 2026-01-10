@@ -51,7 +51,7 @@ export default function QuotePage() {
             <h3 className="text-lg font-semibold text-white">
               {lang === "zh" ? "报价包含内容" : "What's Included in Your Quote"}
             </h3>
-            <ul className="list-disc space-y-2 pl-5 text-white/70">
+            <ul className="list-disc space-y-2 pl-5 text-[var(--dark-bg-text-secondary)]">
               {[
                 lang === "zh"
                   ? "详细的产品规格和配置"
@@ -96,6 +96,8 @@ export default function QuotePage() {
     </div>
   );
 }
+
+
 
 
 

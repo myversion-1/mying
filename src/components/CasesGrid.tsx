@@ -15,12 +15,17 @@ export function CasesGrid({ cases, onCaseClick }: CasesGridProps) {
         <CaseCard
           key={caseItem.id}
           caseItem={caseItem}
-          onClick={() => onCaseClick?.(caseItem)}
+          onClickAction={() => onCaseClick?.(caseItem)}
         />
       ))}
     </div>
   );
 }
+
+
+
+
+
 
 
 

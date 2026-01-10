@@ -3,6 +3,7 @@ export type Testimonial = {
   id: string;
   name: string;
   company: string;
+  companyLogo?: string; // Path to company logo in /public folder
   country: string;
   countryCode?: string; // ISO country code for flag display
   position?: string; // Job title/position
@@ -12,8 +13,12 @@ export type Testimonial = {
   textZh?: string;
   image?: string; // Path to customer photo in /public folder
   project?: string; // Related project name
+  projectType?: string; // Project type (e.g., "Theme Park", "FEC", "Shopping Mall")
   year?: string; // Year of project/completion
 };
+
+
+
 
 
 

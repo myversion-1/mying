@@ -147,12 +147,14 @@ export default function AboutPage() {
       </Section>
 
       {/* Customer Testimonials */}
-      <Section
-        title={lang === "zh" ? "客户评价" : "What Our Clients Say"}
-        subtitle={lang === "zh" ? "来自全球客户的真实反馈" : "Real feedback from our clients worldwide"}
-      >
-        <TestimonialsGrid testimonials={testimonials.map(t => getLocalizedTestimonial(t, lang))} lang={lang} />
-      </Section>
+      {testimonials && testimonials.length > 0 && (
+        <Section
+          title={lang === "zh" ? "客户评价" : "What Our Clients Say"}
+          subtitle={lang === "zh" ? "来自全球客户的真实反馈" : "Real feedback from our clients worldwide"}
+        >
+          <TestimonialsGrid testimonials={testimonials.map(t => getLocalizedTestimonial(t, lang))} lang={lang} />
+        </Section>
+      )}
 
       {/* Long-Term Partnership */}
       <Section

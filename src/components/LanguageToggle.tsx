@@ -24,15 +24,15 @@ export function LanguageToggle() {
   const c = copy(lang);
 
   return (
-    <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1.5 text-xs text-white/80 max-w-fit">
+    <div className="flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface-elevated)] px-2 py-1.5 text-xs text-[var(--text-secondary)] max-w-fit">
       {languages.map((l) => (
         <button
           key={l}
           onClick={() => setLang(l)}
           className={`rounded-full px-2.5 py-1 transition flex-shrink-0 ${
             lang === l
-              ? "bg-white text-[#0c1014] shadow-sm font-semibold"
-              : "text-white/70 hover:text-white"
+              ? "bg-[var(--action-primary)] text-[var(--action-primary-text)] font-semibold"
+              : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
           }`}
           aria-label={`Switch to ${languageNames[l]}`}
           title={languageNames[l]}

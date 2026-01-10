@@ -8,6 +8,9 @@ import type { Lang } from "../../components/language";
 interface ProductsContentClientProps {
   products: Product[];
   searchQuery: string;
+  categoryFilter?: string; // Legacy support
+  mainCategoryFilter?: string;
+  subCategoryFilter?: string;
   lang: Lang;
 }
 
@@ -19,6 +22,9 @@ interface ProductsContentClientProps {
 export function ProductsContentClient({
   products,
   searchQuery,
+  categoryFilter,
+  mainCategoryFilter,
+  subCategoryFilter,
   lang,
 }: ProductsContentClientProps) {
   const c = copy(lang);
@@ -28,9 +34,18 @@ export function ProductsContentClient({
       title={c.productsTitle}
       subtitle={c.productsSubtitle}
     >
-      <ProductGrid items={products} initialSearchQuery={searchQuery} />
+      <ProductGrid 
+        items={products} 
+        initialSearchQuery={searchQuery}
+        initialCategoryFilter={categoryFilter}
+        initialMainCategoryFilter={mainCategoryFilter}
+        initialSubCategoryFilter={subCategoryFilter}
+      />
     </Section>
   );
 }
+
+
+
 
 

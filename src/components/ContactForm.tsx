@@ -125,7 +125,7 @@ export function ContactForm({ action }: { action?: string }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur"
+      className="grid gap-4 rounded-2xl border border-[var(--border)] dark-bg-component p-6"
     >
       <div className="grid gap-3 md:grid-cols-2">
         <LabeledInput name="name" label={c.form.name} required error={errors.name} />
@@ -135,7 +135,7 @@ export function ContactForm({ action }: { action?: string }) {
         <LabeledInput name="company" label={c.form.company} required error={errors.company} />
       </div>
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-white/80" htmlFor="message">
+        <label className="text-sm font-medium text-[var(--dark-bg-text-secondary)]" htmlFor="message">
           {c.form.message}
         </label>
         <textarea
@@ -153,10 +153,10 @@ export function ContactForm({ action }: { action?: string }) {
               });
             }
           }}
-          className={`w-full rounded-xl border bg-[#0c1014] px-3 py-2 text-white outline-none transition ${
+          className={`w-full rounded-xl border bg-[var(--dark-bg-base)] px-3 py-2 text-[var(--dark-bg-text)] outline-none transition min-h-[44px] touch-manipulation ${
             errors.message
               ? "border-red-500/50 focus:border-red-500"
-              : "border-white/10 focus:border-[#7df6ff]/60"
+              : "border-white/20 focus:border-[var(--accent-primary)]/60"
           }`}
           required
           aria-invalid={!!errors.message}
@@ -171,7 +171,7 @@ export function ContactForm({ action }: { action?: string }) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-fit rounded-full bg-[#00eaff] px-5 py-3 text-sm font-semibold text-[#0b1116] shadow-[0_0_28px_rgba(0,234,255,0.35)] transition hover:-translate-y-[1px] hover:shadow-[0_0_36px_rgba(0,234,255,0.5)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center gap-2"
+        className="w-fit rounded-lg bg-[var(--action-primary)] px-6 py-3 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-h-[44px] min-w-[44px] touch-manipulation"
       >
         {isSubmitting && (
           <svg
@@ -197,7 +197,7 @@ export function ContactForm({ action }: { action?: string }) {
         )}
         {isSubmitting ? "Sending..." : c.form.submit}
       </button>
-      <p className="text-xs text-white/50">
+      <p className="text-xs text-[var(--dark-bg-text-secondary)]/60">
         We'll respond to your inquiry within 24 hours.
       </p>
     </form>
@@ -215,7 +215,7 @@ type InputProps = {
 function LabeledInput({ name, label, type = "text", required, error }: InputProps) {
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-white/80" htmlFor={name}>
+      <label className="text-sm font-medium text-[var(--dark-bg-text-secondary)]" htmlFor={name}>
         {label}
         {required && <span className="text-red-400 ml-1">*</span>}
       </label>
@@ -224,10 +224,10 @@ function LabeledInput({ name, label, type = "text", required, error }: InputProp
         name={name}
         type={type}
         required={required}
-        className={`w-full rounded-xl border bg-[#0c1014] px-3 py-2 text-white outline-none transition ${
+        className={`w-full rounded-xl border bg-[var(--dark-bg-base)] px-3 py-2 text-[var(--dark-bg-text)] outline-none transition min-h-[44px] touch-manipulation ${
           error
             ? "border-red-500/50 focus:border-red-500"
-            : "border-white/10 focus:border-[#7df6ff]/60"
+            : "border-white/20 focus:border-[var(--accent-primary)]/60"
         }`}
         aria-invalid={!!error}
         aria-describedby={error ? `${name}-error` : undefined}

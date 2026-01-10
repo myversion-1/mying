@@ -45,8 +45,8 @@ export function ProductSpecs({
     return (
       <dl
         className={`
-          grid gap-2 @[200px]:gap-3 text-xs @[300px]:text-sm text-white/70
-          grid-cols-1 @[200px]:grid-cols-2 @[400px]:grid-cols-4
+          grid gap-2 @[200px]:gap-3 text-xs @[300px]:text-sm text-[var(--text-secondary)]
+          grid-cols-1 @[200px]:grid-cols-2 @[400px]:grid-cols-4 min-w-0
           ${className}
         `}
         dir={isRTL ? "rtl" : "ltr"}
@@ -67,15 +67,17 @@ export function ProductSpecs({
   }
 
   // Detail variant: full specification list
+  // Mobile: card layout, Desktop: table-like layout
   return (
     <div
-      className={`rounded-2xl border border-white/10 bg-white/5 p-6 ${className}`}
+      className={`rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-4 md:p-6 ${className}`}
       dir={isRTL ? "rtl" : "ltr"}
     >
-      <h2 className={`mb-4 text-2xl font-semibold text-white ${isRTL ? "text-right" : "text-left"}`}>
+      <h2 className={`mb-4 text-xl md:text-2xl font-semibold text-[var(--text-primary)] ${isRTL ? "text-right" : "text-left"}`}>
         {lang === "zh" ? "规格参数" : "Specifications"}
       </h2>
-      <dl className="space-y-3">
+      {/* Mobile: Card layout, Desktop: Table-like layout */}
+      <dl className="space-y-3 md:space-y-3">
         <DetailSpecItem
           label={labels.footprint}
           value={product.footprint}
@@ -107,16 +109,33 @@ function SpecItem({
 }) {
   return (
     <div
-      className={`flex flex-col rounded-lg border border-white/5 bg-white/5 px-3 py-2 ${
+      className={`flex flex-col rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] px-3 py-2 min-w-0 ${
         isRTL ? "text-right" : "text-left"
       }`}
     >
-      <dt className="text-[11px] uppercase tracking-[0.14em] text-white/50">
+      <dt 
+        className="text-[11px] uppercase tracking-[0.14em] text-[var(--text-tertiary)] break-words overflow-hidden max-w-full"
+        style={{
+          wordBreak: "break-word",
+          overflowWrap: "break-word",
+          hyphens: "auto",
+          maxWidth: "100%",
+        }}
+      >
         {label}
       </dt>
-      <dd className="text-white">{value}</dd>
+      <dd 
+        className="text-[var(--text-primary)] break-words overflow-wrap-anywhere min-w-0"
+        style={{
+          wordBreak: "break-word",
+          overflowWrap: "anywhere",
+          hyphens: "auto",
+        }}
+      >
+        {value}
+      </dd>
       {explanation && (
-        <span className="mt-1 text-xs text-white/60">({explanation})</span>
+        <span className="mt-1 text-xs text-[var(--text-tertiary)]">({explanation})</span>
       )}
     </div>
   );
@@ -137,21 +156,33 @@ function DetailSpecItem({
 }) {
   return (
     <div
-      className={`flex flex-col sm:flex-row sm:justify-between border-b border-white/10 pb-2 ${
-        isRTL ? "sm:flex-row-reverse" : ""
+      className={`flex flex-col md:flex-row md:justify-between border-b border-[var(--border)] pb-3 md:pb-2 min-w-0 ${
+        isRTL ? "md:flex-row-reverse" : ""
       }`}
     >
       <dt
-        className={`text-sm text-white/60 mb-1 sm:mb-0 ${
-          isRTL ? "sm:text-right" : "sm:text-left"
+        className={`text-sm text-[var(--text-tertiary)] mb-2 md:mb-0 break-words overflow-hidden max-w-full md:flex-shrink-0 ${
+          isRTL ? "md:text-right" : "md:text-left"
         }`}
+        style={{
+          wordBreak: "break-word",
+          overflowWrap: "break-word",
+          hyphens: "auto",
+          maxWidth: "100%",
+        }}
       >
         {label}
       </dt>
       <dd
-        className={`font-medium text-white ${
-          isRTL ? "sm:text-right" : "sm:text-left"
+        className={`font-medium text-[var(--text-primary)] break-words overflow-wrap-anywhere min-w-0 md:flex-1 ${
+          isRTL ? "md:text-right" : "md:text-left"
         }`}
+        style={{
+          wordBreak: "break-word",
+          overflowWrap: "anywhere",
+          hyphens: "auto",
+          maxWidth: "100%",
+        }}
       >
         {value}
       </dd>

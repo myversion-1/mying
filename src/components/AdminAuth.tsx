@@ -87,11 +87,11 @@ export function AdminAuth({ children }: AdminAuthProps) {
       <div className="flex items-center justify-center min-h-screen bg-[#0c1014]">
         <div className="bg-[#1a1f2e] rounded-lg border border-white/10 p-8 max-w-md w-full mx-4">
           <h1 className="text-3xl font-bold text-white mb-2">Admin Access</h1>
-          <p className="text-white/70 mb-6">Please enter the admin password to continue.</p>
+          <p className="text-[var(--dark-bg-text-secondary)] mb-6">Please enter the admin password to continue.</p>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-white/80 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-[var(--dark-bg-text)] mb-2">
                 Password
               </label>
               <input
@@ -121,7 +121,7 @@ export function AdminAuth({ children }: AdminAuthProps) {
             </button>
           </form>
 
-          <div className="mt-6 text-xs text-white/50 text-center">
+          <div className="mt-6 text-xs text-[var(--dark-bg-text-tertiary)] text-center">
             <p>This is a protected admin area.</p>
             <p className="mt-1">Contact the administrator if you need access.</p>
           </div>
@@ -133,7 +133,7 @@ export function AdminAuth({ children }: AdminAuthProps) {
   return (
     <div>
       <div className="bg-[#1a1f2e] border-b border-white/10 px-8 py-4 flex justify-between items-center">
-        <div className="text-white/70 text-sm">
+        <div className="text-[var(--dark-bg-text-secondary)] text-sm">
           Admin Mode - Authenticated
         </div>
         <button
@@ -147,6 +147,8 @@ export function AdminAuth({ children }: AdminAuthProps) {
     </div>
   );
 }
+
+
 
 
 

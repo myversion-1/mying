@@ -1,0 +1,99 @@
+"use client";
+
+import Image from "next/image";
+import { partners, type Partner } from "../content/partners";
+import { useLanguage } from "./language";
+
+type PartnersSectionProps = {
+  partners?: Partner[];
+  title?: string;
+  subtitle?: string;
+  maxPartners?: number;
+  showCategory?: boolean;
+};
+
+export function PartnersSection({
+  partners: customPartners,
+  title,
+  subtitle,
+  maxPartners,
+  showCategory = false,
+}: PartnersSectionProps) {
+  const { lang } = useLanguage();
+  const displayPartners = customPartners || partners;
+  const limitedPartners = maxPartners ? displayPartners.slice(0, maxPartners) : displayPartners;
+
+  const defaultTitle = lang === "zh" ? "我们的合作伙伴" : "Our Partners";
+  const defaultSubtitle = lang === "zh" 
+    ? "全球领先的游乐园和娱乐中心信任 Miying" 
+    : "Leading theme parks and entertainment centers worldwide trust Miying";
+
+  return (
+    <section className="py-12 md:py-16">
+      <div className="mx-auto max-w-6xl px-4 md:px-8">
+        {/* Section Header */}
+        {(title || subtitle) && (
+          <div className="mb-8 text-center">
+            {title && (
+              <h2 className="mb-2 text-3xl font-bold text-[var(--text-primary)] md:text-4xl">
+                {title || defaultTitle}
+              </h2>
+            )}
+            {subtitle && (
+              <p className="text-lg text-[var(--text-secondary)]">
+                {subtitle || defaultSubtitle}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Partners Grid */}
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-5">
+          {limitedPartners.map((partner) => (
+            <div
+              key={partner.id}
+              className="group relative flex items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
+            >
+              {partner.logo ? (
+                <div className="relative h-16 w-full">
+                  <Image
+                    src={partner.logo}
+                    alt={partner.name}
+                    fill
+                    className="object-contain opacity-70 transition group-hover:opacity-100"
+                    quality={85}
+                    loading="lazy"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+                  />
+                </div>
+              ) : (
+                <div className="flex h-16 w-full items-center justify-center text-[var(--text-tertiary)]">
+                  <span className="text-sm font-medium">{partner.name}</span>
+                </div>
+              )}
+              
+              {/* Category Badge (optional) */}
+              {showCategory && partner.category && (
+                <div className="absolute bottom-2 right-2">
+                  <span className="rounded-full bg-[var(--surface-elevated)] px-2 py-0.5 text-xs font-semibold text-[var(--text-primary)] border border-[var(--accent-primary)]/30">
+                    {partner.category}
+                  </span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Empty State */}
+        {limitedPartners.length === 0 && (
+          <div className="text-center py-8 text-[var(--text-secondary)]">
+            <p>{lang === "zh" ? "暂无合作伙伴信息" : "No partners available at the moment."}</p>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+
+

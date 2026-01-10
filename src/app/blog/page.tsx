@@ -60,32 +60,38 @@ export default function BlogPage() {
       {/* Category Filter */}
       <Section>
         <div className="flex flex-wrap items-center gap-3">
-          <label className="text-sm font-medium text-white/70">
+          <label className="text-sm font-medium text-[var(--text-secondary)]">
             {lang === "zh" ? "分类：" : "Category:"}
           </label>
           <button
             onClick={() => setSelectedCategory("all")}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+            className={`rounded-full px-4 py-2 text-sm font-medium transition min-h-[44px] min-w-[44px] touch-manipulation ${
               selectedCategory === "all"
-                ? "bg-[#00eaff] text-[#0c1014]"
-                : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                ? "bg-[var(--action-primary)] text-[var(--action-primary-text)]"
+                : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]"
             }`}
           >
-            {categoryLabels.all[lang === "zh" ? "zh" : "en"]}
+            {categoryLabels.all?.[lang === "zh" ? "zh" : "en"] || "All Posts"}
           </button>
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                selectedCategory === category
-                  ? "bg-[#00eaff] text-[#0c1014]"
-                  : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
-              }`}
-            >
-              {categoryLabels[category][lang === "zh" ? "zh" : "en"]}
-            </button>
-          ))}
+          {categories.map((category) => {
+            const label = categoryLabels[category];
+            const displayText = label 
+              ? label[lang === "zh" ? "zh" : "en"] 
+              : category; // Fallback to category name if label not found
+            return (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition min-h-[44px] min-w-[44px] touch-manipulation ${
+                  selectedCategory === category
+                    ? "bg-[var(--action-primary)] text-[var(--action-primary-text)]"
+                    : "bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]"
+                }`}
+              >
+                {displayText}
+              </button>
+            );
+          })}
         </div>
       </Section>
 
@@ -94,8 +100,8 @@ export default function BlogPage() {
         {filteredPosts.length > 0 ? (
           <BlogGrid posts={filteredPosts} showFeatured={selectedCategory === "all"} />
         ) : (
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-12 text-center">
-            <p className="text-white/70">
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-12 text-center">
+            <p className="text-[var(--text-secondary)]">
               {lang === "zh" ? "该分类下暂无文章" : "No posts found in this category"}
             </p>
           </div>
@@ -104,6 +110,8 @@ export default function BlogPage() {
     </div>
   );
 }
+
+
 
 
 

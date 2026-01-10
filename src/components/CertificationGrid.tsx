@@ -34,7 +34,7 @@ export function CertificationGrid({ certifications }: CertificationGridProps) {
                   </span>
                 )}
               </div>
-              <p className="text-sm text-white/70">{cert.description}</p>
+              <p className="text-sm text-[var(--dark-bg-text-secondary)]">{cert.description}</p>
             </div>
           </div>
         </div>
@@ -42,6 +42,8 @@ export function CertificationGrid({ certifications }: CertificationGridProps) {
     </div>
   );
 }
+
+
 
 
 

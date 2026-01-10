@@ -23,7 +23,7 @@ export function Loading({ size = "md", text, fullScreen = false }: LoadingProps)
         <div
           className={`${sizeClasses[size]} animate-spin rounded-full border-4 border-white/10 border-t-[#00eaff]`}
         />
-        {text && <p className="text-sm text-white/70">{text}</p>}
+        {text && <p className="text-sm text-[var(--dark-bg-text-secondary)]">{text}</p>}
       </div>
     </div>
   );
@@ -56,6 +56,8 @@ export function ProductGridSkeleton({ count = 6 }: { count?: number }) {
     </div>
   );
 }
+
+
 
 
 

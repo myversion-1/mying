@@ -20,6 +20,9 @@ interface ProductsPageProps {
   searchParams: Promise<{
     search?: string;
     lang?: string;
+    category?: string; // Legacy support
+    mainCategory?: string;
+    subCategory?: string;
   }>;
 }
 
@@ -36,6 +39,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const params = await searchParams;
   const lang = (params.lang as Lang) || "en";
   const searchQuery = params.search || "";
+  const categoryFilter = params.category || ""; // Legacy support
+  const mainCategoryFilter = params.mainCategory || "";
+  const subCategoryFilter = params.subCategory || "";
   const c = copy(lang);
 
   // Optimized parallel data fetching using Promise.all()
@@ -90,7 +96,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               </div>
             </div>
             <div className="hidden h-12 w-px bg-white/20 md:block" />
-            <div className="hidden text-sm text-white/70 md:block">
+            <div className="hidden text-sm text-[var(--dark-bg-text-secondary)] md:block">
               {patentDescription}
             </div>
           </div>
@@ -108,6 +114,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
           <ProductsContentClient 
             products={products} 
             searchQuery={searchQuery}
+            categoryFilter={categoryFilter}
+            mainCategoryFilter={mainCategoryFilter}
+            subCategoryFilter={subCategoryFilter}
             lang={lang}
           />
         </Suspense>

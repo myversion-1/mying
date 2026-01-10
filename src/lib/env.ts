@@ -22,6 +22,7 @@ const envConfig: EnvConfig = {
     "FROM_EMAIL",
     "NEXT_PUBLIC_VERIFICATION_CODE",
     "NEXT_PUBLIC_CALENDLY_URL",
+    "BAIDU_API_KEY",
   ],
 };
 
