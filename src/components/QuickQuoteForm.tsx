@@ -7,7 +7,6 @@ import { copy } from "../content/copy";
 import { validateRequired, validateWorkEmail, validateNumber, validateFields, isWorkEmail } from "../lib/form-validation";
 import { toast } from "./Toast";
 import { trackFormStart, trackFormSubmit, trackFormAbandon } from "../lib/analytics";
-import { usePathname } from "next/navigation";
 
 interface QuickQuoteFormProps {
   productName: string;
