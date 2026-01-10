@@ -12,6 +12,7 @@ import { ToastContainer } from "../components/Toast";
 import { CustomerServiceWidgetWrapper } from "../components/CustomerServiceWidgetWrapper";
 import { Analytics } from "@vercel/analytics/next";
 import { AnalyticsProvider } from "../components/AnalyticsProvider";
+import { ScrollToTop } from "../components/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -217,6 +218,7 @@ export default function RootLayout({
               <Footer />
               <MobileStickyNav />
               <CustomerServiceWidgetWrapper />
+              <ScrollToTop />
               <ToastContainer />
             </AnalyticsProvider>
           </Providers>
