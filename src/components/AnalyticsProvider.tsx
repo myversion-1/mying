@@ -93,3 +93,17 @@ function AnalyticsProviderInner({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+/**
+ * Analytics Provider Component (wrapped in Suspense)
+ * 
+ * Handles automatic page view tracking and scroll depth monitoring.
+ * Prepares the codebase for future heatmap and A/B testing integration.
+ */
+export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <Suspense fallback={<>{children}</>}>
+      <AnalyticsProviderInner>{children}</AnalyticsProviderInner>
+    </Suspense>
+  );
+}
+
