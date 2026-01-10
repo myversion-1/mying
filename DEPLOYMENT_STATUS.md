@@ -136,7 +136,17 @@ feat: Complete priorities 1-10 optimizations and client logos integration
 
 ---
 
-**最后更新：** 2025-01-27  
+**最新更新：** 2025-01-27  
+**最新提交：** `7fd4742` - feat: Add scroll to top button component  
 **状态：** ✅ 已提交并推送到 Git  
-**部署：** 等待 Vercel 自动部署或手动触发
+**部署：** Vercel 自动部署中
+
+## 最新功能更新
+
+### 返回顶部按钮 (ScrollToTop)
+- ✅ 固定在右下角的返回顶部按钮
+- ✅ 滚动超过 300px 后自动显示
+- ✅ 平滑滚动动画
+- ✅ 符合设计规范（使用 CSS 变量、高对比度、移动端友好）
+- ✅ 已集成到所有页面
 
