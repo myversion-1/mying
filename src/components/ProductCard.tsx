@@ -212,7 +212,7 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
               destination: `/quote?product=${encodeURIComponent(product.name)}`,
               page: pathname,
               section: "product_grid",
-              element: product.name,
+              productName: product.name,
             });
           }}
           className="
@@ -234,7 +234,7 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
               destination: productUrl,
               page: pathname,
               section: "product_grid",
-              element: product.name,
+              productName: product.name,
             });
           }}
           className="

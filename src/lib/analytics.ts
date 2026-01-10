@@ -260,6 +260,9 @@ class AnalyticsTracker {
     destination?: string;
     page?: string;
     section?: string;
+    element?: string;
+    productName?: string;
+    serviceName?: string;
   }): void {
     const event: CTAClickEvent = {
       type: "cta_click",
@@ -270,6 +273,7 @@ class AnalyticsTracker {
       destination: params.destination,
       page: params.page || (typeof window !== "undefined" ? window.location.pathname : ""),
       section: params.section,
+      element: params.element || params.productName || params.serviceName,
     };
 
     this.track(event);
