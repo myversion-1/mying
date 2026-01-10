@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { partners, type Partner } from "../content/partners";
+import { partners } from "../content/partners";
+import type { Partner } from "../content/types/partner";
 import { useLanguage } from "./language";
 
 type PartnersSectionProps = {

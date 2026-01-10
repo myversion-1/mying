@@ -107,7 +107,9 @@ export default function FAQPage() {
       {/* Category Filter */}
       <div className="mb-8 flex flex-wrap gap-2">
         {categories.map((category) => {
-          const label = categoryLabels[category]?.[lang] || category;
+          // Category labels only support en and zh, default to en for other languages
+          const supportedLang: "en" | "zh" = (lang === "en" || lang === "zh") ? lang : "en";
+          const label = categoryLabels[category]?.[supportedLang] || category;
           const isActive = selectedCategory === category;
           return (
             <button

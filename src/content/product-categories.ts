@@ -11,9 +11,9 @@ export type MainCategory =
 
 export type SubCategory = {
   id: string;
-  name: Record<Lang, string>;
+  name: { en: string; zh: string; [key: string]: string };
   icon?: string;
-  description?: Record<Lang, string>;
+  description?: { en: string; zh: string; [key: string]: string };
 };
 
 export const productCategories: Record<MainCategory, SubCategory[]> = {

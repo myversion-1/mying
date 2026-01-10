@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { tradeShows, getUpcomingTradeShows, getLocalizedTradeShow, type TradeShow } from "../../content/trade-shows";
+import { tradeShows, getUpcomingTradeShows, getLocalizedTradeShow } from "../../content/trade-shows";
+import type { TradeShow } from "../../content/types/trade-show";
 import { useLanguage } from "../../components/language";
 
 export default function TradeShowsPage() {

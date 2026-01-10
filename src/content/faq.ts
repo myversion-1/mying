@@ -1,4 +1,5 @@
 import type { FAQ } from "./types/faq";
+import type { Lang } from "../components/language";
 
 // FAQ data
 export const faqs: FAQ[] = [
@@ -117,9 +118,16 @@ export function getFAQsByCategory(category?: FAQ["category"]): FAQ[] {
 }
 
 // Helper function to get localized FAQ
-export function getLocalizedFAQ(faq: FAQ, lang: "en" | "zh"): { question: string; answer: string } {
-  const question = faq.question[lang] || faq.question.en;
-  const answer = faq.answer[lang] || faq.answer.en;
+export function getLocalizedFAQ(faq: FAQ, lang: Lang): { question: string; answer: string } {
+  // FAQ currently only supports en and zh, default to en for other languages
+  let supportedLang: "en" | "zh";
+  if (lang === "en" || lang === "zh") {
+    supportedLang = lang;
+  } else {
+    supportedLang = "en";
+  }
+  const question = faq.question[supportedLang] ?? faq.question.en;
+  const answer = faq.answer[supportedLang] ?? faq.answer.en;
   return { question, answer };
 }
 

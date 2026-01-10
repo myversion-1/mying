@@ -139,7 +139,9 @@ export default function ResourcesPage() {
       {/* Category Filter */}
       <div className="mb-8 flex flex-wrap gap-3 justify-center">
         {categories.map((category) => {
-          const label = category.label[lang] || category.label.en;
+          // Category labels only support en and zh, default to en for other languages
+          const supportedLang: "en" | "zh" = (lang === "en" || lang === "zh") ? lang : "en";
+          const label = category.label[supportedLang] || category.label.en;
           const isActive = selectedCategory === category.id;
           return (
             <button
@@ -169,9 +171,11 @@ export default function ResourcesPage() {
           </div>
         ) : (
           filteredResources.map((resource) => {
-            const title = resource.title[lang] || resource.title.en;
-            const description = resource.description[lang] || resource.description.en;
-            const type = resource.type[lang] || resource.type.en;
+            // Resource labels only support en and zh, default to en for other languages
+            const supportedLang: "en" | "zh" = (lang === "en" || lang === "zh") ? lang : "en";
+            const title = resource.title[supportedLang] || resource.title.en;
+            const description = resource.description[supportedLang] || resource.description.en;
+            const type = resource.type[supportedLang] || resource.type.en;
             return (
               <div
                 key={resource.id}
