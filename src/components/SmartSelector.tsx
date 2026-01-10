@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "./language";
 import type { Product } from "../content/copy";
 import { productFitsConstraints } from "../utils/product-dimensions";
@@ -107,13 +106,11 @@ export function SmartSelector({
           className="rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] p-2 text-[var(--text-secondary)] hover:border-[var(--border-hover)] hover:text-[var(--text-primary)] transition"
           aria-label={isExpanded ? "Collapse" : "Expand"}
         >
-          <motion.svg
-            className="h-5 w-5"
+          <svg
+            className={`h-5 w-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
-            animate={{ rotate: isExpanded ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
           >
             <path
               strokeLinecap="round"
@@ -121,18 +118,13 @@ export function SmartSelector({
               strokeWidth={2}
               d="M19 9l-7 7-7-7"
             />
-          </motion.svg>
+          </svg>
         </button>
       </div>
 
       {/* Filter Status */}
       {hasActiveFilters && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          className="mb-4 rounded-lg border border-[#00eaff]/30 bg-[#00eaff]/10 p-3"
-        >
+        <div className="mb-4 rounded-lg border border-[#00eaff]/30 bg-[#00eaff]/10 p-3 transition-opacity">
           <div className="flex items-center justify-between">
             <div className="text-sm text-[var(--text-primary)]">
               {lang === "zh"
@@ -149,19 +141,12 @@ export function SmartSelector({
               {lang === "zh" ? "清除筛选" : "Clear Filters"}
             </button>
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* Expanded Content */}
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
+      {isExpanded && (
+          <div className="overflow-hidden transition-opacity">
             <div className="space-y-6 pt-4">
               {/* Ceiling Height Input */}
               <div>
@@ -249,20 +234,14 @@ export function SmartSelector({
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
 
       {/* ROI Calculator - Show when filters are active */}
       {hasActiveFilters && filteredProducts.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="mt-6 pt-6 border-t border-white/10"
-        >
+        <div className="mt-6 pt-6 border-t border-white/10 transition-opacity">
           <ROICalculator products={filteredProducts} />
-        </motion.div>
+        </div>
       )}
     </div>
   );

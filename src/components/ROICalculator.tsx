@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import { motion } from "framer-motion";
 import { useLanguage } from "./language";
 import type { Product } from "../content/copy";
 
@@ -104,34 +103,29 @@ export function ROICalculator({ products }: ROICalculatorProps) {
           {revenueProjections.map((projection, index) => {
             const percentage = (projection.revenue / maxRevenue) * 100;
             return (
-              <motion.div
+              <div
                 key={projection.year}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="relative"
+                className="relative transition-opacity"
               >
                 <div className="flex items-center gap-3 mb-1">
                   <span className="text-xs font-medium text-[var(--dark-bg-text-secondary)] w-12">
                     {lang === "zh" ? `第${projection.year}年` : `Year ${projection.year}`}
                   </span>
                   <div className="flex-1 h-6 bg-white/10 rounded-lg overflow-hidden relative">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${percentage}%` }}
-                      transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
-                      className="h-full bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-end pr-2"
+                    <div
+                      style={{ width: `${percentage}%` }}
+                      className="h-full bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-end pr-2 transition-all"
                     >
                       <span className="text-xs font-semibold text-[var(--text-inverse)]">
                         ${(projection.revenue / 1000).toFixed(0)}K
                       </span>
-                    </motion.div>
+                    </div>
                   </div>
                   <span className="text-xs font-semibold text-[var(--accent-primary)] w-20 text-right">
                     ${projection.revenue.toLocaleString()}
                   </span>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

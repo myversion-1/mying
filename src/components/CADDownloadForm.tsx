@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "./language";
 
 interface CADDownloadFormProps {
@@ -60,12 +59,7 @@ export function CADDownloadForm({ productName, onClose }: CADDownloadFormProps) 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        className="relative max-w-md w-full bg-[var(--dark-bg-base)] rounded-2xl border border-white/10 p-6 md:p-8"
-      >
+      <div className="relative max-w-md w-full bg-[var(--dark-bg-base)] rounded-2xl border border-white/10 p-6 md:p-8 transition-opacity">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -82,15 +76,8 @@ export function CADDownloadForm({ productName, onClose }: CADDownloadFormProps) 
           </svg>
         </button>
 
-        <AnimatePresence mode="wait">
-          {isSubmitted ? (
-            <motion.div
-              key="success"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="text-center"
-            >
+        {isSubmitted ? (
+            <div className="text-center transition-opacity">
               <div className="mb-4 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--accent-primary-light)]">
                   <svg
@@ -116,14 +103,9 @@ export function CADDownloadForm({ productName, onClose }: CADDownloadFormProps) 
                   ? "CAD/BIM 文件下载链接已发送至您的邮箱"
                   : "CAD/BIM download link has been sent to your email"}
               </p>
-            </motion.div>
+            </div>
           ) : (
-            <motion.div
-              key="form"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
+            <div className="transition-opacity">
               <div className="mb-6">
                 <h3 className="text-2xl font-semibold text-white mb-2">
                   {lang === "zh" ? "下载 CAD/BIM 模型文件" : "Download CAD/BIM Files"}
@@ -216,10 +198,9 @@ export function CADDownloadForm({ productName, onClose }: CADDownloadFormProps) 
                   </button>
                 </div>
               </form>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
-      </motion.div>
+      </div>
     </div>
   );
 }

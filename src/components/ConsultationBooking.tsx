@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "./language";
 
 interface ConsultationBookingProps {
@@ -81,12 +80,7 @@ export function ConsultationBooking({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 overflow-y-auto">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        className="relative max-w-2xl w-full bg-[var(--dark-bg-base)] rounded-2xl border border-white/10 p-6 md:p-8 my-8"
-      >
+      <div className="relative max-w-2xl w-full bg-[var(--dark-bg-base)] rounded-2xl border border-white/10 p-6 md:p-8 my-8 transition-opacity">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -103,15 +97,8 @@ export function ConsultationBooking({
           </svg>
         </button>
 
-        <AnimatePresence mode="wait">
-          {isSubmitted ? (
-            <motion.div
-              key="success"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="text-center py-8"
-            >
+        {isSubmitted ? (
+            <div className="text-center py-8 transition-opacity">
               <div className="mb-4 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--accent-primary-light)]">
                   <svg
@@ -137,14 +124,9 @@ export function ConsultationBooking({
                   ? "我们已收到您的预约请求，将尽快与您确认"
                   : "We've received your booking request and will confirm shortly"}
               </p>
-            </motion.div>
+            </div>
           ) : (
-            <motion.div
-              key="form"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
+            <div className="transition-opacity">
               <div className="mb-6">
                 <h3 className="text-2xl font-semibold text-white mb-2">
                   {lang === "zh" ? "预约 15 分钟技术咨询" : "Schedule 15-Min Technical Consultation"}
@@ -189,11 +171,7 @@ export function ConsultationBooking({
 
                 {/* Time Selection */}
                 {selectedDate && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    className="overflow-hidden"
-                  >
+                  <div className="overflow-hidden transition-opacity">
                     <label className="block text-sm font-medium text-[var(--dark-bg-text)] mb-3">
                       {lang === "zh" ? "选择时间" : "Select Time"} *
                     </label>
@@ -213,7 +191,7 @@ export function ConsultationBooking({
                         </button>
                       ))}
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* Contact Information */}
@@ -318,10 +296,9 @@ export function ConsultationBooking({
                   </button>
                 </div>
               </form>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
-      </motion.div>
+      </div>
     </div>
   );
 }

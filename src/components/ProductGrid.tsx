@@ -3,7 +3,6 @@
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
 import { getProducts, type Product, copy } from "../content/copy";
 import { useLanguage } from "./language";
 import { Badge } from "./ui/Badge";
@@ -342,43 +341,27 @@ export function ProductGrid({
         </div>
       )}
 
-      {/* Products Grid - Container Queries enabled with Framer Motion animations */}
+      {/* Products Grid */}
       <div className="grid gap-4 md:grid-cols-2">
-        <AnimatePresence mode="popLayout">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product, index) => (
-              <motion.div
-                key={`${product.name}-${index}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{
-                  duration: 0.3,
-                  delay: index * 0.05,
-                  ease: "easeOut",
-                }}
-                layout
-              >
-                <ProductCard
-                  product={product}
-                  lang={lang}
-                  index={index}
-                  isRTL={isRTL}
-                />
-              </motion.div>
-            ))
-          ) : (
-            <motion.div
-              key="empty-state"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="col-span-2"
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product, index) => (
+            <div
+              key={`${product.name}-${index}`}
+              className="transition-opacity"
             >
-              <EmptyState />
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <ProductCard
+                product={product}
+                lang={lang}
+                index={index}
+                isRTL={isRTL}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="col-span-2 transition-opacity">
+            <EmptyState />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { faqs, getFAQsByCategory, getLocalizedFAQ, type FAQ } from "../../content/faq";
+import { faqs, getFAQsByCategory, getLocalizedFAQ } from "../../content/faq";
+import type { FAQ } from "../../content/types/faq";
 import { useLanguage } from "../../components/language";
 import { FAQSchema } from "../../components/FAQSchema";
 

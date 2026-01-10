@@ -117,9 +117,9 @@ export function getFAQsByCategory(category?: FAQ["category"]): FAQ[] {
 }
 
 // Helper function to get localized FAQ
-export function getLocalizedFAQ(faq: FAQ, lang: string): { question: string; answer: string } {
-  const question = faq.question[lang as keyof typeof faq.question] || faq.question.en;
-  const answer = faq.answer[lang as keyof typeof faq.answer] || faq.answer.en;
+export function getLocalizedFAQ(faq: FAQ, lang: "en" | "zh"): { question: string; answer: string } {
+  const question = faq.question[lang] || faq.question.en;
+  const answer = faq.answer[lang] || faq.answer.en;
   return { question, answer };
 }
 
