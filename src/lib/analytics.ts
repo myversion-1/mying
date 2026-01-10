@@ -108,8 +108,8 @@ export interface AnalyticsProvider {
 class GoogleAnalyticsProvider implements AnalyticsProvider {
   private gtag?: (
     command: string,
-    targetId: string | Date,
-    config?: Record<string, unknown>
+    targetId: string | Date | Record<string, unknown>,
+    config?: Record<string, unknown> | string | number | boolean
   ) => void;
 
   constructor() {
