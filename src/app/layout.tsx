@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Crimson_Text } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import { Providers } from "../components/Providers";
 import { Header } from "../components/Header";
@@ -207,7 +208,9 @@ export default function RootLayout({
         <ErrorBoundary>
           <Providers>
             <StructuredDataServer type="home" />
-            <Header />
+            <Suspense fallback={<div className="h-16 bg-[var(--background)]" />}>
+              <Header />
+            </Suspense>
             <main className="pb-28 md:pb-0">{children}</main>
           <Footer />
           <MobileStickyNav />
