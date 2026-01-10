@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { trackPageView, trackScrollDepth, trackPageExit } from "../lib/analytics";
 
@@ -10,7 +10,7 @@ import { trackPageView, trackScrollDepth, trackPageExit } from "../lib/analytics
  * Handles automatic page view tracking and scroll depth monitoring.
  * Prepares the codebase for future heatmap and A/B testing integration.
  */
-export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
+function AnalyticsProviderInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
