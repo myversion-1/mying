@@ -17,11 +17,21 @@ export const id: CopyContent = {
   cta: {
     primary: "Minta Kunjungan",
     secondary: "Lihat Produk",
+    requestQuote: "Dapatkan Penawaran",
+    talkToEngineer: "Bicara dengan Insinyur",
+    downloadSpecs: "Unduh Spesifikasi Produk",
+    requestPricing: "Minta Harga",
+    getTechnicalConsultation: "Dapatkan Konsultasi Teknis",
+    downloadDatasheet: "Unduh Lembar Data",
+    scheduleConsultation: "Jadwalkan Konsultasi",
+    contactSales: "Hubungi Tim Penjualan",
+    getCustomQuote: "Dapatkan Penawaran Kustom",
+    requestProductInfo: "Minta Informasi Produk",
   },
   hero: {
     title: "Wahana yang Terpercaya. Pengiriman Global.",
     subtitle:
-      "Dari desain hingga instalasi, kami membantu taman hiburan dan venue meluncurkan atraksi yang disukai pengunjung tepat waktu dan sesuai anggaran.",
+      "Kami melayani pusat hiburan keluarga dan taman hiburan di seluruh dunia, menyelesaikan tantangan meluncurkan atraksi tepat waktu dan sesuai anggaran. Anda mendapatkan peralatan yang dapat diandalkan yang diuji di pabrik dengan pengiriman global dan solusi khusus.",
     badge: "Keamanan teruji di pabrik",
   },
   highlights: [

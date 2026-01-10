@@ -19,6 +19,15 @@ export type CopyContent = {
     secondary: string;
     whatsapp?: string;
     requestQuote?: string;
+    talkToEngineer?: string;
+    downloadSpecs?: string;
+    requestPricing?: string;
+    getTechnicalConsultation?: string;
+    downloadDatasheet?: string;
+    scheduleConsultation?: string;
+    contactSales?: string;
+    getCustomQuote?: string;
+    requestProductInfo?: string;
   };
   hero: {
     title: string;

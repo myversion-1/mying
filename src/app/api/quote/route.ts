@@ -33,10 +33,10 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, email, company, product, quantity, message } = body;
 
-    // Validate required fields
-    if (!name || !email || !company || !product || !quantity || !message) {
+    // Validate required fields - Message is optional
+    if (!name || !email || !company || !product || !quantity) {
       return NextResponse.json(
-        { error: "Missing required fields: name, email, company, product, quantity, and message are required" },
+        { error: "Missing required fields: name, email, company, product, and quantity are required" },
         { status: 400 }
       );
     }

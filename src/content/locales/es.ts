@@ -17,11 +17,21 @@ export const es: CopyContent = {
   cta: {
     primary: "Solicitar visita",
     secondary: "Ver productos",
+    requestQuote: "Obtener cotización",
+    talkToEngineer: "Hablar con un ingeniero",
+    downloadSpecs: "Descargar especificaciones del producto",
+    requestPricing: "Solicitar precios",
+    getTechnicalConsultation: "Obtener consultoría técnica",
+    downloadDatasheet: "Descargar hoja de datos",
+    scheduleConsultation: "Programar consulta",
+    contactSales: "Contactar equipo de ventas",
+    getCustomQuote: "Obtener cotización personalizada",
+    requestProductInfo: "Solicitar información del producto",
   },
   hero: {
     title: "Atracciones confiables. Entregas globales.",
     subtitle:
-      "Desde el diseño hasta la instalación, ayudamos a parques y recintos a lanzar atracciones que encantan al público, a tiempo y en presupuesto.",
+      "Servimos a centros de entretenimiento familiar y parques temáticos en todo el mundo, resolviendo el desafío de lanzar atracciones a tiempo y dentro del presupuesto. Obtienes equipos confiables probados en fábrica con entrega global y soluciones personalizadas.",
     badge: "Seguridad validada en fábrica",
   },
   highlights: [

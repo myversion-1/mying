@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { PageHero } from "../../components/PageHero";
 import { Section } from "../../components/Section";
 import { getServices, copy } from "../../content/copy";
@@ -47,13 +48,21 @@ export default function ServicesPage() {
                   </div>
                   <p className="mt-2 text-white/80">{service.desc}</p>
                 </div>
-                {requiresConsultation && (
+                {/* All services get a CTA - either consultation booking or contact form */}
+                {requiresConsultation ? (
                   <button
                     onClick={() => setBookingService(service.title)}
                     className="mt-4 w-full rounded-lg bg-[var(--action-primary)] px-4 py-2.5 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
                   >
-                    {lang === "zh" ? "预约 15 分钟技术咨询" : "Schedule 15-Min Technical Consultation"}
+                    {c.cta.scheduleConsultation || (lang === "zh" ? "预约技术咨询" : "Schedule Technical Consultation")}
                   </button>
+                ) : (
+                  <Link
+                    href={`/contact?service=${encodeURIComponent(service.title)}`}
+                    className="mt-4 w-full rounded-lg bg-[var(--action-primary)] px-4 py-2.5 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation text-center"
+                  >
+                    {c.cta.getTechnicalConsultation || (lang === "zh" ? "获取服务咨询" : "Get Service Consultation")}
+                  </Link>
                 )}
               </div>
             );

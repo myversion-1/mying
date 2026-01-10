@@ -18,12 +18,21 @@ export const zh: CopyContent = {
     primary: "申请工厂参观",
     secondary: "查看产品",
     whatsapp: "WhatsApp 立即聊天",
-    requestQuote: "请求报价",
+    requestQuote: "获取报价",
+    talkToEngineer: "联系工程师",
+    downloadSpecs: "下载产品规格",
+    requestPricing: "获取定价",
+    getTechnicalConsultation: "获取技术咨询",
+    downloadDatasheet: "下载数据表",
+    scheduleConsultation: "预约咨询",
+    contactSales: "联系销售团队",
+    getCustomQuote: "获取定制报价",
+    requestProductInfo: "获取产品信息",
   },
   hero: {
     title: "面向家庭娱乐中心和主题公园的可靠游乐设备制造商",
     subtitle:
-      "从设计到安装，我们帮助公园和场所按时按预算推出受欢迎的景点。",
+      "我们为全球的家庭娱乐中心和主题公园提供服务，解决按时按预算推出景点的挑战。您将获得可靠、经过工厂测试的设备，并提供全球交付和定制解决方案。",
     badge: "工厂测试安全",
   },
   highlights: [

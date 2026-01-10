@@ -8,9 +8,9 @@ import { StructuredDataServer } from "../../components/StructuredDataServer";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Products - Amusement Rides Catalog | Miying Rides",
+  title: "Buy Amusement Rides | Theme Park Equipment Catalog | Get Quote",
   description:
-    "Browse our complete catalog of amusement rides including family rides, thrill rides, water rides, and custom attractions. All rides are factory-tested and certified for safety.",
+    "Buy factory-tested amusement rides for FECs & theme parks. Browse family rides, thrill rides, water rides. EN 13814 compliant, global delivery. Get instant quote & download specifications.",
   keywords: [
     "amusement rides catalog",
     "theme park rides",

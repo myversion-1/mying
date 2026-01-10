@@ -17,11 +17,21 @@ export const ja: CopyContent = {
   cta: {
     primary: "工場見学を申し込む",
     secondary: "製品を見る",
+    requestQuote: "見積もりを取得",
+    talkToEngineer: "エンジニアと話す",
+    downloadSpecs: "製品仕様をダウンロード",
+    requestPricing: "価格をリクエスト",
+    getTechnicalConsultation: "技術相談を受ける",
+    downloadDatasheet: "データシートをダウンロード",
+    scheduleConsultation: "相談を予約",
+    contactSales: "営業チームに連絡",
+    getCustomQuote: "カスタム見積もりを取得",
+    requestProductInfo: "製品情報をリクエスト",
   },
   hero: {
     title: "信頼できるアトラクション。世界中に配送。",
     subtitle:
-      "設計から設置まで、パークや会場が予算内で時間通りに人気のアトラクションを立ち上げるお手伝いをします。",
+      "私たちは世界中のファミリーエンターテインメントセンターとテーマパークにサービスを提供し、予算内で時間通りにアトラクションを立ち上げる課題を解決します。工場でテストされた信頼性の高い機器を、グローバルな配送とカスタムソリューションとともに提供します。",
     badge: "工場でテスト済みの安全性",
   },
   highlights: [

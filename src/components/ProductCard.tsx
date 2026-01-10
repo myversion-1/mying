@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Badge } from "./ui/Badge";
 import { ProductSpecs } from "./ProductSpecs";
 import type { Product } from "../content/copy";
 import type { Lang } from "./language";
 import { generateProductSlug } from "../utils/hreflang";
+import { trackCTAClick } from "../lib/analytics";
 
 interface ProductCardProps {
   product: Product;
@@ -28,6 +30,7 @@ interface ProductCardProps {
  * - Wide (> 500px): Full layout, larger image, horizontal specs
  */
 export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
+  const pathname = usePathname();
   const productSlug = generateProductSlug(product.name);
   const productUrl = `/products/${productSlug}`;
 
@@ -201,7 +204,17 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
         "
       >
         <Link
-          href={productUrl}
+          href={`/quote?product=${encodeURIComponent(product.name)}`}
+          onClick={() => {
+            trackCTAClick({
+              ctaText: lang === "zh" ? "获取报价" : "Request Quote",
+              ctaLocation: "product_card",
+              destination: `/quote?product=${encodeURIComponent(product.name)}`,
+              page: pathname,
+              section: "product_grid",
+              element: product.name,
+            });
+          }}
           className="
             w-full @[300px]:flex-1 rounded-lg bg-[var(--action-primary)] 
             px-4 py-2 @[300px]:py-2.5 text-center text-xs @[300px]:text-sm 
@@ -210,19 +223,29 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
             min-h-[44px] min-w-[44px] touch-manipulation
           "
         >
-          {lang === "zh" ? "查看详情" : "View Details"}
+          {lang === "zh" ? "获取报价" : "Request Quote"}
         </Link>
         <Link
-          href={`/quote?product=${encodeURIComponent(product.name)}`}
+          href={productUrl}
+          onClick={() => {
+            trackCTAClick({
+              ctaText: lang === "zh" ? "查看详情" : "View Details",
+              ctaLocation: "product_card",
+              destination: productUrl,
+              page: pathname,
+              section: "product_grid",
+              element: product.name,
+            });
+          }}
           className="
-            w-full @[300px]:flex-1 rounded-full border border-[var(--border)] 
-            bg-[var(--surface-elevated)] px-4 py-2 text-center text-xs font-semibold 
-            text-[var(--text-primary)] !text-[var(--text-primary)]
-            transition-colors hover:border-[var(--border-hover)] hover:bg-[var(--surface-hover)]
+            w-full @[300px]:flex-1 rounded-lg border border-[var(--action-secondary-border)] 
+            bg-[var(--action-secondary)] px-4 py-2 text-center text-xs @[300px]:text-sm font-semibold 
+            text-[var(--action-secondary-text)] !text-[var(--action-secondary-text)]
+            transition-colors hover:bg-[var(--action-secondary-hover-bg)]
             min-h-[44px] min-w-[44px] touch-manipulation
           "
         >
-          {lang === "zh" ? "快速询价" : "Quick Quote"}
+          {lang === "zh" ? "查看详情" : "View Details"}
         </Link>
       </div>
     </article>

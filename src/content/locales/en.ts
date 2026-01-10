@@ -18,12 +18,21 @@ export const en: CopyContent = {
     primary: "Request Factory Visit",
     secondary: "View Products",
     whatsapp: "WhatsApp Chat Now",
-    requestQuote: "Request Quote",
+    requestQuote: "Get a Quote",
+    talkToEngineer: "Talk to an Engineer",
+    downloadSpecs: "Download Product Specs",
+    requestPricing: "Request Pricing",
+    getTechnicalConsultation: "Get Technical Consultation",
+    downloadDatasheet: "Download Datasheet",
+    scheduleConsultation: "Schedule Consultation",
+    contactSales: "Contact Sales Team",
+    getCustomQuote: "Get Custom Quote",
+    requestProductInfo: "Request Product Information",
   },
   hero: {
     title: "Reliable Amusement Equipment Manufacturer for FECs & Theme Parks",
     subtitle:
-      "From design to installation, we help parks and venues launch crowd-pleasing attractions on time and on budget.",
+      "We serve FECs and theme parks worldwide, solving the challenge of launching attractions on time and on budget. You get reliable, factory-tested equipment with global delivery and custom solutions.",
     badge: "Factory-tested safety",
   },
   highlights: [

@@ -10,6 +10,7 @@ import { VerificationGate } from "../components/VerificationGate";
 import { StatsGrid } from "../components/StatsGrid";
 import { TestimonialsGrid } from "../components/TestimonialsGrid";
 import { PartnersSection } from "../components/PartnersSection";
+import { TrustLayer } from "../components/TrustLayer";
 import { ProductCard } from "../components/ProductCard";
 import { copy, getServices, getProducts } from "../content/copy";
 import { homePageStats } from "../content/homePageStats";
@@ -23,23 +24,37 @@ export default function Home() {
   const isRTL = lang === "ar";
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-8 md:space-y-12">
       <div className="mx-auto max-w-6xl px-4 md:px-8">
-        <div className="my-10">
-          <PageHero ctaPrimaryHref="/quote" />
+        {/* Hero Section - Optimized for mobile: CTA above the fold */}
+        <div className="my-6 md:my-10">
+          <PageHero 
+            ctaPrimaryHref="/quote"
+            ctaSecondaryHref="/resources"
+          />
         </div>
       </div>
 
       {/* Home Page Statistics - Trust Building Section */}
-      {/* Stats Section with background - positioned right after Hero */}
+      {/* Stats Section with background - positioned right after Hero - Reduced padding on mobile */}
       <section 
         id="stats" 
-        className="py-12 md:py-16 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent"
+        className="py-8 md:py-12 lg:py-16 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent"
       >
         <div className="mx-auto max-w-6xl px-4 md:px-8">
           <StatsGrid stats={homePageStats} lang={lang} columns={5} />
         </div>
       </section>
+
+      {/* Trust Layer - Comprehensive Social Proof */}
+      <TrustLayer 
+        variant="full"
+        showPartners={true}
+        showCertifications={true}
+        showFactoryPhotos={true}
+        showProjectHighlights={true}
+        maxPartners={10}
+      />
 
       <Section
         id="services"
@@ -84,24 +99,29 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <div className="mt-4 flex items-center gap-2 text-sm font-medium text-[var(--accent-primary)] opacity-0 transition group-hover:opacity-100">
-                  <span>{lang === "zh" ? "了解更多" : "Learn more"}</span>
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <div className="mt-4">
+                  <Link
+                    href={`/contact?service=${encodeURIComponent(service.title)}`}
+                    className="inline-flex items-center gap-2 rounded-lg bg-[var(--action-primary)] px-6 py-3 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+                  >
+                    <span>{c.cta.getTechnicalConsultation || (lang === "zh" ? "获取技术咨询" : "Get Technical Consultation")}</span>
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
                 </div>
               </Link>
             );
           })}
         </div>
         
-        {/* View All Services Link */}
+        {/* Request Service Consultation CTA */}
         <div className="text-center">
           <Link
-            href="/services"
-            className="inline-flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] px-6 py-3 text-sm font-semibold text-[var(--text-primary)] transition hover:bg-[var(--surface-hover)] hover:border-[var(--accent-primary)]/30 min-h-[44px] touch-manipulation"
+            href="/contact?type=service"
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--action-primary)] px-8 py-4 text-base font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
           >
-            <span>{lang === "zh" ? "查看所有服务" : "View All Services"}</span>
+            <span>{c.cta.scheduleConsultation || (lang === "zh" ? "预约服务咨询" : "Schedule Service Consultation")}</span>
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
@@ -148,10 +168,10 @@ export default function Home() {
                     </p>
                   </div>
                   <Link
-                    href={`/products?mainCategory=${encodeURIComponent(category.mainCategory)}&subCategory=${encodeURIComponent(category.subCategory.toLowerCase().replace(/\s+/g, "-"))}`}
-                    className="text-sm font-semibold text-[var(--accent-primary)] hover:text-[var(--accent-primary-hover)] transition flex items-center gap-2 min-h-[32px] touch-manipulation"
+                    href={`/quote?category=${encodeURIComponent(category.mainCategory)}&subCategory=${encodeURIComponent(category.subCategory)}`}
+                    className="inline-flex items-center gap-2 rounded-lg bg-[var(--action-primary)] px-6 py-3 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
                   >
-                    <span>{lang === "zh" ? "查看全部" : "View All"}</span>
+                    <span>{c.cta.requestPricing || (lang === "zh" ? "获取定价" : "Request Pricing")}</span>
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
@@ -173,16 +193,25 @@ export default function Home() {
           })}
         </div>
         
-        {/* View All Products CTA */}
-        <div className="mt-8 text-center">
+        {/* Request Product Catalog CTA */}
+        <div className="mt-8 text-center space-y-4">
           <Link
-            href="/products"
-            className="inline-flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] px-6 py-3 text-sm font-semibold text-[var(--text-primary)] transition hover:bg-[var(--surface-hover)] hover:border-[var(--accent-primary)]/30 min-h-[44px] touch-manipulation"
+            href="/resources"
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--action-primary)] px-8 py-4 text-base font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
           >
-            <span>{lang === "zh" ? "查看所有产品" : "View All Products"}</span>
+            <span>{c.cta.downloadDatasheet || (lang === "zh" ? "下载产品目录" : "Download Product Catalog")}</span>
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
+          </Link>
+          <p className="text-sm text-[var(--text-secondary)]">
+            {lang === "zh" ? "或" : "or"}
+          </p>
+          <Link
+            href="/quote"
+            className="inline-flex items-center gap-2 rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-8 py-4 text-base font-semibold text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] touch-manipulation"
+          >
+            <span>{c.cta.getCustomQuote || (lang === "zh" ? "获取定制报价" : "Get Custom Quote")}</span>
           </Link>
         </div>
       </Section>
@@ -204,8 +233,15 @@ export default function Home() {
         <TestimonialsGrid testimonials={testimonials.slice(0, 3).map(t => getLocalizedTestimonial(t, lang))} lang={lang} />
       </Section>
 
-      {/* Partners Section */}
-      <PartnersSection maxPartners={10} />
+      {/* Trust Layer Before Final CTA - Reinforce Purchase Confidence */}
+      <TrustLayer 
+        variant="compact"
+        showPartners={true}
+        showCertifications={true}
+        showFactoryPhotos={false}
+        showProjectHighlights={true}
+        maxPartners={8}
+      />
 
       <Section
         id="contact"

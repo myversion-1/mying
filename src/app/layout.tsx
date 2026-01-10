@@ -11,6 +11,7 @@ import { ErrorBoundary } from "../components/ErrorBoundary";
 import { ToastContainer } from "../components/Toast";
 import { CustomerServiceWidgetWrapper } from "../components/CustomerServiceWidgetWrapper";
 import { Analytics } from "@vercel/analytics/next";
+import { AnalyticsProvider } from "../components/AnalyticsProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,11 +37,11 @@ const crimsonText = Crimson_Text({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app"),
   title: {
-    default: "Miying Rides | Amusement Rides Portfolio & Factory Visits",
+    default: "Buy Amusement Rides | Theme Park Equipment Manufacturer | Get Quote",
     template: "%s | Miying Rides",
   },
   description:
-    "Miying delivers amusement rides worldwide with factory-tested safety, consulting, refurbishment, and verified factory visits. Browse our catalog of family rides, thrill rides, water rides, and custom attractions. Request quotes and factory visits for your theme park or carnival project.",
+    "Buy amusement rides from certified manufacturer. Factory-tested theme park equipment for FECs & theme parks. Get instant quote for carousel rides, roller coasters, water rides. Global delivery, EN 13814 compliant. Request pricing & technical specifications.",
   keywords: [
     // Core Keywords
     "amusement rides",
@@ -207,18 +208,20 @@ export default function RootLayout({
       >
         <ErrorBoundary>
           <Providers>
-            <StructuredDataServer type="home" />
-            <Suspense fallback={<div className="h-16 bg-[var(--background)]" />}>
-              <Header />
-            </Suspense>
-            <main className="pb-28 md:pb-0">{children}</main>
-          <Footer />
-          <MobileStickyNav />
-          <CustomerServiceWidgetWrapper />
-          <ToastContainer />
-        </Providers>
-        <Analytics />
-      </ErrorBoundary>
+            <AnalyticsProvider>
+              <StructuredDataServer type="home" />
+              <Suspense fallback={<div className="h-16 bg-[var(--background)]" />}>
+                <Header />
+              </Suspense>
+              <main className="pb-28 md:pb-0">{children}</main>
+              <Footer />
+              <MobileStickyNav />
+              <CustomerServiceWidgetWrapper />
+              <ToastContainer />
+            </AnalyticsProvider>
+          </Providers>
+          <Analytics />
+        </ErrorBoundary>
       </body>
     </html>
   );

@@ -12,6 +12,9 @@ import { ProductStructuredData } from "../../../components/ProductStructuredData
 import { ProductSpecs } from "../../../components/ProductSpecs";
 import { CADDownloadForm } from "../../../components/CADDownloadForm";
 import { QuickQuoteForm } from "../../../components/QuickQuoteForm";
+import { ProductDecisionSupport } from "../../../components/ProductDecisionSupport";
+import { StickyProductCTA } from "../../../components/StickyProductCTA";
+import { TrustLayer } from "../../../components/TrustLayer";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
@@ -65,7 +68,7 @@ export default function ProductPage({ params }: Props) {
         baseUrl={baseUrl}
       />
       
-      <div className="mx-auto max-w-6xl px-4 py-12 md:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-8 pb-32 md:px-8 md:py-12 md:pb-28">
         {/* Desktop: Grid layout with sidebar */}
         <div className="grid gap-8 lg:grid-cols-[1fr_400px]">
           {/* Main Content */}
@@ -78,11 +81,11 @@ export default function ProductPage({ params }: Props) {
           ]}
         />
 
-        {/* Product Header */}
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-4xl font-bold text-[var(--text-primary)]">{product.name}</h1>
-            <p className="mt-2 text-xl text-[var(--text-secondary)]">{product.category}</p>
+        {/* Product Header - Optimized for mobile */}
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+          <div className="flex-1">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[var(--text-primary)] leading-tight">{product.name}</h1>
+            <p className="mt-2 text-base md:text-lg lg:text-xl text-[var(--text-secondary)]">{product.category}</p>
             {product.badge && (
               <div className="mt-2">
                 <Badge tone="positive">{product.badge}</Badge>
@@ -130,6 +133,9 @@ export default function ProductPage({ params }: Props) {
             </p>
           </div>
         )}
+
+        {/* B2B Decision Support Section */}
+        <ProductDecisionSupport product={product} lang={lang} />
 
         {/* Specifications Grid */}
         <div className="grid gap-6 md:grid-cols-2">
@@ -180,39 +186,22 @@ export default function ProductPage({ params }: Props) {
           </div>
         </div>
 
-        {/* ② Ideal For & Not Recommended For */}
-        <div className="grid gap-6 md:grid-cols-2">
-          {product.idealFor && product.idealFor.length > 0 && (
-            <div className="rounded-2xl border border-[var(--accent-secondary)]/20 bg-[var(--accent-primary-light)] p-6">
-              <h3 className="mb-4 text-xl font-semibold text-[var(--text-primary)]">
-                {c.productDecision?.idealFor || (lang === "zh" ? "适用场景" : "Ideal For")}
-              </h3>
-              <ul className="space-y-2">
-                {product.idealFor.map((scenario, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-[var(--text-secondary)]">
-                    <span className="mt-1.5 text-[var(--accent-secondary)]">✓</span>
-                    <span>{scenario}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {product.notRecommendedFor && product.notRecommendedFor.length > 0 && (
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6">
-              <h3 className="mb-4 text-xl font-semibold text-[var(--text-primary)]">
-                {c.productDecision?.notRecommendedFor || (lang === "zh" ? "不推荐场景" : "Not Recommended For")}
-              </h3>
-              <ul className="space-y-2">
-                {product.notRecommendedFor.map((scenario, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-[var(--text-secondary)]">
-                    <span className="mt-1.5 text-[var(--text-tertiary)]">✗</span>
-                    <span>{scenario}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
+        {/* Not Recommended For - Only show if exists, as Ideal For is now in Decision Support */}
+        {product.notRecommendedFor && product.notRecommendedFor.length > 0 && (
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6">
+            <h3 className="mb-4 text-xl font-semibold text-[var(--text-primary)]">
+              {c.productDecision?.notRecommendedFor || (lang === "zh" ? "不推荐场景" : "Not Recommended For")}
+            </h3>
+            <ul className="space-y-2">
+              {product.notRecommendedFor.map((scenario, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-[var(--text-secondary)]">
+                  <span className="mt-1.5 text-[var(--text-tertiary)]">✗</span>
+                  <span>{scenario}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* ④ Safety & Compliance */}
         {product.safetyCompliance && product.safetyCompliance.length > 0 && (
@@ -302,6 +291,16 @@ export default function ProductPage({ params }: Props) {
           </div>
         )}
 
+        {/* Trust Layer - Before Final CTA to Reinforce Purchase Confidence */}
+        <TrustLayer 
+          variant="compact"
+          showPartners={true}
+          showCertifications={true}
+          showFactoryPhotos={false}
+          showProjectHighlights={true}
+          maxPartners={6}
+        />
+
         {/* ⑦ Call to Action - Single Primary Conversion */}
         <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-8 text-center">
           <p className="mb-6 text-xl font-semibold text-[var(--text-primary)]">
@@ -353,6 +352,9 @@ export default function ProductPage({ params }: Props) {
           onClose={() => setShowCADForm(false)}
         />
       )}
+
+      {/* Sticky CTA Block - Fixed at bottom */}
+      <StickyProductCTA productName={product.name} lang={lang} />
     </>
   );
 }

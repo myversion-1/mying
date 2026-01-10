@@ -17,20 +17,19 @@ import {
 } from "../content/product-categories";
 import { getProductCountByCategory } from "../utils/product-category-mapper";
 import { productsMultilingual } from "../content/products_multilingual";
+import { trackCTAClick } from "../lib/analytics";
 
+// Core navigation items - prioritized for conversion paths
+// Only essential pages that support inquiry decisions
 const links = [
   { href: "/", key: "home" },
-  { href: "/about", key: "about" },
-  { href: "/services", key: "services" },
   { href: "/products", key: "products", hasDropdown: true },
+  { href: "/services", key: "services" },
   { href: "/cases", key: "cases" },
-  { href: "/blog", key: "blog" },
-  { href: "/resources", key: "resources" },
-  { href: "/faq", key: "faq" },
-  { href: "/trade-shows", key: "trade-shows" },
-  { href: "/contact", key: "contact" },
-  { href: "/visit", key: "visit" },
+  { href: "/about", key: "about" },
 ];
+
+// Secondary pages moved to footer (Blog, Resources, FAQ, Trade Shows, Visit)
 
 // Category icons mapping
 const categoryIcons: Record<string, (props: React.SVGProps<SVGSVGElement>) => React.ReactElement> = {
@@ -309,12 +308,23 @@ export function Header() {
           <div className="flex items-center gap-2 flex-shrink-0">
             <ThemeToggle />
             <LanguageToggle />
-            {/* Desktop CTA Button */}
+            {/* Persistent Contact/Get Quote Button - Always visible for conversion */}
             <Link
-              href="/visit"
-              className="hidden rounded-lg bg-[var(--action-primary)] px-4 py-2 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] lg:inline-flex whitespace-nowrap min-h-[44px] touch-manipulation"
+              href="/quote"
+              onClick={() => {
+                trackCTAClick({
+                  ctaText: c.cta.requestQuote || (lang === "zh" ? "获取报价" : "Get Quote"),
+                  ctaLocation: "header",
+                  destination: "/quote",
+                  page: pathname,
+                });
+              }}
+              className="hidden rounded-lg bg-[var(--action-primary)] px-4 py-2 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] lg:inline-flex items-center gap-2 whitespace-nowrap min-h-[44px] touch-manipulation"
             >
-              {c.cta.primary}
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+              </svg>
+              <span>{c.cta.requestQuote || (lang === "zh" ? "获取报价" : "Get Quote")}</span>
             </Link>
 
             {/* Mobile Menu Toggle Button */}
@@ -521,14 +531,45 @@ export function Header() {
                   </Link>
                 );
               })}
-              {/* Mobile CTA Button */}
-              <Link
-                href="/visit"
-                onClick={() => setMobileMenuOpen(false)}
-                className="mt-2 rounded-lg bg-[var(--action-primary)] px-4 py-2 text-sm font-semibold text-center text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
-              >
-                {c.cta.primary}
-              </Link>
+              {/* Mobile CTA Button - Persistent for conversion */}
+              <div className="mt-4 pt-4 border-t border-[var(--border)]">
+                <Link
+                  href="/quote"
+                  onClick={() => {
+                    trackCTAClick({
+                      ctaText: c.cta.requestQuote || (lang === "zh" ? "获取报价" : "Get Quote"),
+                      ctaLocation: "header_mobile",
+                      destination: "/quote",
+                      page: pathname,
+                    });
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center justify-center gap-2 w-full rounded-lg bg-[var(--action-primary)] px-4 py-3 text-sm font-semibold text-center text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                  </svg>
+                  <span>{c.cta.requestQuote || (lang === "zh" ? "获取报价" : "Get Quote")}</span>
+                </Link>
+                <Link
+                  href="/contact"
+                  onClick={() => {
+                    trackCTAClick({
+                      ctaText: c.cta.contactSales || (lang === "zh" ? "联系我们" : "Contact Us"),
+                      ctaLocation: "header_mobile",
+                      destination: "/contact",
+                      page: pathname,
+                    });
+                    setMobileMenuOpen(false);
+                  }}
+                  className="mt-2 flex items-center justify-center gap-2 w-full rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-4 py-2.5 text-sm font-semibold text-center text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] touch-manipulation"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span>{c.cta.contactSales || (lang === "zh" ? "联系我们" : "Contact Us")}</span>
+                </Link>
+              </div>
             </nav>
           </div>
         )}

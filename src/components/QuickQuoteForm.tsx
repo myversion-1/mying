@@ -1,10 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "./language";
 import { copy } from "../content/copy";
 import { validateRequired, validateWorkEmail, validateNumber, validateFields, isWorkEmail } from "../lib/form-validation";
 import { toast } from "./Toast";
+import { trackFormStart, trackFormSubmit, trackFormAbandon } from "../lib/analytics";
+import { usePathname } from "next/navigation";
 
 interface QuickQuoteFormProps {
   productName: string;
@@ -19,6 +22,7 @@ interface QuickQuoteFormProps {
 export function QuickQuoteForm({ productName, className = "" }: QuickQuoteFormProps) {
   const { lang } = useLanguage();
   const c = copy(lang);
+  const pathname = usePathname();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -31,9 +35,38 @@ export function QuickQuoteForm({ productName, className = "" }: QuickQuoteFormPr
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [formStarted, setFormStarted] = useState(false);
 
   // Pre-fill product name in message
   const message = `I'm interested in getting a quote for: ${productName}${formData.quantity ? ` (Quantity: ${formData.quantity})` : ""}${formData.openingDate ? `\nTarget opening date: ${formData.openingDate}` : ""}`;
+
+  // Track form start
+  useEffect(() => {
+    if (!formStarted) {
+      trackFormStart({
+        formType: "quick_quote",
+        formId: `quick-quote-${productName}`,
+        page: pathname,
+      });
+      setFormStarted(true);
+    }
+  }, [formStarted, pathname, productName]);
+
+  // Track form abandonment on unmount
+  useEffect(() => {
+    return () => {
+      if (formStarted && !isSubmitting && !isSuccess) {
+        const fieldsFilled = Object.values(formData).filter(v => v && v.trim() !== "").length;
+        trackFormAbandon({
+          formType: "quick_quote",
+          formId: `quick-quote-${productName}`,
+          fieldsFilled,
+          totalFields: 5, // name, email, company, quantity, openingDate
+          page: pathname,
+        });
+      }
+    };
+  }, [formStarted, isSubmitting, isSuccess, formData, pathname, productName]);
 
   const validateForm = (): boolean => {
     const fieldLabels = {
@@ -101,6 +134,19 @@ export function QuickQuoteForm({ productName, className = "" }: QuickQuoteFormPr
       const result = await response.json();
 
       if (response.ok) {
+        // Track successful form submission
+        trackFormSubmit({
+          formType: "quick_quote",
+          formId: `quick-quote-${productName}`,
+          success: true,
+          fields: {
+            hasQuantity: !!formData.quantity,
+            hasOpeningDate: !!formData.openingDate,
+            quantity: formData.quantity ? parseInt(formData.quantity) : undefined,
+          },
+          page: pathname,
+        });
+
         const successMessage = result.message || 
           (lang === "zh" 
             ? "询价请求已提交成功！我们会在24小时内回复您。" 
@@ -117,6 +163,14 @@ export function QuickQuoteForm({ productName, className = "" }: QuickQuoteFormPr
         });
         setErrors({});
       } else {
+        // Track failed form submission
+        trackFormSubmit({
+          formType: "quick_quote",
+          formId: `quick-quote-${productName}`,
+          success: false,
+          page: pathname,
+        });
+
         toast.error(
           result.error || 
           (lang === "zh" ? "提交失败，请重试。" : "Failed to submit quote request. Please try again.")
@@ -176,11 +230,6 @@ export function QuickQuoteForm({ productName, className = "" }: QuickQuoteFormPr
         <h3 className="text-lg font-semibold text-[var(--text-primary)]">
           {lang === "zh" ? "快速询价" : "Quick Quote"}
         </h3>
-        <p className="mt-1 text-sm text-[var(--text-secondary)]">
-          {lang === "zh" 
-            ? "填写以下信息，我们会在24小时内回复您" 
-            : "Fill in the form and we'll respond within 24 hours"}
-        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -312,12 +361,6 @@ export function QuickQuoteForm({ productName, className = "" }: QuickQuoteFormPr
             : (lang === "zh" ? "获取报价" : "Get Quote")}
         </button>
 
-        {/* Privacy Note */}
-        <p className="text-xs text-[var(--text-tertiary)] text-center">
-          {lang === "zh" 
-            ? "提交即表示您同意我们的隐私政策" 
-            : "By submitting, you agree to our privacy policy"}
-        </p>
       </form>
     </div>
   );

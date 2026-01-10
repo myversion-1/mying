@@ -7,11 +7,14 @@ import { useLanguage } from "./language";
 import { getProducts } from "../content/copy";
 import { validateEmail, validateWorkEmail, validateRequired, validateNumber, validateMinLength, validateFields, isWorkEmail } from "../lib/form-validation";
 import { toast } from "./Toast";
+import { trackFormStart, trackFormSubmit, trackFormAbandon } from "../lib/analytics";
+import { usePathname } from "next/navigation";
 
 export function QuoteForm() {
   const { lang } = useLanguage();
   const c = copy(lang);
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const products = getProducts(lang);
 
   const [formData, setFormData] = useState({
@@ -26,6 +29,7 @@ export function QuoteForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ type: "success" | null; message: string }>({ type: null, message: "" });
+  const [formStarted, setFormStarted] = useState(false);
 
   // Pre-fill product if coming from product page
   useEffect(() => {
@@ -34,6 +38,32 @@ export function QuoteForm() {
       setFormData((prev) => ({ ...prev, product: decodeURIComponent(product) }));
     }
   }, [searchParams]);
+
+  // Track form start
+  useEffect(() => {
+    if (!formStarted) {
+      trackFormStart({
+        formType: "quote",
+        page: pathname,
+      });
+      setFormStarted(true);
+    }
+  }, [formStarted, pathname]);
+
+  // Track form abandonment on unmount
+  useEffect(() => {
+    return () => {
+      if (formStarted && !isSubmitting && submitStatus.type !== "success") {
+        const fieldsFilled = Object.values(formData).filter(v => v && v.trim() !== "").length;
+        trackFormAbandon({
+          formType: "quote",
+          fieldsFilled,
+          totalFields: 6, // name, email, company, product, quantity, message
+          page: pathname,
+        });
+      }
+    };
+  }, [formStarted, isSubmitting, submitStatus.type, formData, pathname]);
 
   const validateForm = (): boolean => {
     const fieldLabels = {
@@ -56,7 +86,10 @@ export function QuoteForm() {
         required: true,
         fieldName: fieldLabels.quantity,
       }),
-      message: validateMinLength(formData.message, 10, fieldLabels.message),
+      // Message is optional for quote requests
+      message: formData.message.length > 0 && formData.message.length < 10
+        ? { isValid: false, error: lang === "zh" ? "消息至少需要10个字符" : "Message must be at least 10 characters" }
+        : { isValid: true, error: "" },
     });
 
     setErrors(validationResults.errors);
@@ -98,6 +131,19 @@ export function QuoteForm() {
       const result = await response.json();
 
       if (response.ok) {
+        // Track successful form submission
+        trackFormSubmit({
+          formType: "quote",
+          success: true,
+          fields: {
+            hasProduct: !!formData.product,
+            hasQuantity: !!formData.quantity,
+            hasMessage: !!formData.message,
+            quantity: formData.quantity ? parseInt(formData.quantity) : undefined,
+          },
+          page: pathname,
+        });
+
         const successMessage = result.message || 
           (lang === "zh" 
             ? "报价请求已提交成功！我们会在24小时内回复您。" 
@@ -115,6 +161,13 @@ export function QuoteForm() {
         });
         setErrors({});
       } else {
+        // Track failed form submission
+        trackFormSubmit({
+          formType: "quote",
+          success: false,
+          page: pathname,
+        });
+
         toast.error(
           result.error || 
           (lang === "zh" ? "提交失败，请重试。" : "Failed to submit quote request. Please try again.")
@@ -164,6 +217,9 @@ export function QuoteForm() {
   return (
     <form
       onSubmit={handleSubmit}
+      data-form-type="quote"
+      data-form-id="quote-form"
+      data-section="quote"
       className="grid gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur"
     >
       <div className="grid gap-4 md:grid-cols-2">
@@ -279,7 +335,7 @@ export function QuoteForm() {
 
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-white/80" htmlFor="message">
-          {lang === "zh" ? "消息" : "Message"} <span className="text-red-400">*</span>
+          {lang === "zh" ? "消息" : "Message"} <span className="text-white/50 text-xs">({lang === "zh" ? "可选" : "Optional"})</span>
         </label>
         <textarea
           id="message"
@@ -292,7 +348,7 @@ export function QuoteForm() {
               ? "border-red-500/50 focus:border-red-500"
               : "border-white/10 focus:border-[var(--accent-secondary)]/60"
           }`}
-          placeholder={lang === "zh" ? "请提供项目详情、特殊要求或其他信息..." : "Please provide project details, special requirements, or any other information..."}
+          placeholder={lang === "zh" ? "项目详情、特殊要求或其他信息（可选）" : "Project details, special requirements, or other information (optional)"}
         />
         {errors.message && <p className="text-xs text-red-400">{errors.message}</p>}
       </div>
@@ -334,11 +390,6 @@ export function QuoteForm() {
           : "Request Quote"}
       </button>
 
-      <p className="text-xs text-[var(--dark-bg-text-tertiary)] text-center">
-        {lang === "zh"
-          ? "我们将在24小时内回复您的询价。"
-          : "We'll respond to your quote request within 24 hours."}
-      </p>
     </form>
   );
 }

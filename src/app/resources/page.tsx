@@ -3,12 +3,24 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "../../components/language";
+import { LeadMagnetForm } from "../../components/LeadMagnetForm";
 
 type ResourceCategory = "maintenance" | "technical" | "downloads";
+
+type Resource = {
+  id: string;
+  title: { en: string; zh: string };
+  category: ResourceCategory;
+  description: { en: string; zh: string };
+  type: { en: string; zh: string };
+  requiresForm?: boolean;
+  downloadUrl?: string;
+};
 
 export default function ResourcesPage() {
   const { lang } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<ResourceCategory | "all">("all");
+  const [selectedResource, setSelectedResource] = useState<string | null>(null);
 
   const categories: { id: ResourceCategory | "all"; label: { en: string; zh: string } }[] = [
     { id: "all", label: { en: "All Resources", zh: "所有资源" } },
@@ -17,7 +29,7 @@ export default function ResourcesPage() {
     { id: "downloads", label: { en: "Download Center", zh: "下载中心" } },
   ];
 
-  const maintenanceResources = [
+  const maintenanceResources: Resource[] = [
     {
       id: "daily-inspection",
       title: { en: "Daily Inspection Checklist", zh: "日常检查清单" },
@@ -50,7 +62,7 @@ export default function ResourcesPage() {
     },
   ];
 
-  const technicalResources = [
+  const technicalResources: Resource[] = [
     {
       id: "support-process",
       title: { en: "Technical Support Process", zh: "技术支持流程" },
@@ -83,7 +95,7 @@ export default function ResourcesPage() {
     },
   ];
 
-  const downloadResources = [
+  const downloadResources: Resource[] = [
     {
       id: "product-catalog",
       title: { en: "Product Catalog 2025", zh: "产品目录 2025" },
@@ -93,6 +105,8 @@ export default function ResourcesPage() {
         zh: "完整的产品目录，包含规格、尺寸和技术细节。",
       },
       type: { en: "PDF Catalog", zh: "PDF 目录" },
+      requiresForm: true,
+      downloadUrl: "/resources/product-catalog-2025.pdf",
     },
     {
       id: "installation-guide",
@@ -103,6 +117,8 @@ export default function ResourcesPage() {
         zh: "全面的安装指南，包含分步说明和安全要求。",
       },
       type: { en: "PDF Guide", zh: "PDF 指南" },
+      requiresForm: true,
+      downloadUrl: "/resources/installation-guide.pdf",
     },
     {
       id: "safety-manual",
@@ -113,6 +129,32 @@ export default function ResourcesPage() {
         zh: "所有设备的安全指南和合规信息。",
       },
       type: { en: "PDF Manual", zh: "PDF 手册" },
+      requiresForm: true,
+      downloadUrl: "/resources/safety-manual.pdf",
+    },
+    {
+      id: "technical-whitepaper",
+      title: { en: "Technical Whitepaper", zh: "技术白皮书" },
+      category: "downloads" as const,
+      description: {
+        en: "In-depth technical analysis and industry best practices for amusement equipment.",
+        zh: "深入的游乐设备技术分析和行业最佳实践。",
+      },
+      type: { en: "PDF Whitepaper", zh: "PDF 白皮书" },
+      requiresForm: true,
+      downloadUrl: "/resources/technical-whitepaper.pdf",
+    },
+    {
+      id: "industry-solution",
+      title: { en: "Industry Solution Guide", zh: "行业解决方案指南" },
+      category: "downloads" as const,
+      description: {
+        en: "Comprehensive guide for selecting and implementing amusement equipment solutions.",
+        zh: "选择和实施游乐设备解决方案的综合指南。",
+      },
+      type: { en: "PDF Guide", zh: "PDF 指南" },
+      requiresForm: true,
+      downloadUrl: "/resources/industry-solution-guide.pdf",
     },
   ];
 
@@ -192,17 +234,62 @@ export default function ResourcesPage() {
                 <p className="mb-4 text-[var(--text-secondary)] leading-relaxed">
                   {description}
                 </p>
-                <button className="text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent-primary)] transition flex items-center gap-2 min-h-[32px] touch-manipulation group">
-                  <span>{lang === "zh" ? "查看详情" : "View Details"}</span>
-                  <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+                {resource.requiresForm ? (
+                  <button
+                    onClick={() => setSelectedResource(resource.id)}
+                    className="w-full rounded-lg bg-[var(--action-primary)] px-4 py-2.5 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+                  >
+                    {lang === "zh" ? "获取下载链接" : "Get Download Link"}
+                  </button>
+                ) : (
+                  <button className="text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent-primary)] transition flex items-center gap-2 min-h-[32px] touch-manipulation group">
+                    <span>{lang === "zh" ? "查看详情" : "View Details"}</span>
+                    <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                )}
               </div>
             );
           })
         )}
       </div>
+
+      {/* Lead Magnet Form Modal */}
+      {selectedResource && (() => {
+        const resource = allResources.find((r) => r.id === selectedResource) as Resource | undefined;
+        if (!resource || !resource.requiresForm) return null;
+        
+        const supportedLang: "en" | "zh" = (lang === "en" || lang === "zh") ? lang : "en";
+        const title = resource.title[supportedLang] || resource.title.en;
+        const description = resource.description[supportedLang] || resource.description.en;
+        
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="relative max-w-lg w-full">
+              <button
+                onClick={() => setSelectedResource(null)}
+                className="absolute -top-4 -right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--surface-elevated)] border border-[var(--border)] text-[var(--text-primary)] hover:bg-[var(--surface-hover)] transition-colors min-h-[44px] min-w-[44px] touch-manipulation"
+                aria-label={lang === "zh" ? "关闭" : "Close"}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <LeadMagnetForm
+                asset={{
+                  id: resource.id,
+                  title,
+                  description,
+                  downloadUrl: resource.downloadUrl || "/resources/default.pdf",
+                  fileType: "PDF",
+                }}
+                onClose={() => setSelectedResource(null)}
+              />
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Contact CTA */}
       <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-8 text-center">

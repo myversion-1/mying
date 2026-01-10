@@ -33,8 +33,15 @@ export async function generateMetadata({
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
   const productUrl = `${baseUrl}/products/${id}`;
 
-  // Build enhanced title with category keyword
-  const title = `${product.name} - ${product.category} Manufacturer | Miying Amusement`;
+  // Build high-intent B2B title: Product + Industry + Solution + Action
+  // Format: "[Product Name] for [Industry] | Buy [Category] | Get Quote"
+  const industryKeywords = product.mainCategory === "Family Rides" 
+    ? "FECs & Theme Parks" 
+    : product.mainCategory === "Thrill Rides"
+    ? "Theme Parks & Amusement Parks"
+    : "Entertainment Centers";
+  
+  const title = `Buy ${product.name} | ${product.category} for ${industryKeywords} | Get Quote`;
 
   // Build enhanced description with technical specifications
   // Include at least two technical specs for better keyword density
@@ -52,24 +59,30 @@ export async function generateMetadata({
     specs.push(`year ${product.year}`);
   }
 
-  // Create description with technical specs naturally integrated
+  // Create high-intent B2B description: Problem + Solution + Action
+  // Format: "[Product] solves [problem] for [industry]. [Specs]. [Call to action]"
   let description: string;
   if (product.positioning) {
-    // If positioning exists, integrate specs into it
+    // Use positioning as problem statement, add specs and CTA
     const specsText = specs.length >= 2 
-      ? ` Features ${specs.slice(0, 2).join(" and ")}.`
+      ? ` ${specs.slice(0, 2).join(", ")}.`
       : specs.length === 1
-      ? ` Features ${specs[0]}.`
+      ? ` ${specs[0]}.`
       : "";
-    description = `${product.positioning}${specsText}`;
+    description = `${product.positioning}${specsText} Factory-tested, EN 13814 compliant. Request pricing & technical specifications.`;
   } else {
-    // Build description from scratch with specs
+    // Build high-intent description from scratch
     const specsText = specs.length >= 2
-      ? ` Features ${specs.slice(0, 2).join(" and ")}.`
+      ? ` ${specs.slice(0, 2).join(", ")}.`
       : specs.length === 1
-      ? ` Features ${specs[0]}.`
+      ? ` ${specs[0]}.`
       : "";
-    description = `Discover ${product.name}, a premium ${product.category.toLowerCase()} from Miying Amusement Equipment.${specsText} Professional manufacturer of amusement rides and theme park equipment.`;
+    const problemStatement = product.mainCategory === "Family Rides"
+      ? `Ideal for FECs and theme parks seeking reliable family entertainment.`
+      : product.mainCategory === "Thrill Rides"
+      ? `Perfect for theme parks requiring high-thrill attractions.`
+      : `Professional ${product.category.toLowerCase()} for entertainment venues.`;
+    description = `${product.name} - ${problemStatement}${specsText} Factory-tested safety, global delivery. Get instant quote & download specifications.`;
   }
 
   // Ensure description doesn't exceed recommended length (155-160 chars for optimal SEO)
@@ -80,7 +93,7 @@ export async function generateMetadata({
   return {
     title: title,
     description: description,
-    keywords: `${product.name}, ${product.category}, ${product.category.toLowerCase()} manufacturer, amusement ride, theme park equipment, Miying Amusement`,
+    keywords: `buy ${product.name}, ${product.name} price, ${product.category} manufacturer, ${product.category.toLowerCase()} for sale, ${product.mainCategory.toLowerCase()} supplier, theme park equipment, FEC rides, amusement ride quote, ${product.name} specifications`,
     openGraph: {
       title: title,
       description: description,

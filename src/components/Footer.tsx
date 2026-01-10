@@ -313,6 +313,32 @@ export function Footer() {
             </div>
           </div>
 
+          {/* Footer CTA Section */}
+          <div className="border-t border-[var(--border)] pt-8 pb-6">
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 text-center">
+              <h3 className="mb-2 text-lg font-semibold text-[var(--text-primary)]">
+                {lang === "zh" ? "准备开始您的项目？" : "Ready to Start Your Project?"}
+              </h3>
+              <p className="mb-6 text-sm text-[var(--text-secondary)]">
+                {lang === "zh" ? "获取定制报价或与技术团队讨论您的需求" : "Get a custom quote or discuss your needs with our technical team"}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  href="/quote"
+                  className="inline-flex items-center justify-center rounded-lg bg-[var(--action-primary)] px-8 py-4 text-base font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+                >
+                  {c.cta.getCustomQuote || (lang === "zh" ? "获取定制报价" : "Get Custom Quote")}
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-8 py-4 text-base font-semibold text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] touch-manipulation"
+                >
+                  {c.cta.contactSales || (lang === "zh" ? "联系销售团队" : "Contact Sales Team")}
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {/* Copyright */}
           <div className="border-t border-[var(--border)] pt-6">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">

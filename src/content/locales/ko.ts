@@ -17,11 +17,21 @@ export const ko: CopyContent = {
   cta: {
     primary: "공장 방문 요청",
     secondary: "제품 보기",
+    requestQuote: "견적 받기",
+    talkToEngineer: "엔지니어와 상담",
+    downloadSpecs: "제품 사양 다운로드",
+    requestPricing: "가격 요청",
+    getTechnicalConsultation: "기술 상담 받기",
+    downloadDatasheet: "데이터시트 다운로드",
+    scheduleConsultation: "상담 예약",
+    contactSales: "영업팀에 문의",
+    getCustomQuote: "맞춤 견적 받기",
+    requestProductInfo: "제품 정보 요청",
   },
   hero: {
     title: "신뢰할 수 있는 놀이기구. 전 세계 배송.",
     subtitle:
-      "디자인부터 설치까지, 우리는 공원과 장소가 예산 내에서 시간에 맞춰 인기 있는 어트랙션을 시작할 수 있도록 도와드립니다.",
+      "우리는 전 세계의 가족 엔터테인먼트 센터와 테마파크에 서비스를 제공하며, 예산 내에서 시간에 맞춰 어트랙션을 시작하는 과제를 해결합니다. 글로벌 배송 및 맞춤형 솔루션과 함께 공장에서 테스트된 신뢰할 수 있는 장비를 제공합니다.",
     badge: "공장 테스트 안전성",
   },
   highlights: [

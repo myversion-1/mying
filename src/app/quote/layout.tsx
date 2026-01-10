@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Request a Quote - Get Pricing for Your Project | Miying Rides",
+  title: "Get Amusement Ride Quote | Request Pricing & Specifications | 24h Response",
   description:
-    "Request a detailed quote for amusement rides and equipment. Get pricing, specifications, and delivery timelines for your project. We respond within 24 hours.",
+    "Get instant quote for amusement rides & theme park equipment. Request pricing, technical specifications & delivery timelines. For FECs, theme parks & entertainment centers. 24-hour response.",
   keywords: [
     "request quote",
     "amusement ride quote",

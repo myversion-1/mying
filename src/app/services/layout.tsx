@@ -3,9 +3,9 @@ import { StructuredDataServer } from "../../components/StructuredDataServer";
 import { getServices } from "../../content/copy";
 
 export const metadata: Metadata = {
-  title: "Services - Consulting, Sourcing & Refurbishment",
+  title: "Amusement Ride Services | Consulting, Sourcing & Refurbishment | Get Quote",
   description:
-    "Professional services for amusement rides: purchasing support, consulting, appraisal, refurbishment, assembly & installation, and attraction rentals.",
+    "Professional amusement ride services: consulting, sourcing, refurbishment, assembly & installation. For FECs, theme parks & entertainment centers. Request service consultation & pricing.",
   keywords: [
     // Core Service Keywords
     "amusement ride services",

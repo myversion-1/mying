@@ -17,11 +17,21 @@ export const vi: CopyContent = {
   cta: {
     primary: "Yêu cầu tham quan",
     secondary: "Xem sản phẩm",
+    requestQuote: "Nhận báo giá",
+    talkToEngineer: "Nói chuyện với kỹ sư",
+    downloadSpecs: "Tải xuống thông số kỹ thuật sản phẩm",
+    requestPricing: "Yêu cầu báo giá",
+    getTechnicalConsultation: "Nhận tư vấn kỹ thuật",
+    downloadDatasheet: "Tải xuống bảng dữ liệu",
+    scheduleConsultation: "Đặt lịch tư vấn",
+    contactSales: "Liên hệ đội ngũ bán hàng",
+    getCustomQuote: "Nhận báo giá tùy chỉnh",
+    requestProductInfo: "Yêu cầu thông tin sản phẩm",
   },
   hero: {
     title: "Trò chơi giải trí đáng tin cậy. Giao hàng toàn cầu.",
     subtitle:
-      "Từ thiết kế đến lắp đặt, chúng tôi giúp các công viên và địa điểm khởi động các điểm tham quan thu hút đám đông đúng thời hạn và trong ngân sách.",
+      "Chúng tôi phục vụ các trung tâm giải trí gia đình và công viên giải trí trên toàn thế giới, giải quyết thách thức khởi động các điểm tham quan đúng thời hạn và trong ngân sách. Bạn nhận được thiết bị đáng tin cậy đã được kiểm tra tại nhà máy với giao hàng toàn cầu và giải pháp tùy chỉnh.",
     badge: "An toàn đã được kiểm tra tại nhà máy",
   },
   highlights: [

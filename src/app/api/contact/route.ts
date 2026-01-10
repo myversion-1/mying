@@ -33,10 +33,10 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, email, phone, country, company, message } = body;
 
-    // Validate required fields
-    if (!name || !email || !company || !message) {
+    // Validate required fields - Only essential fields for B2B follow-up
+    if (!name || !email || !company) {
       return NextResponse.json(
-        { error: "Missing required fields: name, email, company, and message are required" },
+        { error: "Missing required fields: name, email, and company are required" },
         { status: 400 }
       );
     }

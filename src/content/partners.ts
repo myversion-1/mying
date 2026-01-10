@@ -5,7 +5,7 @@ export const partners: Partner[] = [
   {
     id: "theme-park-inc",
     name: "Theme Park Inc.",
-    logo: "/partners/theme-park-inc.png", // Placeholder - replace with actual logo
+    logo: "/partners/theme-park-inc.png",
     country: "USA",
     countryCode: "US",
     category: "Theme Park",
@@ -13,7 +13,7 @@ export const partners: Partner[] = [
   {
     id: "dubai-entertainment",
     name: "Dubai Entertainment Group",
-    logo: "/partners/dubai-entertainment.png", // Placeholder - replace with actual logo
+    logo: "/partners/dubai-entertainment.png",
     country: "UAE",
     countryCode: "AE",
     category: "Theme Park",
@@ -21,7 +21,7 @@ export const partners: Partner[] = [
   {
     id: "shanghai-mall",
     name: "Shanghai Mall Group",
-    logo: "/partners/shanghai-mall.png", // Placeholder - replace with actual logo
+    logo: "/partners/shanghai-mall.png",
     country: "China",
     countryCode: "CN",
     category: "Shopping Mall",
@@ -29,7 +29,7 @@ export const partners: Partner[] = [
   {
     id: "family-fun-centers",
     name: "Family Fun Centers",
-    logo: "/partners/family-fun-centers.png", // Placeholder - replace with actual logo
+    logo: "/partners/family-fun-centers.png",
     country: "USA",
     countryCode: "US",
     category: "FEC",
@@ -37,7 +37,7 @@ export const partners: Partner[] = [
   {
     id: "tokyo-amusement",
     name: "Tokyo Amusement Co.",
-    logo: "/partners/tokyo-amusement.png", // Placeholder - replace with actual logo
+    logo: "/partners/tokyo-amusement.png",
     country: "Japan",
     countryCode: "JP",
     category: "FEC",
@@ -55,8 +55,3 @@ export function getPartnersByCountry(countryCode?: string): Partner[] {
   if (!countryCode) return partners;
   return partners.filter((partner) => partner.countryCode === countryCode);
 }
-
-
-
-
-
