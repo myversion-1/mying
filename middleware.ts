@@ -5,18 +5,28 @@
 
 // export default createMiddleware(routing);
 
-// Temporary middleware that does nothing (passes through all requests)
-export default function middleware() {
-  // No-op: pass through all requests
+import { NextRequest, NextResponse } from 'next/server';
+
+// Minimal middleware that explicitly allows all requests
+// This ensures no requests are blocked, especially for Lighthouse and other crawlers
+export default function middleware(request: NextRequest) {
+  // Simply pass through all requests without any blocking or modification
+  return NextResponse.next();
 }
 
 export const config = {
-  // 匹配所有路径，除了：
-  // - API 路由 (/api/*)
-  // - Next.js 内部路由 (_next/*)
-  // - Vercel 相关路由 (_vercel/*)
-  // - 静态文件 (*.*)
-  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
+  // Minimal matcher - only match page routes, exclude API and Next.js internals
+  // This ensures middleware doesn't interfere with static assets or API routes
+  matcher: [
+    /*
+     * Match page routes only, exclude:
+     * - /api/* (API routes)
+     * - /_next/* (Next.js internals)
+     * - /_vercel/* (Vercel internals)
+     * - Static files (.*\..*)
+     */
+    '/((?!api|_next|_vercel|.*\\..*).*)',
+  ],
 };
 
 

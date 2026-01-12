@@ -224,7 +224,7 @@ export function TechnicalCertification({ product, lang }: TechnicalCertification
                   fill
                   className="object-contain p-4"
                   sizes="90vw"
-                  quality={85} // Optimized quality for WebP/AVIF
+                  quality={65} // Reduced quality to minimize file size
                   loading="lazy" // Lazy load modal images
                   onError={() => setImageError(true)}
                 />

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { partners } from "../content/partners";
+import { partners, getPartnerName } from "../content/partners";
 import { useLanguage } from "./language";
 import { copy } from "../content/copy";
 
@@ -148,30 +148,34 @@ export function TrustLayer({
                 </h3>
               )}
               <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-                {displayPartners.map((partner) => (
-                  <div
-                    key={partner.id}
-                    className="group relative flex items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
-                  >
-                    {partner.logo ? (
-                      <div className="relative h-16 w-full">
-                        <Image
-                          src={partner.logo}
-                          alt={partner.name}
-                          fill
-                          className="object-contain opacity-70 transition group-hover:opacity-100"
-                          quality={85}
-                          loading="lazy"
-                          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
-                        />
-                      </div>
-                    ) : (
-                      <div className="flex h-16 w-full items-center justify-center text-[var(--text-tertiary)]">
-                        <span className="text-sm font-medium">{partner.name}</span>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                {displayPartners.map((partner) => {
+                  const partnerName = getPartnerName(partner, lang);
+                  return (
+                    <div
+                      key={partner.id}
+                      className="group relative flex items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
+                    >
+                      {partner.logo ? (
+                        <div className="relative h-16 w-full">
+                          <Image
+                            src={partner.logo}
+                            alt={partnerName}
+                            fill
+                            className="object-contain opacity-70 transition group-hover:opacity-100"
+                            quality={65}
+                            loading="lazy"
+                            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+                            fetchPriority="low"
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex h-16 w-full items-center justify-center text-[var(--text-tertiary)]">
+                          <span className="text-sm font-medium">{partnerName}</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -227,9 +231,10 @@ export function TrustLayer({
                       alt={lang === "zh" ? `工厂照片 ${idx + 1}` : `Factory photo ${idx + 1}`}
                       fill
                       className="object-cover transition group-hover:scale-105"
-                      quality={85}
+                      quality={70}
                       loading="lazy"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      fetchPriority="low"
                     />
                   </div>
                 ))}

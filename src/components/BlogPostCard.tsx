@@ -41,7 +41,7 @@ export function BlogPostCard({ post, featured = false }: BlogPostCardProps) {
               className="object-cover transition-opacity group-hover:opacity-95"
               sizes={featured ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 50vw"}
               onError={() => setImageError(true)}
-              quality={75}
+              quality={65}
               loading="lazy"
             />
           ) : (

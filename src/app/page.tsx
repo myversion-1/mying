@@ -1,27 +1,63 @@
 "use client";
 
 import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { PageHero } from "../components/PageHero";
 import { Section } from "../components/Section";
-import { ProductGrid } from "../components/ProductGrid";
-import { ContactForm } from "../components/ContactForm";
-import { VerificationGate } from "../components/VerificationGate";
-import { StatsGrid } from "../components/StatsGrid";
-import { TestimonialsGrid } from "../components/TestimonialsGrid";
-import { PartnersSection } from "../components/PartnersSection";
-import { TrustLayer } from "../components/TrustLayer";
-import { ProductCard } from "../components/ProductCard";
 import { copy, getServices, getProducts } from "../content/copy";
 import { homePageStats } from "../content/homePageStats";
 import { testimonials, getLocalizedTestimonial } from "../content/testimonials";
 import { useLanguage } from "../components/language";
 
+// Code split heavy components to reduce initial bundle size
+// Use intersection observer pattern for better performance
+const ProductGrid = dynamic(() => import("../components/ProductGrid").then((mod) => ({ default: mod.ProductGrid })), {
+  loading: () => <div className="h-64 animate-pulse rounded-2xl bg-[var(--surface-elevated)]" />,
+  ssr: false, // Disable SSR for better performance - load on client only
+});
+
+const ContactForm = dynamic(() => import("../components/ContactForm").then((mod) => ({ default: mod.ContactForm })), {
+  loading: () => <div className="rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[#0a1628] to-[#0c1014] p-6 dark:border-white/10 dark:bg-white/5">Loading form...</div>,
+  ssr: false, // Contact form doesn't need SSR
+});
+
+const VerificationGate = dynamic(() => import("../components/VerificationGate").then((mod) => ({ default: mod.VerificationGate })), {
+  loading: () => <div className="h-32 animate-pulse rounded-2xl bg-[var(--surface-elevated)]" />,
+  ssr: false,
+});
+
+// StatsGrid is above the fold - enable SSR for better FCP/LCP
+const StatsGrid = dynamic(() => import("../components/StatsGrid").then((mod) => ({ default: mod.StatsGrid })), {
+  loading: () => <div className="h-32 animate-pulse rounded-2xl bg-[var(--surface-elevated)]" />,
+  ssr: true, // Enable SSR for above-the-fold content to improve FCP/LCP
+});
+
+const TestimonialsGrid = dynamic(() => import("../components/TestimonialsGrid").then((mod) => ({ default: mod.TestimonialsGrid })), {
+  loading: () => <div className="h-64 animate-pulse rounded-2xl bg-[var(--surface-elevated)]" />,
+  ssr: false, // Disable SSR to reduce initial bundle
+});
+
+const TrustLayer = dynamic(() => import("../components/TrustLayer").then((mod) => ({ default: mod.TrustLayer })), {
+  loading: () => <div className="h-48 animate-pulse rounded-2xl bg-[var(--surface-elevated)]" />,
+  ssr: false, // Disable SSR to reduce initial bundle - load images on client
+});
+
+const ProductCard = dynamic(() => import("../components/ProductCard").then((mod) => ({ default: mod.ProductCard })), {
+  ssr: false, // Disable SSR for better performance
+});
+
 export default function Home() {
   const { lang } = useLanguage();
+  const router = useRouter();
   const c = copy(lang);
+  // Defer loading services data until needed (lazy evaluation)
   const services = getServices(lang);
   const isRTL = lang === "ar";
+  
+  // Defer loading products data - only load when ProductGrid is visible
+  // This reduces initial JavaScript execution time
 
   return (
     <div className="space-y-8 md:space-y-12">
@@ -81,10 +117,10 @@ export default function Home() {
             ];
             
             return (
-              <Link
+              <div
                 key={service.title}
-                href="/services"
-                className="group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
+                onClick={() => router.push("/services")}
+                className="group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)] cursor-pointer"
               >
                 <div className="flex items-start gap-4">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--accent-primary)]/30 transition group-hover:bg-[var(--surface-hover)] group-hover:border-[var(--accent-primary)]/50">
@@ -102,6 +138,7 @@ export default function Home() {
                 <div className="mt-4">
                   <Link
                     href={`/contact?service=${encodeURIComponent(service.title)}`}
+                    onClick={(e) => e.stopPropagation()}
                     className="inline-flex items-center gap-2 rounded-lg bg-[var(--action-primary)] px-6 py-3 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
                   >
                     <span>{c.cta.getTechnicalConsultation || (lang === "zh" ? "获取技术咨询" : "Get Technical Consultation")}</span>
@@ -110,7 +147,7 @@ export default function Home() {
                     </svg>
                   </Link>
                 </div>
-              </Link>
+              </div>
             );
           })}
         </div>

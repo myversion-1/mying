@@ -17,6 +17,7 @@ import { StickyProductCTA } from "../../../components/StickyProductCTA";
 import { TrustLayer } from "../../../components/TrustLayer";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { encodeImagePath, hasNonASCIICharacters } from "../../../utils/image-utils";
 
 // Code splitting: Lazy load TechnicalCertification (not critical for LCP)
 const TechnicalCertification = dynamic(
@@ -107,15 +108,42 @@ export default function ProductPage({ params }: Props) {
         {/* Product Image - Priority for LCP optimization */}
         {product.image && (
           <div className="relative aspect-video overflow-hidden rounded-2xl">
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-              priority // Critical: Priority loading for LCP optimization
-              quality={85} // Optimized quality for WebP/AVIF
-            />
+            {hasNonASCIICharacters(product.image) ? (
+              // For images with Chinese characters, use native img tag to avoid Next.js Image optimizer issues
+              <img
+                src={encodeImagePath(product.image)}
+                alt={product.name}
+                className="h-full w-full object-cover"
+                loading="eager"
+                fetchPriority="high"
+                onError={(e) => {
+                  // Fallback to placeholder if image fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML = `
+                      <div class="flex h-full items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
+                        <div class="text-center">
+                          <div class="mb-2 text-4xl opacity-30">🎠</div>
+                          <div class="text-xs text-[var(--text-tertiary)]">No image available</div>
+                        </div>
+                      </div>
+                    `;
+                  }
+                }}
+              />
+            ) : (
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+                priority // Critical: Priority loading for LCP optimization
+                quality={70} // Reduced quality to reduce file size (from 85 to 70, further optimized)
+              />
+            )}
           </div>
         )}
 

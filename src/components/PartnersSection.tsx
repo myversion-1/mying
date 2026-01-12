@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { partners } from "../content/partners";
+import { partners, getPartnerName } from "../content/partners";
 import type { Partner } from "../content/types/partner";
 import { useLanguage } from "./language";
 
@@ -12,6 +13,51 @@ type PartnersSectionProps = {
   maxPartners?: number;
   showCategory?: boolean;
 };
+
+// Partner Logo Card Component with error handling
+function PartnerLogoCard({ 
+  partner, 
+  showCategory 
+}: { 
+  partner: Partner; 
+  showCategory: boolean;
+}) {
+  const { lang } = useLanguage();
+  const [imageError, setImageError] = useState(false);
+  const partnerName = getPartnerName(partner, lang);
+  
+  return (
+    <div className="group relative flex items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]">
+      {partner.logo && !imageError ? (
+        <div className="relative h-16 w-full">
+          <Image
+            src={partner.logo}
+            alt={partnerName}
+            fill
+            className="object-contain opacity-70 transition group-hover:opacity-100"
+            quality={65}
+            loading="lazy"
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+            onError={() => setImageError(true)}
+          />
+        </div>
+      ) : (
+        <div className="flex h-16 w-full items-center justify-center text-[var(--text-tertiary)]">
+          <span className="text-sm font-medium">{partnerName}</span>
+        </div>
+      )}
+      
+      {/* Category Badge (optional) */}
+      {showCategory && partner.category && (
+        <div className="absolute bottom-2 right-2">
+          <span className="rounded-full bg-[var(--surface-elevated)] px-2 py-0.5 text-xs font-semibold text-[var(--text-primary)] border border-[var(--accent-primary)]/30">
+            {partner.category}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function PartnersSection({
   partners: customPartners,
@@ -51,37 +97,11 @@ export function PartnersSection({
         {/* Partners Grid */}
         <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-5">
           {limitedPartners.map((partner) => (
-            <div
+            <PartnerLogoCard
               key={partner.id}
-              className="group relative flex items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
-            >
-              {partner.logo ? (
-                <div className="relative h-16 w-full">
-                  <Image
-                    src={partner.logo}
-                    alt={partner.name}
-                    fill
-                    className="object-contain opacity-70 transition group-hover:opacity-100"
-                    quality={85}
-                    loading="lazy"
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
-                  />
-                </div>
-              ) : (
-                <div className="flex h-16 w-full items-center justify-center text-[var(--text-tertiary)]">
-                  <span className="text-sm font-medium">{partner.name}</span>
-                </div>
-              )}
-              
-              {/* Category Badge (optional) */}
-              {showCategory && partner.category && (
-                <div className="absolute bottom-2 right-2">
-                  <span className="rounded-full bg-[var(--surface-elevated)] px-2 py-0.5 text-xs font-semibold text-[var(--text-primary)] border border-[var(--accent-primary)]/30">
-                    {partner.category}
-                  </span>
-                </div>
-              )}
-            </div>
+              partner={partner}
+              showCategory={showCategory}
+            />
           ))}
         </div>
 

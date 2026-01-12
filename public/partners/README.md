@@ -74,3 +74,4 @@ clean typography, transparent background, 400x200px, Japanese aesthetic
 - 确保文件大小 < 100KB
 - 保持高清晰度
 
+

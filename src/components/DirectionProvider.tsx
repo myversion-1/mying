@@ -8,8 +8,11 @@ export function DirectionProvider({ children }: { children: React.ReactNode }) {
   const isRTL = lang === "ar";
 
   useEffect(() => {
-    document.documentElement.dir = isRTL ? "rtl" : "ltr";
-    document.documentElement.lang = lang;
+    const htmlElement = document.documentElement;
+    htmlElement.dir = isRTL ? "rtl" : "ltr";
+    htmlElement.lang = lang;
+    // Set xml:lang for better i18n support
+    htmlElement.setAttribute("xml:lang", lang);
   }, [lang, isRTL]);
 
   return <>{children}</>;

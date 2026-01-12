@@ -27,7 +27,7 @@ export function CaseCard({ caseItem, onClickAction }: CaseCardProps) {
             className="object-cover transition-opacity group-hover:opacity-95"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             onError={() => setImageError(true)}
-            quality={85}
+            quality={65}
             loading="lazy"
           />
         ) : (

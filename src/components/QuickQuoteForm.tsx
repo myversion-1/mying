@@ -214,6 +214,7 @@ export function QuickQuoteForm({ productName, className = "" }: QuickQuoteFormPr
           </p>
           <button
             onClick={() => setIsSuccess(false)}
+            aria-label={lang === "zh" ? "提交新的询价" : "Submit Another Request"}
             className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-semibold text-[var(--text-primary)] transition-colors hover:bg-[var(--surface-hover)] min-h-[44px] touch-manipulation"
           >
             {lang === "zh" ? "提交新的询价" : "Submit Another Request"}

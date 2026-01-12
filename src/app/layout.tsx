@@ -165,6 +165,8 @@ export const metadata: Metadata = {
     // yandex: "your-yandex-verification-code",
     // bing: "your-bing-verification-code",
   },
+  // Performance optimization: Preconnect to external domains
+  // Note: Resource hints should be in <head> tag, not in metadata.other
   other: {
     "google-site-verification": "vviaZwKjyQ-TUZK-khVTefSUq_ecF8H0o0Wwwj1_u7g",
   },
@@ -201,8 +203,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Default to English, will be updated by DirectionProvider on client
   return (
-    <html lang="en" dir="ltr" className="dark" suppressHydrationWarning>
+    <html lang="en" xmlLang="en" dir="ltr" className="dark" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${crimsonText.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
         suppressHydrationWarning
@@ -211,10 +214,17 @@ export default function RootLayout({
           <Providers>
             <AnalyticsProvider>
               <StructuredDataServer type="home" />
+              {/* Skip to main content link for accessibility */}
+              <a
+                href="#main-content"
+                className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--action-primary)] focus:text-[var(--action-primary-text)] focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--action-primary)] focus:ring-offset-2"
+              >
+                Skip to main content
+              </a>
               <Suspense fallback={<div className="h-16 bg-[var(--background)]" />}>
                 <Header />
               </Suspense>
-              <main className="pb-28 md:pb-0">{children}</main>
+              <main id="main-content" className="pb-28 md:pb-0">{children}</main>
               <Footer />
               <MobileStickyNav />
               <CustomerServiceWidgetWrapper />

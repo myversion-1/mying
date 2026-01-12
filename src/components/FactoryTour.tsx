@@ -34,7 +34,7 @@ export function FactoryTour({
                   alt="Factory tour video thumbnail"
                   fill
                   className="object-cover"
-                  quality={85}
+                  quality={65}
                   loading="lazy"
                   sizes="(max-width: 768px) 100vw, 66vw"
                 />
@@ -101,7 +101,7 @@ export function FactoryTour({
                   alt={`Production line photo ${index + 1}`}
                   fill
                   className="object-cover transition group-hover:scale-105"
-                  quality={85}
+                  quality={65}
                   loading="lazy"
                   sizes="(max-width: 768px) 50vw, 25vw"
                 />
@@ -133,7 +133,7 @@ export function FactoryTour({
               width={1200}
               height={800}
               className="max-h-[90vh] w-auto rounded-lg object-contain"
-              quality={85}
+              quality={65}
               loading="lazy"
             />
           </div>

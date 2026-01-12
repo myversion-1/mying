@@ -295,7 +295,11 @@ export function QuoteForm() {
             name="product"
             value={formData.product}
             onChange={handleChange}
-            className={`w-full rounded-xl border bg-[#0c1014] px-3 py-2 text-white outline-none transition ${
+            required
+            aria-required="true"
+            aria-invalid={!!errors.product}
+            aria-describedby={errors.product ? "product-error" : undefined}
+            className={`w-full rounded-xl border bg-[#0c1014] px-3 py-2 text-white outline-none transition min-h-[44px] touch-manipulation ${
               errors.product
                 ? "border-red-500/50 focus:border-red-500"
                 : "border-white/10 focus:border-[#7df6ff]/60"
@@ -308,7 +312,11 @@ export function QuoteForm() {
               </option>
             ))}
           </select>
-          {errors.product && <p className="text-xs text-red-400">{errors.product}</p>}
+          {errors.product && (
+            <p id="product-error" className="text-xs text-red-400" role="alert">
+              {errors.product}
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -322,14 +330,22 @@ export function QuoteForm() {
             min="1"
             value={formData.quantity}
             onChange={handleChange}
-            className={`w-full rounded-xl border bg-[#0c1014] px-3 py-2 text-white outline-none transition ${
+            required
+            aria-required="true"
+            aria-invalid={!!errors.quantity}
+            aria-describedby={errors.quantity ? "quantity-error" : undefined}
+            className={`w-full rounded-xl border bg-[#0c1014] px-3 py-2 text-white outline-none transition min-h-[44px] touch-manipulation ${
               errors.quantity
                 ? "border-red-500/50 focus:border-red-500"
                 : "border-white/10 focus:border-[#7df6ff]/60"
             }`}
             placeholder={lang === "zh" ? "例如: 5" : "e.g., 5"}
           />
-          {errors.quantity && <p className="text-xs text-red-400">{errors.quantity}</p>}
+          {errors.quantity && (
+            <p id="quantity-error" className="text-xs text-red-400" role="alert">
+              {errors.quantity}
+            </p>
+          )}
         </div>
       </div>
 
@@ -343,6 +359,8 @@ export function QuoteForm() {
           rows={4}
           value={formData.message}
           onChange={handleChange}
+          aria-invalid={!!errors.message}
+          aria-describedby={errors.message ? "message-error" : undefined}
           className={`w-full rounded-xl border bg-[var(--dark-bg-base)] px-3 py-2 text-[var(--dark-bg-text)] outline-none transition min-h-[44px] touch-manipulation ${
             errors.message
               ? "border-red-500/50 focus:border-red-500"
@@ -350,7 +368,11 @@ export function QuoteForm() {
           }`}
           placeholder={lang === "zh" ? "项目详情、特殊要求或其他信息（可选）" : "Project details, special requirements, or other information (optional)"}
         />
-        {errors.message && <p className="text-xs text-red-400">{errors.message}</p>}
+        {errors.message && (
+          <p id="message-error" className="text-xs text-red-400" role="alert">
+            {errors.message}
+          </p>
+        )}
       </div>
 
 

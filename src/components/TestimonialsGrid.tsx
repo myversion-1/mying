@@ -86,9 +86,10 @@ export function TestimonialsGrid({ testimonials, lang = "en" }: TestimonialsGrid
                   alt={testimonial.name}
                   fill
                   className="object-cover"
-                  quality={85}
+                  quality={65}
                   loading="lazy"
                   sizes="48px"
+                  fetchPriority="low"
                 />
               </div>
             ) : (
@@ -106,7 +107,7 @@ export function TestimonialsGrid({ testimonials, lang = "en" }: TestimonialsGrid
                       alt={testimonial.company}
                       fill
                       className="object-contain"
-                      quality={85}
+                      quality={65}
                       loading="lazy"
                       sizes="20px"
                     />

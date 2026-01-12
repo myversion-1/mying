@@ -9,6 +9,7 @@ import type { Product } from "../content/copy";
 import type { Lang } from "./language";
 import { generateProductSlug } from "../utils/hreflang";
 import { trackCTAClick } from "../lib/analytics";
+import { encodeImagePath, hasNonASCIICharacters } from "../utils/image-utils";
 
 interface ProductCardProps {
   product: Product;
@@ -54,16 +55,44 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
           "
         >
           {product.image ? (
-            <Image
-              src={product.image}
-              alt={`${product.name} - ${product.category} amusement ride${product.status === "Used" ? " (Used)" : ""}`}
-              fill
-              className="object-cover transition group-hover:scale-105"
-              sizes="(max-width: 300px) 100vw, (max-width: 500px) 50vw, 33vw"
-              loading={index < 6 ? "eager" : "lazy"}
-              priority={index < 6}
-              quality={85}
-            />
+            hasNonASCIICharacters(product.image) ? (
+              // For images with Chinese characters, use native img tag to avoid Next.js Image optimizer issues
+              <img
+                src={encodeImagePath(product.image)}
+                alt={`${product.name} - ${product.category} amusement ride${product.status === "Used" ? " (Used)" : ""}`}
+                className="h-full w-full object-cover transition group-hover:scale-105"
+                loading={index < 6 ? "eager" : "lazy"}
+                fetchPriority={index < 3 ? "high" : "auto"}
+                onError={(e) => {
+                  // Fallback to placeholder if image fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML = `
+                      <div class="flex h-full items-center justify-center">
+                        <div class="text-center">
+                          <div class="mb-2 text-4xl opacity-30">🎠</div>
+                          <div class="text-xs text-[var(--text-tertiary)]">No image available</div>
+                        </div>
+                      </div>
+                    `;
+                  }
+                }}
+              />
+            ) : (
+              <Image
+                src={product.image}
+                alt={`${product.name} - ${product.category} amusement ride${product.status === "Used" ? " (Used)" : ""}`}
+                fill
+                className="object-cover transition group-hover:scale-105"
+                sizes="(max-width: 300px) 100vw, (max-width: 500px) 50vw, 33vw"
+                loading={index < 6 ? "eager" : "lazy"}
+                priority={index < 6}
+                quality={65}
+                fetchPriority={index < 3 ? "high" : "auto"}
+              />
+            )
           ) : (
             <div className="flex h-full items-center justify-center">
               <div className="text-center">

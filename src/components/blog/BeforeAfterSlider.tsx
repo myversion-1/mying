@@ -54,7 +54,7 @@ export function BeforeAfterSlider({
               fill
               className="object-cover"
               sizes="100vw"
-              quality={75}
+              quality={65}
             />
           ) : (
             <div className="flex h-full items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 text-[var(--text-tertiary)]">
@@ -75,7 +75,7 @@ export function BeforeAfterSlider({
               fill
               className="object-cover"
               sizes="100vw"
-              quality={75}
+              quality={65}
             />
           ) : (
             <div className="flex h-full items-center justify-center bg-gradient-to-br from-[var(--accent-primary-light)] to-[var(--accent-primary-light)] text-[var(--text-secondary)]">

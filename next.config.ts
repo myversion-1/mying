@@ -12,29 +12,86 @@ const nextConfig: NextConfig = {
   // Turbopack configuration (Next.js 16 uses Turbopack by default)
   turbopack: {},
   
-  // 图片优化
+  // 生产环境优化
+  productionBrowserSourceMaps: false, // 禁用 source maps 以减少构建大小
+  
+  // 图片优化 - 大幅减少初始加载大小 (目标: 减少 36MB+)
   images: {
-    formats: ["image/avif", "image/webp"],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    formats: ["image/avif", "image/webp"], // 优先使用现代格式 (AVIF 比 WebP 小 50%)
+    // 大幅减少设备尺寸范围 - 避免生成过大的图片
+    deviceSizes: [640, 750, 828, 1080, 1200], // 移除 1920, 2048, 3840 (减少 60% 最大图片大小)
+    imageSizes: [16, 32, 48, 64, 96, 128, 256], // 包含 256 以支持小图标和缩略图
     // 优化图片加载
-    minimumCacheTTL: 60,
+    minimumCacheTTL: 31536000, // 1年缓存 (减少重复请求)
     dangerouslyAllowSVG: true,
-    contentDispositionType: "attachment",
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // 配置图片质量选项
-    qualities: [75, 85],
+    // Removed contentDispositionType: "attachment" - was causing 403 errors by forcing downloads
+    // Removed restrictive CSP - was blocking image requests
+    // Images should be displayed inline, not downloaded
+    // 优化图片加载性能
+    unoptimized: false, // 确保图片优化启用
+    // 减少图片尺寸以节省带宽
+    remotePatterns: [], // 如果需要外部图片，在这里配置
+    // 图片压缩优化
+    loader: 'default', // 使用 Next.js 默认优化器
   },
   
   // 实验性功能
   experimental: {
     optimizeCss: true,
+    // 优化包导入
+    optimizePackageImports: [
+      '@vercel/analytics',
+      'react-icons',
+    ],
   },
   
   // JavaScript 压缩优化
   // Note: Next.js 16+ uses SWC minification by default, no configuration needed
+  // SWC minification is enabled by default and provides better performance than Terser
   
-  // 安全头部
+  // Webpack 优化配置
+  webpack: (config, { dev, isServer }) => {
+    // 生产环境优化
+    if (!dev && !isServer) {
+      // 优化 chunk 分割
+      config.optimization = {
+        ...config.optimization,
+        moduleIds: 'deterministic',
+        runtimeChunk: 'single',
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            // 将 node_modules 中的大型库单独打包
+            vendor: {
+              name: 'vendor',
+              chunks: 'all',
+              test: /node_modules/,
+              priority: 20,
+            },
+            // 将 React 相关库单独打包
+            react: {
+              name: 'react',
+              chunks: 'all',
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+              priority: 30,
+            },
+            // 将 Next.js 相关库单独打包
+            nextjs: {
+              name: 'nextjs',
+              chunks: 'all',
+              test: /[\\/]node_modules[\\/](next)[\\/]/,
+              priority: 25,
+            },
+          },
+        },
+      };
+    }
+    return config;
+  },
+  
+  // 安全头部和性能优化
   async headers() {
     return [
       {
@@ -71,7 +128,27 @@ const nextConfig: NextConfig = {
           {
             key: "User-Agent-Client-Hints",
             value: "Accept-CH: Sec-CH-UA, Sec-CH-UA-Arch, Sec-CH-UA-Bitness, Sec-CH-UA-Mobile, Sec-CH-UA-Model, Sec-CH-UA-Platform, Sec-CH-UA-Platform-Version"
-          }
+          },
+        ],
+      },
+      // 为静态资源设置缓存（压缩由服务器自动处理）
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable" // 长期缓存静态资源
+          },
+        ],
+      },
+      // 为 API 响应设置缓存
+      {
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=60, stale-while-revalidate=300"
+          },
         ],
       },
     ];
