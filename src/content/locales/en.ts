@@ -30,10 +30,10 @@ export const en: CopyContent = {
     requestProductInfo: "Request Product Information",
   },
   hero: {
-    title: "Reliable Amusement Equipment Manufacturer for FECs & Theme Parks",
+    title: "Amusement Rides Manufacturer | Theme Park Equipment Supplier",
     subtitle:
-      "We serve FECs and theme parks worldwide, solving the challenge of launching attractions on time and on budget. You get reliable, factory-tested equipment with global delivery and custom solutions.",
-    badge: "Factory-tested safety",
+      "Leading amusement rides manufacturer and theme park equipment supplier serving FECs and theme parks worldwide. Factory-tested safety, ISO certified, custom solutions available. Buy commercial amusement rides with global delivery.",
+    badge: "ISO Certified Manufacturer",
   },
   highlights: [
     "Worldwide Delivery",

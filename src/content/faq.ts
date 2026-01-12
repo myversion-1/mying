@@ -107,6 +107,71 @@ export const faqs: FAQ[] = [
     },
     order: 2,
   },
+  {
+    id: "custom-lead-time",
+    category: "Product",
+    question: {
+      en: "What is the typical lead time for custom amusement rides?",
+      zh: "定制游乐设备的典型交货期是多少？",
+    },
+    answer: {
+      en: "Lead times for custom amusement rides typically range from 60-90 days for standard customizations to 120-180 days for fully custom designs. Factors affecting lead time include design complexity, manufacturing capacity, and component availability. We provide detailed production schedules in your quote and keep you updated throughout the process.",
+      zh: "定制游乐设备的交货期通常从标准定制的60-90天到完全定制设计的120-180天不等。影响交货期的因素包括设计复杂度、制造能力和组件可用性。我们会在报价中提供详细的生产计划，并在整个过程中及时更新。",
+    },
+    order: 1,
+  },
+  {
+    id: "international-installation",
+    category: "Installation",
+    question: {
+      en: "Do you provide installation and training services internationally?",
+      zh: "你们是否在国际范围内提供安装和培训服务？",
+    },
+    answer: {
+      en: "Yes, we provide installation and training services worldwide. Our experienced installation teams travel to your location to ensure proper setup and commissioning. We offer comprehensive operator training programs covering safety procedures, daily operations, and maintenance. Training can be conducted in multiple languages and includes both classroom instruction and hands-on practice.",
+      zh: "是的，我们在全球范围内提供安装和培训服务。我们经验丰富的安装团队会前往您的现场，确保正确设置和调试。我们提供全面的操作员培训计划，涵盖安全程序、日常操作和维护。培训可以用多种语言进行，包括课堂指导和实践操作。",
+    },
+    order: 1,
+  },
+  {
+    id: "financing-options",
+    category: "Payment",
+    question: {
+      en: "What financing options are available for large orders?",
+      zh: "大订单有哪些融资选择？",
+    },
+    answer: {
+      en: "We offer flexible financing solutions for large orders including installment payment plans, trade credit, and partnerships with financial institutions. Payment terms can be structured as 30% deposit, 40% at production milestone, 20% before shipment, and 10% upon delivery. For orders over $500,000, we can arrange extended payment terms or leasing options. Contact our sales team to discuss customized financing solutions for your project.",
+      zh: "我们为大订单提供灵活的融资解决方案，包括分期付款计划、贸易信贷以及与金融机构的合作。付款条件可以设置为30%定金、生产里程碑时40%、发货前20%和交付时10%。对于超过50万美元的订单，我们可以安排延长付款期限或租赁选项。请联系我们的销售团队讨论适合您项目的定制融资解决方案。",
+    },
+    order: 1,
+  },
+  {
+    id: "roi-calculation",
+    category: "Product",
+    question: {
+      en: "How do I calculate ROI for amusement park equipment?",
+      zh: "如何计算游乐设备投资回报率？",
+    },
+    answer: {
+      en: "ROI calculation for amusement rides considers initial investment, operating costs, revenue per ride cycle, daily throughput, and seasonal factors. Key metrics include: payback period (typically 12-24 months), annual revenue potential, and lifetime value. We provide a free ROI calculator tool that factors in your local market conditions, ticket pricing, and operating hours. Contact us to receive our ROI Calculator spreadsheet and consultation on revenue optimization strategies.",
+      zh: "游乐设备的投资回报率计算考虑初始投资、运营成本、每次运行收入、每日吞吐量和季节性因素。关键指标包括：投资回收期（通常12-24个月）、年度收入潜力和生命周期价值。我们提供免费的ROI计算器工具，考虑您当地的市场条件、票价和运营时间。请联系我们获取ROI计算器电子表格和收入优化策略咨询。",
+    },
+    order: 1,
+  },
+  {
+    id: "warranty-after-sales",
+    category: "Warranty",
+    question: {
+      en: "What is your warranty and after-sales support policy?",
+      zh: "你们的保修和售后服务政策是什么？",
+    },
+    answer: {
+      en: "We provide a comprehensive 12-month warranty covering manufacturing defects, component failures, and structural issues. Warranty includes parts replacement and labor costs. Our after-sales support includes: 24/7 technical hotline, remote diagnostics, spare parts supply chain (10+ year availability), preventive maintenance programs, and on-site service visits when needed. Extended warranty options up to 3 years are available. We maintain a global network of service partners for faster response times.",
+      zh: "我们提供全面的12个月保修，涵盖制造缺陷、组件故障和结构问题。保修包括零件更换和人工成本。我们的售后服务包括：24/7技术热线、远程诊断、备件供应链（10年以上可用性）、预防性维护计划以及需要时的现场服务访问。可提供长达3年的延长保修选项。我们维护全球服务合作伙伴网络，以加快响应时间。",
+    },
+    order: 1,
+  },
 ];
 
 // Helper function to get FAQs by category

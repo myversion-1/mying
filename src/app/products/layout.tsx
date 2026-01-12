@@ -8,10 +8,15 @@ import { StructuredDataServer } from "../../components/StructuredDataServer";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Buy Amusement Rides | Theme Park Equipment Catalog | Get Quote",
+  title: "Buy Theme Park Rides | Amusement Rides Manufacturer | Catalog",
   description:
-    "Buy factory-tested amusement rides for FECs & theme parks. Browse family rides, thrill rides, water rides. EN 13814 compliant, global delivery. Get instant quote & download specifications.",
+    "Browse our complete amusement rides catalog. Roller coasters, carousels, bumper cars & more. Factory direct pricing, CE certified, custom configurations available.",
   keywords: [
+    "amusement rides manufacturer",
+    "theme park equipment",
+    "FEC rides supplier",
+    "carnival rides factory",
+    "amusement park equipment manufacturer",
     "amusement rides catalog",
     "theme park rides",
     "family rides",
@@ -21,8 +26,6 @@ export const metadata: Metadata = {
     "amusement equipment",
     "ride catalog",
     "buy amusement rides",
-    "amusement ride manufacturer",
-    "theme park equipment",
     "custom attractions",
     "factory tested rides",
     "certified rides",

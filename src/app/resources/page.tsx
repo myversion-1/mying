@@ -97,6 +97,66 @@ export default function ResourcesPage() {
 
   const downloadResources: Resource[] = [
     {
+      id: "equipment-selection-guide",
+      title: { en: "Equipment Selection Guide", zh: "设备选择指南" },
+      category: "downloads" as const,
+      description: {
+        en: "Comprehensive guide to help you choose the right amusement rides for your venue. Includes capacity analysis, space requirements, and ROI considerations.",
+        zh: "全面的指南，帮助您为场地选择合适的游乐设备。包括容量分析、空间要求和投资回报率考虑。",
+      },
+      type: { en: "PDF Guide", zh: "PDF 指南" },
+      requiresForm: true,
+      downloadUrl: "/resources/equipment-selection-guide.pdf",
+    },
+    {
+      id: "safety-certification-checklist",
+      title: { en: "Safety Certification Checklist", zh: "安全认证检查清单" },
+      category: "downloads" as const,
+      description: {
+        en: "Complete checklist of safety certifications required for amusement rides. Includes CE, ASTM, EN standards and compliance verification steps.",
+        zh: "游乐设备所需安全认证的完整检查清单。包括CE、ASTM、EN标准和合规验证步骤。",
+      },
+      type: { en: "PDF Checklist", zh: "PDF 检查清单" },
+      requiresForm: true,
+      downloadUrl: "/resources/safety-certification-checklist.pdf",
+    },
+    {
+      id: "roi-calculator",
+      title: { en: "ROI Calculator for Amusement Rides", zh: "游乐设备投资回报率计算器" },
+      category: "downloads" as const,
+      description: {
+        en: "Interactive Excel calculator to estimate ROI, payback period, and revenue projections for amusement park equipment investments.",
+        zh: "交互式Excel计算器，用于估算游乐设备投资的投资回报率、投资回收期和收入预测。",
+      },
+      type: { en: "Excel Calculator", zh: "Excel 计算器" },
+      requiresForm: true,
+      downloadUrl: "/resources/roi-calculator.xlsx",
+    },
+    {
+      id: "maintenance-schedule-templates",
+      title: { en: "Maintenance Schedule Templates", zh: "维护计划模板" },
+      category: "downloads" as const,
+      description: {
+        en: "Ready-to-use maintenance schedule templates for daily, weekly, monthly, and annual inspections. Includes checklists and documentation forms.",
+        zh: "即用型维护计划模板，用于每日、每周、每月和年度检查。包括检查清单和文档表格。",
+      },
+      type: { en: "PDF Templates", zh: "PDF 模板" },
+      requiresForm: true,
+      downloadUrl: "/resources/maintenance-schedule-templates.pdf",
+    },
+    {
+      id: "park-layout-planning-guide",
+      title: { en: "Park Layout Planning Guide", zh: "公园布局规划指南" },
+      category: "downloads" as const,
+      description: {
+        en: "Expert guide for planning optimal amusement park layouts. Covers traffic flow, safety zones, queue management, and space optimization.",
+        zh: "规划最佳主题公园布局的专家指南。涵盖交通流、安全区域、排队管理和空间优化。",
+      },
+      type: { en: "PDF Guide", zh: "PDF 指南" },
+      requiresForm: true,
+      downloadUrl: "/resources/park-layout-planning-guide.pdf",
+    },
+    {
       id: "product-catalog",
       title: { en: "Product Catalog 2025", zh: "产品目录 2025" },
       category: "downloads" as const,
@@ -143,18 +203,6 @@ export default function ResourcesPage() {
       type: { en: "PDF Whitepaper", zh: "PDF 白皮书" },
       requiresForm: true,
       downloadUrl: "/resources/technical-whitepaper.pdf",
-    },
-    {
-      id: "industry-solution",
-      title: { en: "Industry Solution Guide", zh: "行业解决方案指南" },
-      category: "downloads" as const,
-      description: {
-        en: "Comprehensive guide for selecting and implementing amusement equipment solutions.",
-        zh: "选择和实施游乐设备解决方案的综合指南。",
-      },
-      type: { en: "PDF Guide", zh: "PDF 指南" },
-      requiresForm: true,
-      downloadUrl: "/resources/industry-solution-guide.pdf",
     },
   ];
 

@@ -41,7 +41,9 @@ export async function generateMetadata({
     ? "Theme Parks & Amusement Parks"
     : "Entertainment Centers";
   
-  const title = `Buy ${product.name} | ${product.category} for ${industryKeywords} | Get Quote`;
+  // Ensure primary keyword is in first 60 characters
+  // Format: "[Product Name] | [Category] Amusement Ride Manufacturer"
+  const title = `${product.name} | ${product.category} Amusement Ride Manufacturer`;
 
   // Build enhanced description with technical specifications
   // Include at least two technical specs for better keyword density

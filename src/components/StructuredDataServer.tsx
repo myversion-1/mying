@@ -29,27 +29,26 @@ export function StructuredDataServer({
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Miying Amusement Equipment",
+    description:
+      "Reliable amusement equipment manufacturer for FECs & theme parks worldwide",
     url: baseUrl,
     logo: `${baseUrl}/logo.jpg`,
-    description:
-      "Miying delivers amusement rides worldwide with factory-tested safety, consulting, refurbishment, and verified factory visits.",
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+86-131-1295-9561",
-      contactType: "Customer Service",
+      contactType: "Sales",
       email: "miyingyoule@gmail.com",
-      availableLanguage: ["en", "zh", "ar", "ru", "ja", "ko", "th", "vi", "id", "hi", "es"],
+      availableLanguage: ["English", "Chinese"],
+      areaServed: "Worldwide",
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "CN",
     },
     sameAs: [
       "https://www.tiktok.com/@miying_amusements",
       "https://www.youtube.com/@MiyingAmusementEquipment",
-      "https://wa.me/8613112959561",
     ],
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "CN",
-      addressLocality: "China",
-    },
   };
 
   const localBusinessSchema = {
@@ -90,12 +89,17 @@ export function StructuredDataServer({
   };
 
   // Product schemas
-  const productSchemas = products.map((product) => ({
+  const productSchemas = products.map((product, index) => ({
     "@context": "https://schema.org",
     "@type": "Product",
+    "@id": `${baseUrl}/products#product-${index}`,
     name: product.name,
     description: product.description || `${product.name} - ${product.category} amusement ride`,
-    category: product.category,
+    manufacturer: {
+      "@type": "Organization",
+      name: "Miying Amusement Equipment",
+    },
+    category: "Amusement Rides",
     image: product.image ? `${baseUrl}${product.image}` : `${baseUrl}/logo.jpg`,
     brand: {
       "@type": "Brand",
@@ -105,6 +109,7 @@ export function StructuredDataServer({
       "@type": "Offer",
       availability: "https://schema.org/InStock",
       priceCurrency: "USD",
+      priceValidUntil: "2025-12-31",
       url: `${baseUrl}/products`,
     },
   }));

@@ -63,13 +63,13 @@ export default function CasesPage() {
           <PageHero
             headline={
               lang === "zh"
-                ? "成功案例展示"
-                : "Our Success Stories"
+                ? "主题公园设备案例研究 | 游乐设备制造商项目展示"
+                : "Theme Park Equipment Case Studies | Amusement Rides Manufacturer Projects"
             }
             subhead={
               lang === "zh"
-                ? "探索我们在全球各地的成功项目，了解我们如何帮助客户实现他们的愿景。"
-                : "Explore our successful projects around the world and see how we help clients bring their visions to life."
+                ? "作为领先的游乐设备制造商和主题公园设备供应商，我们已在全球50多个国家完成500+成功项目。探索我们的主题公园设备案例研究，了解我们如何帮助FEC和主题公园客户实现他们的愿景。"
+                : "As a leading amusement rides manufacturer and theme park equipment supplier, we've completed 500+ successful projects across 50+ countries. Explore our theme park equipment case studies and see how we help FEC and theme park clients bring their visions to life."
             }
           />
         </div>
@@ -78,7 +78,7 @@ export default function CasesPage() {
       {/* Global Map Section */}
       <Section
         id="global-map"
-        title={lang === "zh" ? "全球项目分布" : "Global Project Distribution"}
+        title={lang === "zh" ? "国际游乐设备供应商全球项目分布" : "International Amusement Rides Supplier Global Projects"}
         subtitle={
           lang === "zh"
             ? "查看 Miying 在全球各地的项目分布，点击国家查看详细案例"
@@ -95,7 +95,7 @@ export default function CasesPage() {
       {/* Statistics Section */}
       <Section
         id="case-stats"
-        title={lang === "zh" ? "案例统计" : "Case Statistics"}
+        title={lang === "zh" ? "ISO认证游乐设备制造商案例统计" : "ISO Certified Amusement Rides Manufacturer Statistics"}
         subtitle={
           lang === "zh"
             ? "我们的成功案例遍布全球，为各种类型的项目提供专业解决方案"
@@ -129,7 +129,7 @@ export default function CasesPage() {
       {/* Filter Section */}
       <Section
         id="cases"
-        title={lang === "zh" ? "项目案例" : "Project Cases"}
+        title={lang === "zh" ? "主题公园设备安装服务案例" : "Theme Park Equipment Installation Services Cases"}
         subtitle={
           lang === "zh"
             ? "从主题公园到家庭娱乐中心，我们为全球客户提供专业的解决方案。"

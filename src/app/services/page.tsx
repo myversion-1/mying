@@ -24,8 +24,8 @@ export default function ServicesPage() {
       <div className="mx-auto max-w-6xl px-4 md:px-8">
         <div className="my-10">
           <PageHero
-            headline="End-to-end ride support: sourcing, appraisal, refurbishment, assembly."
-            subhead="Modeled after industry leaders, we help you choose, acquire, and deploy rides with clear documentation and timelines."
+            headline={lang === "zh" ? "游乐设备安装服务 | 主题公园设备供应商服务" : "Amusement Ride Installation Services | Theme Park Equipment Supplier Services"}
+            subhead={lang === "zh" ? "作为领先的游乐设备制造商和主题公园设备供应商，我们提供端到端的游乐设备安装服务，包括采购咨询、设备评估、翻新服务和组装服务。我们帮助您选择、采购和部署游乐设备，提供清晰的文档和时间表。" : "As a leading amusement rides manufacturer and theme park equipment supplier, we provide end-to-end amusement ride installation services including sourcing consultation, equipment appraisal, refurbishment services, and assembly services. We help you choose, acquire, and deploy rides with clear documentation and timelines."}
             ctaPrimaryHref="/contact"
             ctaSecondaryHref="/products"
             badge={c.pageBadges.serviceSuite}
@@ -33,7 +33,7 @@ export default function ServicesPage() {
         </div>
       </div>
 
-      <Section title="Service catalog">
+      <Section title={lang === "zh" ? "游乐设备安装服务目录" : "Amusement Ride Installation Services Catalog"}>
         <div className="grid gap-4 md:grid-cols-2">
           {services.map((service) => {
             const requiresConsultation = consultationServices.includes(service.title);
@@ -71,7 +71,7 @@ export default function ServicesPage() {
       </Section>
 
       <Section
-        title={lang === "zh" ? "服务流程" : "Service Process"}
+        title={lang === "zh" ? "主题公园设备供应商服务流程" : "Theme Park Equipment Supplier Service Process"}
         subtitle={lang === "zh" ? "从市场调研到售后支持，一站式解决方案" : "From market research to after-sales support, one-stop solutions"}
       >
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

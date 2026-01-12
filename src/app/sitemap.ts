@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { productsMultilingual } from "../content/products_multilingual";
+import { getMainCategories } from "../content/product-categories";
 
 /**
  * Generate slug from product name (English version)
@@ -26,14 +27,66 @@ export default function sitemap(): MetadataRoute.Sitemap {
   
   // Main routes
   const mainRoutes = [
-    "",
-    "/about",
-    "/services",
-    "/products",
-    "/cases",
-    "/blog",
-    "/contact",
-    "/visit",
+    {
+      path: "",
+      priority: 1,
+      changeFrequency: "weekly" as const,
+    },
+    {
+      path: "/products",
+      priority: 0.9,
+      changeFrequency: "weekly" as const,
+    },
+    {
+      path: "/products/compare",
+      priority: 0.7,
+      changeFrequency: "monthly" as const,
+    },
+    {
+      path: "/services",
+      priority: 0.8,
+      changeFrequency: "monthly" as const,
+    },
+    {
+      path: "/cases",
+      priority: 0.8,
+      changeFrequency: "monthly" as const,
+    },
+    {
+      path: "/resources",
+      priority: 0.8,
+      changeFrequency: "monthly" as const,
+    },
+    {
+      path: "/glossary",
+      priority: 0.7,
+      changeFrequency: "monthly" as const,
+    },
+    {
+      path: "/faq",
+      priority: 0.7,
+      changeFrequency: "monthly" as const,
+    },
+    {
+      path: "/about",
+      priority: 0.7,
+      changeFrequency: "monthly" as const,
+    },
+    {
+      path: "/blog",
+      priority: 0.7,
+      changeFrequency: "weekly" as const,
+    },
+    {
+      path: "/contact",
+      priority: 0.6,
+      changeFrequency: "monthly" as const,
+    },
+    {
+      path: "/visit",
+      priority: 0.6,
+      changeFrequency: "monthly" as const,
+    },
   ];
 
   // Language variants
@@ -49,14 +102,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       
       // Build URL - always use ? for query parameter (routes don't have existing params)
       const langUrl = isDefault 
-        ? `${baseUrl}${route}`
-        : `${baseUrl}${route}?lang=${lang}`;
+        ? `${baseUrl}${route.path}`
+        : `${baseUrl}${route.path}?lang=${lang}`;
 
       entries.push({
         url: langUrl,
         lastModified: new Date(),
-        changeFrequency: route === "" ? "weekly" : "monthly",
-        priority: route === "" ? 1 : 0.8,
+        changeFrequency: route.changeFrequency,
+        priority: route.priority,
       });
     });
   });
@@ -75,6 +128,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: new Date(),
         changeFrequency: "monthly",
         priority: 0.7, // Slightly lower than main pages but still important
+      });
+    });
+  });
+
+  // Add category pages
+  const mainCategories = getMainCategories();
+  mainCategories.forEach((category) => {
+    const categorySlug = category.toLowerCase().replace(/\s+/g, "-");
+    languages.forEach((lang) => {
+      const isDefault = lang === "en";
+      const categoryUrl = isDefault
+        ? `${baseUrl}/products/category/${categorySlug}`
+        : `${baseUrl}/products/category/${categorySlug}?lang=${lang}`;
+
+      entries.push({
+        url: categoryUrl,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.8,
       });
     });
   });

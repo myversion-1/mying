@@ -82,6 +82,101 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SEO Content Section - Why Global Theme Parks Choose Miying */}
+      <Section
+        id="why-choose-miying"
+        title={lang === "zh" ? "为什么全球主题公园选择米盈设备" : "Why Global Theme Parks Choose Miying Equipment"}
+      >
+        <div className="space-y-12">
+          {/* Industry-Leading Manufacturing Standards */}
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-8 md:p-10">
+            <h2 className="mb-4 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">
+              {lang === "zh" ? "ISO认证游乐设备制造商标准" : "ISO Certified Amusement Rides Manufacturer Standards"}
+            </h2>
+            <p className="mb-4 leading-relaxed text-[var(--text-secondary)]">
+              {lang === "zh" 
+                ? "作为领先的游乐设备制造商和主题公园设备供应商，米盈在游乐设备行业拥有超过15年的经验，已成为50多个国家FEC（家庭娱乐中心）和主题公园值得信赖的合作伙伴。我们的ISO 9001认证制造工厂确保每台设备都符合国际安全标准，包括CE、ASTM和EN认证。我们提供从标准型号到完全定制设计的全方位解决方案，支持全球交付和安装服务。"
+                : "As a leading amusement rides manufacturer and theme park equipment supplier, Miying has over 15 years of experience serving FECs (Family Entertainment Centers) and theme parks across 50+ countries. Our ISO 9001 certified manufacturing facility ensures every ride meets international safety standards including CE, ASTM, and EN certifications. We offer comprehensive solutions from standard models to fully custom designs, with global delivery and installation services."}
+            </p>
+            <ul className="space-y-2 text-[var(--text-secondary)]">
+              {(lang === "zh" 
+                ? ["ISO 9001质量管理体系认证", "CE欧洲安全标准认证", "ASTM F24美国安全标准认证", "EN 13814欧洲游乐设备安全标准"]
+                : ["ISO 9001 Quality Management System Certification", "CE European Safety Standards Certification", "ASTM F24 US Safety Standards Certification", "EN 13814 European Amusement Ride Safety Standards"]
+              ).map((item, index) => (
+                <li key={index} className="flex items-start gap-3">
+                  <svg className="mt-1 h-5 w-5 shrink-0 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Comprehensive Product Range */}
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-8 md:p-10">
+            <h2 className="mb-4 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">
+              {lang === "zh" ? "主题公园设备供应商产品目录" : "Theme Park Equipment Supplier Product Catalog"}
+            </h2>
+            <p className="mb-4 leading-relaxed text-[var(--text-secondary)]">
+              {lang === "zh"
+                ? "从经典的旋转木马和碰碰车到刺激的过山车和现代VR景点，我们的产品目录涵盖了主题公园的完整需求。无论您是启动新的家庭娱乐中心还是扩展现有主题公园，我们都提供交钥匙解决方案。"
+                : "From classic carousels and bumper cars to thrilling roller coasters and modern VR attractions, our catalog covers the complete spectrum of amusement park needs. Whether you're launching a new family entertainment center or expanding an existing theme park, we provide turnkey solutions."}
+            </p>
+            <div className="grid gap-4 md:grid-cols-2">
+              {(lang === "zh"
+                ? ["家庭游乐设备：旋转木马、碰碰车、小火车", "刺激游乐设备：过山车、跳楼机、大摆锤", "水上设备：水滑梯、造浪池设备", "VR/AR互动体验设备"]
+                : ["Family Rides: Carousels, Bumper Cars, Mini Trains", "Thrill Rides: Roller Coasters, Drop Towers, Swing Rides", "Water Rides: Water Slides, Wave Pool Equipment", "VR/AR Interactive Experience Equipment"]
+              ).map((item, index) => (
+                <div key={index} className="flex items-start gap-3 rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] p-4">
+                  <svg className="mt-1 h-5 w-5 shrink-0 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="text-[var(--text-secondary)]">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* End-to-End Project Support */}
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-8 md:p-10">
+            <h2 className="mb-4 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">
+              {lang === "zh" ? "游乐设备安装服务和售后支持" : "Amusement Ride Installation Services & Support"}
+            </h2>
+            <p className="mb-6 leading-relaxed text-[var(--text-secondary)]">
+              {lang === "zh"
+                ? "我们的服务不仅限于设备交付。我们提供完整的支持，包括："
+                : "Our service doesn't end with equipment delivery. We provide complete support including:"}
+            </p>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {(lang === "zh"
+                ? [
+                    { title: "场地规划", desc: "场地规划和布局优化" },
+                    { title: "安装监督", desc: "安装监督和操作培训" },
+                    { title: "备件供应", desc: "备件供应链管理" },
+                    { title: "预防性维护", desc: "预防性维护计划" },
+                    { title: "设备翻新", desc: "设备翻新和升级服务" },
+                    { title: "技术支持", desc: "24/7技术支持和远程诊断" },
+                  ]
+                : [
+                    { title: "Site Planning", desc: "Site planning and layout optimization" },
+                    { title: "Installation Supervision", desc: "Installation supervision and training" },
+                    { title: "Spare Parts Supply", desc: "Spare parts supply chain management" },
+                    { title: "Preventive Maintenance", desc: "Preventive maintenance programs" },
+                    { title: "Equipment Refurbishment", desc: "Equipment refurbishment and upgrades" },
+                    { title: "Technical Support", desc: "24/7 technical support and remote diagnostics" },
+                  ]
+              ).map((item, index) => (
+                <div key={index} className="rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] p-5">
+                  <h4 className="mb-2 font-semibold text-[var(--text-primary)]">{item.title}</h4>
+                  <p className="text-sm text-[var(--text-secondary)]">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* Trust Layer - Comprehensive Social Proof */}
       <TrustLayer 
         variant="full"

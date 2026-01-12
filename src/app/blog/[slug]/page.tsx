@@ -13,6 +13,9 @@ import { PDFDownloadCTA } from "../../../components/blog/PDFDownloadCTA";
 import { BlogContentWithComponents } from "./BlogContentWithComponents";
 import { RetailStatsSidebar } from "../../../components/blog/RetailStatsSidebar";
 import { SpatialAuditForm } from "../../../components/blog/SpatialAuditForm";
+import { BlogPostingSchema } from "../../../components/BlogPostingSchema";
+import { getProducts } from "../../../content/copy";
+import { productsMultilingual } from "../../../content/products_multilingual";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -216,10 +219,33 @@ export default function BlogPostPage({ params }: Props) {
     "Professional B2B solutions maximize revenue potential in limited spaces",
   ];
 
+  // Get base URL for structured data
+  const baseUrl = typeof window !== "undefined"
+    ? window.location.origin
+    : process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
+
+  // Get related products for internal linking
+  const allProducts = getProducts(lang);
+  const relatedProducts = allProducts
+    .filter((p) => {
+      // Match products by category or tags
+      const postTags = post.tags?.join(" ").toLowerCase() || "";
+      const productMatches = 
+        postTags.includes(p.category.toLowerCase()) ||
+        postTags.includes(p.mainCategory?.toLowerCase() || "") ||
+        post.title.toLowerCase().includes(p.category.toLowerCase());
+      return productMatches;
+    })
+    .slice(0, 3);
+
   return (
-    <div className="space-y-16 py-8 md:py-12">
-      {/* Article Header */}
-      <article className={`mx-auto max-w-4xl px-4 md:px-8 rounded-2xl p-6 md:p-8 ${isCornerStrategyPost(post.id) ? "bg-transparent" : "bg-[var(--dark-bg-base)]/50"}`}>
+    <>
+      {/* BlogPosting Schema for SEO */}
+      <BlogPostingSchema post={post} baseUrl={baseUrl} />
+      
+      <div className="space-y-16 py-8 md:py-12">
+        {/* Article Header */}
+        <article className={`mx-auto max-w-4xl px-4 md:px-8 rounded-2xl p-6 md:p-8 ${isCornerStrategyPost(post.id) ? "bg-transparent" : "bg-[var(--dark-bg-base)]/50"}`}>
         {/* Back to Blog */}
         <Link
           href="/blog"
@@ -386,6 +412,54 @@ export default function BlogPostPage({ params }: Props) {
         )}
       </article>
 
+      {/* Related Products - SEO Internal Linking */}
+      {relatedProducts.length > 0 && (
+        <div className="mx-auto max-w-6xl px-4 md:px-8">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
+            <h2 className="mb-6 font-serif text-2xl font-semibold text-white md:text-3xl">
+              {lang === "zh" ? "相关产品" : "Related Products"}
+            </h2>
+            <div className="grid gap-4 md:grid-cols-3">
+              {relatedProducts.map((product) => {
+                const productSlug = productsMultilingual
+                  .find((p) => p.name.en === product.name || p.name.zh === product.name)
+                  ?.name.en.toLowerCase()
+                  .replace(/[^\w\s-]/g, "")
+                  .replace(/\s+/g, "-")
+                  .replace(/-+/g, "-")
+                  .replace(/^-|-$/g, "") || `product-${product.name}`;
+
+                return (
+                  <Link
+                    key={product.name}
+                    href={`/products/${productSlug}`}
+                    className="group rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-[var(--accent-secondary)]/30 hover:bg-white/10 touch-manipulation"
+                  >
+                    {product.image && (
+                      <div className="relative mb-3 aspect-video overflow-hidden rounded-lg">
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          fill
+                          className="object-cover transition-transform group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 300px"
+                        />
+                      </div>
+                    )}
+                    <h3 className="mb-2 font-semibold text-white transition group-hover:text-[var(--accent-primary)]">
+                      {product.name}
+                    </h3>
+                    <p className="text-sm text-[var(--dark-bg-text-secondary)]">
+                      {product.category}
+                    </p>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Related Posts */}
       {latestPosts.length > 0 && (
         <div className="mx-auto max-w-6xl px-4 md:px-8">
@@ -416,5 +490,6 @@ export default function BlogPostPage({ params }: Props) {
         </div>
       )}
     </div>
+    </>
   );
 }

@@ -38,12 +38,21 @@ const crimsonText = Crimson_Text({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app"),
   title: {
-    default: "Buy Amusement Rides | Theme Park Equipment Manufacturer | Get Quote",
-    template: "%s | Miying Rides",
+    default: "Amusement Rides Manufacturer | Theme Park Equipment Supplier",
+    template: "%s | Miying",
   },
   description:
-    "Buy amusement rides from certified manufacturer. Factory-tested theme park equipment for FECs & theme parks. Get instant quote for carousel rides, roller coasters, water rides. Global delivery, EN 13814 compliant. Request pricing & technical specifications.",
+    "Leading amusement rides manufacturer supplying FECs and theme parks globally. Factory-tested safety, custom solutions, worldwide delivery. ISO certified with 500+ installations.",
   keywords: [
+    // High Priority Commercial Keywords
+    "amusement rides manufacturer",
+    "theme park equipment supplier",
+    "FEC rides for sale",
+    "carnival rides factory",
+    "amusement park equipment manufacturer",
+    "buy theme park rides",
+    "commercial amusement rides",
+    
     // Core Keywords
     "amusement rides",
     "theme park rides",
@@ -54,13 +63,24 @@ export const metadata: Metadata = {
     "carnival rides",
     
     // Manufacturer & Supplier
-    "amusement ride manufacturer",
-    "theme park equipment supplier",
     "amusement ride factory",
     "ride manufacturer China",
     "amusement equipment supplier",
     "theme park rides manufacturer",
     "carnival equipment supplier",
+    
+    // Long-tail Keywords (Medium Priority)
+    "used amusement rides for sale",
+    "custom theme park rides manufacturer",
+    "amusement ride installation services",
+    "theme park equipment financing",
+    "ISO certified amusement rides",
+    "amusement ride refurbishment services",
+    
+    // Geographic Keywords
+    "amusement rides manufacturer China",
+    "theme park equipment exporter Asia",
+    "international amusement rides supplier",
     
     // Product Types
     "carousel rides",
@@ -166,7 +186,6 @@ export const metadata: Metadata = {
     // bing: "your-bing-verification-code",
   },
   // Performance optimization: Preconnect to external domains
-  // Note: Resource hints should be in <head> tag, not in metadata.other
   other: {
     "google-site-verification": "vviaZwKjyQ-TUZK-khVTefSUq_ecF8H0o0Wwwj1_u7g",
   },
@@ -206,6 +225,14 @@ export default function RootLayout({
   // Default to English, will be updated by DirectionProvider on client
   return (
     <html lang="en" dir="ltr" className="dark" suppressHydrationWarning>
+      <head>
+        {/* Performance optimization: Preconnect to external domains */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://wa.me" />
+        <link rel="dns-prefetch" href="https://www.tiktok.com" />
+        <link rel="dns-prefetch" href="https://www.youtube.com" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${crimsonText.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
         suppressHydrationWarning

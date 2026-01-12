@@ -42,7 +42,7 @@ export function ScrollToTop() {
       onClick={scrollToTop}
       aria-label={lang === "zh" ? "返回顶部" : "Scroll to top"}
       className={`
-        fixed bottom-20 right-4 md:bottom-6 md:right-6 z-50
+        fixed bottom-20 left-4 md:bottom-6 md:left-6 z-50
         flex items-center justify-center
         w-12 h-12 md:w-14 md:h-14
         rounded-full

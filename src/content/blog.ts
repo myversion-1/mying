@@ -83,6 +83,257 @@ export const blogPosts: BlogPost[] = [
     featured: false,
   },
   {
+    id: "buyer-guide-fec-rides",
+    title: "Ultimate Buyer's Guide: How to Choose Amusement Rides for Your FEC",
+    titleEn: "Ultimate Buyer's Guide: How to Choose Amusement Rides for Your FEC",
+    titleZh: "终极购买指南：如何为您的FEC选择游乐设备",
+    slug: "ultimate-buyers-guide-choose-amusement-rides-fec",
+    date: "2025-01-20",
+    category: "Technical Articles",
+    categoryEn: "Technical Articles",
+    categoryZh: "技术文章",
+    excerpt: "Complete guide to selecting the right amusement rides for Family Entertainment Centers. Learn about capacity planning, space requirements, ROI analysis, and safety considerations.",
+    excerptEn: "Complete guide to selecting the right amusement rides for Family Entertainment Centers. Learn about capacity planning, space requirements, ROI analysis, and safety considerations.",
+    excerptZh: "为家庭娱乐中心选择合适游乐设备的完整指南。了解容量规划、空间要求、投资回报率分析和安全考虑。",
+    image: "/blog/new-products.jpg",
+    readTime: "12 min",
+    author: "Miying Team",
+    tags: ["buyer guide", "FEC", "amusement rides", "equipment selection", "ROI"],
+    featured: true,
+    metaDescription: "Complete guide to choosing amusement rides for FECs. Learn about capacity planning, space optimization, ROI analysis, and safety standards. Expert tips from industry leaders.",
+    keyTakeaways: [
+      "Capacity planning is critical: calculate riders per hour based on cycle time and throughput",
+      "Space optimization: measure ceiling height, floor area, and access points before selecting rides",
+      "ROI analysis: consider initial investment, operating costs, and revenue potential over 3-5 years",
+      "Safety first: ensure all rides meet EN 13814, ASTM F24, or CE standards",
+      "Work with experienced manufacturers who provide installation support and after-sales service",
+    ],
+    content: `<h2>Introduction</h2>
+<p>Choosing the right amusement rides for your Family Entertainment Center (FEC) is one of the most critical decisions you'll make as an operator. With hundreds of options available, from classic carousels to cutting-edge VR attractions, the selection process can be overwhelming. This comprehensive guide will walk you through every step of the decision-making process, helping you avoid costly mistakes and maximize your <strong>ROI</strong>.</p>
+
+<p>Whether you're launching a new FEC or expanding an existing facility, this guide covers capacity planning, space optimization, safety compliance, and financial analysis. By the end, you'll have a clear framework for selecting equipment that aligns with your venue's constraints, target audience, and revenue goals.</p>
+
+<h2>Understanding Your Venue Requirements</h2>
+<h3>Space Assessment</h3>
+<p>Before selecting any amusement rides, conduct a thorough space assessment. Measure your available floor area, ceiling height, and access points. Consider both the ride's footprint and the required safety zones around it. For indoor venues, ceiling height is particularly critical—many rides require 6-8 meters of clearance, while <a href="/products/category/family-rides">low-height family rides</a> can operate in spaces as low as 4.5 meters.</p>
+
+<h3>Power and Infrastructure</h3>
+<p>Evaluate your electrical capacity. Most amusement rides require 10-100 kW of power, depending on size and complexity. Ensure your venue's electrical system can support the additional load. Also consider water supply for water rides, ventilation requirements, and fire safety compliance.</p>
+
+<h2>Capacity Planning and Throughput Analysis</h2>
+<h3>Calculating Riders Per Hour</h3>
+<p>Capacity planning is essential for revenue optimization. Calculate potential riders per hour using this formula:</p>
+<p><strong>Riders per hour = (Ride capacity × 60 minutes) / Cycle time</strong></p>
+<p>For example, a ride with 24 seats and a 3-minute cycle time can accommodate 480 riders per hour. However, factor in loading/unloading time and operational efficiency—real-world throughput is typically 70-80% of theoretical maximum.</p>
+
+<h3>Peak Hour Considerations</h3>
+<p>Design your ride mix to handle peak traffic periods. A combination of high-capacity family rides and lower-capacity thrill rides ensures optimal space utilization throughout the day. Consider <a href="/products">family rides</a> for consistent revenue and thrill rides for premium pricing during peak hours.</p>
+
+<h2>ROI Analysis: Making the Financial Case</h2>
+<h3>Initial Investment vs. Operating Costs</h3>
+<p>When evaluating amusement rides, consider the total cost of ownership:</p>
+<ul>
+<li><strong>Initial Investment:</strong> Equipment cost, shipping, customs, installation</li>
+<li><strong>Operating Costs:</strong> Electricity, maintenance, insurance, staffing</li>
+<li><strong>Revenue Potential:</strong> Ticket pricing, utilization rate, seasonal variations</li>
+</ul>
+
+<h3>Payback Period Calculation</h3>
+<p>Calculate payback period using this formula:</p>
+<p><strong>Payback Period (months) = Initial Investment / (Monthly Revenue - Monthly Operating Costs)</strong></p>
+<p>Most family rides achieve payback in 12-24 months for well-operated FECs. Thrill rides may take 18-36 months but command higher ticket prices.</p>
+
+<h3>Long-Term Value</h3>
+<p>Consider equipment lifespan and resale value. Well-maintained rides can operate for 15-20 years with proper care. Factor in depreciation and potential refurbishment costs when calculating long-term <strong>ROI</strong>.</p>
+
+<h2>Safety and Compliance Standards</h2>
+<h3>International Safety Standards</h3>
+<p>Ensure all rides meet international safety standards:</p>
+<ul>
+<li><strong>EN 13814:</strong> European standard for amusement ride safety</li>
+<li><strong>ASTM F24:</strong> US standard for amusement ride design and operation</li>
+<li><strong>CE Marking:</strong> Required for European market entry</li>
+</ul>
+<p>Work with manufacturers who provide complete certification documentation. Request copies of test reports, inspection certificates, and compliance statements before purchase.</p>
+
+<h3>Local Regulations</h3>
+<p>Research local regulations in your market. Some jurisdictions require additional inspections, permits, or insurance coverage. Factor compliance costs into your budget and timeline.</p>
+
+<h2>Selecting the Right Ride Mix</h2>
+<h3>Family Rides: The Foundation</h3>
+<p><a href="/products?mainCategory=Family%20Rides">Family rides</a> form the backbone of most successful FECs. These rides appeal to all ages and generate consistent revenue throughout operating hours. Popular choices include carousels, bumper cars, and mini trains.</p>
+
+<h3>Thrill Rides: Premium Revenue</h3>
+<p><a href="/products?mainCategory=Thrill%20Rides">Thrill rides</a> attract teenagers and adults willing to pay premium prices. While they have lower capacity, they command higher ticket prices and create memorable experiences that drive repeat visits.</p>
+
+<h3>Kiddie Rides: Family Appeal</h3>
+<p><a href="/products?mainCategory=Kiddie%20Rides">Kiddie rides</a> are essential for attracting families with young children. These smaller rides require less space and power, making them ideal for filling underutilized areas.</p>
+
+<h2>Working with Manufacturers</h2>
+<h3>Installation and Training Support</h3>
+<p>Choose manufacturers who provide comprehensive installation support and operator training. Professional installation ensures safety compliance and optimal performance. Training programs help your staff operate rides safely and efficiently.</p>
+
+<h3>After-Sales Service</h3>
+<p>Evaluate manufacturers' after-sales support capabilities:</p>
+<ul>
+<li>Spare parts availability and lead times</li>
+<li>Technical support response time</li>
+<li>Maintenance service availability</li>
+<li>Warranty coverage and terms</li>
+</ul>
+<p>Our <a href="/services">comprehensive service package</a> includes installation supervision, operator training, and ongoing technical support.</p>
+
+<h2>Key Takeaways</h2>
+<ul>
+<li>Conduct thorough space and infrastructure assessments before selecting rides</li>
+<li>Calculate capacity and throughput to optimize revenue potential</li>
+<li>Perform detailed ROI analysis including total cost of ownership</li>
+<li>Ensure all equipment meets international safety standards (EN 13814, ASTM F24, CE)</li>
+<li>Select a balanced ride mix that serves all age groups and traffic patterns</li>
+<li>Partner with manufacturers offering installation support and after-sales service</li>
+</ul>
+
+<h2>Next Steps</h2>
+<p>Ready to select the perfect rides for your FEC? Download our <a href="/resources">Equipment Selection Guide</a> for detailed specifications and planning templates, or <a href="/contact">contact our team</a> for personalized consultation and layout suggestions.</p>
+
+<p>Our experts can help you analyze your venue constraints, calculate ROI projections, and recommend the optimal ride mix for your market. Schedule a consultation today to get started.</p>`,
+  },
+  {
+    id: "new-vs-used-equipment",
+    title: "New vs. Used Amusement Equipment: Complete Cost-Benefit Analysis",
+    titleEn: "New vs. Used Amusement Equipment: Complete Cost-Benefit Analysis",
+    titleZh: "新旧游乐设备对比：完整的成本效益分析",
+    slug: "new-vs-used-amusement-equipment-cost-benefit-analysis",
+    date: "2025-01-15",
+    category: "Technical Articles",
+    categoryEn: "Technical Articles",
+    categoryZh: "技术文章",
+    excerpt: "Detailed comparison of new vs. used amusement equipment. Analyze total cost of ownership, maintenance requirements, warranty coverage, and long-term value.",
+    excerptEn: "Detailed comparison of new vs. used amusement equipment. Analyze total cost of ownership, maintenance requirements, warranty coverage, and long-term value.",
+    excerptZh: "新旧游乐设备的详细对比。分析总拥有成本、维护要求、保修覆盖范围和长期价值。",
+    image: "/blog/refurbishment-hero.jpg",
+    readTime: "10 min",
+    author: "Miying Team",
+    tags: ["used equipment", "cost analysis", "equipment comparison", "TCO", "warranty"],
+    featured: true,
+    metaDescription: "Compare new vs. used amusement equipment. Analyze total cost of ownership, maintenance, warranty, and ROI. Make informed purchasing decisions.",
+    keyTakeaways: [
+      "New equipment: higher upfront cost but includes warranty, latest safety features, and full manufacturer support",
+      "Used equipment: 40-60% cost savings but requires thorough inspection and may need refurbishment",
+      "Total cost of ownership: factor in maintenance, spare parts availability, and potential downtime",
+      "Warranty coverage: new equipment typically includes 12-24 months, used equipment may have limited or no warranty",
+      "ROI timeline: new equipment may have faster payback due to higher reliability and lower maintenance costs",
+    ],
+  },
+  {
+    id: "hidden-costs-importing",
+    title: "10 Hidden Costs When Importing Amusement Rides (And How to Avoid Them)",
+    titleEn: "10 Hidden Costs When Importing Amusement Rides (And How to Avoid Them)",
+    titleZh: "进口游乐设备的10个隐藏成本（以及如何避免）",
+    slug: "10-hidden-costs-importing-amusement-rides-avoid-them",
+    date: "2025-01-10",
+    category: "Technical Articles",
+    categoryEn: "Technical Articles",
+    categoryZh: "技术文章",
+    excerpt: "Discover the hidden costs of importing amusement rides from overseas manufacturers. Learn how to budget for customs, shipping, installation, and compliance.",
+    excerptEn: "Discover the hidden costs of importing amusement rides from overseas manufacturers. Learn how to budget for customs, shipping, installation, and compliance.",
+    excerptZh: "了解从海外制造商进口游乐设备的隐藏成本。学习如何为海关、运输、安装和合规性做预算。",
+    image: "/blog/factory-expansion.jpg",
+    readTime: "8 min",
+    author: "Miying Team",
+    tags: ["importing", "shipping", "customs", "hidden costs", "budgeting"],
+    featured: false,
+    metaDescription: "Learn about hidden costs when importing amusement rides: customs duties, shipping insurance, installation, and compliance. Budget planning guide.",
+    keyTakeaways: [
+      "Customs duties and import taxes: typically 5-15% of equipment value, varies by country",
+      "Shipping insurance: essential for high-value equipment, adds 1-2% to total cost",
+      "Installation and commissioning: factor in technician travel, accommodation, and training costs",
+      "Compliance and certification: local safety standards may require additional testing and documentation",
+      "Currency fluctuations: use forward contracts or fixed-price agreements to mitigate risk",
+    ],
+  },
+  {
+    id: "astm-f24-standards",
+    title: "Understanding ASTM F24 Standards for Amusement Ride Safety",
+    titleEn: "Understanding ASTM F24 Standards for Amusement Ride Safety",
+    titleZh: "了解ASTM F24游乐设备安全标准",
+    slug: "understanding-astm-f24-standards-amusement-ride-safety",
+    date: "2024-12-28",
+    category: "Technical Articles",
+    categoryEn: "Technical Articles",
+    categoryZh: "技术文章",
+    excerpt: "Comprehensive guide to ASTM F24 safety standards for amusement rides. Learn about design requirements, testing procedures, and compliance certification.",
+    excerptEn: "Comprehensive guide to ASTM F24 safety standards for amusement rides. Learn about design requirements, testing procedures, and compliance certification.",
+    excerptZh: "ASTM F24游乐设备安全标准综合指南。了解设计要求、测试程序和合规认证。",
+    image: "/blog/safety-standards.jpg",
+    readTime: "9 min",
+    author: "Technical Team",
+    tags: ["ASTM F24", "safety standards", "compliance", "certification", "testing"],
+    featured: false,
+    metaDescription: "Complete guide to ASTM F24 safety standards for amusement rides. Design requirements, testing procedures, and compliance certification explained.",
+    keyTakeaways: [
+      "ASTM F24 is the US standard for amusement ride safety, covering design, manufacturing, and operation",
+      "Key requirements: structural integrity, restraint systems, emergency stops, and load testing",
+      "Testing procedures: static load tests, dynamic tests, and operational safety inspections",
+      "Certification process: third-party inspection and documentation required for US market entry",
+      "Compliance benefits: reduced liability, insurance discounts, and market access",
+    ],
+  },
+  {
+    id: "roi-profitable-rides",
+    title: "ROI Analysis: Most Profitable Amusement Rides for Small Parks",
+    titleEn: "ROI Analysis: Most Profitable Amusement Rides for Small Parks",
+    titleZh: "投资回报率分析：小型公园最赚钱的游乐设备",
+    slug: "roi-analysis-most-profitable-amusement-rides-small-parks",
+    date: "2024-12-15",
+    category: "Technical Articles",
+    categoryEn: "Technical Articles",
+    categoryZh: "技术文章",
+    excerpt: "Data-driven analysis of ROI for different amusement ride types. Discover which rides generate the highest revenue per square meter for small parks.",
+    excerptEn: "Data-driven analysis of ROI for different amusement ride types. Discover which rides generate the highest revenue per square meter for small parks.",
+    excerptZh: "不同类型游乐设备投资回报率的数据驱动分析。发现哪些设备为小型公园产生最高的每平方米收入。",
+    image: "/blog/trends-2025.jpg",
+    readTime: "11 min",
+    author: "Miying Team",
+    tags: ["ROI", "profitability", "small parks", "revenue analysis", "space efficiency"],
+    featured: true,
+    metaDescription: "ROI analysis of amusement rides for small parks. Compare revenue potential, space efficiency, and payback periods. Data-driven insights.",
+    keyTakeaways: [
+      "Family rides typically have 12-18 month payback periods for small parks",
+      "High-capacity rides (30+ passengers) generate better revenue per square meter",
+      "Indoor rides have higher utilization rates (80-90%) vs. outdoor rides (60-70%)",
+      "Themed rides command 15-25% premium pricing over standard models",
+      "Regular maintenance extends ride lifespan and maintains revenue consistency",
+    ],
+  },
+  {
+    id: "maintenance-best-practices",
+    title: "Maintenance Best Practices to Extend Amusement Ride Lifespan",
+    titleEn: "Maintenance Best Practices to Extend Amusement Ride Lifespan",
+    titleZh: "维护最佳实践：延长游乐设备使用寿命",
+    slug: "maintenance-best-practices-extend-amusement-ride-lifespan",
+    date: "2024-12-05",
+    category: "Technical Articles",
+    categoryEn: "Technical Articles",
+    categoryZh: "技术文章",
+    excerpt: "Expert maintenance strategies to maximize amusement ride lifespan. Learn about daily inspections, preventive maintenance schedules, and spare parts management.",
+    excerptEn: "Expert maintenance strategies to maximize amusement ride lifespan. Learn about daily inspections, preventive maintenance schedules, and spare parts management.",
+    excerptZh: "最大化游乐设备使用寿命的专家维护策略。了解日常检查、预防性维护计划和备件管理。",
+    image: "/blog/sustainability.jpg",
+    readTime: "7 min",
+    author: "Technical Team",
+    tags: ["maintenance", "lifespan", "preventive maintenance", "spare parts", "inspection"],
+    featured: false,
+    metaDescription: "Maintenance best practices for amusement rides. Daily inspections, preventive schedules, and spare parts management to extend equipment lifespan.",
+    keyTakeaways: [
+      "Daily inspections: check safety systems, restraints, and structural components before each operating day",
+      "Preventive maintenance: weekly lubrication, monthly component checks, annual comprehensive inspections",
+      "Spare parts inventory: maintain critical components on-site to minimize downtime",
+      "Documentation: keep detailed maintenance logs for warranty claims and resale value",
+      "Training: ensure operators are trained in basic maintenance and safety procedures",
+    ],
+  },
+  {
     id: "iaapa-2024",
     title: "Highlights from IAAPA Expo 2024",
     titleEn: "Highlights from IAAPA Expo 2024",
