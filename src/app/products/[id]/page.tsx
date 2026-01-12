@@ -233,6 +233,7 @@ export default function ProductPage({ params }: Props) {
               </div>
             )}
           </div>
+          </div>
         </div>
 
         {/* Not Recommended For - Only show if exists, as Ideal For is now in Decision Support */}

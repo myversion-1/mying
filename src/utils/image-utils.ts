@@ -61,3 +61,4 @@ export function hasNonASCIICharacters(imagePath: string): boolean {
   return /[^\x00-\x7F]/.test(imagePath);
 }
 
+

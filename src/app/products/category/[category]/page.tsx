@@ -70,7 +70,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
 
-  const lang: Lang = "en"; // Default to English, can be enhanced with language detection
+  const lang = "en" as Lang; // Default to English, can be enhanced with language detection
   const products = getProducts(lang);
   const categoryProducts = products.filter(p => p.mainCategory === category);
   const subCategories = getSubCategories(category);

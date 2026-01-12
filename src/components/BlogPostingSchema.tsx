@@ -24,7 +24,7 @@ export function BlogPostingSchema({
     headline: post.title,
     image: imageUrl,
     datePublished: post.date,
-    dateModified: post.dateModified || post.date,
+    dateModified: (post as any).dateModified || post.date,
     author: {
       "@type": "Organization",
       name: "Miying Amusement Equipment",

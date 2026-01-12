@@ -130,3 +130,4 @@ async function generateCertificationStatus(lang: Lang): Promise<SafetyCertificat
 
 
 
+

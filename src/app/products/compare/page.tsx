@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getProducts } from "../../../content/copy";
 import { getProductBySlug } from "../../../content/products_multilingual";
@@ -23,10 +23,15 @@ type ComparisonProduct = {
   mainCategory?: string;
   positioning?: string;
   safetyCompliance?: string[];
+  venueRequirements?: string;
+  powerSupply?: string;
+  status?: string;
+  year?: string;
+  badge?: string;
   [key: string]: any;
 };
 
-export default function ComparePage() {
+function ComparePageContent() {
   const { lang } = useLanguage();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -60,7 +65,7 @@ export default function ComparePage() {
             badge: product.badge,
           };
         })
-        .filter((p): p is ComparisonProduct => p !== null);
+        .filter((p) => p !== null) as ComparisonProduct[];
       setSelectedProducts(products);
     }
   }, [searchParams, lang]);
@@ -342,6 +347,18 @@ export default function ComparePage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ComparePage() {
+  return (
+    <Suspense fallback={
+      <div className="mx-auto max-w-6xl px-4 py-8 md:px-8 md:py-12">
+        <div className="text-center text-[var(--text-secondary)]">Loading...</div>
+      </div>
+    }>
+      <ComparePageContent />
+    </Suspense>
   );
 }
 
