@@ -205,7 +205,7 @@ export default function RootLayout({
 }>) {
   // Default to English, will be updated by DirectionProvider on client
   return (
-    <html lang="en" xmlLang="en" dir="ltr" className="dark" suppressHydrationWarning>
+    <html lang="en" dir="ltr" className="dark" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${crimsonText.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
         suppressHydrationWarning
