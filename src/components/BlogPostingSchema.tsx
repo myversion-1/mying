@@ -13,7 +13,7 @@ export function BlogPostingSchema({
   post,
   baseUrl = typeof window !== "undefined"
     ? window.location.origin
-    : "https://mying.vercel.app",
+    : "https://www.miyingrides.com",
 }: BlogPostingSchemaProps) {
   const postUrl = `${baseUrl}/blog/${post.slug}`;
   const imageUrl = post.image ? `${baseUrl}${post.image}` : `${baseUrl}/logo.jpg`;

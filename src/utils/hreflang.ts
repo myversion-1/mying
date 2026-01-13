@@ -55,7 +55,7 @@ export function generateHreflangAlternates(
   includeXDefault: boolean = true
 ): Metadata["alternates"] {
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.miyingrides.com";
 
   // Remove leading slash if present for consistent URL building
   const cleanPath = path.startsWith("/") ? path.slice(1) : path;
@@ -107,6 +107,8 @@ export function generateProductSlug(name: string): string {
     .replace(/-+/g, "-") // Replace multiple hyphens with single
     .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
 }
+
+
 
 
 

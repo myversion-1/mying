@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     const downloadUrl = downloadUrls[sanitizedAssetId] || "/resources/default.pdf";
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
                    request.headers.get("origin") || 
-                   "https://mying.vercel.app";
+                   "https://www.miyingrides.com";
     const fullDownloadUrl = `${baseUrl}${downloadUrl}`;
 
     // Format email content for lead notification

@@ -30,7 +30,7 @@ export async function generateMetadata({
   const alternates = generateHreflangAlternates(`/products/${id}`, true);
 
   // Build metadata
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.miyingrides.com";
   const productUrl = `${baseUrl}/products/${id}`;
 
   // Build high-intent B2B title: Product + Industry + Solution + Action

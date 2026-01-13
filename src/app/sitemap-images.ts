@@ -7,7 +7,7 @@ import { productsMultilingual } from "../content/products_multilingual";
  * Accessible at /sitemap-images.xml
  */
 export default function imagesSitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.miyingrides.com";
   
   const entries: MetadataRoute.Sitemap = [];
 

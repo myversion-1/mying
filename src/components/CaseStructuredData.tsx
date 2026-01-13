@@ -24,7 +24,7 @@ export function CaseStructuredData({
   caseUrl,
   baseUrl = typeof window !== "undefined"
     ? window.location.origin
-    : "https://mying.vercel.app",
+    : "https://www.miyingrides.com",
 }: CaseStructuredDataProps) {
   // Get localized content
   const title = caseItem.titleEn || caseItem.titleZh || caseItem.title;
@@ -152,6 +152,8 @@ export function CaseStructuredData({
     </>
   );
 }
+
+
 
 
 

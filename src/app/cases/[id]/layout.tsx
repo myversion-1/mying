@@ -27,7 +27,7 @@ export async function generateMetadata({
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.miyingrides.com";
   const canonicalUrl = `${baseUrl}/cases/${id}`;
 
   // Get localized title and description

@@ -4,7 +4,7 @@ import { SUPPORTED_LANGUAGES } from "@/utils/hreflang";
 import { verifyAdminAuth, createUnauthorizedResponse } from "@/lib/auth";
 import { CachePresets } from "@/lib/cache";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.miyingrides.com";
 
 /**
  * Generate slug from product name (English version)

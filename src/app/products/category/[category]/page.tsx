@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
-import { getMainCategories, getSubCategories, getLocalizedCategoryName, type MainCategory } from "../../../../content/product-categories";
+import type { Metadata } from "next";
+import { getMainCategories, type MainCategory } from "../../../../content/product-categories";
 import { getProducts } from "../../../../content/copy";
-import { productsMultilingual } from "../../../../content/products_multilingual";
-import { getProductCountByCategory } from "../../../../utils/product-category-mapper";
 import { Section } from "../../../../components/Section";
 import { ProductCard } from "../../../../components/ProductCard";
 import { StructuredDataServer } from "../../../../components/StructuredDataServer";
@@ -25,7 +24,7 @@ function getCategoryFromSlug(slug: string): MainCategory | null {
   return mainCategories.find(cat => generateCategorySlug(cat) === slug) || null;
 }
 
-export async function generateMetadata({ params }: CategoryPageProps) {
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { category: categorySlug } = await params;
   const category = getCategoryFromSlug(categorySlug);
   
@@ -73,13 +72,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const lang = "en" as Lang; // Default to English, can be enhanced with language detection
   const products = getProducts(lang);
   const categoryProducts = products.filter(p => p.mainCategory === category);
-  const subCategories = getSubCategories(category);
-  
-  // Get product counts for subcategories
-  const subCategoriesWithCounts = subCategories.map(subCat => ({
-    ...subCat,
-    count: getProductCountByCategory(productsMultilingual, category, subCat.id),
-  })).filter(subCat => subCat.count > 0);
 
   const categoryName = category;
   const isZh = lang === "zh";

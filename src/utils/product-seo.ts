@@ -10,7 +10,7 @@ export function generateProductSEOConfig(
   product: Product,
   productId: string,
   lang: Lang,
-  baseUrl: string = "https://mying.vercel.app"
+  baseUrl: string = "https://www.miyingrides.com"
 ) {
   const productUrl = `${baseUrl}/products/${productId}`;
 
@@ -104,6 +104,8 @@ export function generateProductSEOConfig(
     ],
   };
 }
+
+
 
 
 

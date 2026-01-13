@@ -9,7 +9,7 @@ interface HowToSchemaProps {
  * HowTo Schema for Voice Search Optimization
  * Helps Google understand step-by-step processes for featured snippets
  */
-export function HowToSchema({ lang = "en", baseUrl = "https://mying.vercel.app" }: HowToSchemaProps) {
+export function HowToSchema({ lang = "en", baseUrl = "https://www.miyingrides.com" }: HowToSchemaProps) {
   // HowTo content in multiple languages
   const howTos: Record<Lang, Array<{
     name: string;
@@ -270,6 +270,8 @@ export function HowToSchema({ lang = "en", baseUrl = "https://mying.vercel.app" 
     </>
   );
 }
+
+
 
 
 

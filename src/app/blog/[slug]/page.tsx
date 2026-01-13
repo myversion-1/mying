@@ -222,7 +222,7 @@ export default function BlogPostPage({ params }: Props) {
   // Get base URL for structured data
   const baseUrl = typeof window !== "undefined"
     ? window.location.origin
-    : process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
+    : process.env.NEXT_PUBLIC_SITE_URL || "https://www.miyingrides.com";
 
   // Get related products for internal linking
   const allProducts = getProducts(lang);

@@ -35,15 +35,27 @@ export function PageHero({
   // Secondary CTA: "Download Product Specs"
   const secondaryCTA = secondaryCtaText || c.cta.downloadSpecs || c.cta.secondary;
 
+  // Use badge prop if provided, otherwise use default from translations
+  // IMPORTANT: If badge prop is provided, use it directly to avoid hydration mismatch
+  // Only fall back to c.hero.badge if badge is truly undefined
+  // Use suppressHydrationWarning to prevent hydration mismatch when badge prop is provided
+  const badgeText = badge !== undefined && badge !== null ? badge : c.hero.badge;
+
   return (
     <div className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-gradient-to-br from-[var(--surface-elevated)] via-[var(--surface)] to-[var(--background)] px-4 py-8 md:px-10 md:py-16">
       <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-8">
         {/* Main Content - Left Side */}
         <div className="flex-1 max-w-2xl space-y-4 md:space-y-6">
           {/* Badge - Smaller on mobile */}
-          <div className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-primary-light)] px-2.5 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs font-semibold uppercase tracking-[0.12em] text-[var(--accent-primary)] !text-[var(--accent-primary)] dark:bg-[rgba(0,234,255,0.5)] dark:!text-white dark:border dark:border-[rgba(0,234,255,0.6)]">
-            {badge ?? c.hero.badge}
-          </div>
+          {/* Use suppressHydrationWarning to prevent hydration mismatch when badge prop is provided */}
+          {badgeText && (
+            <div 
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-primary-light)] px-2.5 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs font-semibold uppercase tracking-[0.12em] text-[var(--accent-primary)] !text-[var(--accent-primary)] dark:bg-[rgba(0,234,255,0.5)] dark:!text-white dark:border dark:border-[rgba(0,234,255,0.6)]"
+              suppressHydrationWarning={badge !== undefined}
+            >
+              {badgeText}
+            </div>
+          )}
           
           {/* Headline - Optimized for mobile readability */}
           <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold leading-tight text-[var(--text-primary)] !text-[var(--text-primary)]">

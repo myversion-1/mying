@@ -63,6 +63,8 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
                 className="h-full w-full object-cover transition group-hover:scale-105"
                 loading={index < 6 ? "eager" : "lazy"}
                 fetchPriority={index < 3 ? "high" : "auto"}
+                decoding="async"
+                suppressHydrationWarning
                 onError={(e) => {
                   // Fallback to placeholder if image fails to load
                   const target = e.target as HTMLImageElement;

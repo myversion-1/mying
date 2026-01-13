@@ -36,7 +36,7 @@ const crimsonText = Crimson_Text({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.miyingrides.com"),
   title: {
     default: "Amusement Rides Manufacturer | Theme Park Equipment Supplier",
     template: "%s | Miying",

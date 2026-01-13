@@ -67,6 +67,7 @@ export default function Home() {
           <PageHero 
             ctaPrimaryHref="/quote"
             ctaSecondaryHref="/resources"
+            badge="ISO Certified Manufacturer"
           />
         </div>
       </div>

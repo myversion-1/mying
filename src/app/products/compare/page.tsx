@@ -194,6 +194,8 @@ function ComparePageContent() {
                         src={encodeImagePath(product.image)}
                         alt={`${product.name} - ${product.category} amusement ride comparison`}
                         className="h-full w-full object-cover"
+                        decoding="async"
+                        suppressHydrationWarning
                       />
                     ) : (
                       <Image

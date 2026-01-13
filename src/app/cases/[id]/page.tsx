@@ -44,7 +44,7 @@ export default async function CasePage({ params, searchParams }: CasePageProps) 
   }
 
   const localizedCase = getLocalizedCase(caseItem, lang);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.miyingrides.com";
   const caseUrl = `${baseUrl}/cases/${id}${lang !== "en" ? `?lang=${lang}` : ""}`;
 
   // Get applicable safety standards

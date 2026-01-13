@@ -4,7 +4,7 @@ import { useLanguage } from "./language";
 
 export function StructuredData() {
   const { lang } = useLanguage();
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.miyingrides.com";
 
   const organizationSchema = {
     "@context": "https://schema.org",

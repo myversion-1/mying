@@ -57,7 +57,7 @@ export default function ProductPage({ params }: Props) {
   // Get base URL for structured data
   const baseUrl = typeof window !== "undefined" 
     ? window.location.origin 
-    : process.env.NEXT_PUBLIC_SITE_URL || "https://mying.vercel.app";
+    : process.env.NEXT_PUBLIC_SITE_URL || "https://www.miyingrides.com";
   const productUrl = `${baseUrl}/products/${resolvedParams.id}`;
 
   return (
@@ -119,6 +119,8 @@ export default function ProductPage({ params }: Props) {
                 className="h-full w-full object-cover"
                 loading="eager"
                 fetchPriority="high"
+                decoding="async"
+                suppressHydrationWarning
                 onError={(e) => {
                   // Fallback to placeholder if image fails to load
                   const target = e.target as HTMLImageElement;
@@ -449,6 +451,8 @@ export default function ProductPage({ params }: Props) {
                               src={encodeImagePath(relatedProduct.image)}
                               alt={`${relatedProduct.name} - ${relatedProduct.category} amusement ride by Miying manufacturer`}
                               className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                              decoding="async"
+                              suppressHydrationWarning
                             />
                           ) : (
                             <Image

@@ -12,7 +12,7 @@ interface FAQSchemaProps {
  * FAQ Schema for Voice Search Optimization
  * Helps Google understand common questions and provide featured snippets
  */
-export function FAQSchema({ faqs, lang = "en", baseUrl = "https://mying.vercel.app" }: FAQSchemaProps) {
+export function FAQSchema({ faqs, lang = "en", baseUrl = "https://www.miyingrides.com" }: FAQSchemaProps) {
   // Hardcoded FAQ content in multiple languages (fallback)
   const hardcodedFAQs: Record<Lang, Array<{ question: string; answer: string }>> = {
     en: [

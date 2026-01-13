@@ -26,7 +26,7 @@ export function ProductStructuredData({
   productUrl,
   baseUrl = typeof window !== "undefined" 
     ? window.location.origin 
-    : "https://mying.vercel.app",
+    : "https://www.miyingrides.com",
 }: ProductStructuredDataProps) {
 
   // Build product schema (B2B Standard: Product Schema required)
