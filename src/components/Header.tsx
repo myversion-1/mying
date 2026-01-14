@@ -159,7 +159,7 @@ export function Header() {
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-3 md:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+          <Link href="/" prefetch={false} className="flex items-center gap-3 flex-shrink-0 group">
             <div className="relative flex items-center justify-center rounded-lg p-1.5 transition-colors dark:bg-transparent bg-[var(--surface-elevated)] border border-[var(--border)] dark:border-transparent">
               <img
                 src="/logo.jpg"
@@ -187,6 +187,7 @@ export function Header() {
                   <div key={link.key} className="relative" ref={productsDropdownRef}>
                     <Link
                       href="/products"
+                      prefetch={false}
                       onMouseEnter={() => setProductsDropdownOpen(true)}
                       onMouseLeave={() => setProductsDropdownOpen(false)}
                       className={`inline-flex items-center gap-1 rounded-full px-2.5 py-2 text-sm font-medium transition whitespace-nowrap ${
@@ -215,6 +216,7 @@ export function Header() {
                         {/* All Products Link */}
                         <Link
                           href="/products"
+                          prefetch={false}
                           onClick={(e) => {
                             e.stopPropagation();
                             setProductsDropdownOpen(false);
@@ -256,6 +258,7 @@ export function Header() {
                                 {/* Main Category Link */}
                                 <Link
                                   href={`/products?mainCategory=${encodeURIComponent(mainCategory)}`}
+                                  prefetch={false}
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     setProductsDropdownOpen(false);
@@ -284,6 +287,7 @@ export function Header() {
                                         <Link
                                           key={subCat.id}
                                           href={`/products?mainCategory=${encodeURIComponent(mainCategory)}&subCategory=${encodeURIComponent(subCat.id)}`}
+                                          prefetch={false}
                                           onClick={(e) => {
                                             e.stopPropagation();
                                             setProductsDropdownOpen(false);
@@ -320,6 +324,7 @@ export function Header() {
                 <Link
                   key={link.key}
                   href={link.href}
+                  prefetch={false}
                   className={`inline-flex items-center rounded-full px-2.5 py-2 text-sm font-medium transition whitespace-nowrap ${
                     isActive
                       ? "text-[var(--text-primary)] bg-[var(--surface-hover)]"
@@ -339,6 +344,7 @@ export function Header() {
             {/* Persistent Contact/Get Quote Button - Always visible for conversion */}
             <Link
               href="/quote"
+              prefetch={false}
               onClick={() => {
                 trackCTAClick({
                   ctaText: c.cta.requestQuote || (lang === "zh" ? "获取报价" : "Get Quote"),

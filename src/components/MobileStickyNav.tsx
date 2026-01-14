@@ -21,7 +21,7 @@ export function MobileStickyNav() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
       <div className="border-t border-[var(--border)] bg-[var(--glass-bg)] backdrop-blur-sm shadow-lg">
-        <div className="mx-auto max-w-6xl px-4 py-3">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-3">
           <div className="grid grid-cols-2 gap-3">
             {/* Contact Expert Button */}
             <a
@@ -46,6 +46,7 @@ export function MobileStickyNav() {
             {/* Request Quote Button */}
             <Link
               href="/quote"
+              prefetch={false}
               className="flex items-center justify-center gap-2 rounded-lg bg-[var(--action-primary)] px-4 py-3 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] hover:bg-[var(--action-primary-hover)] transition-colors min-h-[44px] min-w-[44px] touch-manipulation"
               aria-label={lang === "zh" ? "请求报价" : "Request Quote"}
             >
