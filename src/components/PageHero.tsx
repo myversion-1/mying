@@ -112,11 +112,23 @@ export function PageHero({
         </div>
         
         {/* Highlights Grid - Right Side (Desktop) / Below (Mobile) - Moved below CTA on mobile for conversion priority */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:gap-3 lg:gap-4 text-xs sm:text-sm md:text-sm lg:text-base text-[var(--text-secondary)] md:max-w-xs lg:max-w-sm md:flex-shrink-0 md:mt-0 mt-6 sm:mt-8">
+        <div 
+          className="grid grid-cols-2 gap-3 sm:gap-4 md:gap-3 lg:gap-4 text-xs sm:text-sm md:text-sm lg:text-base text-[var(--text-secondary)] md:max-w-xs lg:max-w-sm md:flex-shrink-0 md:mt-0 mt-6 sm:mt-8"
+          style={{
+            // Prevent layout shift by reserving space
+            minHeight: '120px',
+            containIntrinsicSize: 'auto 120px',
+          }}
+        >
           {c.highlights.map((item) => (
             <div
               key={item}
               className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-3 sm:px-5 sm:py-4 md:px-4 md:py-3 lg:px-5 lg:py-4"
+              style={{
+                // Prevent layout shift from content changes
+                minHeight: '56px',
+                containIntrinsicSize: 'auto 56px',
+              }}
             >
               {item}
             </div>

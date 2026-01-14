@@ -36,14 +36,35 @@ section {
 }
 
 /* Prevent layout shift from font loading */
-/* Use size-adjust to maintain layout during font swap */
+/* Use size-adjust and metric overrides to maintain layout during font swap */
+
+/* Geist Sans Fallback - Match Geist Sans metrics */
 @font-face {
   font-family: 'Geist Sans Fallback';
   size-adjust: 100%;
-  ascent-override: 100%;
-  descent-override: 0%;
+  ascent-override: 90%;
+  descent-override: 22%;
   line-gap-override: 0%;
-  src: local('Arial');
+  src: local('Arial'), local('Helvetica'), local('sans-serif');
+}
+
+/* Crimson Text Fallback - Match Crimson Text metrics */
+@font-face {
+  font-family: 'Crimson Text Fallback';
+  size-adjust: 100%;
+  ascent-override: 92%;
+  descent-override: 30%;
+  line-gap-override: 0%;
+  src: local('Times New Roman'), local('Times'), local('serif');
+}
+
+/* Apply fallback fonts immediately to prevent layout shift */
+body {
+  font-family: 'Geist Sans Fallback', var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Crimson Text Fallback', var(--font-serif), 'Times New Roman', Times, serif;
 }
 
 /* Images - prevent layout shift */
@@ -372,7 +393,8 @@ body {
   color: var(--foreground);
   
   /* Typography Optimization for Light Mode */
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  /* Use fallback font first to prevent layout shift during font loading */
+  font-family: 'Geist Sans Fallback', var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   font-size: 16px;
   line-height: 1.6;                    /* Improved readability */
   letter-spacing: -0.01em;             /* Slightly tighter for modern look */

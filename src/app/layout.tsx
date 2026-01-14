@@ -243,7 +243,8 @@ export default function RootLayout({
             .dark{--background:#0a1628;--foreground:rgba(255,255,255,0.98);--surface:#0c1014;--surface-elevated:#151920;--text-primary:rgba(255,255,255,0.98);--text-secondary:rgba(255,255,255,0.85);--accent-primary:#00eaff;--action-primary:#00eaff;--action-primary-text:#0a1628;--border:rgba(255,255,255,0.1)}
             *{margin:0;padding:0;box-sizing:border-box}
             html{scroll-behavior:smooth}
-            body{font-family:var(--font-geist-sans),system-ui,-apple-system,sans-serif;background-color:var(--background);color:var(--foreground);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+            body{font-family:'Geist Sans Fallback',var(--font-geist-sans),system-ui,-apple-system,sans-serif;background-color:var(--background);color:var(--foreground);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+            h1,h2,h3,h4,h5,h6{font-family:'Crimson Text Fallback',var(--font-serif),'Times New Roman',Times,serif}
             header{position:sticky;top:0;z-index:40;border-bottom:1px solid var(--border);background:rgba(250,251,252,0.8);backdrop-filter:blur(12px)}
             .dark header{background:rgba(10,22,40,0.8)}
             button,a{min-height:44px;min-width:44px;touch-action:manipulation}
