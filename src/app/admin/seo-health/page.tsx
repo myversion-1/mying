@@ -166,7 +166,6 @@ export default function SEOHealthPage() {
               </button>
             </div>
           )}
-          </div>
         </div>
 
         {/* Error State */}
