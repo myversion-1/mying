@@ -120,23 +120,22 @@ export function getGeoInfo(lang: Lang) {
  */
 export function generateGeoMetaTags(
   lang: Lang
-): Metadata["other"] {
+): Record<string, string> {
   const geo = getGeoInfo(lang);
   
-  return {
+  // Return only non-empty values to avoid type issues
+  const tags: Record<string, string> = {
     "geo.region": geo.country,
     "geo.placename": geo.countryName,
-    "geo.position": "", // Can be filled with coordinates if needed
-    "ICBM": "", // Can be filled with coordinates if needed
-    "DC.title": "", // Dublin Core title (optional)
     "DC.language": geo.htmlLang,
     "DC.coverage": geo.countryName,
     "distribution": geo.region,
     "target": geo.countryName,
-    // Additional geographic signals
     "content-language": geo.htmlLang,
     "content-location": geo.country,
   };
+  
+  return tags;
 }
 
 /**

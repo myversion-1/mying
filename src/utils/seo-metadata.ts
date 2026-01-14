@@ -101,10 +101,9 @@ export function generateSEOMetadata(options: {
       ...geoMetaTags,
       // Additional SEO signals
       "language": geo.htmlLang,
-      "content-language": geo.htmlLang,
       "target-country": geo.country,
       "target-region": geo.region,
-    },
+    } as Record<string, string>,
   };
 
   return metadata;
