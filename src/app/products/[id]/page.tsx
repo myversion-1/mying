@@ -117,6 +117,9 @@ export default function ProductPage({ params }: Props) {
                 src={encodeImagePath(product.image)}
                 alt={`${product.name} - ${product.category} amusement ride manufactured by Miying, ISO certified theme park equipment supplier`}
                 className="h-full w-full object-cover"
+                width={1200}
+                height={675}
+                style={{ aspectRatio: '16 / 9' }}
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
@@ -451,6 +454,9 @@ export default function ProductPage({ params }: Props) {
                               src={encodeImagePath(relatedProduct.image)}
                               alt={`${relatedProduct.name} - ${relatedProduct.category} amusement ride by Miying manufacturer`}
                               className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                              width={400}
+                              height={225}
+                              style={{ aspectRatio: '16 / 9' }}
                               decoding="async"
                               suppressHydrationWarning
                             />

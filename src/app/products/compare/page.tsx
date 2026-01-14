@@ -194,6 +194,9 @@ function ComparePageContent() {
                         src={encodeImagePath(product.image)}
                         alt={`${product.name} - ${product.category} amusement ride comparison`}
                         className="h-full w-full object-cover"
+                        width={400}
+                        height={225}
+                        style={{ aspectRatio: '16 / 9' }}
                         decoding="async"
                         suppressHydrationWarning
                       />

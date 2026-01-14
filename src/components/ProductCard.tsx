@@ -61,6 +61,9 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
                 src={encodeImagePath(product.image)}
                 alt={`${product.name} - ${product.category} amusement ride${product.status === "Used" ? " (Used)" : ""}`}
                 className="h-full w-full object-cover transition group-hover:scale-105"
+                width={800}
+                height={800}
+                style={{ aspectRatio: '1 / 1' }}
                 loading={index < 6 ? "eager" : "lazy"}
                 fetchPriority={index < 3 ? "high" : "auto"}
                 decoding="async"
