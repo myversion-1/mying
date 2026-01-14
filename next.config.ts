@@ -66,14 +66,6 @@ const nextConfig: NextConfig = {
     // Next.js 16+ 默认支持现代浏览器，减少不必要的 polyfills
   },
   
-  // 编译器配置 - 移除不必要的代码和优化输出
-  compiler: {
-    // 移除 console.log 在生产环境（减少 JS 大小）
-    removeConsole: process.env.NODE_ENV === 'production' ? {
-      exclude: ['error', 'warn'], // 保留 error 和 warn 用于调试
-    } : false,
-  },
-  
   // JavaScript 压缩优化
   // Note: Next.js 16+ uses SWC minification by default, no configuration needed
   // SWC minification is enabled by default and provides better performance than Terser
