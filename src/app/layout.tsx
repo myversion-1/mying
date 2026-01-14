@@ -257,22 +257,9 @@ export default function RootLayout({
         {/* Removed unnecessary preconnect/dns-prefetch to reduce HTTP requests */}
         {/* TikTok and YouTube are loaded lazily, no need for early DNS prefetch */}
         
-        {/* Font preloading to prevent layout shift */}
-        {/* Preload critical fonts to reduce CLS (Cumulative Layout Shift) */}
-        <link
-          rel="preload"
-          href="/_next/static/media/geist-sans.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/_next/static/media/crimson-text.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
+        {/* Note: Font preloading is handled automatically by next/font/google */}
+        {/* The preload: true option in font configuration already handles font preloading */}
+        {/* No manual preload links needed - Next.js optimizes font loading automatically */}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${crimsonText.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
