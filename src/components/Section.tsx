@@ -8,7 +8,14 @@ type SectionProps = {
 
 export function Section({ id, title, eyebrow, subtitle, children }: SectionProps) {
   return (
-    <section id={id} className="py-12 md:py-16">
+    <section 
+      id={id} 
+      className="py-12 md:py-16"
+      style={{
+        // Prevent layout shift by reserving minimum space
+        minHeight: '1px',
+      }}
+    >
       <div className="mx-auto max-w-6xl px-4 md:px-8">
         {(title || subtitle) && (
           <div className="mb-8 max-w-3xl space-y-2">

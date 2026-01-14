@@ -60,7 +60,13 @@ export default function Home() {
   // This reduces initial JavaScript execution time
 
   return (
-    <div className="space-y-8 md:space-y-12">
+    <div 
+      className="space-y-8 md:space-y-12"
+      style={{
+        // Prevent layout shift by reserving minimum space
+        minHeight: '100vh',
+      }}
+    >
       <div className="mx-auto max-w-6xl px-4 md:px-8">
         {/* Hero Section - Optimized for mobile: CTA above the fold */}
         <div className="my-6 md:my-10">

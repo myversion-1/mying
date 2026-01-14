@@ -280,7 +280,12 @@ export default function RootLayout({
               <Suspense fallback={<div className="h-16 bg-[var(--background)]" />}>
                 <Header />
               </Suspense>
-              <main id="main-content" className="pb-28 md:pb-0">{children}</main>
+              <main 
+                id="main-content" 
+                className="pb-28 md:pb-0"
+              >
+                {children}
+              </main>
               <Footer />
               <MobileStickyNav />
               <CustomerServiceWidgetWrapper />

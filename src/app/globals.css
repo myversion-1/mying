@@ -1,5 +1,60 @@
 @import "tailwindcss";
 
+/* CLS Prevention - Layout Stability */
+/* Prevent layout shifts by reserving space and using stable dimensions */
+
+/* Main content area - prevent layout shift */
+main#main-content {
+  /* Reserve minimum space to prevent initial layout shift */
+  min-height: 100vh;
+  /* Use content-visibility for better performance */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 100vh;
+}
+
+/* Section elements - stable padding */
+section {
+  /* Prevent layout shift from padding changes */
+  min-height: 1px;
+  /* Use stable padding */
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* Prevent layout shift from font loading */
+/* Use size-adjust to maintain layout during font swap */
+@font-face {
+  font-family: 'Geist Sans Fallback';
+  size-adjust: 100%;
+  ascent-override: 100%;
+  descent-override: 0%;
+  line-gap-override: 0%;
+  src: local('Arial');
+}
+
+/* Images - prevent layout shift */
+img {
+  /* Reserve space for images */
+  aspect-ratio: attr(width) / attr(height);
+  /* Prevent layout shift during load */
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Dynamic content - prevent layout shift */
+[data-dynamic-content] {
+  min-height: 200px;
+  content-visibility: auto;
+}
+
 /* Container Queries Support for Product Cards
  * Tailwind CSS 4 supports @container syntax natively
  * The @container class enables container-type: inline-size
