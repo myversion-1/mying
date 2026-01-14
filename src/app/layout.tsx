@@ -15,6 +15,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AnalyticsProvider } from "../components/AnalyticsProvider";
 import { ClarityProvider } from "../components/ClarityProvider";
 import { ScrollToTop } from "../components/ScrollToTop";
+import { generateEnhancedHreflangAlternates, generateGeoMetaTags } from "../utils/geo-seo";
 
 // 优化字体加载：使用 display=swap 和 preload 策略
 const geistSans = Geist({
@@ -192,13 +193,13 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "vviaZwKjyQ-TUZK-khVTefSUq_ecF8H0o0Wwwj1_u7g",
+    google: "dieTmEfwD8bO9SXnqT16EPNCxmmdg4pqCIWAA8MhxWI",
     // yandex: "your-yandex-verification-code",
     // bing: "your-bing-verification-code",
   },
   // Performance optimization: Preconnect to external domains
   other: {
-    "google-site-verification": "vviaZwKjyQ-TUZK-khVTefSUq_ecF8H0o0Wwwj1_u7g",
+    "google-site-verification": "dieTmEfwD8bO9SXnqT16EPNCxmmdg4pqCIWAA8MhxWI",
   },
   icons: {
     icon: [
@@ -212,19 +213,20 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
-    languages: {
-      "en-US": "/",
-      "zh-CN": "/?lang=zh",
-      "ar-SA": "/?lang=ar",
-      "ru-RU": "/?lang=ru",
-      "ja-JP": "/?lang=ja",
-      "ko-KR": "/?lang=ko",
-      "th-TH": "/?lang=th",
-      "vi-VN": "/?lang=vi",
-      "id-ID": "/?lang=id",
-      "hi-IN": "/?lang=hi",
-      "es-ES": "/?lang=es",
-    },
+    // Enhanced hreflang with geographic targeting for Asian markets
+    // Includes both language-only (e.g., "zh") and language-region (e.g., "zh-CN") combinations
+    ...generateEnhancedHreflangAlternates("/", true),
+  },
+  // Geographic targeting meta tags for better SEO in Asian markets
+  other: {
+    "google-site-verification": "vviaZwKjyQ-TUZK-khVTefSUq_ecF8H0o0Wwwj1_u7g",
+    // Global default geographic targeting (English version targets global market)
+    "geo.region": "US",
+    "geo.placename": "Global",
+    "target-country": "Global",
+    "target-region": "Global",
+    "content-language": "en",
+    // Note: Language-specific geographic targeting is added per-page via generateGeoMetaTags()
   },
 };
 
