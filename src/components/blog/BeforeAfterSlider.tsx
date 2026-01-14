@@ -72,7 +72,9 @@ export function BeforeAfterSlider({
   }, []);
 
   return (
-    <div className="before-after-slider my-12">
+    <div 
+      ref={containerRef}
+      className="before-after-slider my-12"
       <h3 className="mb-4 text-center font-serif text-xl font-semibold text-[var(--text-primary)] md:text-2xl">
         {label}
       </h3>
