@@ -156,7 +156,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--glass-bg)] backdrop-blur transition-colors">
-      <div className="mx-auto max-w-6xl px-4 py-3 md:px-8">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-3 md:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">

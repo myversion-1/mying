@@ -64,13 +64,13 @@ export default function Home() {
 
   return (
     <div 
-      className={`space-y-6 md:space-y-10 lg:space-y-12 ${isMobile ? 'mobile-optimized' : 'desktop-optimized'}`}
+      className={`space-y-8 md:space-y-12 lg:space-y-16 ${isMobile ? 'mobile-optimized' : 'desktop-optimized'}`}
       style={{
         // Prevent layout shift by reserving minimum space
         minHeight: '100vh',
       }}
     >
-      <div className="mx-auto max-w-6xl px-4 md:px-8">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-8 lg:px-12">
         {/* Hero Section - Optimized for mobile: CTA above the fold */}
         <div className="my-6 md:my-10">
           <PageHero 
@@ -88,7 +88,7 @@ export default function Home() {
         id="stats" 
         className="py-6 md:py-10 lg:py-16 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent"
       >
-        <div className={`mx-auto max-w-6xl ${isMobile ? 'px-4' : 'px-4 md:px-8'}`}>
+        <div className={`mx-auto w-full max-w-7xl ${isMobile ? 'px-4 sm:px-6' : 'px-4 sm:px-6 md:px-8 lg:px-12'}`}>
           <StatsGrid 
             stats={homePageStats} 
             lang={lang} 
@@ -102,9 +102,9 @@ export default function Home() {
         id="why-choose-miying"
         title={lang === "zh" ? "为什么全球主题公园选择米盈设备" : "Why Global Theme Parks Choose Miying Equipment"}
       >
-        <div className={`space-y-8 md:space-y-10 lg:space-y-12`}>
+        <div className={`space-y-10 md:space-y-12 lg:space-y-16`}>
           {/* Industry-Leading Manufacturing Standards */}
-          <div className={`rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] ${isMobile ? 'p-6' : 'p-8 md:p-10'}`}>
+          <div className={`rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] ${isMobile ? 'p-6 sm:p-8' : 'p-8 md:p-10 lg:p-12'}`}>
             <h2 className="mb-4 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">
               {lang === "zh" ? "ISO认证游乐设备制造商标准" : "ISO Certified Amusement Rides Manufacturer Standards"}
             </h2>
@@ -129,7 +129,7 @@ export default function Home() {
           </div>
 
           {/* Comprehensive Product Range */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-8 md:p-10">
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-8 md:p-10 lg:p-12">
             <h2 className="mb-4 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">
               {lang === "zh" ? "主题公园设备供应商产品目录" : "Theme Park Equipment Supplier Product Catalog"}
             </h2>
@@ -154,7 +154,7 @@ export default function Home() {
           </div>
 
           {/* End-to-End Project Support */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-8 md:p-10">
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-8 md:p-10 lg:p-12">
             <h2 className="mb-4 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">
               {lang === "zh" ? "游乐设备安装服务和售后支持" : "Amusement Ride Installation Services & Support"}
             </h2>
