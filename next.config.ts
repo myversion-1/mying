@@ -21,6 +21,17 @@ const nextConfig: NextConfig = {
   // 生产环境优化
   productionBrowserSourceMaps: false, // 禁用 source maps 以减少构建大小
   
+  // 编译器配置 - 移除不必要的 polyfills，支持现代浏览器
+  compiler: {
+    // 移除 console.log 在生产环境
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'], // 保留 error 和 warn
+    } : false,
+  },
+  
+  // 转译配置 - 只转译必要的特性，支持现代浏览器
+  transpilePackages: [], // 不转译任何包，使用原生 ES6+
+  
   // 图片优化 - 大幅减少初始加载大小 (目标: 减少 36MB+)
   images: {
     formats: ["image/avif", "image/webp"], // 优先使用现代格式 (AVIF 比 WebP 小 50%)
@@ -51,6 +62,16 @@ const nextConfig: NextConfig = {
       '@vercel/analytics',
       'react-icons',
     ],
+    // 启用现代 JavaScript，减少转译
+    // Next.js 16+ 默认支持现代浏览器，减少不必要的 polyfills
+  },
+  
+  // 编译器配置 - 移除不必要的代码和优化输出
+  compiler: {
+    // 移除 console.log 在生产环境（减少 JS 大小）
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'], // 保留 error 和 warn 用于调试
+    } : false,
   },
   
   // JavaScript 压缩优化
@@ -187,7 +208,7 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // 为 CSS 和 JS 文件设置缓存
+      // 为 CSS 和 JS 文件设置长期缓存（1年）
       {
         source: "/:path*.(css|js)",
         headers: [
@@ -197,7 +218,27 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Cache-Control",
-            value: "public, max-age=31536000, immutable"
+            value: "public, max-age=31536000, immutable, stale-while-revalidate=86400" // 1年缓存，1天 stale-while-revalidate
+          },
+        ],
+      },
+      // 为图片设置长期缓存
+      {
+        source: "/:path*.(jpg|jpeg|png|gif|webp|avif|svg|ico)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable, stale-while-revalidate=86400" // 1年缓存
+          },
+        ],
+      },
+      // 为字体设置长期缓存
+      {
+        source: "/:path*.(woff|woff2|ttf|otf|eot)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable" // 1年缓存，字体不会改变
           },
         ],
       },
