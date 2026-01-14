@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getProducts, type Product, copy } from "../content/copy";
@@ -12,6 +12,7 @@ import { ProductCard } from "./ProductCard";
 import { SmartSelector } from "./SmartSelector";
 import type { ProductUsage, VenueType, TargetAudience } from "../content/products_multilingual";
 import { generateProductSlug } from "../utils/hreflang";
+import { debounce } from "../utils/main-thread-optimization";
 
 type Props = {
   items?: Product[];
@@ -47,6 +48,22 @@ export function ProductGrid({
   // Get products - use provided items or fetch all
   const allProducts = items || getProducts(lang);
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(initialSearchQuery);
+  
+  // Debounce search input to reduce TBT (Total Blocking Time)
+  // This prevents filtering on every keystroke, reducing main thread blocking
+  const debouncedSetSearch = useRef(
+    debounce((value: string) => {
+      setDebouncedSearchQuery(value);
+    }, 300) // Wait 300ms after user stops typing
+  ).current;
+
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value); // Update UI immediately for better UX
+    debouncedSetSearch(value); // Debounce the actual filtering
+  }, [debouncedSetSearch]);
+
   const [filter, setFilter] = useState<"all" | "rides" | "decorative" | string>(
     initialCategoryFilter || "all"
   );
@@ -80,9 +97,9 @@ export function ProductGrid({
     // Start with space-filtered products if available, otherwise use all products
     let filtered = spaceFilteredProducts || allProducts;
 
-    // Text search
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
+    // Text search - use debouncedSearchQuery to reduce filtering frequency
+    if (debouncedSearchQuery) {
+      const query = debouncedSearchQuery.toLowerCase();
       filtered = filtered.filter(
         (p) =>
           p.name.toLowerCase().includes(query) ||
@@ -121,7 +138,7 @@ export function ProductGrid({
     }
 
     return filtered;
-  }, [allProducts, spaceFilteredProducts, searchQuery, filter, mainCategoryFilter, subCategoryFilter, multiFilter]);
+  }, [allProducts, spaceFilteredProducts, debouncedSearchQuery, filter, mainCategoryFilter, subCategoryFilter, multiFilter]);
 
   // Usage types for filter
   const usageTypes: ProductUsage[] = [
@@ -154,7 +171,7 @@ export function ProductGrid({
         <input
           type="text"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={handleSearchChange}
           placeholder={lang === "zh" ? "搜索产品..." : "Search products..."}
           className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] px-12 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20"
         />
