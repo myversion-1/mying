@@ -97,6 +97,20 @@ export function Header() {
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const productsDropdownRef = useRef<HTMLDivElement>(null);
 
+  // Get total product count (static, doesn't need language filtering)
+  // This is lightweight and can be computed immediately
+  const totalProductCount = productsMultilingual.length;
+  
+  // Lazy load filtered products data - only compute when dropdown is opened or needed
+  // This defers expensive language filtering until user interaction, reducing initial render time
+  const products = useMemo(() => {
+    // Only compute if dropdown is open or on products page (where it's needed)
+    if (!productsDropdownOpen && !mobileProductsOpen && pathname !== "/products") {
+      return []; // Return empty array to avoid computation
+    }
+    return getProducts(lang);
+  }, [productsDropdownOpen, mobileProductsOpen, pathname, lang]);
+
   // Lazy load category structure - only compute when dropdown is opened
   // This defers expensive calculations until user interaction, reducing initial render time
   const categoryStructure = useMemo(() => {
@@ -216,7 +230,7 @@ export function Header() {
                           </svg>
                           <span>{lang === "zh" ? "所有产品" : "All Products"}</span>
                           <span className="ml-auto text-xs font-normal text-[var(--text-tertiary)]">
-                            {products.length}
+                            {totalProductCount}
                           </span>
                         </Link>
                         <div className="border-t border-[var(--border)] my-2" />
@@ -426,7 +440,7 @@ export function Header() {
                             </svg>
                             <span>{lang === "zh" ? "所有产品" : "All Products"}</span>
                             <span className="ml-auto text-xs font-normal text-[var(--text-tertiary)]">
-                              {products.length}
+                              {totalProductCount}
                             </span>
                           </Link>
                           
