@@ -1,5 +1,6 @@
 import type { Lang } from "../components/language";
 import type { Metadata } from "next";
+import { GEO_TARGETING, generateEnhancedHreflangAlternates } from "./geo-seo";
 
 /**
  * Supported languages for hreflang tags
@@ -22,6 +23,7 @@ export const SUPPORTED_LANGUAGES: Lang[] = [
 /**
  * Language code mapping for hreflang tags
  * Maps internal language codes to standard hreflang format
+ * @deprecated Use GEO_TARGETING from geo-seo.ts instead for better geographic targeting
  */
 export const HREFLANG_CODE_MAP: Record<Lang, string> = {
   en: "en-US",
@@ -38,7 +40,17 @@ export const HREFLANG_CODE_MAP: Record<Lang, string> = {
 };
 
 /**
+ * Get hreflang code for a language (using geographic targeting)
+ */
+export function getHreflangCode(lang: Lang): string {
+  return GEO_TARGETING[lang].hreflang;
+}
+
+/**
  * Generate hreflang alternates for a given route path
+ * 
+ * Enhanced version that includes both language-only and language-region combinations
+ * for better SEO targeting in Asian markets.
  * 
  * @param path - The route path (e.g., "/products/nuclear-energy-crisis")
  * @param includeXDefault - Whether to include x-default (defaults to true)
@@ -47,42 +59,15 @@ export const HREFLANG_CODE_MAP: Record<Lang, string> = {
  * @example
  * ```typescript
  * const alternates = generateHreflangAlternates("/products/nuclear-energy-crisis");
- * // Returns: { languages: { "en-US": "...", "zh-CN": "...", ..., "x-default": "..." } }
+ * // Returns: { languages: { "en-US": "...", "zh-CN": "...", "zh": "...", ..., "x-default": "..." } }
  * ```
  */
 export function generateHreflangAlternates(
   path: string,
   includeXDefault: boolean = true
 ): Metadata["alternates"] {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://www.miyingrides.com";
-
-  // Remove leading slash if present for consistent URL building
-  const cleanPath = path.startsWith("/") ? path.slice(1) : path;
-
-  // Build language alternates object
-  const languages: Record<string, string> = {};
-
-  // Add all language variants
-  SUPPORTED_LANGUAGES.forEach((lang) => {
-    const hreflangCode = HREFLANG_CODE_MAP[lang];
-    // For English (default), use base URL without lang parameter
-    // For other languages, use ?lang= parameter
-    const url =
-      lang === "en"
-        ? `${baseUrl}/${cleanPath}`
-        : `${baseUrl}/${cleanPath}?lang=${lang}`;
-    languages[hreflangCode] = url;
-  });
-
-  // Add x-default pointing to English version
-  if (includeXDefault) {
-    languages["x-default"] = `${baseUrl}/${cleanPath}`;
-  }
-
-  return {
-    languages,
-  };
+  // Use the enhanced version from geo-seo.ts
+  return generateEnhancedHreflangAlternates(path, includeXDefault);
 }
 
 /**
