@@ -36,7 +36,7 @@ export function ClarityProvider({ children }: { children: React.ReactNode }) {
         (c[a].q = c[a].q || []).push(arguments);
       };
       t = l.createElement(r) as HTMLScriptElement;
-      t.async = 1;
+      t.async = true;
       t.src = "https://www.clarity.ms/tag/" + i;
       clarityScript = t; // Store reference for cleanup
       y = l.getElementsByTagName(r)[0] as HTMLScriptElement;
