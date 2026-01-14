@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { productsMultilingual } from "../content/products_multilingual";
 import { getMainCategories } from "../content/product-categories";
+import { SUPPORTED_LANGUAGES } from "../utils/hreflang";
 
 /**
  * Generate slug from product name (English version)
@@ -89,8 +90,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Language variants
-  const languages = ["en", "zh", "ar", "ru", "ja", "ko", "th", "vi", "id", "hi", "es"];
+  // Language variants - use supported languages from hreflang config
+  // This ensures consistency with hreflang tags and geographic targeting
+  const languages = SUPPORTED_LANGUAGES;
   
   // Generate sitemap entries
   const entries: MetadataRoute.Sitemap = [];

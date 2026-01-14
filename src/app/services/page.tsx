@@ -1,12 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { PageHero } from "../../components/PageHero";
 import { Section } from "../../components/Section";
 import { getServices, copy } from "../../content/copy";
 import { useLanguage } from "../../components/language";
-import { ConsultationBooking } from "../../components/ConsultationBooking";
+
+// Code splitting: Lazy load ConsultationBooking (only needed when user clicks)
+const ConsultationBooking = dynamic(() => import("../../components/ConsultationBooking").then((mod) => ({ default: mod.ConsultationBooking })), {
+  loading: () => (
+    <div className="rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[#0a1628] to-[#0c1014] p-6 dark:border-white/10 dark:bg-white/5">
+      <div className="h-32 animate-pulse" />
+    </div>
+  ),
+  ssr: false, // Consultation booking is interactive, doesn't need SSR
+});
 
 export default function ServicesPage() {
   const { lang } = useLanguage();
@@ -163,12 +173,20 @@ export default function ServicesPage() {
         </div>
       </Section>
 
-      {/* Consultation Booking Modal */}
+      {/* Consultation Booking Modal - Lazy loaded */}
       {bookingService && (
-        <ConsultationBooking
-          serviceName={bookingService}
-          onClose={() => setBookingService(null)}
-        />
+        <Suspense
+          fallback={
+            <div className="rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[#0a1628] to-[#0c1014] p-6 dark:border-white/10 dark:bg-white/5">
+              <div className="h-32 animate-pulse" />
+            </div>
+          }
+        >
+          <ConsultationBooking
+            serviceName={bookingService}
+            onClose={() => setBookingService(null)}
+          />
+        </Suspense>
       )}
     </div>
   );

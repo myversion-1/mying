@@ -1,11 +1,24 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, Suspense } from "react";
+import dynamic from "next/dynamic";
 import { PageHero } from "../../components/PageHero";
 import { Section } from "../../components/Section";
-import { BlogGrid } from "../../components/BlogGrid";
 import { useLanguage } from "../../components/language";
 import { blogPosts, getLocalizedBlogPost, getPostsByCategory, type BlogCategory } from "../../content/blog";
+
+// Code splitting: Lazy load BlogGrid to reduce initial bundle size
+// This component is below the fold, so it can be loaded after initial render
+const BlogGrid = dynamic(() => import("../../components/BlogGrid").then((mod) => ({ default: mod.BlogGrid })), {
+  loading: () => (
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <div key={i} className="h-64 animate-pulse rounded-2xl bg-[var(--surface-elevated)]" />
+      ))}
+    </div>
+  ),
+  ssr: false, // Disable SSR for below-the-fold content to improve initial load
+});
 
 export default function BlogPage() {
   const { lang } = useLanguage();
@@ -95,17 +108,27 @@ export default function BlogPage() {
         </div>
       </Section>
 
-      {/* Blog Posts Grid */}
+      {/* Blog Posts Grid - Lazy loaded with Suspense */}
       <Section>
-        {filteredPosts.length > 0 ? (
-          <BlogGrid posts={filteredPosts} showFeatured={selectedCategory === "all"} />
-        ) : (
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-12 text-center">
-            <p className="text-[var(--text-secondary)]">
-              {lang === "zh" ? "该分类下暂无文章" : "No posts found in this category"}
-            </p>
-          </div>
-        )}
+        <Suspense
+          fallback={
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="h-64 animate-pulse rounded-2xl bg-[var(--surface-elevated)]" />
+              ))}
+            </div>
+          }
+        >
+          {filteredPosts.length > 0 ? (
+            <BlogGrid posts={filteredPosts} showFeatured={selectedCategory === "all"} />
+          ) : (
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-12 text-center">
+              <p className="text-[var(--text-secondary)]">
+                {lang === "zh" ? "该分类下暂无文章" : "No posts found in this category"}
+              </p>
+            </div>
+          )}
+        </Suspense>
       </Section>
     </div>
   );

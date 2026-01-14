@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useLanguage } from "./language";
 import { copy } from "../content/copy";
-import { LanguageToggle } from "./LanguageToggle";
-import { ThemeToggle } from "./ThemeToggle";
 import { getProducts } from "../content/copy";
 import { 
   productCategories, 
@@ -18,6 +17,16 @@ import {
 import { getProductCountByCategory } from "../utils/product-category-mapper";
 import { productsMultilingual } from "../content/products_multilingual";
 import { trackCTAClick } from "../lib/analytics";
+
+// Code splitting: Lazy load non-critical header components
+// These components are not needed for initial render and can be loaded on demand
+const LanguageToggle = dynamic(() => import("./LanguageToggle").then((mod) => ({ default: mod.LanguageToggle })), {
+  ssr: false, // Language toggle doesn't need SSR
+});
+
+const ThemeToggle = dynamic(() => import("./ThemeToggle").then((mod) => ({ default: mod.ThemeToggle })), {
+  ssr: false, // Theme toggle doesn't need SSR
+});
 
 // Core navigation items - prioritized for conversion paths
 // Only essential pages that support inquiry decisions
@@ -88,26 +97,31 @@ export function Header() {
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const productsDropdownRef = useRef<HTMLDivElement>(null);
 
-  // Get products for counting
-  const products = getProducts(lang);
-  
-  // Build multi-level category structure with counts
-  const mainCategories = getMainCategories();
-  const categoryStructure = mainCategories.map((mainCat) => {
-    const subCategories = getSubCategories(mainCat);
-    const subCategoriesWithCounts = subCategories.map((subCat) => {
-      const count = getProductCountByCategory(productsMultilingual, mainCat, subCat.id);
-      return { ...subCat, count };
-    }).filter((subCat) => subCat.count > 0); // Only show subcategories with products
+  // Lazy load category structure - only compute when dropdown is opened
+  // This defers expensive calculations until user interaction, reducing initial render time
+  const categoryStructure = useMemo(() => {
+    // Only compute if dropdown is open or on products page (where it's needed)
+    if (!productsDropdownOpen && !mobileProductsOpen && pathname !== "/products") {
+      return [];
+    }
     
-    const mainCategoryCount = getProductCountByCategory(productsMultilingual, mainCat);
-    
-    return {
-      mainCategory: mainCat,
-      subCategories: subCategoriesWithCounts,
-      count: mainCategoryCount,
-    };
-  }).filter((cat) => cat.count > 0); // Only show main categories with products
+    const mainCategories = getMainCategories();
+    return mainCategories.map((mainCat) => {
+      const subCategories = getSubCategories(mainCat);
+      const subCategoriesWithCounts = subCategories.map((subCat) => {
+        const count = getProductCountByCategory(productsMultilingual, mainCat, subCat.id);
+        return { ...subCat, count };
+      }).filter((subCat) => subCat.count > 0); // Only show subcategories with products
+      
+      const mainCategoryCount = getProductCountByCategory(productsMultilingual, mainCat);
+      
+      return {
+        mainCategory: mainCat,
+        subCategories: subCategoriesWithCounts,
+        count: mainCategoryCount,
+      };
+    }).filter((cat) => cat.count > 0); // Only show main categories with products
+  }, [productsDropdownOpen, mobileProductsOpen, pathname]);
 
   // Get current category from URL
   const currentMainCategory = searchParams.get("mainCategory") || null;

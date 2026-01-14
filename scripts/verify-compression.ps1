@@ -68,3 +68,4 @@ Write-Host ""
 Write-Host "💡 提示: 在生产环境（Vercel）上，压缩会自动启用" -ForegroundColor Cyan
 Write-Host "   如果本地测试失败，这是正常的，因为 Next.js dev 服务器可能不启用压缩" -ForegroundColor Cyan
 
+

@@ -1,15 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { PageHero } from "../../components/PageHero";
 import { Section } from "../../components/Section";
-import { CasesGrid } from "../../components/CasesGrid";
-import { GlobalMap } from "../../components/GlobalMap";
 import { useLanguage } from "../../components/language";
 import { cases, getLocalizedCase } from "../../content/cases";
 import Image from "next/image";
 import type { CaseItem } from "../../content/types/case";
+
+// Code splitting: Lazy load heavy components below the fold
+// CasesGrid and GlobalMap are not critical for initial render
+const CasesGrid = dynamic(() => import("../../components/CasesGrid").then((mod) => ({ default: mod.CasesGrid })), {
+  loading: () => (
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <div key={i} className="h-64 animate-pulse rounded-2xl bg-[var(--surface-elevated)]" />
+      ))}
+    </div>
+  ),
+  ssr: false, // Disable SSR for client-side filtering components
+});
+
+const GlobalMap = dynamic(() => import("../../components/GlobalMap").then((mod) => ({ default: mod.GlobalMap })), {
+  loading: () => <div className="h-96 animate-pulse rounded-2xl bg-[var(--surface-elevated)]" />,
+  ssr: false, // Map component doesn't need SSR
+});
 
 export default function CasesPage() {
   const { lang } = useLanguage();
