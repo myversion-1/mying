@@ -4,23 +4,23 @@
  * Functions to optimize CSS loading and reduce critical path latency
  */
 
+import React from 'react';
+
 /**
  * Preload critical CSS files
  * Use this to preload CSS that's needed for above-the-fold content
  */
 export function preloadCriticalCSS(href: string): React.ReactElement {
-  return (
-    <link
-      rel="preload"
-      href={href}
-      as="style"
-      onLoad={(e) => {
-        // Convert preload to stylesheet when loaded
-        const link = e.currentTarget as HTMLLinkElement;
-        link.rel = 'stylesheet';
-      }}
-    />
-  );
+  return React.createElement('link', {
+    rel: 'preload',
+    href: href,
+    as: 'style',
+    onLoad: (e: React.SyntheticEvent<HTMLLinkElement>) => {
+      // Convert preload to stylesheet when loaded
+      const link = e.currentTarget as HTMLLinkElement;
+      link.rel = 'stylesheet';
+    },
+  });
 }
 
 /**
