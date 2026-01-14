@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -29,8 +30,10 @@ interface ProductCardProps {
  * - Narrow (< 300px): Single column, compact image
  * - Medium (300px - 500px): Two column specs, standard image
  * - Wide (> 500px): Full layout, larger image, horizontal specs
+ * 
+ * Optimized with React.memo to prevent unnecessary re-renders
  */
-export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
+function ProductCardComponent({ product, lang, index, isRTL }: ProductCardProps) {
   const pathname = usePathname();
   const productSlug = generateProductSlug(product.name);
   const productUrl = `/products/${productSlug}`;
@@ -303,4 +306,18 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
     </article>
   );
 }
+
+// Memoize ProductCard to prevent unnecessary re-renders
+// Only re-render if product, lang, index, or isRTL changes
+export const ProductCard = memo(ProductCardComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.product.name === nextProps.product.name &&
+    prevProps.product.image === nextProps.product.image &&
+    prevProps.product.category === nextProps.product.category &&
+    prevProps.product.status === nextProps.product.status &&
+    prevProps.lang === nextProps.lang &&
+    prevProps.index === nextProps.index &&
+    prevProps.isRTL === nextProps.isRTL
+  );
+});
 

@@ -12,7 +12,7 @@ import { ProductCard } from "./ProductCard";
 import { SmartSelector } from "./SmartSelector";
 import type { ProductUsage, VenueType, TargetAudience } from "../content/products_multilingual";
 import { generateProductSlug } from "../utils/hreflang";
-import { debounce } from "../utils/main-thread-optimization";
+import { debounce, onIdle } from "../utils/main-thread-optimization";
 import { useIsMobile, useIsDesktop } from "../utils/device-detection";
 
 type Props = {
@@ -96,20 +96,35 @@ export function ProductGrid({
   const categories = Array.from(new Set(allProducts.map((p) => p.category)));
 
   // Filter products based on search and filters
+  // Use useMemo with optimized filtering logic
   const filteredProducts = useMemo(() => {
     // Start with space-filtered products if available, otherwise use all products
     let filtered = spaceFilteredProducts || allProducts;
 
+    // Early return if no filters applied
+    const hasSearchQuery = debouncedSearchQuery && debouncedSearchQuery.trim().length > 0;
+    const hasCategoryFilter = mainCategoryFilter || (filter !== "all" && filter !== "");
+    const hasMultiFilter = multiFilter.usage || multiFilter.venueType || multiFilter.targetAudience;
+    
+    if (!hasSearchQuery && !hasCategoryFilter && !hasMultiFilter) {
+      return filtered;
+    }
+
     // Text search - use debouncedSearchQuery to reduce filtering frequency
-    if (debouncedSearchQuery) {
+    // Optimize: cache lowercase query
+    if (hasSearchQuery) {
       const query = debouncedSearchQuery.toLowerCase();
-      filtered = filtered.filter(
-        (p) =>
-          p.name.toLowerCase().includes(query) ||
-          p.category.toLowerCase().includes(query) ||
-          p.positioning?.toLowerCase().includes(query) ||
-          p.idealFor?.some((scenario) => scenario.toLowerCase().includes(query))
-      );
+      const queryLength = query.length;
+      
+      // Use more efficient filtering for large arrays
+      filtered = filtered.filter((p) => {
+        // Early exit optimizations
+        if (p.name.toLowerCase().includes(query)) return true;
+        if (p.category.toLowerCase().includes(query)) return true;
+        if (p.positioning?.toLowerCase().includes(query)) return true;
+        if (p.idealFor?.some((scenario) => scenario.toLowerCase().includes(query))) return true;
+        return false;
+      });
     }
 
     // Multi-level category filter (priority: mainCategory + subCategory > legacy category)
@@ -119,11 +134,13 @@ export function ProductGrid({
         filtered = filtered.filter((p) => p.subCategory === subCategoryFilter);
       }
     } else if (filter === "rides") {
-      // Legacy filter support
-      filtered = filtered.filter((p) => RIDE_CATEGORIES.includes(p.category));
+      // Legacy filter support - use Set for O(1) lookup
+      const rideCategoriesSet = new Set(RIDE_CATEGORIES);
+      filtered = filtered.filter((p) => rideCategoriesSet.has(p.category));
     } else if (filter === "decorative") {
-      // Legacy filter support
-      filtered = filtered.filter((p) => !RIDE_CATEGORIES.includes(p.category));
+      // Legacy filter support - use Set for O(1) lookup
+      const rideCategoriesSet = new Set(RIDE_CATEGORIES);
+      filtered = filtered.filter((p) => !rideCategoriesSet.has(p.category));
     } else if (filter !== "all") {
       // Legacy category filter support
       filtered = filtered.filter((p) => p.category === filter);
@@ -161,20 +178,51 @@ export function ProductGrid({
   // Target audience types for filter
   const audienceTypes: TargetAudience[] = ["Family", "Adults", "Kids"];
 
-  // Pagination state - reduce DOM size by showing only a subset of products
-  const ITEMS_PER_PAGE = 12; // Show 12 products per page (reduces initial DOM size)
+  // Progressive loading - reduce initial DOM size
+  // Start with fewer items, load more as user scrolls
+  const INITIAL_ITEMS = 6; // Reduced from 12 to 6 for better initial performance
+  const ITEMS_PER_LOAD = 6; // Load 6 more items at a time
+  const [visibleCount, setVisibleCount] = useState(INITIAL_ITEMS);
   const [currentPage, setCurrentPage] = useState(1);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   
-  // Reset to page 1 when filters change
+  // Reset visible count when filters change
   useEffect(() => {
+    setVisibleCount(INITIAL_ITEMS);
     setCurrentPage(1);
   }, [debouncedSearchQuery, filter, mainCategoryFilter, subCategoryFilter, multiFilter, spaceFilteredProducts]);
 
-  // Calculate pagination
-  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+  // Intersection Observer for progressive loading
+  useEffect(() => {
+    if (!loadMoreRef.current) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && visibleCount < filteredProducts.length) {
+          // Load more items during idle time to avoid blocking main thread
+          onIdle(() => {
+            setVisibleCount((prev) => Math.min(prev + ITEMS_PER_LOAD, filteredProducts.length));
+          });
+        }
+      },
+      { rootMargin: "200px" } // Start loading 200px before reaching the bottom
+    );
+
+    observer.observe(loadMoreRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [visibleCount, filteredProducts.length]);
+
+  // Calculate visible products (progressive loading)
+  const visibleProducts = useMemo(() => {
+    return filteredProducts.slice(0, visibleCount);
+  }, [filteredProducts, visibleCount]);
+
+  // Pagination for better UX (optional, can be removed if using infinite scroll)
+  const totalPages = Math.ceil(filteredProducts.length / INITIAL_ITEMS);
 
   return (
     <div className="space-y-6" dir={isRTL ? "rtl" : "ltr"}>
@@ -378,20 +426,30 @@ export function ProductGrid({
 
       {/* Products Grid - Mobile: 1 column, Tablet: 2 columns, Desktop: 3 columns */}
       <div className={`grid gap-4 ${isMobile ? 'grid-cols-1' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
-        {paginatedProducts.length > 0 ? (
-          paginatedProducts.map((product, index) => (
-            <div
-              key={`${product.name}-${index}`}
-              className="transition-opacity"
-            >
-              <ProductCard
-                product={product}
-                lang={lang}
-                index={startIndex + index}
-                isRTL={isRTL}
-              />
-            </div>
-          ))
+        {visibleProducts.length > 0 ? (
+          <>
+            {visibleProducts.map((product, index) => (
+              <div
+                key={`${product.name}-${index}`}
+                className="transition-opacity"
+              >
+                <ProductCard
+                  product={product}
+                  lang={lang}
+                  index={index}
+                  isRTL={isRTL}
+                />
+              </div>
+            ))}
+            {/* Load more trigger - invisible element at the bottom */}
+            {visibleCount < filteredProducts.length && (
+              <div ref={loadMoreRef} className="col-span-full h-20 flex items-center justify-center">
+                <div className="text-sm text-[var(--text-tertiary)]">
+                  {lang === "zh" ? "加载更多..." : "Loading more..."}
+                </div>
+              </div>
+            )}
+          </>
         ) : (
           <div className="col-span-full transition-opacity">
             <EmptyState />
@@ -399,63 +457,12 @@ export function ProductGrid({
         )}
       </div>
 
-      {/* Pagination Controls - Only show if more than one page */}
-      {totalPages > 1 && (
-        <div className="flex flex-wrap items-center justify-center gap-2 pt-6">
-          <button
-            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-            disabled={currentPage === 1}
-            className="rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-2 text-sm font-medium text-[var(--text-primary)] transition-colors hover:bg-[var(--surface-hover)] disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] min-w-[44px] touch-manipulation"
-            aria-label="Previous page"
-          >
-            {lang === "zh" ? "上一页" : "Previous"}
-          </button>
-          
-          {/* Page numbers - show max 5 pages at a time */}
-          {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-            let pageNum: number;
-            if (totalPages <= 5) {
-              pageNum = i + 1;
-            } else if (currentPage <= 3) {
-              pageNum = i + 1;
-            } else if (currentPage >= totalPages - 2) {
-              pageNum = totalPages - 4 + i;
-            } else {
-              pageNum = currentPage - 2 + i;
-            }
-            
-            return (
-              <button
-                key={pageNum}
-                onClick={() => setCurrentPage(pageNum)}
-                className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors min-h-[44px] min-w-[44px] touch-manipulation ${
-                  currentPage === pageNum
-                    ? "border-[var(--accent-primary)] bg-[var(--accent-primary-light)] text-[var(--accent-primary)]"
-                    : "border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]"
-                }`}
-                aria-label={`Page ${pageNum}`}
-                aria-current={currentPage === pageNum ? "page" : undefined}
-              >
-                {pageNum}
-              </button>
-            );
-          })}
-          
-          <button
-            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-            disabled={currentPage === totalPages}
-            className="rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-2 text-sm font-medium text-[var(--text-primary)] transition-colors hover:bg-[var(--surface-hover)] disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] min-w-[44px] touch-manipulation"
-            aria-label="Next page"
-          >
-            {lang === "zh" ? "下一页" : "Next"}
-          </button>
-          
-          {/* Results count */}
-          <div className="ml-4 text-sm text-[var(--text-tertiary)]">
-            {lang === "zh" 
-              ? `显示 ${startIndex + 1}-${Math.min(endIndex, filteredProducts.length)} / 共 ${filteredProducts.length} 个产品`
-              : `Showing ${startIndex + 1}-${Math.min(endIndex, filteredProducts.length)} of ${filteredProducts.length} products`}
-          </div>
+      {/* Results count - Always show */}
+      {filteredProducts.length > 0 && (
+        <div className="text-center text-sm text-[var(--text-tertiary)] pt-4">
+          {lang === "zh" 
+            ? `显示 ${visibleProducts.length} / 共 ${filteredProducts.length} 个产品`
+            : `Showing ${visibleProducts.length} of ${filteredProducts.length} products`}
         </div>
       )}
     </div>

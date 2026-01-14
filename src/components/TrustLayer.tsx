@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { partners, getPartnerName } from "../content/partners";
@@ -39,6 +40,52 @@ export function TrustLayer({
 }: TrustLayerProps) {
   const { lang } = useLanguage();
   const c = copy(lang);
+  
+  // Lazy load sections using Intersection Observer
+  const [visibleSections, setVisibleSections] = useState({
+    partners: false,
+    certifications: false,
+    factoryPhotos: false,
+    projectHighlights: false,
+  });
+  
+  const partnersRef = useRef<HTMLDivElement>(null);
+  const certificationsRef = useRef<HTMLDivElement>(null);
+  const factoryPhotosRef = useRef<HTMLDivElement>(null);
+  const projectHighlightsRef = useRef<HTMLDivElement>(null);
+
+  // Set up Intersection Observers for each section
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    const createObserver = (ref: React.RefObject<HTMLDivElement | null>, key: keyof typeof visibleSections) => {
+      if (!ref.current) return;
+      
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setVisibleSections((prev) => ({ ...prev, [key]: true }));
+              observer.disconnect();
+            }
+          });
+        },
+        { rootMargin: "100px" } // Start loading 100px before section is visible
+      );
+      
+      observer.observe(ref.current);
+      observers.push(observer);
+    };
+
+    if (showPartners) createObserver(partnersRef, "partners");
+    if (showCertifications) createObserver(certificationsRef, "certifications");
+    if (showFactoryPhotos) createObserver(factoryPhotosRef, "factoryPhotos");
+    if (showProjectHighlights) createObserver(projectHighlightsRef, "projectHighlights");
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, [showPartners, showCertifications, showFactoryPhotos, showProjectHighlights]);
 
   // Certifications data
   const certifications = [
@@ -141,103 +188,133 @@ export function TrustLayer({
         <div className={variant === "compact" ? "space-y-8" : "space-y-12"}>
           {/* Client Logos / Partners */}
           {showPartners && displayPartners.length > 0 && (
-            <div>
+            <div ref={partnersRef}>
               {variant === "full" && (
                 <h3 className="mb-6 text-center text-xl font-semibold text-[var(--text-primary)]">
                   {lang === "zh" ? "我们的客户" : "Our Clients"}
                 </h3>
               )}
               <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-                {displayPartners.map((partner) => {
-                  const partnerName = getPartnerName(partner, lang);
-                  return (
+                {visibleSections.partners ? (
+                  displayPartners.map((partner) => {
+                    const partnerName = getPartnerName(partner, lang);
+                    return (
+                      <div
+                        key={partner.id}
+                        className="group relative flex items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
+                      >
+                        {partner.logo ? (
+                          <div className="relative h-16 w-full">
+                            <Image
+                              src={partner.logo}
+                              alt={partnerName}
+                              fill
+                              className="object-contain opacity-70 transition group-hover:opacity-100"
+                              quality={65}
+                              loading="lazy"
+                              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+                              fetchPriority="low"
+                            />
+                          </div>
+                        ) : (
+                          <div className="flex h-16 w-full items-center justify-center text-[var(--text-tertiary)]">
+                            <span className="text-sm font-medium">{partnerName}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                ) : (
+                  // Placeholder skeleton while loading
+                  Array.from({ length: maxPartners || 10 }).map((_, idx) => (
                     <div
-                      key={partner.id}
-                      className="group relative flex items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
-                    >
-                      {partner.logo ? (
-                        <div className="relative h-16 w-full">
-                          <Image
-                            src={partner.logo}
-                            alt={partnerName}
-                            fill
-                            className="object-contain opacity-70 transition group-hover:opacity-100"
-                            quality={65}
-                            loading="lazy"
-                            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
-                            fetchPriority="low"
-                          />
-                        </div>
-                      ) : (
-                        <div className="flex h-16 w-full items-center justify-center text-[var(--text-tertiary)]">
-                          <span className="text-sm font-medium">{partnerName}</span>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                      key={idx}
+                      className="h-24 animate-pulse rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)]"
+                    />
+                  ))
+                )}
               </div>
             </div>
           )}
 
           {/* Certifications & Compliance */}
           {showCertifications && certifications.length > 0 && (
-            <div>
+            <div ref={certificationsRef}>
               {variant === "full" && (
                 <h3 className="mb-6 text-center text-xl font-semibold text-[var(--text-primary)]">
                   {c.aboutPage?.certifications?.title || (lang === "zh" ? "行业认证与合规" : "Industry Certifications & Compliance")}
                 </h3>
               )}
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {certifications.map((cert, idx) => (
-                  <div
-                    key={idx}
-                    className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 text-center transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
-                  >
-                    <div className="mb-3 flex items-center justify-center">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent-primary-light)] text-[var(--accent-primary)] text-xl font-bold">
-                        ✓
+                {visibleSections.certifications ? (
+                  certifications.map((cert, idx) => (
+                    <div
+                      key={idx}
+                      className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 text-center transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
+                    >
+                      <div className="mb-3 flex items-center justify-center">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent-primary-light)] text-[var(--accent-primary)] text-xl font-bold">
+                          ✓
+                        </div>
                       </div>
+                      <h4 className="mb-2 text-lg font-semibold text-[var(--text-primary)]">
+                        {cert.name}
+                      </h4>
+                      <p className="mb-3 text-sm text-[var(--text-secondary)] leading-relaxed">
+                        {cert.description}
+                      </p>
+                      <span className="inline-flex items-center rounded-full bg-[var(--accent-primary-light)] px-3 py-1 text-xs font-semibold text-[var(--accent-primary)] border border-[var(--accent-primary)]/30">
+                        {cert.badge}
+                      </span>
                     </div>
-                    <h4 className="mb-2 text-lg font-semibold text-[var(--text-primary)]">
-                      {cert.name}
-                    </h4>
-                    <p className="mb-3 text-sm text-[var(--text-secondary)] leading-relaxed">
-                      {cert.description}
-                    </p>
-                    <span className="inline-flex items-center rounded-full bg-[var(--accent-primary-light)] px-3 py-1 text-xs font-semibold text-[var(--accent-primary)] border border-[var(--accent-primary)]/30">
-                      {cert.badge}
-                    </span>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  // Placeholder skeleton
+                  Array.from({ length: 4 }).map((_, idx) => (
+                    <div
+                      key={idx}
+                      className="h-48 animate-pulse rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]"
+                    />
+                  ))
+                )}
               </div>
             </div>
           )}
 
           {/* Factory Photos */}
           {showFactoryPhotos && factoryPhotos.length > 0 && (
-            <div>
+            <div ref={factoryPhotosRef}>
               <h3 className="mb-6 text-center text-xl font-semibold text-[var(--text-primary)]">
                 {lang === "zh" ? "工厂实景" : "Factory Facilities"}
               </h3>
               <div className="grid gap-4 md:grid-cols-3">
-                {factoryPhotos.map((photo, idx) => (
-                  <div
-                    key={idx}
-                    className="group relative aspect-video overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] transition hover:border-[var(--accent-primary)]/30"
-                  >
-                    <Image
-                      src={photo}
-                      alt={lang === "zh" ? `工厂照片 ${idx + 1}` : `Factory photo ${idx + 1}`}
-                      fill
-                      className="object-cover transition group-hover:scale-105"
-                      quality={70}
-                      loading="lazy"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      fetchPriority="low"
+                {visibleSections.factoryPhotos ? (
+                  factoryPhotos.map((photo, idx) => (
+                    <div
+                      key={idx}
+                      className="group relative aspect-video overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] transition hover:border-[var(--accent-primary)]/30"
+                    >
+                      <Image
+                        src={photo}
+                        alt={lang === "zh" ? `工厂照片 ${idx + 1}` : `Factory photo ${idx + 1}`}
+                        fill
+                        className="object-cover transition group-hover:scale-105"
+                        quality={70}
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        fetchPriority="low"
+                      />
+                    </div>
+                  ))
+                ) : (
+                  // Placeholder skeleton
+                  Array.from({ length: 3 }).map((_, idx) => (
+                    <div
+                      key={idx}
+                      className="aspect-video animate-pulse rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]"
                     />
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
               <div className="mt-6 text-center">
                 <Link
@@ -255,29 +332,39 @@ export function TrustLayer({
 
           {/* Project Highlights */}
           {showProjectHighlights && projectHighlights.length > 0 && (
-            <div>
+            <div ref={projectHighlightsRef}>
               {variant === "full" && (
                 <h3 className="mb-6 text-center text-xl font-semibold text-[var(--text-primary)]">
                   {lang === "zh" ? "项目亮点" : "Project Highlights"}
                 </h3>
               )}
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {projectHighlights.map((highlight, idx) => (
-                  <div
-                    key={idx}
-                    className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 text-center transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
-                  >
-                    <div className="mb-4 flex items-center justify-center text-[var(--accent-primary)]">
-                      {highlight.icon}
+                {visibleSections.projectHighlights ? (
+                  projectHighlights.map((highlight, idx) => (
+                    <div
+                      key={idx}
+                      className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 text-center transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
+                    >
+                      <div className="mb-4 flex items-center justify-center text-[var(--accent-primary)]">
+                        {highlight.icon}
+                      </div>
+                      <h4 className="mb-2 text-lg font-semibold text-[var(--text-primary)]">
+                        {highlight.title}
+                      </h4>
+                      <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+                        {highlight.description}
+                      </p>
                     </div>
-                    <h4 className="mb-2 text-lg font-semibold text-[var(--text-primary)]">
-                      {highlight.title}
-                    </h4>
-                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                      {highlight.description}
-                    </p>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  // Placeholder skeleton
+                  Array.from({ length: 4 }).map((_, idx) => (
+                    <div
+                      key={idx}
+                      className="h-32 animate-pulse rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]"
+                    />
+                  ))
+                )}
               </div>
             </div>
           )}
