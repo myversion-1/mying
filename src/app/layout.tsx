@@ -247,7 +247,9 @@ export default function RootLayout({
             header{position:sticky;top:0;z-index:40;border-bottom:1px solid var(--border);background:rgba(250,251,252,0.8);backdrop-filter:blur(12px)}
             .dark header{background:rgba(10,22,40,0.8)}
             button,a{min-height:44px;min-width:44px;touch-action:manipulation}
-            img{max-width:100%;height:auto}
+            img{display:block;max-width:100%;height:auto}
+            main#main-content{min-height:100vh;content-visibility:auto}
+            section{min-height:1px}
           `
         }} />
         {/* Performance optimization: Preconnect only to critical external domains */}
