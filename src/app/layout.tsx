@@ -197,10 +197,6 @@ export const metadata: Metadata = {
     // yandex: "your-yandex-verification-code",
     // bing: "your-bing-verification-code",
   },
-  // Performance optimization: Preconnect to external domains
-  other: {
-    "google-site-verification": "dieTmEfwD8bO9SXnqT16EPNCxmmdg4pqCIWAA8MhxWI",
-  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -219,7 +215,7 @@ export const metadata: Metadata = {
   },
   // Geographic targeting meta tags for better SEO in Asian markets
   other: {
-    "google-site-verification": "vviaZwKjyQ-TUZK-khVTefSUq_ecF8H0o0Wwwj1_u7g",
+    "google-site-verification": "dieTmEfwD8bO9SXnqT16EPNCxmmdg4pqCIWAA8MhxWI",
     // Global default geographic targeting (English version targets global market)
     "geo.region": "US",
     "geo.placename": "Global",
