@@ -41,12 +41,22 @@ section {
 
 /* Images - prevent layout shift */
 img {
-  /* Reserve space for images */
-  aspect-ratio: attr(width) / attr(height);
   /* Prevent layout shift during load */
   display: block;
   max-width: 100%;
   height: auto;
+  /* Use object-fit to maintain aspect ratio */
+  object-fit: contain;
+}
+
+/* Next.js Image component - prevent layout shift */
+.next-image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.next-image-wrapper img {
+  object-fit: cover;
 }
 
 /* Dynamic content - prevent layout shift */
