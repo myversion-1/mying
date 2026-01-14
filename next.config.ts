@@ -6,11 +6,17 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 const nextConfig: NextConfig = {
-  // 压缩
+  // 压缩 - 启用 gzip 压缩（Next.js 16+ 默认启用，但明确配置以确保）
   compress: true,
   
+  // 确保所有响应都被压缩（包括 API 路由）
+  poweredByHeader: false, // 移除 X-Powered-By 头部以节省带宽
+  
   // Turbopack configuration (Next.js 16 uses Turbopack by default)
-  turbopack: {},
+  turbopack: {
+    // Set root directory to silence lockfile warning
+    root: process.cwd(),
+  },
   
   // 生产环境优化
   productionBrowserSourceMaps: false, // 禁用 source maps 以减少构建大小
@@ -21,6 +27,8 @@ const nextConfig: NextConfig = {
     // 大幅减少设备尺寸范围 - 避免生成过大的图片
     deviceSizes: [640, 750, 828, 1080, 1200], // 移除 1920, 2048, 3840 (减少 60% 最大图片大小)
     imageSizes: [16, 32, 48, 64, 96, 128, 256], // 包含 256 以支持小图标和缩略图
+    // 配置所有使用的图片质量值（Next.js 16+ 要求）
+    qualities: [65, 70, 75, 85, 90], // 支持代码中使用的所有质量值
     // 优化图片加载
     minimumCacheTTL: 31536000, // 1年缓存 (减少重复请求)
     dangerouslyAllowSVG: true,
@@ -131,13 +139,45 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // 为静态资源设置缓存（压缩由服务器自动处理）
+      // 为静态资源设置缓存（压缩由 Next.js/Vercel 自动处理）
       {
         source: "/_next/static/:path*",
         headers: [
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable" // 长期缓存静态资源
+          },
+          {
+            key: "Vary",
+            value: "Accept-Encoding" // 支持多种压缩格式（gzip, brotli）
+          },
+        ],
+      },
+      // 为 HTML 页面设置缓存策略
+      {
+        source: "/:path*.html",
+        headers: [
+          {
+            key: "Vary",
+            value: "Accept-Encoding" // 确保压缩头部正确处理
+          },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, must-revalidate" // HTML 不缓存，确保更新
+          },
+        ],
+      },
+      // 为 CSS 和 JS 文件设置缓存
+      {
+        source: "/:path*.(css|js)",
+        headers: [
+          {
+            key: "Vary",
+            value: "Accept-Encoding" // 确保压缩头部正确处理
+          },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable"
           },
         ],
       },

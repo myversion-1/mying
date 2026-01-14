@@ -4,9 +4,13 @@ import { useEffect, useRef, useState } from "react";
 // Dynamic import for CountUp to reduce initial bundle size
 import dynamic from "next/dynamic";
 
+// Dynamic import for CountUp to reduce initial bundle size
+// Using lazy loading to avoid preload warnings
 const CountUp = dynamic(() => import("react-countup").then((mod) => mod.default), {
   ssr: false, // CountUp doesn't need SSR
   loading: () => <span>0</span>, // Fallback during loading
+  // Prevent preloading to avoid unused preload warnings
+  // The component will load when actually needed (when inView becomes true)
 });
 
 type StatsCardProps = {

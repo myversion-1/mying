@@ -11,28 +11,39 @@ import { ErrorBoundary } from "../components/ErrorBoundary";
 import { ToastContainer } from "../components/Toast";
 import { CustomerServiceWidgetWrapper } from "../components/CustomerServiceWidgetWrapper";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AnalyticsProvider } from "../components/AnalyticsProvider";
+import { ClarityProvider } from "../components/ClarityProvider";
 import { ScrollToTop } from "../components/ScrollToTop";
 
+// 优化字体加载：使用 display=swap 和 preload 策略
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap", // 优化字体加载性能
+  preload: true, // 预加载关键字体
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  preload: false, // 非关键字体，延迟加载
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
+  preload: false, // 非关键字体，延迟加载
 });
 
 const crimsonText = Crimson_Text({
   variable: "--font-serif",
   subsets: ["latin"],
   weight: ["400", "600", "700"],
+  display: "swap",
+  preload: true, // 标题字体，预加载
 });
 
 export const metadata: Metadata = {
@@ -226,12 +237,12 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr" className="dark" suppressHydrationWarning>
       <head>
-        {/* Performance optimization: Preconnect to external domains */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        {/* Performance optimization: Preconnect only to critical external domains */}
+        {/* Note: Fonts are loaded via next/font/google which handles optimization automatically */}
+        {/* Only preconnect to domains that are actually used on initial page load */}
         <link rel="dns-prefetch" href="https://wa.me" />
-        <link rel="dns-prefetch" href="https://www.tiktok.com" />
-        <link rel="dns-prefetch" href="https://www.youtube.com" />
+        {/* Removed unnecessary preconnect/dns-prefetch to reduce HTTP requests */}
+        {/* TikTok and YouTube are loaded lazily, no need for early DNS prefetch */}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${crimsonText.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
@@ -239,8 +250,9 @@ export default function RootLayout({
       >
         <ErrorBoundary>
           <Providers>
-            <AnalyticsProvider>
-              <StructuredDataServer type="home" />
+            <ClarityProvider>
+              <AnalyticsProvider>
+                <StructuredDataServer type="home" />
               {/* Skip to main content link for accessibility */}
               <a
                 href="#main-content"
@@ -257,9 +269,11 @@ export default function RootLayout({
               <CustomerServiceWidgetWrapper />
               <ScrollToTop />
               <ToastContainer />
-            </AnalyticsProvider>
+              </AnalyticsProvider>
+            </ClarityProvider>
           </Providers>
           <Analytics />
+          <SpeedInsights />
         </ErrorBoundary>
       </body>
     </html>
