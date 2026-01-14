@@ -42,10 +42,10 @@ export function PageHero({
   const badgeText = badge !== undefined && badge !== null ? badge : c.hero.badge;
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-gradient-to-br from-[var(--surface-elevated)] via-[var(--surface)] to-[var(--background)] px-4 py-8 md:px-10 md:py-16">
-      <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-8">
+    <div className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-gradient-to-br from-[var(--surface-elevated)] via-[var(--surface)] to-[var(--background)] px-4 py-8 sm:px-6 sm:py-10 md:px-10 md:py-16 lg:px-12 lg:py-20">
+      <div className="relative flex flex-col gap-6 sm:gap-8 md:flex-row md:items-center md:justify-between md:gap-10 lg:gap-12">
         {/* Main Content - Left Side */}
-        <div className="flex-1 max-w-2xl space-y-4 md:space-y-6">
+        <div className="flex-1 max-w-2xl space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-8">
           {/* Badge - Smaller on mobile */}
           {/* Use suppressHydrationWarning to prevent hydration mismatch when badge prop is provided */}
           {badgeText && (
@@ -58,17 +58,17 @@ export function PageHero({
           )}
           
           {/* Headline - Optimized for mobile readability */}
-          <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold leading-tight text-[var(--text-primary)] !text-[var(--text-primary)]">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold leading-tight text-[var(--text-primary)] !text-[var(--text-primary)] tracking-tight">
             {headline ?? c.hero.title}
           </h1>
           
           {/* Subtitle - Clear Value Proposition - Shorter on mobile */}
-          <p className="text-base md:text-lg lg:text-xl leading-relaxed text-[var(--text-secondary)] !text-[var(--text-secondary)]">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed text-[var(--text-secondary)] !text-[var(--text-secondary)] max-w-3xl">
             {subhead ?? c.hero.subtitle}
           </p>
           
           {/* CTA Buttons - Primary is visually dominant - Above the fold on mobile */}
-          <div className="flex flex-col gap-3 pt-2 md:flex-row md:gap-4">
+          <div className="flex flex-col gap-3 sm:gap-4 pt-2 md:flex-row md:gap-4 lg:gap-6">
             {/* Primary CTA: Single conversion action - Visually dominant */}
             <Link
               href={ctaPrimaryHref}
@@ -84,7 +84,7 @@ export function PageHero({
                   section: "hero_primary",
                 });
               }}
-              className="rounded-lg bg-[var(--action-primary)] px-6 py-3.5 md:px-10 md:py-4 text-sm md:text-base font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[48px] touch-manipulation text-center flex items-center justify-center w-full md:flex-1 md:w-auto"
+              className="rounded-lg bg-[var(--action-primary)] px-6 py-3.5 sm:px-8 sm:py-4 md:px-10 md:py-4 lg:px-12 lg:py-5 text-sm sm:text-base md:text-lg font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[48px] sm:min-h-[52px] md:min-h-[56px] touch-manipulation text-center flex items-center justify-center w-full md:flex-1 md:w-auto"
             >
               {primaryCTA}
             </Link>
@@ -104,7 +104,7 @@ export function PageHero({
                   section: "hero_secondary",
                 });
               }}
-              className="rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-6 py-3 md:px-8 md:py-4 text-sm md:text-base font-semibold text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] touch-manipulation text-center flex items-center justify-center w-full md:flex-1 md:w-auto"
+              className="rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-6 py-3 sm:px-8 sm:py-3.5 md:px-8 md:py-4 lg:px-10 lg:py-4.5 text-sm sm:text-base md:text-lg font-semibold text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] sm:min-h-[48px] md:min-h-[52px] touch-manipulation text-center flex items-center justify-center w-full md:flex-1 md:w-auto"
             >
               {secondaryCTA}
             </Link>
@@ -112,11 +112,11 @@ export function PageHero({
         </div>
         
         {/* Highlights Grid - Right Side (Desktop) / Below (Mobile) - Moved below CTA on mobile for conversion priority */}
-        <div className="grid grid-cols-2 gap-2 md:gap-3 text-xs md:text-sm text-[var(--text-secondary)] md:max-w-xs md:flex-shrink-0 md:mt-0 mt-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:gap-3 lg:gap-4 text-xs sm:text-sm md:text-sm lg:text-base text-[var(--text-secondary)] md:max-w-xs lg:max-w-sm md:flex-shrink-0 md:mt-0 mt-6 sm:mt-8">
           {c.highlights.map((item) => (
             <div
               key={item}
-              className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-3"
+              className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-3 sm:px-5 sm:py-4 md:px-4 md:py-3 lg:px-5 lg:py-4"
             >
               {item}
             </div>

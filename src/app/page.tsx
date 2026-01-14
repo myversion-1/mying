@@ -104,11 +104,11 @@ export default function Home() {
       >
         <div className={`space-y-10 md:space-y-12 lg:space-y-16`}>
           {/* Industry-Leading Manufacturing Standards */}
-          <div className={`rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] ${isMobile ? 'p-6 sm:p-8' : 'p-8 md:p-10 lg:p-12'}`}>
-            <h2 className="mb-4 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">
+          <div className={`rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] ${isMobile ? 'p-6 sm:p-8' : 'p-8 md:p-10 lg:p-12 xl:p-14'}`}>
+            <h2 className="mb-4 sm:mb-5 md:mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--text-primary)] leading-tight">
               {lang === "zh" ? "ISO认证游乐设备制造商标准" : "ISO Certified Amusement Rides Manufacturer Standards"}
             </h2>
-            <p className="mb-4 leading-relaxed text-[var(--text-secondary)]">
+            <p className="mb-4 sm:mb-5 md:mb-6 text-base sm:text-lg md:text-xl leading-relaxed text-[var(--text-secondary)]">
               {lang === "zh" 
                 ? "作为领先的游乐设备制造商和主题公园设备供应商，米盈在游乐设备行业拥有超过15年的经验，已成为50多个国家FEC（家庭娱乐中心）和主题公园值得信赖的合作伙伴。我们的ISO 9001认证制造工厂确保每台设备都符合国际安全标准，包括CE、ASTM和EN认证。我们提供从标准型号到完全定制设计的全方位解决方案，支持全球交付和安装服务。"
                 : "As a leading amusement rides manufacturer and theme park equipment supplier, Miying has over 15 years of experience serving FECs (Family Entertainment Centers) and theme parks across 50+ countries. Our ISO 9001 certified manufacturing facility ensures every ride meets international safety standards including CE, ASTM, and EN certifications. We offer comprehensive solutions from standard models to fully custom designs, with global delivery and installation services."}
@@ -129,16 +129,16 @@ export default function Home() {
           </div>
 
           {/* Comprehensive Product Range */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-8 md:p-10 lg:p-12">
-            <h2 className="mb-4 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14">
+            <h2 className="mb-4 sm:mb-5 md:mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--text-primary)] leading-tight">
               {lang === "zh" ? "主题公园设备供应商产品目录" : "Theme Park Equipment Supplier Product Catalog"}
             </h2>
-            <p className="mb-4 leading-relaxed text-[var(--text-secondary)]">
+            <p className="mb-4 sm:mb-5 md:mb-6 text-base sm:text-lg md:text-xl leading-relaxed text-[var(--text-secondary)]">
               {lang === "zh"
                 ? "从经典的旋转木马和碰碰车到刺激的过山车和现代VR景点，我们的产品目录涵盖了主题公园的完整需求。无论您是启动新的家庭娱乐中心还是扩展现有主题公园，我们都提供交钥匙解决方案。"
                 : "From classic carousels and bumper cars to thrilling roller coasters and modern VR attractions, our catalog covers the complete spectrum of amusement park needs. Whether you're launching a new family entertainment center or expanding an existing theme park, we provide turnkey solutions."}
             </p>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:gap-6">
               {(lang === "zh"
                 ? ["家庭游乐设备：旋转木马、碰碰车、小火车", "刺激游乐设备：过山车、跳楼机、大摆锤", "水上设备：水滑梯、造浪池设备", "VR/AR互动体验设备"]
                 : ["Family Rides: Carousels, Bumper Cars, Mini Trains", "Thrill Rides: Roller Coasters, Drop Towers, Swing Rides", "Water Rides: Water Slides, Wave Pool Equipment", "VR/AR Interactive Experience Equipment"]
@@ -154,8 +154,8 @@ export default function Home() {
           </div>
 
           {/* End-to-End Project Support */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-8 md:p-10 lg:p-12">
-            <h2 className="mb-4 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14">
+            <h2 className="mb-4 sm:mb-5 md:mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--text-primary)] leading-tight">
               {lang === "zh" ? "游乐设备安装服务和售后支持" : "Amusement Ride Installation Services & Support"}
             </h2>
             <p className="mb-6 leading-relaxed text-[var(--text-secondary)]">
@@ -163,7 +163,7 @@ export default function Home() {
                 ? "我们的服务不仅限于设备交付。我们提供完整的支持，包括："
                 : "Our service doesn't end with equipment delivery. We provide complete support including:"}
             </p>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
               {(lang === "zh"
                 ? [
                     { title: "场地规划", desc: "场地规划和布局优化" },
@@ -208,7 +208,7 @@ export default function Home() {
         subtitle={lang === "zh" ? "从市场调研到售后支持，一站式解决方案" : "From market research to after-sales support, one-stop solutions"}
       >
         {/* Service Highlights - Top 4 Core Services */}
-        <div className="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mb-8 sm:mb-10 md:mb-12 grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {services.slice(0, 4).map((service, index) => {
             const serviceIcons = [
               <svg key="0" className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -230,7 +230,7 @@ export default function Home() {
               <div
                 key={service.title}
                 onClick={() => router.push("/services")}
-                className="group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)] cursor-pointer"
+                className="group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 sm:p-7 md:p-8 lg:p-10 transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)] cursor-pointer"
               >
                 <div className="flex items-start gap-4">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--accent-primary)]/30 transition group-hover:bg-[var(--surface-hover)] group-hover:border-[var(--accent-primary)]/50">
@@ -324,7 +324,7 @@ export default function Home() {
                     </svg>
                   </Link>
                 </div>
-                <div className="grid gap-6 md:grid-cols-3">
+                <div className="grid gap-4 sm:gap-5 md:grid-cols-3 lg:gap-6">
                   {categoryProducts.map((product) => (
                     <ProductCard
                       key={product.name}

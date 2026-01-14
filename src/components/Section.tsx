@@ -10,27 +10,27 @@ export function Section({ id, title, eyebrow, subtitle, children }: SectionProps
   return (
     <section 
       id={id} 
-      className="py-16 md:py-20 lg:py-24"
+      className="py-12 sm:py-16 md:py-20 lg:py-24 xl:py-28"
       style={{
         // Prevent layout shift by reserving minimum space
         minHeight: '1px',
       }}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
         {(title || subtitle) && (
-          <div className="mb-8 max-w-3xl space-y-2">
+          <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-16 max-w-3xl space-y-3 sm:space-y-4">
             {eyebrow && (
-              <div className="inline-flex rounded-full bg-[var(--accent-primary-light)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--accent-primary)]">
+              <div className="inline-flex rounded-full bg-[var(--accent-primary-light)] px-3 py-1 sm:px-4 sm:py-1.5 text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] text-[var(--accent-primary)]">
                 {eyebrow}
               </div>
             )}
             {title && (
-              <h2 className="text-2xl font-semibold text-[var(--text-primary)] md:text-3xl">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-[var(--text-primary)] leading-tight tracking-tight">
                 {title}
               </h2>
             )}
             {subtitle && (
-              <p className="text-[var(--text-secondary)] md:text-lg">{subtitle}</p>
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-[var(--text-secondary)] leading-relaxed max-w-2xl">{subtitle}</p>
             )}
           </div>
         )}

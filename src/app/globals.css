@@ -79,25 +79,27 @@ img {
 /* Mobile Optimizations */
 @media (max-width: 767px) {
   .mobile-optimized {
-    /* Reduce spacing for mobile */
-    --mobile-spacing: 0.75rem;
+    /* Reduce spacing for mobile - professional compact layout */
+    --mobile-spacing: 1rem;
+    --mobile-section-padding: 3rem;
   }
 
   /* Simplify filters on mobile */
   .mobile-optimized .filter-container {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
   }
 
   /* Single column grid on mobile */
   .mobile-optimized .product-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  /* Reduce padding on mobile */
+  /* Optimized padding on mobile - balanced spacing */
   .mobile-optimized section {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 
   /* Hide non-essential elements on mobile */
@@ -110,28 +112,54 @@ img {
     max-width: 100%;
     height: auto;
   }
+
+  /* Professional typography scaling for mobile */
+  .mobile-optimized h1 {
+    font-size: 1.875rem; /* 30px */
+    line-height: 1.2;
+  }
+
+  .mobile-optimized h2 {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.3;
+  }
+
+  .mobile-optimized h3 {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.4;
+  }
+
+  /* Button sizing for mobile - touch-friendly */
+  .mobile-optimized button,
+  .mobile-optimized a[role="button"] {
+    min-height: 48px;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9375rem; /* 15px */
+  }
 }
 
 /* Desktop Optimizations */
 @media (min-width: 1024px) {
   .desktop-optimized {
-    /* Increase spacing for desktop */
-    --desktop-spacing: 1.5rem;
+    /* Professional spacing for desktop - generous but balanced */
+    --desktop-spacing: 2rem;
+    --desktop-section-padding: 6rem;
   }
 
-  /* Multi-column grid on desktop */
+  /* Multi-column grid on desktop - optimal for B2B content */
   .desktop-optimized .product-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
   }
 
-  /* Show hover effects on desktop */
+  /* Professional hover effects on desktop - subtle and refined */
   .desktop-optimized .hover-effect {
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .desktop-optimized .hover-effect:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
 
   /* Hide mobile-only elements on desktop */
@@ -142,6 +170,32 @@ img {
   /* Preload critical resources on desktop */
   .desktop-optimized .preload-resource {
     rel: preload;
+  }
+
+  /* Professional typography scaling for desktop */
+  .desktop-optimized h1 {
+    font-size: 3.5rem; /* 56px */
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .desktop-optimized h2 {
+    font-size: 2.5rem; /* 40px */
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .desktop-optimized h3 {
+    font-size: 1.875rem; /* 30px */
+    line-height: 1.3;
+  }
+
+  /* Button sizing for desktop - professional appearance */
+  .desktop-optimized button,
+  .desktop-optimized a[role="button"] {
+    min-height: 48px;
+    padding: 0.875rem 2rem;
+    font-size: 1rem; /* 16px */
   }
 }
 
