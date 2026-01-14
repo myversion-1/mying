@@ -240,11 +240,11 @@ export default function RootLayout({
         <style dangerouslySetInnerHTML={{
           __html: `
             :root{--background:#fafbfc;--foreground:#1a1a1a;--surface:#fafbfc;--surface-elevated:#f5f6f8;--text-primary:#1a2332;--text-secondary:#2d3e52;--accent-primary:#00eaff;--action-primary:#00eaff;--action-primary-text:#0a1628;--border:rgba(0,0,0,0.06)}
-            .dark{--background:#0a1628;--foreground:rgba(255,255,255,0.98);--surface:#0c1014;--surface-elevated:#151920;--text-primary:rgba(255,255,255,0.98);--text-secondary:rgba(255,255,255,0.85);--accent-primary:#00eaff;--action-primary:#00eaff;--action-primary-text:#0a1628;--border:rgba(255,255,255,0.1)}
+            .dark{--background:#0F172A;--foreground:rgba(255,255,255,0.98);--surface:#0F172A;--surface-elevated:#1E293B;--text-primary:rgba(255,255,255,0.98);--text-secondary:rgba(255,255,255,0.85);--accent-primary:#06B6D4;--action-primary:#06B6D4;--action-primary-text:#0F172A;--border:rgba(255,255,255,0.1)}
             *{margin:0;padding:0;box-sizing:border-box}
             html{scroll-behavior:smooth}
-            body{font-family:'Geist Sans Fallback',var(--font-geist-sans),system-ui,-apple-system,sans-serif;background-color:var(--background);color:var(--foreground);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-            h1,h2,h3,h4,h5,h6{font-family:'Crimson Text Fallback',var(--font-serif),'Times New Roman',Times,serif}
+            body{font-family:'Inter',var(--font-inter),'Roboto',system-ui,-apple-system,sans-serif;background-color:var(--background);color:var(--foreground);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+            h1,h2,h3,h4,h5,h6{font-family:'Inter',var(--font-inter),'Roboto',system-ui,-apple-system,sans-serif;font-weight:600}
             header{position:sticky;top:0;z-index:40;border-bottom:1px solid var(--border);background:rgba(250,251,252,0.8);backdrop-filter:blur(12px)}
             .dark header{background:rgba(10,22,40,0.8)}
             button,a{min-height:44px;min-width:44px;touch-action:manipulation}
@@ -265,7 +265,7 @@ export default function RootLayout({
         {/* No manual preload links needed - Next.js optimizes font loading automatically */}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${crimsonText.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
+        className={`${inter.variable} ${geistMono.variable} ${geistSans.variable} ${crimsonText.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
         suppressHydrationWarning
       >
         <ErrorBoundary>

@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { copy } from "../content/copy";
 import { useLanguage } from "./language";
 import { trackCTAClick } from "../lib/analytics";
+import { CheckCircle2, Award, Globe2 } from "lucide-react";
 
 type Props = {
   headline?: string;
@@ -14,6 +16,7 @@ type Props = {
   badge?: string;
   primaryCtaText?: string;
   secondaryCtaText?: string;
+  heroImage?: string; // Optional hero image (3D render or factory photo)
 };
 
 export function PageHero({
@@ -24,52 +27,69 @@ export function PageHero({
   badge,
   primaryCtaText,
   secondaryCtaText,
+  heroImage = "/products/米盈游乐设备产品介绍 conv 0.jpeg", // Default factory photo
 }: Props) {
   const { lang } = useLanguage();
   const pathname = usePathname();
   const c = copy(lang);
 
-  // Primary CTA: "Get a Quote" (or "Talk to an Engineer" if specified)
+  // Primary CTA: "Get a Quote" - Solid fill style
   const primaryCTA = primaryCtaText || c.cta.requestQuote || c.cta.primary;
   
-  // Secondary CTA: "Download Product Specs"
+  // Secondary CTA: "Download Specs" - Outline style
   const secondaryCTA = secondaryCtaText || c.cta.downloadSpecs || c.cta.secondary;
 
+  // Trust badges data
+  const trustBadges = [
+    {
+      icon: Award,
+      label: lang === "zh" ? "ISO 9001" : "ISO 9001",
+      description: lang === "zh" ? "认证制造商" : "Certified",
+    },
+    {
+      icon: CheckCircle2,
+      label: lang === "zh" ? "CE 标志" : "CE Marking",
+      description: lang === "zh" ? "合规认证" : "Compliant",
+    },
+    {
+      icon: Globe2,
+      label: lang === "zh" ? "80+ 国家" : "80+ Countries",
+      description: lang === "zh" ? "全球出口" : "Global Export",
+    },
+  ];
+
   // Use badge prop if provided, otherwise use default from translations
-  // IMPORTANT: If badge prop is provided, use it directly to avoid hydration mismatch
-  // Only fall back to c.hero.badge if badge is truly undefined
-  // Use suppressHydrationWarning to prevent hydration mismatch when badge prop is provided
   const badgeText = badge !== undefined && badge !== null ? badge : c.hero.badge;
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-gradient-to-br from-[var(--surface-elevated)] via-[var(--surface)] to-[var(--background)] px-4 py-8 sm:px-6 sm:py-10 md:px-10 md:py-16 lg:px-12 lg:py-20">
-      <div className="relative flex flex-col gap-6 sm:gap-8 md:flex-row md:items-center md:justify-between md:gap-10 lg:gap-12">
-        {/* Main Content - Left Side */}
-        <div className="flex-1 max-w-2xl space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-8">
-          {/* Badge - Smaller on mobile */}
-          {/* Use suppressHydrationWarning to prevent hydration mismatch when badge prop is provided */}
+    <div className="relative overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)]">
+      {/* Layout: Left Text, Right Image (Desktop) / Centered (Mobile) */}
+      <div className="relative flex flex-col md:flex-row md:items-center md:gap-12 lg:gap-16">
+        {/* Main Content - Left Side (Desktop) / Centered (Mobile) */}
+        <div className="flex-1 px-6 py-8 md:px-8 md:py-12 lg:px-12 lg:py-16 space-y-6 md:space-y-8 order-2 md:order-1">
+          {/* Badge */}
           {badgeText && (
             <div 
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-primary-light)] px-2.5 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs font-semibold uppercase tracking-[0.12em] text-[var(--accent-primary)] !text-[var(--accent-primary)] dark:bg-[rgba(0,234,255,0.5)] dark:!text-white dark:border dark:border-[rgba(0,234,255,0.6)]"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-primary-light)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--accent-primary)] border border-[var(--accent-primary)]/30"
               suppressHydrationWarning={badge !== undefined}
             >
               {badgeText}
             </div>
           )}
           
-          {/* Headline - Optimized for mobile readability */}
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold leading-tight text-[var(--text-primary)] !text-[var(--text-primary)] tracking-tight">
+          {/* Headline (H1) - Emphasizes Industry Position */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-[var(--text-primary)] tracking-tight max-w-3xl">
             {headline ?? c.hero.title}
           </h1>
           
-          {/* Subtitle - Clear Value Proposition - Shorter on mobile */}
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed text-[var(--text-secondary)] !text-[var(--text-secondary)] max-w-3xl">
+          {/* Subtitle - Describes Specific Solution */}
+          <p className="text-lg sm:text-xl md:text-2xl leading-relaxed text-[var(--text-secondary)] max-w-2xl">
             {subhead ?? c.hero.subtitle}
           </p>
           
-          {/* CTA Buttons - Primary is visually dominant - Above the fold on mobile */}
-          <div className="flex flex-col gap-3 sm:gap-4 pt-2 md:flex-row md:gap-4 lg:gap-6">
-            {/* Primary CTA: Single conversion action - Visually dominant */}
+          {/* CTA Buttons - Clear Visual Hierarchy */}
+          <div className="flex flex-col gap-4 sm:flex-row sm:gap-4 pt-2">
+            {/* Primary CTA: Solid Fill - "Get a Quote" */}
             <Link
               href={ctaPrimaryHref}
               data-element-id="hero-primary-cta"
@@ -84,12 +104,12 @@ export function PageHero({
                   section: "hero_primary",
                 });
               }}
-              className="rounded-lg bg-[var(--action-primary)] px-6 py-3.5 sm:px-8 sm:py-4 md:px-10 md:py-4 lg:px-12 lg:py-5 text-sm sm:text-base md:text-lg font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[48px] sm:min-h-[52px] md:min-h-[56px] touch-manipulation text-center flex items-center justify-center w-full md:flex-1 md:w-auto"
+              className="rounded-md bg-[var(--action-primary)] px-8 py-4 text-base font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[48px] touch-manipulation text-center flex items-center justify-center flex-1 sm:flex-none sm:w-auto"
             >
               {primaryCTA}
             </Link>
             
-            {/* Secondary CTA: Auxiliary action */}
+            {/* Secondary CTA: Outline Style - "Download Specs" */}
             <Link
               href={ctaSecondaryHref}
               data-element-id="hero-secondary-cta"
@@ -104,38 +124,55 @@ export function PageHero({
                   section: "hero_secondary",
                 });
               }}
-              className="rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-6 py-3 sm:px-8 sm:py-3.5 md:px-8 md:py-4 lg:px-10 lg:py-4.5 text-sm sm:text-base md:text-lg font-semibold text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] sm:min-h-[48px] md:min-h-[52px] touch-manipulation text-center flex items-center justify-center w-full md:flex-1 md:w-auto"
+              className="rounded-md border-2 border-[var(--action-primary)] bg-transparent px-8 py-4 text-base font-semibold text-[var(--action-primary)] transition-colors hover:bg-[var(--action-primary)]/10 min-h-[48px] touch-manipulation text-center flex items-center justify-center flex-1 sm:flex-none sm:w-auto"
             >
               {secondaryCTA}
             </Link>
           </div>
+
+          {/* Trust Badges - Minimal Icon Style Below CTAs */}
+          <div className="flex flex-wrap items-center gap-6 pt-4">
+            {trustBadges.map((badge, index) => {
+              const Icon = badge.icon;
+              return (
+                <div
+                  key={index}
+                  className="flex items-center gap-2 text-sm text-[var(--text-secondary)]"
+                >
+                  <Icon className="h-5 w-5 text-[var(--accent-primary)] flex-shrink-0" />
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-[var(--text-primary)]">
+                      {badge.label}
+                    </span>
+                    <span className="text-xs text-[var(--text-tertiary)]">
+                      {badge.description}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
         
-        {/* Highlights Grid - Right Side (Desktop) / Below (Mobile) - Moved below CTA on mobile for conversion priority */}
-        <div 
-          className="grid grid-cols-2 gap-3 sm:gap-4 md:gap-3 lg:gap-4 text-xs sm:text-sm md:text-sm lg:text-base text-[var(--text-secondary)] md:max-w-xs lg:max-w-sm md:flex-shrink-0 md:mt-0 mt-6 sm:mt-8"
-          style={{
-            // Prevent layout shift by reserving space
-            minHeight: '120px',
-            containIntrinsicSize: 'auto 120px',
-          }}
-        >
-          {c.highlights.map((item) => (
-            <div
-              key={item}
-              className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-3 sm:px-5 sm:py-4 md:px-4 md:py-3 lg:px-5 lg:py-4"
-              style={{
-                // Prevent layout shift from content changes
-                minHeight: '56px',
-                containIntrinsicSize: 'auto 56px',
-              }}
-            >
-              {item}
-            </div>
-          ))}
+        {/* Hero Image - Right Side (Desktop) / Above (Mobile) */}
+        <div className="relative w-full md:w-1/2 lg:w-2/5 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden order-1 md:order-2">
+          {/* Floating Animation Container */}
+          <div className="absolute inset-0 animate-float">
+            <Image
+              src={heroImage}
+              alt={lang === "zh" ? "米盈工厂实景" : "Miying Factory Facilities"}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+              priority
+              quality={85}
+            />
+          </div>
+          
+          {/* Gradient Overlay for Better Text Readability (if needed) */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[var(--surface-elevated)] md:from-transparent md:via-transparent md:to-[var(--surface-elevated)] pointer-events-none" />
         </div>
       </div>
     </div>
   );
 }
-
