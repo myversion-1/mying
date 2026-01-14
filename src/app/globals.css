@@ -442,11 +442,15 @@ body {
 /* Base Typography Styles */
 h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
+  /* Use fallback font first to prevent layout shift during font loading */
+  font-family: 'Crimson Text Fallback', var(--font-serif), 'Times New Roman', Times, serif;
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.02em;
   margin-top: 0;
   margin-bottom: 0.5em;
+  /* Prevent layout shift during font loading */
+  font-size-adjust: 0.5;
 }
 
 p {
