@@ -99,6 +99,16 @@ const nextConfig: NextConfig = {
     return config;
   },
   
+  // URL 重写规则
+  async rewrites() {
+    return [
+      {
+        source: "/sitemap-images.xml",
+        destination: "/sitemap-images",
+      },
+    ];
+  },
+  
   // 安全头部和性能优化
   async headers() {
     return [
