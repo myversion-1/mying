@@ -65,6 +65,92 @@ img {
   content-visibility: auto;
 }
 
+/* ============================================
+   Mobile & Desktop Layout Optimization
+   ============================================ */
+
+/* Mobile Optimizations */
+@media (max-width: 767px) {
+  .mobile-optimized {
+    /* Reduce spacing for mobile */
+    --mobile-spacing: 0.75rem;
+  }
+
+  /* Simplify filters on mobile */
+  .mobile-optimized .filter-container {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Single column grid on mobile */
+  .mobile-optimized .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Reduce padding on mobile */
+  .mobile-optimized section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  /* Hide non-essential elements on mobile */
+  .mobile-optimized .desktop-only {
+    display: none;
+  }
+
+  /* Optimize images for mobile */
+  .mobile-optimized img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Desktop Optimizations */
+@media (min-width: 1024px) {
+  .desktop-optimized {
+    /* Increase spacing for desktop */
+    --desktop-spacing: 1.5rem;
+  }
+
+  /* Multi-column grid on desktop */
+  .desktop-optimized .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Show hover effects on desktop */
+  .desktop-optimized .hover-effect {
+    transition: all 0.3s ease;
+  }
+
+  .desktop-optimized .hover-effect:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Hide mobile-only elements on desktop */
+  .desktop-optimized .mobile-only {
+    display: none;
+  }
+
+  /* Preload critical resources on desktop */
+  .desktop-optimized .preload-resource {
+    rel: preload;
+  }
+}
+
+/* Tablet Optimizations */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tablet-optimized {
+    /* Medium spacing for tablet */
+    --tablet-spacing: 1rem;
+  }
+
+  /* 2-column grid on tablet */
+  .tablet-optimized .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* Container Queries Support for Product Cards
  * Tailwind CSS 4 supports @container syntax natively
  * The @container class enables container-type: inline-size

@@ -13,6 +13,7 @@ import { SmartSelector } from "./SmartSelector";
 import type { ProductUsage, VenueType, TargetAudience } from "../content/products_multilingual";
 import { generateProductSlug } from "../utils/hreflang";
 import { debounce } from "../utils/main-thread-optimization";
+import { useIsMobile, useIsDesktop } from "../utils/device-detection";
 
 type Props = {
   items?: Product[];
@@ -44,6 +45,8 @@ export function ProductGrid({
   const { lang } = useLanguage();
   const c = copy(lang);
   const isRTL = lang === "ar";
+  const isMobile = useIsMobile();
+  const isDesktop = useIsDesktop();
 
   // Get products - use provided items or fetch all
   const allProducts = items || getProducts(lang);
@@ -240,8 +243,8 @@ export function ProductGrid({
         )}
       </div>
 
-      {/* Multi-dimensional Filters (similar to Arrowy's approach) */}
-      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] p-4">
+      {/* Multi-dimensional Filters - Mobile: vertical stack, Desktop: horizontal */}
+      <div className={`flex ${isMobile ? 'flex-col' : 'flex-wrap'} items-center ${isMobile ? 'gap-2' : 'gap-3'} rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] ${isMobile ? 'p-3' : 'p-4'}`}>
         <div className="flex items-center gap-2">
           <label className="text-sm font-medium text-[var(--text-secondary)]">Usage:</label>
           <select
@@ -266,8 +269,8 @@ export function ProductGrid({
           </select>
         </div>
         
-        <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-[var(--text-secondary)]">Venue:</label>
+        <div className={`flex ${isMobile ? 'flex-col' : 'items-center'} gap-2`}>
+          <label className={`text-sm font-medium text-[var(--text-secondary)] ${isMobile ? 'mb-1' : ''}`}>Venue:</label>
           <select
             value={multiFilter.venueType || ""}
             onChange={(e) => {
@@ -289,8 +292,8 @@ export function ProductGrid({
           </select>
         </div>
         
-        <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-[var(--text-secondary)]">Audience:</label>
+        <div className={`flex ${isMobile ? 'flex-col' : 'items-center'} gap-2`}>
+          <label className={`text-sm font-medium text-[var(--text-secondary)] ${isMobile ? 'mb-1' : ''}`}>Audience:</label>
           <select
             value={multiFilter.targetAudience || ""}
             onChange={(e) => {
@@ -358,8 +361,8 @@ export function ProductGrid({
         </div>
       )}
 
-      {/* Products Grid */}
-      <div className="grid gap-4 md:grid-cols-2">
+      {/* Products Grid - Mobile: 1 column, Tablet: 2 columns, Desktop: 3 columns */}
+      <div className={`grid gap-4 ${isMobile ? 'grid-cols-1' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product, index) => (
             <div

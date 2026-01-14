@@ -10,6 +10,7 @@ import { copy, getServices, getProducts } from "../content/copy";
 import { homePageStats } from "../content/homePageStats";
 import { testimonials, getLocalizedTestimonial } from "../content/testimonials";
 import { useLanguage } from "../components/language";
+import { useIsMobile, useIsDesktop } from "../utils/device-detection";
 
 // Code split heavy components to reduce initial bundle size
 // Use intersection observer pattern for better performance
@@ -52,6 +53,8 @@ export default function Home() {
   const { lang } = useLanguage();
   const router = useRouter();
   const c = copy(lang);
+  const isMobile = useIsMobile();
+  const isDesktop = useIsDesktop();
   // Defer loading services data until needed (lazy evaluation)
   const services = getServices(lang);
   const isRTL = lang === "ar";
@@ -61,7 +64,7 @@ export default function Home() {
 
   return (
     <div 
-      className="space-y-8 md:space-y-12"
+      className={`space-y-6 md:space-y-10 lg:space-y-12 ${isMobile ? 'mobile-optimized' : 'desktop-optimized'}`}
       style={{
         // Prevent layout shift by reserving minimum space
         minHeight: '100vh',
@@ -80,12 +83,17 @@ export default function Home() {
 
       {/* Home Page Statistics - Trust Building Section */}
       {/* Stats Section with background - positioned right after Hero - Reduced padding on mobile */}
+      {/* Mobile: 2 columns, Desktop: 5 columns for better layout */}
       <section 
         id="stats" 
-        className="py-8 md:py-12 lg:py-16 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent"
+        className="py-6 md:py-10 lg:py-16 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent"
       >
-        <div className="mx-auto max-w-6xl px-4 md:px-8">
-          <StatsGrid stats={homePageStats} lang={lang} columns={5} />
+        <div className={`mx-auto max-w-6xl ${isMobile ? 'px-4' : 'px-4 md:px-8'}`}>
+          <StatsGrid 
+            stats={homePageStats} 
+            lang={lang} 
+            columns={isMobile ? 2 : 5} 
+          />
         </div>
       </section>
 
@@ -94,9 +102,9 @@ export default function Home() {
         id="why-choose-miying"
         title={lang === "zh" ? "为什么全球主题公园选择米盈设备" : "Why Global Theme Parks Choose Miying Equipment"}
       >
-        <div className="space-y-12">
+        <div className={`space-y-8 md:space-y-10 lg:space-y-12`}>
           {/* Industry-Leading Manufacturing Standards */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-8 md:p-10">
+          <div className={`rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] ${isMobile ? 'p-6' : 'p-8 md:p-10'}`}>
             <h2 className="mb-4 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">
               {lang === "zh" ? "ISO认证游乐设备制造商标准" : "ISO Certified Amusement Rides Manufacturer Standards"}
             </h2>
