@@ -19,20 +19,56 @@ export function BeforeAfterSlider({
   label = "Space Transformation Efficiency",
 }: BeforeAfterSliderProps) {
   const [sliderPosition, setSliderPosition] = useState(50);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const rectCacheRef = React.useRef<DOMRect | null>(null);
+  const rafIdRef = React.useRef<number | null>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const percentage = (x / rect.width) * 100;
-    setSliderPosition(Math.max(0, Math.min(100, percentage)));
-  };
+  // Cache bounding rect and update on resize
+  React.useEffect(() => {
+    const updateRect = () => {
+      if (containerRef.current) {
+        rectCacheRef.current = containerRef.current.getBoundingClientRect();
+      }
+    };
 
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.touches[0].clientX - rect.left;
-    const percentage = (x / rect.width) * 100;
-    setSliderPosition(Math.max(0, Math.min(100, percentage)));
-  };
+    updateRect();
+    window.addEventListener('resize', updateRect, { passive: true });
+    
+    return () => {
+      window.removeEventListener('resize', updateRect);
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
+  }, []);
+
+  // Optimized mouse move handler - use cached rect and requestAnimationFrame
+  const handleMouseMove = React.useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (rafIdRef.current) {
+      cancelAnimationFrame(rafIdRef.current);
+    }
+
+    rafIdRef.current = requestAnimationFrame(() => {
+      const rect = rectCacheRef.current || e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const percentage = (x / rect.width) * 100;
+      setSliderPosition(Math.max(0, Math.min(100, percentage)));
+    });
+  }, []);
+
+  // Optimized touch move handler - use cached rect and requestAnimationFrame
+  const handleTouchMove = React.useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    if (rafIdRef.current) {
+      cancelAnimationFrame(rafIdRef.current);
+    }
+
+    rafIdRef.current = requestAnimationFrame(() => {
+      const rect = rectCacheRef.current || e.currentTarget.getBoundingClientRect();
+      const x = e.touches[0].clientX - rect.left;
+      const percentage = (x / rect.width) * 100;
+      setSliderPosition(Math.max(0, Math.min(100, percentage)));
+    });
+  }, []);
 
   return (
     <div className="before-after-slider my-12">

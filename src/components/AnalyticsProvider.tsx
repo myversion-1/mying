@@ -33,12 +33,27 @@ function AnalyticsProviderInner({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let scrollDepthsTracked = new Set<number>();
     let startTime = Date.now();
+    let cachedScrollHeight = 0;
+    let cachedWindowHeight = 0;
+
+    // Cache scroll height to prevent forced reflow
+    const updateCache = () => {
+      cachedScrollHeight = document.documentElement.scrollHeight;
+      cachedWindowHeight = window.innerHeight;
+    };
+    updateCache();
+    window.addEventListener('resize', updateCache, { passive: true });
 
     // Throttle scroll handler to reduce TBT (max once per 500ms)
     const handleScroll = throttle(() => {
+      // Use cached values to prevent forced reflow
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = Math.round((scrollTop / scrollHeight) * 100);
+      // Only update cache if scrollHeight might have changed (after a delay)
+      if (cachedScrollHeight === 0) {
+        cachedScrollHeight = document.documentElement.scrollHeight;
+        cachedWindowHeight = window.innerHeight;
+      }
+      const scrollPercent = Math.round((scrollTop / (cachedScrollHeight - cachedWindowHeight)) * 100);
 
       // Track milestones: 25%, 50%, 75%, 100%
       const milestones = [25, 50, 75, 100];
@@ -63,6 +78,7 @@ function AnalyticsProviderInner({ children }: { children: React.ReactNode }) {
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", updateCache);
     };
   }, [pathname]);
 
@@ -70,12 +86,26 @@ function AnalyticsProviderInner({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const startTime = Date.now();
     let maxScrollDepth = 0;
+    let cachedScrollHeight = 0;
+    let cachedWindowHeight = 0;
+
+    // Cache scroll height to prevent forced reflow
+    const updateCache = () => {
+      cachedScrollHeight = document.documentElement.scrollHeight;
+      cachedWindowHeight = window.innerHeight;
+    };
+    updateCache();
+    window.addEventListener('resize', updateCache, { passive: true });
 
     // Throttle scroll handler to reduce main thread blocking
     const handleScroll = throttle(() => {
+      // Use cached values to prevent forced reflow
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = Math.round((scrollTop / scrollHeight) * 100);
+      if (cachedScrollHeight === 0) {
+        cachedScrollHeight = document.documentElement.scrollHeight;
+        cachedWindowHeight = window.innerHeight;
+      }
+      const scrollPercent = Math.round((scrollTop / (cachedScrollHeight - cachedWindowHeight)) * 100);
       maxScrollDepth = Math.max(maxScrollDepth, scrollPercent);
     }, 200); // Throttle to max once per 200ms
 
@@ -110,6 +140,7 @@ function AnalyticsProviderInner({ children }: { children: React.ReactNode }) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("resize", updateCache);
     };
   }, [pathname]);
 
