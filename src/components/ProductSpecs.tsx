@@ -41,9 +41,10 @@ export function ProductSpecs({
   };
 
   // Card variant: compact grid layout with Container Queries
+  // Using div instead of dl/dt/dd to reduce DOM depth
   if (variant === "card") {
     return (
-      <dl
+      <div
         className={`
           grid gap-2 @[200px]:gap-3 text-xs @[300px]:text-sm text-[var(--text-secondary)]
           grid-cols-1 @[200px]:grid-cols-2 @[400px]:grid-cols-4 min-w-0
@@ -62,7 +63,7 @@ export function ProductSpecs({
         {product.year && (
           <SpecItem label={labels.year} value={product.year} isRTL={isRTL} />
         )}
-      </dl>
+      </div>
     );
   }
 
@@ -113,29 +114,14 @@ function SpecItem({
         isRTL ? "text-right" : "text-left"
       }`}
     >
-      <dt 
-        className="text-[11px] uppercase tracking-[0.14em] text-[var(--text-tertiary)] break-words overflow-hidden max-w-full"
-        style={{
-          wordBreak: "break-word",
-          overflowWrap: "break-word",
-          hyphens: "auto",
-          maxWidth: "100%",
-        }}
-      >
+      <div className="text-[11px] uppercase tracking-[0.14em] text-[var(--text-tertiary)] break-words overflow-hidden max-w-full">
         {label}
-      </dt>
-      <dd 
-        className="text-[var(--text-primary)] break-words overflow-wrap-anywhere min-w-0"
-        style={{
-          wordBreak: "break-word",
-          overflowWrap: "anywhere",
-          hyphens: "auto",
-        }}
-      >
+      </div>
+      <div className="text-[var(--text-primary)] break-words overflow-wrap-anywhere min-w-0">
         {value}
-      </dd>
+      </div>
       {explanation && (
-        <span className="mt-1 text-xs text-[var(--text-tertiary)]">({explanation})</span>
+        <div className="mt-1 text-xs text-[var(--text-tertiary)]">({explanation})</div>
       )}
     </div>
   );

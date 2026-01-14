@@ -28,7 +28,7 @@ export function Footer() {
     <>
       {/* Quick Contact Bar - Persistent at bottom */}
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-[var(--border)] bg-[var(--glass-bg)] backdrop-blur-sm">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-3 md:px-8">
+        <div className="mx-auto w-full max-w-screen-2xl px-4 sm:px-6 py-3 md:px-8">
           <div className="flex items-center justify-between">
             <div className="text-sm font-medium text-[var(--text-primary)]">
               {lang === "zh" ? "快速联系技术专家" : "Quick Contact Technical Expert"}
@@ -78,7 +78,7 @@ export function Footer() {
       </div>
 
       <footer className="border-t border-[var(--border)] bg-[var(--surface)] pb-28 md:pb-6 transition-colors">
-        <div className="mx-auto max-w-7xl px-4 py-12 md:px-8">
+        <div className="mx-auto w-full max-w-screen-2xl px-4 py-12 md:px-8">
           {/* Main Footer Content */}
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 mb-8">
             {/* Company Info */}

@@ -52,7 +52,7 @@ export default function TradeShowsPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 md:px-8 md:py-16">
+    <div className="mx-auto w-full max-w-screen-2xl px-4 py-12 md:px-8 md:py-16">
       {/* Page Header */}
       <div className="mb-8 text-center">
         <h1 className="mb-4 text-4xl font-bold text-[var(--text-primary)] md:text-5xl">

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
-export function ThemeToggle() {
+export default function ThemeToggle() {
   // Initialize with "dark" to match server-side render (default theme)
   const [theme, setTheme] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);

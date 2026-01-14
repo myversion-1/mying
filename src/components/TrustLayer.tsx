@@ -123,7 +123,7 @@ export function TrustLayer({
 
   return (
     <section className="py-12 md:py-16 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent">
-      <div className="mx-auto max-w-6xl px-4 md:px-8">
+      <div className="mx-auto w-full max-w-screen-2xl px-4 md:px-8">
         {/* Section Header - Only show in full variant */}
         {variant === "full" && (
           <div className="mb-8 text-center">

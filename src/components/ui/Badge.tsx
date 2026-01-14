@@ -21,7 +21,7 @@ export function Badge({ children, tone = "neutral" }: Props) {
 
   return (
     <span
-      className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.1em] ${toneClass}`}
+      className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] leading-tight ${toneClass}`}
     >
       {children}
     </span>

@@ -1,22 +1,56 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
 type SectionProps = {
   id?: string;
   title?: string;
   eyebrow?: string;
   subtitle?: string;
   children: React.ReactNode;
+  className?: string;
 };
 
-export function Section({ id, title, eyebrow, subtitle, children }: SectionProps) {
+export function Section({ id, title, eyebrow, subtitle, children, className = "" }: SectionProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          // Keep observing for re-animation if needed
+        }
+      },
+      { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px' // Trigger slightly before element enters viewport
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
+
   return (
     <section 
+      ref={ref}
       id={id} 
-      className="py-12 sm:py-16 md:py-20 lg:py-24 xl:py-28"
+      className={`${className} ${isVisible ? 'revealed' : ''}`}
       style={{
         // Prevent layout shift by reserving minimum space
         minHeight: '1px',
       }}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+      <div className="mx-auto w-full max-w-screen-2xl px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
         {(title || subtitle) && (
           <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-16 max-w-3xl space-y-3 sm:space-y-4">
             {eyebrow && (

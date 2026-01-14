@@ -77,7 +77,7 @@ export function PartnersSection({
 
   return (
     <section className="py-12 md:py-16">
-      <div className="mx-auto max-w-6xl px-4 md:px-8">
+      <div className="mx-auto w-full max-w-screen-2xl px-4 md:px-8">
         {/* Section Header */}
         {(title || subtitle) && (
           <div className="mb-8 text-center">

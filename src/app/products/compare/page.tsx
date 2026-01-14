@@ -147,7 +147,7 @@ function ComparePageContent() {
   const isZh = lang === "zh";
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-12">
+    <div className="mx-auto w-full max-w-screen-2xl px-4 py-8 md:px-8 md:py-12">
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="mb-4 text-4xl font-bold text-[var(--text-primary)] md:text-5xl">
@@ -358,7 +358,7 @@ function ComparePageContent() {
 export default function ComparePage() {
   return (
     <Suspense fallback={
-      <div className="mx-auto max-w-6xl px-4 py-8 md:px-8 md:py-12">
+      <div className="mx-auto w-full max-w-screen-2xl px-4 py-8 md:px-8 md:py-12">
         <div className="text-center text-[var(--text-secondary)]">Loading...</div>
       </div>
     }>

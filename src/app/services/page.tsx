@@ -31,7 +31,7 @@ export default function ServicesPage() {
   ];
   return (
     <div className="space-y-12">
-      <div className="mx-auto max-w-6xl px-4 md:px-8">
+      <div className="mx-auto w-full max-w-screen-2xl px-4 md:px-8">
         <div className="my-10">
           <PageHero
             headline={lang === "zh" ? "游乐设备安装服务 | 主题公园设备供应商服务" : "Amusement Ride Installation Services | Theme Park Equipment Supplier Services"}
@@ -50,7 +50,7 @@ export default function ServicesPage() {
             return (
               <div
                 key={service.title}
-                className="rounded-2xl border border-white/5 bg-white/5 p-5 flex flex-col"
+                className="rounded-2xl border border-white/10 bg-[var(--glass-bg)] backdrop-blur-md p-6 flex flex-col h-full transition-all duration-300 hover:border-[var(--accent-primary)]/30 hover:shadow-lg"
               >
                 <div className="flex-1">
                   <div className="text-xs uppercase tracking-[0.14em] text-[var(--dark-bg-text-tertiary)]">

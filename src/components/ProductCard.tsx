@@ -39,8 +39,11 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
     <article
       className="
         @container
-        group flex flex-col gap-3 rounded-2xl border border-[var(--border)] 
-        bg-[var(--surface-elevated)] p-4 transition hover:border-[var(--border-hover)] hover:bg-[var(--surface-hover)]
+        group flex flex-col gap-3 rounded-2xl border border-[#374151] 
+        bg-[var(--surface-elevated)] p-4 transition-all duration-300 overflow-hidden
+        hover:border-[var(--accent-primary)]/50 hover:bg-[var(--surface-hover)] 
+        hover:shadow-lg hover:shadow-[var(--accent-primary)]/20
+        hover:-translate-y-1 hover:scale-[1.02]
       "
     >
       {/* Product Image - Container Query responsive aspect ratio */}
@@ -52,6 +55,8 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
             @[300px]:aspect-[4/3]
             @[500px]:aspect-video
             aspect-square
+            group-hover:ring-2 group-hover:ring-[var(--accent-primary)]/30
+            transition-all duration-300
           "
         >
           {product.image ? (
@@ -60,14 +65,21 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
               <img
                 src={encodeImagePath(product.image)}
                 alt={`${product.name} - ${product.category} amusement ride${product.status === "Used" ? " (Used)" : ""}`}
-                className="h-full w-full object-cover transition group-hover:scale-105"
+                className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
                 width={800}
                 height={800}
-                style={{ aspectRatio: '1 / 1' }}
+                style={{ aspectRatio: '1 / 1', opacity: index < 6 ? 1 : 0 }}
                 loading={index < 6 ? "eager" : "lazy"}
                 fetchPriority={index < 3 ? "high" : "auto"}
                 decoding="async"
                 suppressHydrationWarning
+                onLoad={(e) => {
+                  // Progressive fade-in for lazy loaded images
+                  const target = e.target as HTMLImageElement;
+                  target.setAttribute('data-loaded', 'true');
+                  target.style.opacity = '1';
+                  target.style.transition = 'opacity 0.5s ease-in-out';
+                }}
                 onError={(e) => {
                   // Fallback to placeholder if image fails to load
                   const target = e.target as HTMLImageElement;
@@ -90,12 +102,19 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
                 src={product.image}
                 alt={`${product.name} - ${product.category} amusement ride${product.status === "Used" ? " (Used)" : ""}`}
                 fill
-                className="object-cover transition group-hover:scale-105"
+                className="object-cover transition-all duration-500 group-hover:scale-105"
                 sizes="(max-width: 300px) 100vw, (max-width: 500px) 50vw, 33vw"
                 loading={index < 6 ? "eager" : "lazy"}
                 priority={index < 6}
                 quality={65}
                 fetchPriority={index < 3 ? "high" : "auto"}
+                onLoad={(e) => {
+                  // Mark image as loaded for progressive fade-in
+                  const target = e.target as HTMLImageElement;
+                  target.setAttribute('data-loaded', 'true');
+                  target.style.opacity = '1';
+                }}
+                style={{ opacity: index < 6 ? 1 : 0 }}
               />
             )
           ) : (
@@ -106,14 +125,12 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
               </div>
             </div>
           )}
-          {/* Product Type Badge - Similar to Arrowy's EV/GAS/FE system */}
+          {/* Product Type Badge - Refined capsule design */}
           {product.type && (
             <div
               className={`
                 absolute z-10
-                top-2 ${isRTL ? "left-2" : "right-2"}
-                @[300px]:top-3
-                ${isRTL ? "@[300px]:left-3 @[300px]:right-auto" : "@[300px]:right-3"}
+                top-2.5 ${isRTL ? "left-2.5" : "right-2.5"}
               `}
             >
               <Badge tone={product.type}>
@@ -125,14 +142,12 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
               </Badge>
             </div>
           )}
-          {/* Patent Badge - Container Query responsive positioning */}
+          {/* Patent Badge - Refined capsule design */}
           {product.patentCount && product.patentCount > 0 && (
             <div
               className={`
                 absolute z-10
-                ${product.type ? "top-12" : "top-2"} ${isRTL ? "left-2" : "right-2"}
-                @[300px]:${product.type ? "top-14" : "top-3"}
-                ${isRTL ? "@[300px]:left-3 @[300px]:right-auto" : "@[300px]:right-3"}
+                ${product.type ? "top-11" : "top-2.5"} ${isRTL ? "left-2.5" : "right-2.5"}
               `}
             >
               <Badge tone="patent">
@@ -165,70 +180,73 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
             </h3>
           </Link>
         </div>
-        <Badge tone={product.status === "New" ? "positive" : "warning"}>
-          {product.status}
-        </Badge>
+        <div className="flex-shrink-0">
+          <Badge tone={product.status === "New" ? "positive" : "warning"}>
+            {product.status}
+          </Badge>
+        </div>
       </div>
 
-      {/* Product Positioning - Container Query responsive text size */}
+      {/* Product Positioning - Short description, always visible */}
       {product.positioning && (
         <p
           className="
-            text-xs @[300px]:text-sm leading-relaxed text-[var(--text-secondary)]
-            line-clamp-2 @[500px]:line-clamp-3
+            text-sm leading-relaxed text-[var(--text-secondary)]
+            line-clamp-2
           "
         >
           {product.positioning}
         </p>
       )}
 
-      {/* Ideal For Scenarios - Container Query responsive visibility */}
-      {product.idealFor && product.idealFor.length > 0 && (
-        <div
-          className="
-            space-y-1
-            hidden @[300px]:block
-          "
-        >
-          <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
-            {lang === "zh" ? "适用场景" : "Ideal for"}
-          </div>
-          <ul className="space-y-1">
-            {product.idealFor.slice(0, 3).map((scenario, idx) => (
-              <li key={idx} className="flex items-start gap-2 text-xs text-[var(--text-secondary)]">
-                <span className="mt-1 text-[var(--accent-primary)]">•</span>
-                <span>{scenario}</span>
-              </li>
-            ))}
-          </ul>
+      {/* Detailed Information - Show on hover with smooth slide-in animation */}
+      <div className="
+        max-h-0 overflow-hidden opacity-0 translate-y-[-10px]
+        group-hover:max-h-[500px] group-hover:opacity-100 group-hover:translate-y-0
+        transition-all duration-300 ease-out
+        space-y-3
+      ">
+        {/* Technical Specifications - Slide in on hover */}
+        <div className="pt-2 border-t border-[var(--border)]">
+          <ProductSpecs product={product} lang={lang} variant="card" />
         </div>
-      )}
 
-      {product.badge && (
-        <div className="text-xs @[300px]:text-sm font-semibold text-[var(--accent-primary)]">
-          {product.badge}
-        </div>
-      )}
-
-      {/* Technical Specifications - Container Query responsive grid */}
-      <ProductSpecs product={product} lang={lang} variant="card" />
-
-      {/* Safety & Compliance - Container Query responsive visibility */}
-      {product.safetyCompliance && product.safetyCompliance.length > 0 && (
-        <div
-          className="
-            rounded-lg border border-[var(--accent-primary)]/20 bg-[var(--accent-primary-light)] px-3 py-2
-            hidden @[300px]:block
-          "
-        >
-          <div className="mb-1 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--accent-primary)]">
-            {lang === "zh" ? "安全认证" : "Safety & Compliance"}
+        {/* Ideal For Scenarios - Show on hover */}
+        {product.idealFor && product.idealFor.length > 0 && (
+          <div className="space-y-1.5">
+            <div className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
+              {lang === "zh" ? "适用场景" : "Ideal for"}
+            </div>
+            <ul className="space-y-1">
+              {product.idealFor.slice(0, 3).map((scenario, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-xs text-[var(--text-secondary)]">
+                  <span className="mt-1 text-[var(--accent-primary)]">•</span>
+                  <span>{scenario}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="text-xs text-[var(--text-secondary)]">
-            {product.safetyCompliance[0]}
+        )}
+
+        {/* Safety & Compliance - Show on hover */}
+        {product.safetyCompliance && product.safetyCompliance.length > 0 && (
+          <div className="rounded-lg border border-[var(--accent-primary)]/20 bg-[var(--accent-primary-light)] px-3 py-2">
+            <div className="mb-1 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--accent-primary)]">
+              {lang === "zh" ? "安全认证" : "Safety & Compliance"}
+            </div>
+            <div className="text-xs text-[var(--text-secondary)]">
+              {product.safetyCompliance[0]}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {/* Badge - Show on hover if exists */}
+        {product.badge && (
+          <div className="text-xs font-semibold text-[var(--accent-primary)]">
+            {product.badge}
+          </div>
+        )}
+      </div>
 
       {/* CTA Buttons - Container Query responsive layout */}
       <div
@@ -250,10 +268,10 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
             });
           }}
           className="
-            w-full @[300px]:flex-1 rounded-lg bg-[var(--action-primary)] 
-            px-4 py-2 @[300px]:py-2.5 text-center text-xs @[300px]:text-sm 
-            font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)]
-            transition-colors hover:bg-[var(--action-primary-hover)]
+            w-full @[300px]:flex-1 rounded-xl bg-[var(--action-primary)] 
+            px-4 py-2.5 text-center text-sm 
+            font-bold text-[var(--action-primary-text)] !text-[var(--action-primary-text)]
+            transition-all duration-300 hover:bg-[var(--action-primary-hover)] hover:shadow-lg hover:-translate-y-0.5
             min-h-[44px] min-w-[44px] touch-manipulation
           "
         >
@@ -272,10 +290,10 @@ export function ProductCard({ product, lang, index, isRTL }: ProductCardProps) {
             });
           }}
           className="
-            w-full @[300px]:flex-1 rounded-lg border border-[var(--action-secondary-border)] 
-            bg-[var(--action-secondary)] px-4 py-2 text-center text-xs @[300px]:text-sm font-semibold 
+            w-full @[300px]:flex-1 rounded-xl border border-[var(--action-secondary-border)] 
+            bg-[var(--action-secondary)] px-4 py-2.5 text-center text-sm font-semibold 
             text-[var(--action-secondary-text)] !text-[var(--action-secondary-text)]
-            transition-colors hover:bg-[var(--action-secondary-hover-bg)]
+            transition-all duration-300 hover:bg-[var(--action-secondary-hover-bg)] hover:border-[var(--accent-primary)]/30
             min-h-[44px] min-w-[44px] touch-manipulation
           "
         >

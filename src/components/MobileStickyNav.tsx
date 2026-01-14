@@ -21,7 +21,7 @@ export function MobileStickyNav() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
       <div className="border-t border-[var(--border)] bg-[var(--glass-bg)] backdrop-blur-sm shadow-lg">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-3">
+        <div className="mx-auto w-full max-w-screen-2xl px-4 sm:px-6 py-3">
           <div className="grid grid-cols-2 gap-3">
             {/* Contact Expert Button */}
             <a

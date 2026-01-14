@@ -80,7 +80,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     <>
       <StructuredDataServer type="products" />
       
-      <div className="mx-auto max-w-6xl px-4 py-8 md:px-8 md:py-12">
+      <div className="mx-auto w-full max-w-screen-2xl px-4 py-8 md:px-8 md:py-12">
         {/* Breadcrumbs */}
         <nav className="mb-6 text-sm text-[var(--text-secondary)]">
           <Link href="/" className="hover:text-[var(--accent-primary)]">Home</Link>

@@ -94,7 +94,7 @@ export default async function CasePage({ params, searchParams }: CasePageProps) 
 
       <div className="min-h-screen bg-[#0c1014]">
         {/* Breadcrumbs */}
-        <div className="mx-auto max-w-7xl px-4 pt-8 md:px-8">
+        <div className="mx-auto w-full max-w-screen-2xl px-4 pt-8 md:px-8">
           <Breadcrumbs
             items={[
               { label: lang === "zh" ? "首页" : "Home", href: "/" },
@@ -105,7 +105,7 @@ export default async function CasePage({ params, searchParams }: CasePageProps) 
         </div>
 
         {/* Hero Section */}
-        <div className="relative mx-auto max-w-7xl px-4 py-12 md:px-8">
+        <div className="relative mx-auto w-full max-w-screen-2xl px-4 py-12 md:px-8">
           <div className="relative h-[400px] md:h-[500px] w-full overflow-hidden rounded-2xl">
             <Image
               src={localizedCase.image}
@@ -144,7 +144,7 @@ export default async function CasePage({ params, searchParams }: CasePageProps) 
         </div>
 
         {/* Main Content */}
-        <div className="mx-auto max-w-7xl px-4 pb-16 md:px-8">
+        <div className="mx-auto w-full max-w-screen-2xl px-4 pb-16 md:px-8">
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Main Content Column */}
             <div className="lg:col-span-2 space-y-12">

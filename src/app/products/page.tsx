@@ -69,7 +69,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       />
       
       <div className="space-y-12">
-        <div className="mx-auto max-w-6xl px-4 md:px-8">
+        <div className="mx-auto w-full max-w-screen-2xl px-4 md:px-8">
           <div className="my-10">
             <PageHero
               headline={c.productsTitle}
@@ -82,7 +82,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </div>
 
         {/* Patent Statistics Banner */}
-        <div className="mx-auto max-w-6xl px-4 md:px-8">
+        <div className="mx-auto w-full max-w-screen-2xl px-4 md:px-8">
           <div className="flex items-center justify-center gap-8 rounded-2xl border border-[#7df6ff]/20 bg-gradient-to-r from-[#7df6ff]/10 to-[#00eaff]/10 p-6">
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#7df6ff]/20 text-[#7df6ff]">

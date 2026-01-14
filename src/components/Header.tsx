@@ -20,12 +20,22 @@ import { trackCTAClick } from "../lib/analytics";
 
 // Code splitting: Lazy load non-critical header components
 // These components are not needed for initial render and can be loaded on demand
-const LanguageToggle = dynamic(() => import("./LanguageToggle").then((mod) => ({ default: mod.LanguageToggle })), {
+const LanguageToggle = dynamic(() => import("./LanguageToggle"), {
   ssr: false, // Language toggle doesn't need SSR
+  loading: () => (
+    <div className="flex h-[44px] w-20 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)]">
+      <div className="h-4 w-12 animate-pulse rounded bg-[var(--text-tertiary)]/20" />
+    </div>
+  ),
 });
 
-const ThemeToggle = dynamic(() => import("./ThemeToggle").then((mod) => ({ default: mod.ThemeToggle })), {
+const ThemeToggle = dynamic(() => import("./ThemeToggle"), {
   ssr: false, // Theme toggle doesn't need SSR
+  loading: () => (
+    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)]">
+      <div className="h-5 w-5 animate-pulse rounded bg-[var(--text-tertiary)]/20" />
+    </div>
+  ),
 });
 
 // Core navigation items - prioritized for conversion paths
@@ -95,6 +105,7 @@ export function Header() {
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [mobileSubCategoryOpen, setMobileSubCategoryOpen] = useState<string | null>(null);
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const productsDropdownRef = useRef<HTMLDivElement>(null);
 
   // Get total product count (static, doesn't need language filtering)
@@ -154,28 +165,73 @@ export function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Handle scroll effect for sticky header
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--glass-bg)] backdrop-blur transition-colors">
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-3 md:px-8">
+    <header 
+      className={`sticky top-0 z-40 border-b transition-all duration-300 relative overflow-hidden ${
+        isScrolled 
+          ? "border-[var(--border)] bg-[rgba(10,22,40,0.92)] backdrop-blur-xl shadow-xl dark:bg-[rgba(10,22,40,0.96)]" 
+          : "border-[var(--border)] bg-[var(--glass-bg)] backdrop-blur-lg"
+      }`}
+    >
+      {/* Subtle gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--accent-primary)]/5 via-transparent to-transparent opacity-50 pointer-events-none" />
+      
+      {/* Animated accent line at bottom */}
+      <div className={`absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--accent-primary)]/50 to-transparent transition-all duration-500 ${
+        isScrolled ? 'w-full opacity-100' : 'w-0 opacity-0'
+      }`} />
+      <div className="relative z-10 mx-auto w-full max-w-screen-2xl px-4 sm:px-6 py-2.5 md:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          {/* Logo */}
-          <Link href="/" prefetch={false} className="flex items-center gap-3 flex-shrink-0 group">
-            <div className="relative flex items-center justify-center rounded-lg p-1.5 transition-colors dark:bg-transparent bg-[var(--surface-elevated)] border border-[var(--border)] dark:border-transparent">
-              <img
-                src="/logo.jpg"
-                alt="Miying logo"
-                width={44}
-                height={36}
-                className="h-9 w-auto transition-opacity group-hover:opacity-90"
-              />
+          {/* Logo - Modern design with gradient glow and depth */}
+          <Link href="/" prefetch={false} className="flex items-center gap-3 flex-shrink-0 group relative">
+            {/* Logo container with gradient background and glow effect */}
+            <div className="relative flex items-center justify-center rounded-2xl p-2 transition-all duration-300 group-hover:scale-105">
+              {/* Gradient background with subtle glow */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[var(--accent-primary)]/20 via-[var(--accent-primary)]/10 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              {/* Animated glow ring on hover */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[var(--accent-primary)]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
+              
+              {/* Border with gradient */}
+              <div className="absolute inset-0 rounded-2xl border border-[var(--accent-primary)]/30 group-hover:border-[var(--accent-primary)]/50 transition-colors duration-300" />
+              
+              {/* Logo image with backdrop blur effect */}
+              <div className="relative z-10 rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm p-1.5 border border-white/10">
+                <img
+                  src="/logo.jpg"
+                  alt="Miying logo"
+                  width={40}
+                  height={32}
+                  className="h-8 w-auto transition-all duration-300 group-hover:brightness-110 group-hover:scale-105"
+                />
+              </div>
+              
+              {/* Subtle shine effect */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
             </div>
-            <div className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--text-primary)] whitespace-nowrap">
-              Miying Rides
+            
+            {/* Brand name with improved typography - Hidden on mobile */}
+            <div className="hidden sm:flex flex-col">
+              <div className="text-base font-bold uppercase tracking-[0.1em] text-[var(--text-primary)] whitespace-nowrap group-hover:text-[var(--accent-primary)] transition-colors duration-300">
+                Miying
+              </div>
+              <div className="text-[10px] font-medium uppercase tracking-[0.15em] text-[var(--text-tertiary)] whitespace-nowrap group-hover:text-[var(--text-secondary)] transition-colors duration-300">
+                Rides
+              </div>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-3 text-sm font-medium text-[var(--text-primary)] lg:flex flex-shrink-0">
+          {/* Desktop Navigation - Vertically centered with logo */}
+          <nav className="hidden items-center gap-3 text-sm font-medium text-[var(--text-primary)] lg:flex flex-shrink-0 h-[45px]">
             {links.map((link) => {
               const navText = c.nav[link.key as keyof typeof c.nav];
               if (!navText) return null;
@@ -337,11 +393,11 @@ export function Header() {
             })}
           </nav>
 
-          {/* Right Side Actions */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Right Side Actions - Vertically centered */}
+          <div className="flex items-center gap-3 flex-shrink-0 h-[45px]">
             <ThemeToggle />
             <LanguageToggle />
-            {/* Persistent Contact/Get Quote Button - Always visible for conversion */}
+            {/* Single Primary CTA Button - Prominent and always visible */}
             <Link
               href="/quote"
               prefetch={false}
@@ -353,7 +409,7 @@ export function Header() {
                   page: pathname,
                 });
               }}
-              className="hidden rounded-lg bg-[var(--action-primary)] px-4 py-2 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] lg:inline-flex items-center gap-2 whitespace-nowrap min-h-[44px] touch-manipulation"
+              className="hidden rounded-xl bg-[var(--action-primary)] px-6 py-2.5 text-sm font-bold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-all duration-300 hover:bg-[var(--action-primary-hover)] hover:shadow-lg hover:-translate-y-0.5 lg:inline-flex items-center gap-2 whitespace-nowrap min-h-[44px] touch-manipulation"
             >
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
@@ -565,7 +621,7 @@ export function Header() {
                   </Link>
                 );
               })}
-              {/* Mobile CTA Button - Persistent for conversion */}
+              {/* Mobile CTA Button - Single prominent button */}
               <div className="mt-4 pt-4 border-t border-[var(--border)]">
                 <Link
                   href="/quote"
@@ -578,30 +634,12 @@ export function Header() {
                     });
                     setMobileMenuOpen(false);
                   }}
-                  className="flex items-center justify-center gap-2 w-full rounded-lg bg-[var(--action-primary)] px-4 py-3 text-sm font-semibold text-center text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+                  className="flex items-center justify-center gap-2 w-full rounded-xl bg-[var(--action-primary)] px-4 py-3 text-sm font-bold text-center text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-all duration-300 hover:bg-[var(--action-primary-hover)] hover:shadow-lg min-h-[44px] touch-manipulation"
                 >
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                   </svg>
                   <span>{c.cta.requestQuote || (lang === "zh" ? "获取报价" : "Get Quote")}</span>
-                </Link>
-                <Link
-                  href="/contact"
-                  onClick={() => {
-                    trackCTAClick({
-                      ctaText: c.cta.contactSales || (lang === "zh" ? "联系我们" : "Contact Us"),
-                      ctaLocation: "header_mobile",
-                      destination: "/contact",
-                      page: pathname,
-                    });
-                    setMobileMenuOpen(false);
-                  }}
-                  className="mt-2 flex items-center justify-center gap-2 w-full rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-4 py-2.5 text-sm font-semibold text-center text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] touch-manipulation"
-                >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  <span>{c.cta.contactSales || (lang === "zh" ? "联系我们" : "Contact Us")}</span>
                 </Link>
               </div>
             </nav>

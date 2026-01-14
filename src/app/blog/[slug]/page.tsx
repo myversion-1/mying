@@ -414,7 +414,7 @@ export default function BlogPostPage({ params }: Props) {
 
       {/* Related Products - SEO Internal Linking */}
       {relatedProducts.length > 0 && (
-        <div className="mx-auto max-w-6xl px-4 md:px-8">
+        <div className="mx-auto w-full max-w-screen-2xl px-4 md:px-8">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
             <h2 className="mb-6 font-serif text-2xl font-semibold text-white md:text-3xl">
               {lang === "zh" ? "相关产品" : "Related Products"}
@@ -462,7 +462,7 @@ export default function BlogPostPage({ params }: Props) {
 
       {/* Related Posts */}
       {latestPosts.length > 0 && (
-        <div className="mx-auto max-w-6xl px-4 md:px-8">
+        <div className="mx-auto w-full max-w-screen-2xl px-4 md:px-8">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
             <h2 className="mb-6 font-serif text-2xl font-semibold text-white md:text-3xl">
               {lang === "zh" ? "相关文章" : "Related Articles"}

@@ -23,7 +23,7 @@ export function StickyProductCTA({ productName, lang }: StickyProductCTAProps) {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border)] bg-[var(--glass-bg)] backdrop-blur-md shadow-lg md:bottom-0">
-      <div className="mx-auto max-w-6xl px-4 py-4 md:px-8">
+      <div className="mx-auto w-full max-w-screen-2xl px-4 py-4 md:px-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex-1 min-w-0">
             <h3 className="text-sm md:text-base font-semibold text-[var(--text-primary)] truncate">

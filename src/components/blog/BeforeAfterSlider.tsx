@@ -72,15 +72,15 @@ export function BeforeAfterSlider({
   }, []);
 
   return (
-    <div 
-      ref={containerRef}
-      className="before-after-slider my-12"
-    >
-      <h3 className="mb-4 text-center font-serif text-xl font-semibold text-[var(--text-primary)] md:text-2xl">
-        {label}
-      </h3>
+    <div ref={containerRef} className="before-after-slider my-12">
+      {label && (
+        <h3 className="mb-4 text-center font-serif text-xl font-semibold text-[var(--text-primary)] md:text-2xl">
+          {label}
+        </h3>
+      )}
       <div
-        className="relative h-64 w-full overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] md:h-96"
+        className="relative w-full overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] aspect-video min-h-[256px] md:min-h-[384px]"
+        style={{ aspectRatio: '16 / 9' }}
         onMouseMove={handleMouseMove}
         onTouchMove={handleTouchMove}
         onMouseLeave={() => setSliderPosition(50)}

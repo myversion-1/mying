@@ -12,33 +12,33 @@ main#main-content {
   contain-intrinsic-size: auto 100vh;
 }
 
-/* Section elements - stable padding */
+/* Section elements - stable padding with increased breathing room */
 section {
   /* Prevent layout shift from padding changes */
   min-height: 1px;
-  /* Use stable padding - increased for better spacing */
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  /* Increased padding for better breathing room: 80px-120px */
+  padding-top: 5rem; /* 80px */
+  padding-bottom: 5rem; /* 80px */
 }
 
 @media (min-width: 768px) {
   section {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-top: 6rem; /* 96px */
+    padding-bottom: 6rem; /* 96px */
   }
 }
 
 @media (min-width: 1024px) {
   section {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
+    padding-top: 7.5rem; /* 120px */
+    padding-bottom: 7.5rem; /* 120px */
   }
 }
 
 /* Prevent layout shift from font loading */
 /* Use size-adjust and metric overrides to maintain layout during font swap */
 
-/* Geist Sans Fallback - Match Geist Sans metrics */
+/* Geist Sans Fallback - Match Geist Sans metrics precisely */
 @font-face {
   font-family: 'Geist Sans Fallback';
   size-adjust: 100%;
@@ -46,9 +46,10 @@ section {
   descent-override: 22%;
   line-gap-override: 0%;
   src: local('Arial'), local('Helvetica'), local('sans-serif');
+  font-display: swap;
 }
 
-/* Crimson Text Fallback - Match Crimson Text metrics */
+/* Crimson Text Fallback - Match Crimson Text metrics precisely */
 @font-face {
   font-family: 'Crimson Text Fallback';
   size-adjust: 100%;
@@ -56,6 +57,7 @@ section {
   descent-override: 30%;
   line-gap-override: 0%;
   src: local('Times New Roman'), local('Times'), local('serif');
+  font-display: swap;
 }
 
 /* Apply fallback fonts immediately to prevent layout shift */
@@ -65,6 +67,36 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Crimson Text Fallback', var(--font-serif), 'Times New Roman', Times, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+/* Enhanced heading sizes */
+h1 {
+  font-size: 3rem; /* 48px */
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 2.25rem; /* 36px */
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 4rem; /* 64px */
+  }
+  h2 {
+    font-size: 3rem; /* 48px */
+  }
+}
+
+/* Body text - lighter color for better visual hierarchy */
+p, li, span:not([class*="text-"]) {
+  color: var(--text-secondary);
 }
 
 /* Images - prevent layout shift */
@@ -77,20 +109,400 @@ img {
   object-fit: contain;
 }
 
+/* Ensure images with explicit dimensions maintain aspect ratio */
+img[width][height] {
+  /* Width and height attributes help browser reserve space */
+  /* Modern browsers will use these for aspect-ratio calculation */
+}
+
 /* Next.js Image component - prevent layout shift */
 .next-image-wrapper {
   position: relative;
   overflow: hidden;
+  /* Reserve space to prevent CLS */
+  min-height: 1px;
 }
 
 .next-image-wrapper img {
   object-fit: cover;
+  /* Prevent layout shift during image load */
+  content-visibility: auto;
+}
+
+/* All relative containers with Image fill should have explicit dimensions */
+.relative[class*="aspect-"],
+.relative[style*="aspect-ratio"],
+.relative[class*="h-"],
+.relative[style*="height"] {
+  /* Ensure container has stable dimensions */
+  contain-intrinsic-size: auto 200px;
 }
 
 /* Dynamic content - prevent layout shift */
 [data-dynamic-content] {
   min-height: 200px;
   content-visibility: auto;
+  contain-intrinsic-size: auto 200px;
+}
+
+/* Prevent layout shift from dynamic imports */
+[class*="animate-pulse"] {
+  /* Reserve space for loading states */
+  min-height: 200px;
+  contain-intrinsic-size: auto 200px;
+}
+
+/* Blog content components - reserve space */
+.before-after-slider,
+.comparison-table,
+.case-study-breakout {
+  /* Reserve minimum space to prevent CLS */
+  min-height: 400px;
+  contain-intrinsic-size: auto 400px;
+}
+
+@media (min-width: 768px) {
+  .before-after-slider,
+  .comparison-table,
+  .case-study-breakout {
+    min-height: 500px;
+    contain-intrinsic-size: auto 500px;
+  }
+}
+
+/* Ensure all relative containers with Image fill have stable dimensions */
+.relative[class*="h-"],
+.relative[style*="height"] {
+  /* Contain layout to prevent shifts */
+  contain: layout style paint;
+}
+
+/* Product cards and blog cards - ensure stable dimensions */
+[class*="ProductCard"],
+[class*="BlogPostCard"] {
+  /* Prevent layout shifts from content loading */
+  contain: layout style;
+}
+
+/* Header - prevent layout shift from navigation changes */
+header {
+  /* Reserve space for header */
+  min-height: 64px;
+  contain: layout style;
+}
+
+/* Footer - prevent layout shift */
+footer {
+  /* Reserve minimum space */
+  min-height: 200px;
+  contain: layout style;
+}
+
+@media (min-width: 768px) {
+  footer {
+    min-height: 300px;
+  }
+}
+
+/* Smooth scroll animations - Enhanced with multiple variants */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Scroll reveal animation - Enhanced fade-in up */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Section scroll reveal - Auto-apply to sections with enhanced padding */
+section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Enhanced padding for better breathing room - default 5rem */
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* Desktop: increased padding to 8rem (33% increase) */
+@media (min-width: 1024px) {
+  section {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
+
+section.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Button hover animations - Enhanced feedback */
+button,
+a[role="button"],
+[class*="button"],
+a[href*="/quote"],
+a[href*="/contact"],
+a[href*="/services"] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover:not(:disabled),
+a[role="button"]:hover:not(:disabled),
+[class*="button"]:hover:not(:disabled),
+a[href*="/quote"]:hover,
+a[href*="/contact"]:hover,
+a[href*="/services"]:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+button:active:not(:disabled),
+a[role="button"]:active:not(:disabled),
+[class*="button"]:active:not(:disabled),
+a[href*="/quote"]:active,
+a[href*="/contact"]:active,
+a[href*="/services"]:active {
+  transform: translateY(0) scale(0.98);
+  transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Button ripple effect on click */
+button::after,
+a[role="button"]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button:active:not(:disabled)::after,
+a[role="button"]:active:not(:disabled)::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Card hover animations - Enhanced */
+.card,
+[class*="Card"],
+article {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover,
+[class*="Card"]:hover,
+article:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 234, 255, 0.1);
+}
+
+/* Service card hover effect */
+.service-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-primary);
+}
+
+/* Image loading placeholder - Progressive loading */
+img:not([data-loaded="true"]),
+.next-image-wrapper img:not([data-loaded="true"]) {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.1) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  opacity: 0.7;
+}
+
+img[src][data-loaded="true"],
+img[src]:not([data-loaded]),
+.next-image-wrapper img[data-loaded="true"] {
+  background: none;
+  animation: none;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Progressive image fade-in */
+img[data-loading="lazy"],
+.next-image-wrapper img[data-loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+img[data-loading="lazy"][data-loaded="true"],
+.next-image-wrapper img[data-loading="lazy"][data-loaded="true"] {
+  opacity: 1;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Next.js Image blur placeholder */
+.next-image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.next-image-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.next-image-wrapper img[data-loaded="true"] ~ ::before,
+.next-image-wrapper[data-loaded="true"]::before {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+/* Enhanced typography for better readability */
+p {
+  line-height: 1.7;
+  letter-spacing: 0.3px;
+}
+
+/* Glass effect utility class */
+.glass-effect {
+  background: rgba(250, 251, 252, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-effect {
+  background: rgba(10, 22, 40, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Link underline animation */
+a:not([class*="button"]):not([class*="no-underline"]) {
+  position: relative;
+  text-decoration: none;
+}
+
+a:not([class*="button"]):not([class*="no-underline"])::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent-primary);
+  transition: width 0.3s ease;
+}
+
+a:not([class*="button"]):not([class*="no-underline"]):hover::after {
+  width: 100%;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  section,
+  button,
+  a[role="button"],
+  [class*="button"],
+  a[href*="/quote"],
+  a[href*="/contact"],
+  a[href*="/services"],
+  .card,
+  [class*="Card"],
+  article,
+  img,
+  .next-image-wrapper,
+  a::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .scroll-reveal,
+  section {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  button::after,
+  a[role="button"]::after {
+    display: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  :root {
+    --text-primary: #000000;
+    --text-secondary: #1a1a1a;
+    --border: rgba(0, 0, 0, 0.2);
+  }
+  
+  .dark {
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --border: rgba(255, 255, 255, 0.3);
+  }
 }
 
 /* ============================================
@@ -259,8 +671,8 @@ img {
   
   /* Text Colors - Enhanced contrast for better readability */
   --text-primary: #1a2332;        /* Darker, richer color for better readability (WCAG AAA) */
-  --text-secondary: #2d3e52;       /* Improved contrast for secondary text (WCAG AAA) */
-  --text-tertiary: #4a5c6f;       /* Better contrast for tertiary text (WCAG AA) */
+  --text-secondary: #9CA3AF;       /* Lighter gray for body text - modern look */
+  --text-tertiary: #6B7280;        /* Softer tertiary text */
   --text-accent: #00b8d4;         /* Cyan accent (close to logo, for highlights) */
   --text-inverse: #ffffff;         /* White for dark backgrounds */
   --text-muted: #5a6c7f;          /* Improved contrast for muted text */
@@ -403,9 +815,28 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   
-  /* Background image with overlays - hidden on mobile for performance */
+  /* Enhanced gradient overlays - more sophisticated and modern */
+  /* Added more layers for depth and visual interest */
   background-image: 
-    /* Subtle gradient overlays for visual effects */
+    /* Top-left accent glow - subtle cyan/blue */
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(0, 234, 255, 0.08),
+      transparent 30%
+    ),
+    /* Top-right accent glow - complementary */
+    radial-gradient(
+      circle at 90% 5%,
+      rgba(125, 246, 255, 0.06),
+      transparent 25%
+    ),
+    /* Bottom-left subtle accent */
+    radial-gradient(
+      circle at 15% 90%,
+      rgba(0, 234, 255, 0.04),
+      transparent 35%
+    ),
+    /* Main gradient overlays for visual effects */
     radial-gradient(
       circle at 20% 20%,
       var(--gradient-overlay-1),
@@ -413,15 +844,51 @@ body {
     ),
     radial-gradient(circle at 80% 0%, var(--gradient-overlay-2), transparent 20%),
     /* Theme-aware overlay to maintain text readability */
-    linear-gradient(var(--gradient-overlay-base), var(--gradient-overlay-base)),
-    /* Background image - hidden on mobile devices */
-    url('/background.jpg');
+    linear-gradient(var(--gradient-overlay-base), var(--gradient-overlay-base));
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: scroll; /* Changed from fixed for better performance */
   background-repeat: no-repeat;
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
+  
+  /* Add subtle texture for depth */
+  position: relative;
+}
+
+/* Add subtle noise texture overlay for premium feel */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.01) 2px,
+      rgba(255, 255, 255, 0.01) 4px
+    );
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+.dark body::before {
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.005) 2px,
+      rgba(255, 255, 255, 0.005) 4px
+    );
+}
+
+/* Ensure content is above texture */
+main#main-content {
+  position: relative;
+  z-index: 1;
 }
 
 /* Hide decorative background image on mobile devices */
@@ -496,8 +963,44 @@ a:hover {
 .glass-panel {
   border: 1px solid var(--glass-border);
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   transition: background 0.3s ease, border-color 0.3s ease;
+  border-radius: 16px; /* Unified rounded corners */
+}
+
+/* Enhanced glass effect for cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass-card {
+  background: rgba(21, 25, 32, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Unified border radius for all interactive elements */
+button,
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select,
+.card,
+[class*="rounded"]:not([class*="rounded-full"]) {
+  border-radius: 12px !important;
+}
+
+/* Larger radius for cards and containers */
+.card,
+[class*="Card"],
+[class*="container"]:not([class*="rounded-full"]) {
+  border-radius: 16px !important;
 }
 
 /* RTL Support for Arabic */

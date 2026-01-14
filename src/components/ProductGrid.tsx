@@ -161,6 +161,21 @@ export function ProductGrid({
   // Target audience types for filter
   const audienceTypes: TargetAudience[] = ["Family", "Adults", "Kids"];
 
+  // Pagination state - reduce DOM size by showing only a subset of products
+  const ITEMS_PER_PAGE = 12; // Show 12 products per page (reduces initial DOM size)
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearchQuery, filter, mainCategoryFilter, subCategoryFilter, multiFilter, spaceFilteredProducts]);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+
   return (
     <div className="space-y-6" dir={isRTL ? "rtl" : "ltr"}>
       {/* Smart Selector Tool */}
@@ -363,8 +378,8 @@ export function ProductGrid({
 
       {/* Products Grid - Mobile: 1 column, Tablet: 2 columns, Desktop: 3 columns */}
       <div className={`grid gap-4 ${isMobile ? 'grid-cols-1' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product, index) => (
+        {paginatedProducts.length > 0 ? (
+          paginatedProducts.map((product, index) => (
             <div
               key={`${product.name}-${index}`}
               className="transition-opacity"
@@ -372,17 +387,77 @@ export function ProductGrid({
               <ProductCard
                 product={product}
                 lang={lang}
-                index={index}
+                index={startIndex + index}
                 isRTL={isRTL}
               />
             </div>
           ))
         ) : (
-          <div className="col-span-2 transition-opacity">
+          <div className="col-span-full transition-opacity">
             <EmptyState />
           </div>
         )}
       </div>
+
+      {/* Pagination Controls - Only show if more than one page */}
+      {totalPages > 1 && (
+        <div className="flex flex-wrap items-center justify-center gap-2 pt-6">
+          <button
+            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+            disabled={currentPage === 1}
+            className="rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-2 text-sm font-medium text-[var(--text-primary)] transition-colors hover:bg-[var(--surface-hover)] disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] min-w-[44px] touch-manipulation"
+            aria-label="Previous page"
+          >
+            {lang === "zh" ? "上一页" : "Previous"}
+          </button>
+          
+          {/* Page numbers - show max 5 pages at a time */}
+          {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+            let pageNum: number;
+            if (totalPages <= 5) {
+              pageNum = i + 1;
+            } else if (currentPage <= 3) {
+              pageNum = i + 1;
+            } else if (currentPage >= totalPages - 2) {
+              pageNum = totalPages - 4 + i;
+            } else {
+              pageNum = currentPage - 2 + i;
+            }
+            
+            return (
+              <button
+                key={pageNum}
+                onClick={() => setCurrentPage(pageNum)}
+                className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors min-h-[44px] min-w-[44px] touch-manipulation ${
+                  currentPage === pageNum
+                    ? "border-[var(--accent-primary)] bg-[var(--accent-primary-light)] text-[var(--accent-primary)]"
+                    : "border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]"
+                }`}
+                aria-label={`Page ${pageNum}`}
+                aria-current={currentPage === pageNum ? "page" : undefined}
+              >
+                {pageNum}
+              </button>
+            );
+          })}
+          
+          <button
+            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+            disabled={currentPage === totalPages}
+            className="rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-2 text-sm font-medium text-[var(--text-primary)] transition-colors hover:bg-[var(--surface-hover)] disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] min-w-[44px] touch-manipulation"
+            aria-label="Next page"
+          >
+            {lang === "zh" ? "下一页" : "Next"}
+          </button>
+          
+          {/* Results count */}
+          <div className="ml-4 text-sm text-[var(--text-tertiary)]">
+            {lang === "zh" 
+              ? `显示 ${startIndex + 1}-${Math.min(endIndex, filteredProducts.length)} / 共 ${filteredProducts.length} 个产品`
+              : `Showing ${startIndex + 1}-${Math.min(endIndex, filteredProducts.length)} of ${filteredProducts.length} products`}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
