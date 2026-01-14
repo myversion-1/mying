@@ -235,6 +235,21 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr" className="dark" suppressHydrationWarning>
       <head>
+        {/* Critical CSS - Inline to prevent render blocking and reduce critical path latency */}
+        {/* This eliminates the need to wait for external CSS files to load */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            :root{--background:#fafbfc;--foreground:#1a1a1a;--surface:#fafbfc;--surface-elevated:#f5f6f8;--text-primary:#1a2332;--text-secondary:#2d3e52;--accent-primary:#00eaff;--action-primary:#00eaff;--action-primary-text:#0a1628;--border:rgba(0,0,0,0.06)}
+            .dark{--background:#0a1628;--foreground:rgba(255,255,255,0.98);--surface:#0c1014;--surface-elevated:#151920;--text-primary:rgba(255,255,255,0.98);--text-secondary:rgba(255,255,255,0.85);--accent-primary:#00eaff;--action-primary:#00eaff;--action-primary-text:#0a1628;--border:rgba(255,255,255,0.1)}
+            *{margin:0;padding:0;box-sizing:border-box}
+            html{scroll-behavior:smooth}
+            body{font-family:var(--font-geist-sans),system-ui,-apple-system,sans-serif;background-color:var(--background);color:var(--foreground);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+            header{position:sticky;top:0;z-index:40;border-bottom:1px solid var(--border);background:rgba(250,251,252,0.8);backdrop-filter:blur(12px)}
+            .dark header{background:rgba(10,22,40,0.8)}
+            button,a{min-height:44px;min-width:44px;touch-action:manipulation}
+            img{max-width:100%;height:auto}
+          `
+        }} />
         {/* Performance optimization: Preconnect only to critical external domains */}
         {/* Note: Fonts are loaded via next/font/google which handles optimization automatically */}
         {/* Only preconnect to domains that are actually used on initial page load */}

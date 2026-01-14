@@ -68,9 +68,19 @@ const nextConfig: NextConfig = {
         runtimeChunk: 'single',
         splitChunks: {
           chunks: 'all',
+          maxInitialRequests: 25, // 增加初始请求限制以支持更好的代码分割
+          minSize: 20000, // 最小 chunk 大小（20KB）
           cacheGroups: {
             default: false,
             vendors: false,
+            // 将 CSS 单独打包，减少关键路径延迟
+            styles: {
+              name: 'styles',
+              test: /\.(css|scss|sass)$/,
+              chunks: 'all',
+              enforce: true,
+              priority: 40,
+            },
             // 将 node_modules 中的大型库单独打包
             vendor: {
               name: 'vendor',
