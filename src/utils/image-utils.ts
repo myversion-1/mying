@@ -66,3 +66,14 @@ export function hasNonASCIICharacters(imagePath: string): boolean {
 
 
 
+
+
+
+
+
+
+
+
+
+
+

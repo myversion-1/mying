@@ -96,8 +96,8 @@ function ProductCardComponent({ product, lang, index, isRTL }: ProductCardProps)
                 width={800}
                 height={450}
                 style={{ aspectRatio: '16 / 9' }}
-                loading={index < 6 ? "eager" : "lazy"}
-                fetchPriority={index < 3 ? "high" : "auto"}
+                loading="lazy"
+                fetchPriority="auto"
                 decoding="async"
                 suppressHydrationWarning
                 onLoad={(e) => {
@@ -129,16 +129,15 @@ function ProductCardComponent({ product, lang, index, isRTL }: ProductCardProps)
                 fill
                 className="object-cover transition-all duration-500 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                loading={index < 6 ? "eager" : "lazy"}
-                priority={index < 6}
+                loading="lazy"
                 quality={65}
-                fetchPriority={index < 3 ? "high" : "auto"}
+                fetchPriority="auto"
                 onLoad={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.setAttribute('data-loaded', 'true');
                   target.style.opacity = '1';
                 }}
-                style={{ opacity: index < 6 ? 1 : 0 }}
+                style={{ opacity: 0 }}
               />
             )
           ) : (

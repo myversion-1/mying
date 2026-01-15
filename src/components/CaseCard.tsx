@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import type { CaseItem } from "../content/types/case";
+import { Skeleton } from "./Skeleton";
 
 type CaseCardProps = {
   caseItem: CaseItem;
@@ -11,6 +12,7 @@ type CaseCardProps = {
 
 export function CaseCard({ caseItem, onClickAction }: CaseCardProps) {
   const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
 
   return (
     <div
@@ -19,14 +21,28 @@ export function CaseCard({ caseItem, onClickAction }: CaseCardProps) {
     >
       {/* Image */}
       <div className="aspect-video relative overflow-hidden bg-gradient-to-br from-white/10 to-white/5">
+        {/* Skeleton placeholder - prevents CLS */}
+        {imageLoading && !imageError && (
+          <Skeleton
+            variant="rectangular"
+            className="absolute inset-0 h-full w-full bg-[var(--surface-elevated)]"
+            animation="pulse"
+          />
+        )}
         {!imageError ? (
           <Image
             src={caseItem.image}
             alt={caseItem.title}
             fill
-            className="object-cover transition-opacity group-hover:opacity-95"
+            className={`object-cover transition-opacity duration-300 group-hover:opacity-95 ${
+              imageLoading ? "opacity-0" : "opacity-100"
+            }`}
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            onError={() => setImageError(true)}
+            onError={() => {
+              setImageError(true);
+              setImageLoading(false);
+            }}
+            onLoad={() => setImageLoading(false)}
             quality={65}
             loading="lazy"
           />

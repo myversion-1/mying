@@ -280,7 +280,13 @@ export default function RootLayout({
               >
                 Skip to main content
               </a>
-              <Suspense fallback={<div className="h-16 bg-[var(--background)]" />}>
+              <Suspense fallback={
+                <div 
+                  className="h-16 w-full bg-[var(--background)] border-b border-[var(--border)] sticky top-0 z-40"
+                  style={{ minHeight: '64px' }}
+                  aria-label="Loading header"
+                />
+              }>
                 <Header />
               </Suspense>
               <main 

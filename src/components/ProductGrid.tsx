@@ -1,19 +1,17 @@
 "use client";
 
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { getProducts, type Product, copy } from "../content/copy";
 import { useLanguage } from "./language";
-import { Badge } from "./ui/Badge";
 import { EmptyState } from "./EmptyState";
-import { ProductSpecs } from "./ProductSpecs";
 import { ProductCard } from "./ProductCard";
 import { SmartSelector } from "./SmartSelector";
+import { SearchInput } from "./ui/SearchInput";
+import { FilterButton } from "./ui/FilterButton";
+import { Select } from "./ui/Select";
 import type { ProductUsage, VenueType, TargetAudience } from "../content/products_multilingual";
-import { generateProductSlug } from "../utils/hreflang";
 import { debounce, onIdle } from "../utils/main-thread-optimization";
-import { useIsMobile, useIsDesktop } from "../utils/device-detection";
+import { useIsMobile } from "../utils/device-detection";
 
 type Props = {
   items?: Product[];
@@ -46,7 +44,6 @@ export function ProductGrid({
   const c = copy(lang);
   const isRTL = lang === "ar";
   const isMobile = useIsMobile();
-  const isDesktop = useIsDesktop();
 
   // Get products - use provided items or fetch all
   const allProducts = items || getProducts(lang);
@@ -233,215 +230,160 @@ export function ProductGrid({
       />
 
       {/* Search Bar */}
-      <div className="relative">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          placeholder={lang === "zh" ? "搜索产品..." : "Search products..."}
-          className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] px-12 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20"
-        />
-        <svg
-          className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 text-[var(--text-tertiary)] ${isRTL ? "right-4" : "left-4"}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-        {searchQuery && (
-          <button
-            onClick={() => setSearchQuery("")}
-            className={`absolute top-1/2 -translate-y-1/2 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] ${isRTL ? "left-4" : "right-4"} min-h-[44px] min-w-[44px] flex items-center justify-center touch-manipulation`}
-            aria-label="Clear search"
-          >
-            <span className="text-2xl">×</span>
-          </button>
-        )}
-      </div>
+      <SearchInput
+        value={searchQuery}
+        onChange={(value) => {
+          setSearchQuery(value);
+          debouncedSetSearch(value);
+        }}
+        placeholder={lang === "zh" ? "搜索产品..." : "Search products..."}
+        isRTL={isRTL}
+      />
 
       {/* Filter Tabs */}
       <div className="flex flex-wrap items-center gap-3">
-        {(["all", "rides", "decorative"] as const).map((filterOption) => (
-          <button
-            key={filterOption}
-            onClick={() => setFilter(filterOption)}
-            className={`rounded-full border px-4 py-3 text-sm font-medium transition min-h-[44px] min-w-[44px] touch-manipulation ${
-              filter === filterOption
-                ? "border-[var(--accent-primary)] bg-[var(--accent-primary-light)] text-[var(--accent-primary)]"
-                : "border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:border-[var(--border-hover)] hover:text-[var(--text-primary)]"
-            }`}
-          >
-            {filterOption === "all"
-              ? lang === "zh"
-                ? "全部"
-                : "All"
+        {(["all", "rides", "decorative"] as const).map((filterOption) => {
+          const label =
+            filterOption === "all"
+              ? lang === "zh" ? "全部" : "All"
               : filterOption === "rides"
-              ? lang === "zh"
-                ? "游乐设施"
-                : "Rides"
-              : lang === "zh"
-              ? "装饰"
-              : "Decorative"}
-          </button>
-        ))}
+              ? lang === "zh" ? "游乐设施" : "Rides"
+              : lang === "zh" ? "装饰" : "Decorative";
+          
+          return (
+            <FilterButton
+              key={filterOption}
+              label={label}
+              isActive={filter === filterOption}
+              onClick={() => setFilter(filterOption)}
+            />
+          );
+        })}
         {filter !== "all" && (
-          <>
-            <div className="h-4 w-px bg-[var(--border)]" />
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-[var(--text-tertiary)]">Category:</span>
-              <button
-                onClick={() => setFilter("all")}
-                className="rounded-full border border-[var(--border)] bg-[var(--surface-elevated)] px-3 py-2.5 text-xs font-medium text-[var(--text-secondary)] hover:border-[var(--border-hover)] hover:text-[var(--text-primary)] min-h-[44px] min-w-[44px] touch-manipulation"
-              >
-                {filter} ×
-              </button>
-            </div>
-          </>
+          <FilterButton
+            label={`${filter} ×`}
+            isActive={false}
+            onClick={() => setFilter("all")}
+            className="text-xs"
+          />
         )}
       </div>
 
-      {/* Multi-dimensional Filters - Mobile: vertical stack, Desktop: horizontal */}
-      <div className={`flex ${isMobile ? 'flex-col' : 'flex-wrap'} items-center ${isMobile ? 'gap-2' : 'gap-3'} rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] ${isMobile ? 'p-3' : 'p-4'}`}>
-        <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-[var(--text-secondary)]">Usage:</label>
-          <select
-            value={multiFilter.usage || ""}
-            onChange={(e) => {
-              setMultiFilter((prev) => ({
-                ...prev,
-                usage: e.target.value ? (e.target.value as ProductUsage) : undefined,
-              }));
-            }}
-            className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--text-primary)] outline-none transition focus:border-[var(--accent-primary)] min-h-[44px] touch-manipulation"
-          >
-            <option value="">All Types</option>
-            {usageTypes.map((usage) => (
-              <option key={usage} value={usage}>
-                {usage === "Family Entertainment" ? (lang === "zh" ? "家庭娱乐" : "Family Entertainment") :
-                 usage === "Thrill Adventure" ? (lang === "zh" ? "刺激冒险" : "Thrill Adventure") :
-                 usage === "Water Attraction" ? (lang === "zh" ? "水上项目" : "Water Attraction") :
-                 usage === "Kiddie Fun" ? (lang === "zh" ? "儿童游乐" : "Kiddie Fun") : usage}
-              </option>
-            ))}
-          </select>
-        </div>
+      {/* Multi-dimensional Filters */}
+      <div className={`flex ${isMobile ? 'flex-col' : 'flex-wrap'} gap-4 rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] p-4`}>
+        <Select
+          value={multiFilter.usage || ""}
+          onChange={(value) => {
+            setMultiFilter((prev) => ({
+              ...prev,
+              usage: value ? (value as ProductUsage) : undefined,
+            }));
+          }}
+          options={usageTypes.map((usage) => ({
+            value: usage,
+            label: usage === "Family Entertainment" ? (lang === "zh" ? "家庭娱乐" : "Family Entertainment") :
+                   usage === "Thrill Adventure" ? (lang === "zh" ? "刺激冒险" : "Thrill Adventure") :
+                   usage === "Water Attraction" ? (lang === "zh" ? "水上项目" : "Water Attraction") :
+                   usage === "Kiddie Fun" ? (lang === "zh" ? "儿童游乐" : "Kiddie Fun") : usage,
+          }))}
+          placeholder={lang === "zh" ? "全部类型" : "All Types"}
+          label={lang === "zh" ? "用途" : "Usage"}
+          className={isMobile ? "w-full" : "flex-1 min-w-[150px]"}
+        />
         
-        <div className={`flex ${isMobile ? 'flex-col' : 'items-center'} gap-2`}>
-          <label className={`text-sm font-medium text-[var(--text-secondary)] ${isMobile ? 'mb-1' : ''}`}>Venue:</label>
-          <select
-            value={multiFilter.venueType || ""}
-            onChange={(e) => {
-              setMultiFilter((prev) => ({
-                ...prev,
-                venueType: e.target.value ? (e.target.value as VenueType) : undefined,
-              }));
-            }}
-            className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--text-primary)] outline-none transition focus:border-[var(--accent-primary)] min-h-[44px] touch-manipulation"
-          >
-            <option value="">All Venues</option>
-            {venueTypes.map((venue) => (
-              <option key={venue} value={venue}>
-                {venue === "Indoor" ? (lang === "zh" ? "室内" : "Indoor") :
-                 venue === "Outdoor" ? (lang === "zh" ? "户外" : "Outdoor") :
-                 venue === "Both" ? (lang === "zh" ? "室内外通用" : "Both") : venue}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Select
+          value={multiFilter.venueType || ""}
+          onChange={(value) => {
+            setMultiFilter((prev) => ({
+              ...prev,
+              venueType: value ? (value as VenueType) : undefined,
+            }));
+          }}
+          options={venueTypes.map((venue) => ({
+            value: venue,
+            label: venue === "Indoor" ? (lang === "zh" ? "室内" : "Indoor") :
+                   venue === "Outdoor" ? (lang === "zh" ? "户外" : "Outdoor") :
+                   venue === "Both" ? (lang === "zh" ? "室内外通用" : "Both") : venue,
+          }))}
+          placeholder={lang === "zh" ? "全部场地" : "All Venues"}
+          label={lang === "zh" ? "场地" : "Venue"}
+          className={isMobile ? "w-full" : "flex-1 min-w-[150px]"}
+        />
         
-        <div className={`flex ${isMobile ? 'flex-col' : 'items-center'} gap-2`}>
-          <label className={`text-sm font-medium text-[var(--text-secondary)] ${isMobile ? 'mb-1' : ''}`}>Audience:</label>
-          <select
-            value={multiFilter.targetAudience || ""}
-            onChange={(e) => {
-              setMultiFilter((prev) => ({
-                ...prev,
-                targetAudience: e.target.value ? (e.target.value as TargetAudience) : undefined,
-              }));
-            }}
-            className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--text-primary)] outline-none transition focus:border-[var(--accent-primary)] min-h-[44px] touch-manipulation"
-          >
-            <option value="">All Audiences</option>
-            {audienceTypes.map((audience) => (
-              <option key={audience} value={audience}>
-                {audience === "Adults" ? (lang === "zh" ? "成人" : "Adults") :
-                 audience === "Kids" ? (lang === "zh" ? "儿童" : "Kids") :
-                 audience === "Family" ? (lang === "zh" ? "家庭" : "Family") : audience}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Select
+          value={multiFilter.targetAudience || ""}
+          onChange={(value) => {
+            setMultiFilter((prev) => ({
+              ...prev,
+              targetAudience: value ? (value as TargetAudience) : undefined,
+            }));
+          }}
+          options={audienceTypes.map((audience) => ({
+            value: audience,
+            label: audience === "Adults" ? (lang === "zh" ? "成人" : "Adults") :
+                   audience === "Kids" ? (lang === "zh" ? "儿童" : "Kids") :
+                   audience === "Family" ? (lang === "zh" ? "家庭" : "Family") : audience,
+          }))}
+          placeholder={lang === "zh" ? "全部受众" : "All Audiences"}
+          label={lang === "zh" ? "受众" : "Audience"}
+          className={isMobile ? "w-full" : "flex-1 min-w-[150px]"}
+        />
         
         {(multiFilter.usage || multiFilter.venueType || multiFilter.targetAudience) && (
-          <button
+          <FilterButton
+            label={lang === "zh" ? "清除筛选" : "Clear Filters"}
+            isActive={false}
             onClick={() => setMultiFilter({})}
-            className={`${isRTL ? "mr-auto" : "ml-auto"} rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-3 text-sm text-[var(--text-secondary)] hover:border-[var(--border-hover)] hover:text-[var(--text-primary)] min-h-[44px] min-w-[44px] touch-manipulation`}
-          >
-            {lang === "zh" ? "清除筛选" : "Clear Filters"}
-          </button>
+            className={`${isRTL ? "mr-auto" : "ml-auto"} ${isMobile ? "w-full" : ""}`}
+          />
         )}
       </div>
 
       {/* Category Dropdown for Specific Filtering */}
       {(filter === "rides" || filter === "decorative" || filter === "all") && (
-        <div className="flex items-center gap-3">
-          <label className="text-sm text-[var(--text-secondary)]">Specific category:</label>
-          <select
-            value=""
-            onChange={(e) => {
-              if (e.target.value) {
-                setFilter(e.target.value);
-              }
-            }}
-            className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--text-primary)] outline-none transition focus:border-[var(--accent-primary)] min-h-[44px] touch-manipulation"
-          >
-            <option value="">Select a category...</option>
-            {filter === "rides" || filter === "all"
+        <Select
+          value=""
+          onChange={(value) => {
+            if (value) {
+              setFilter(value);
+            }
+          }}
+          options={[
+            ...(filter === "rides" || filter === "all"
               ? categories
                   .filter((cat) => RIDE_CATEGORIES.includes(cat))
-                  .map((category) => (
-                    <option key={category} value={category}>
-                      {category} ({allProducts.filter((p) => p.category === category).length})
-                    </option>
-                  ))
-              : null}
-            {filter === "decorative" || filter === "all"
+                  .map((category) => ({
+                    value: category,
+                    label: `${category} (${allProducts.filter((p) => p.category === category).length})`,
+                  }))
+              : []),
+            ...(filter === "decorative" || filter === "all"
               ? categories
                   .filter((cat) => !RIDE_CATEGORIES.includes(cat))
-                  .map((category) => (
-                    <option key={category} value={category}>
-                      {category} ({allProducts.filter((p) => p.category === category).length})
-                    </option>
-                  ))
-              : null}
-          </select>
-        </div>
+                  .map((category) => ({
+                    value: category,
+                    label: `${category} (${allProducts.filter((p) => p.category === category).length})`,
+                  }))
+              : []),
+          ]}
+          placeholder={lang === "zh" ? "选择分类..." : "Select a category..."}
+          label={lang === "zh" ? "具体分类" : "Specific category"}
+        />
       )}
 
-      {/* Products Grid - Mobile: 1 column, Tablet: 2 columns, Desktop: 3 columns */}
-      <div className={`grid gap-4 ${isMobile ? 'grid-cols-1' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+      {/* Products Grid */}
+      <div className={`grid gap-6 ${isMobile ? 'grid-cols-1' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
         {visibleProducts.length > 0 ? (
           <>
             {visibleProducts.map((product, index) => (
-              <div
+              <ProductCard
                 key={`${product.name}-${index}`}
-                className="transition-opacity"
-              >
-                <ProductCard
-                  product={product}
-                  lang={lang}
-                  index={index}
-                  isRTL={isRTL}
-                />
-              </div>
+                product={product}
+                lang={lang}
+                index={index}
+                isRTL={isRTL}
+              />
             ))}
-            {/* Load more trigger - invisible element at the bottom */}
             {visibleCount < filteredProducts.length && (
               <div ref={loadMoreRef} className="col-span-full h-20 flex items-center justify-center">
                 <div className="text-sm text-[var(--text-tertiary)]">
@@ -451,9 +393,7 @@ export function ProductGrid({
             )}
           </>
         ) : (
-          <div className="col-span-full transition-opacity">
-            <EmptyState />
-          </div>
+          <EmptyState />
         )}
       </div>
 

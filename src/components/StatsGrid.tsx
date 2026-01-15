@@ -75,6 +75,7 @@ export function StatsGrid({ stats, lang = "en", columns = 4 }: StatsGridProps) {
           label={getLocalizedLabel(stat)}
           description={getLocalizedDescription(stat)}
           icon={getIcon(stat.icon)}
+          aboveTheFold={true} // StatsGrid is above the fold, so load CountUp immediately
         />
       ))}
     </div>

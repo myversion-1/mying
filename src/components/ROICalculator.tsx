@@ -1,159 +1,310 @@
 "use client";
 
-import { useMemo } from "react";
-import { useLanguage } from "./language";
-import type { Product } from "../content/copy";
+import { useState, useMemo } from "react";
+import type { Lang } from "./language";
+import { Calculator, TrendingUp, DollarSign, Calendar, FileText } from "lucide-react";
+import Link from "next/link";
 
 interface ROICalculatorProps {
-  products: Product[];
+  lang: Lang;
+  className?: string;
 }
 
 /**
- * ROI Calculator Component
- * Calculates potential annual revenue based on:
- * - Product capacity (riders)
- * - Industry average turnover rate
- * - Average ticket price
+ * ROI Calculator Component - B2B Decision Support Tool
  * 
- * Displays revenue growth curve over time
+ * Helps B2B decision-makers calculate:
+ * - Annual Revenue Projection
+ * - Payback Period
+ * - 5-Year Net Present Value (NPV)
+ * 
+ * Features:
+ * - Real-time calculation
+ * - Professional B2B design
+ * - Export financial analysis report
  */
-export function ROICalculator({ products }: ROICalculatorProps) {
-  const { lang } = useLanguage();
+export function ROICalculator({ lang, className = "" }: ROICalculatorProps) {
+  const isZh = lang === "zh";
+  
+  // Input state
+  const [venueArea, setVenueArea] = useState("");
+  const [dailyVisitors, setDailyVisitors] = useState("");
+  const [avgTicketPrice, setAvgTicketPrice] = useState("");
+  const [operatingDays, setOperatingDays] = useState("");
+  const [equipmentInvestment, setEquipmentInvestment] = useState("");
+  const [operatingCost, setOperatingCost] = useState(""); // Annual operating cost as % of revenue
+  const [discountRate, setDiscountRate] = useState("10"); // Default 10% discount rate
 
-  // Industry average metrics
-  const AVERAGE_TICKET_PRICE = 5; // USD per ride
-  const DAILY_OPERATING_HOURS = 10;
-  const DAYS_PER_YEAR = 365;
-  const TURNOVER_RATE = 0.7; // 70% capacity utilization on average
-  const ANNUAL_GROWTH_RATE = 0.15; // 15% annual growth
+  // Calculate results
+  const results = useMemo(() => {
+    const area = parseFloat(venueArea) || 0;
+    const visitors = parseFloat(dailyVisitors) || 0;
+    const ticketPrice = parseFloat(avgTicketPrice) || 0;
+    const days = parseFloat(operatingDays) || 0;
+    const investment = parseFloat(equipmentInvestment) || 0;
+    const opCostPercent = parseFloat(operatingCost) || 30; // Default 30%
+    const discount = parseFloat(discountRate) || 10;
 
-  // Calculate total capacity from filtered products
-  const totalCapacity = useMemo(() => {
-    return products.reduce((sum, product) => {
-      const riders = parseInt(product.riders) || 0;
-      return sum + riders;
-    }, 0);
-  }, [products]);
-
-  // Calculate annual revenue projections
-  const revenueProjections = useMemo(() => {
-    const projections = [];
-    const baseDailyRevenue =
-      totalCapacity * AVERAGE_TICKET_PRICE * TURNOVER_RATE * DAILY_OPERATING_HOURS;
-    const baseAnnualRevenue = baseDailyRevenue * DAYS_PER_YEAR;
-
-    for (let year = 1; year <= 5; year++) {
-      const revenue = baseAnnualRevenue * Math.pow(1 + ANNUAL_GROWTH_RATE, year - 1);
-      projections.push({
-        year,
-        revenue: Math.round(revenue),
-      });
+    if (!area || !visitors || !ticketPrice || !days || !investment) {
+      return null;
     }
 
-    return projections;
-  }, [totalCapacity]);
+    // Annual Revenue Calculation
+    const annualRevenue = visitors * ticketPrice * days;
 
-  const maxRevenue = Math.max(...revenueProjections.map((p) => p.revenue));
+    // Annual Operating Cost (as % of revenue)
+    const annualOperatingCost = annualRevenue * (opCostPercent / 100);
 
-  if (totalCapacity === 0) {
-    return null;
-  }
+    // Annual Net Profit
+    const annualNetProfit = annualRevenue - annualOperatingCost;
+
+    // Payback Period (years)
+    const paybackPeriod = investment > 0 ? investment / annualNetProfit : 0;
+
+    // 5-Year NPV Calculation
+    let npv = 0;
+    for (let year = 1; year <= 5; year++) {
+      const yearCashFlow = annualNetProfit;
+      const discountedCashFlow = yearCashFlow / Math.pow(1 + discount / 100, year);
+      npv += discountedCashFlow;
+    }
+    npv -= investment; // Subtract initial investment
+
+    return {
+      annualRevenue,
+      annualOperatingCost,
+      annualNetProfit,
+      paybackPeriod,
+      npv,
+    };
+  }, [venueArea, dailyVisitors, avgTicketPrice, operatingDays, equipmentInvestment, operatingCost, discountRate]);
+
+  // Format currency
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat(isZh ? "zh-CN" : "en-US", {
+      style: "currency",
+      currency: isZh ? "CNY" : "USD",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
+
+  // Export report
+  const handleExportReport = () => {
+    if (!results) return;
+
+    const report = `
+${isZh ? "投资回报分析报告" : "ROI Analysis Report"}
+${isZh ? "生成时间" : "Generated"}: ${new Date().toLocaleDateString(isZh ? "zh-CN" : "en-US")}
+
+${isZh ? "输入参数" : "Input Parameters"}:
+${isZh ? "场地面积" : "Venue Area"}: ${venueArea} ${isZh ? "平方米" : "m²"}
+${isZh ? "每日客流量" : "Daily Visitors"}: ${dailyVisitors}
+${isZh ? "平均票价" : "Average Ticket Price"}: ${formatCurrency(parseFloat(avgTicketPrice))}
+${isZh ? "运营天数" : "Operating Days"}: ${operatingDays} ${isZh ? "天/年" : "days/year"}
+${isZh ? "设备投资" : "Equipment Investment"}: ${formatCurrency(parseFloat(equipmentInvestment))}
+${isZh ? "运营成本占比" : "Operating Cost %"}: ${operatingCost}%
+${isZh ? "贴现率" : "Discount Rate"}: ${discountRate}%
+
+${isZh ? "计算结果" : "Results"}:
+${isZh ? "预计年收入" : "Projected Annual Revenue"}: ${formatCurrency(results.annualRevenue)}
+${isZh ? "年运营成本" : "Annual Operating Cost"}: ${formatCurrency(results.annualOperatingCost)}
+${isZh ? "年净利润" : "Annual Net Profit"}: ${formatCurrency(results.annualNetProfit)}
+${isZh ? "投资回报周期" : "Payback Period"}: ${results.paybackPeriod.toFixed(1)} ${isZh ? "年" : "years"}
+${isZh ? "5年净现值 (NPV)" : "5-Year Net Present Value (NPV)"}: ${formatCurrency(results.npv)}
+
+${isZh ? "如需更详细的财务分析，请联系我们的财务顾问团队。" : "For more detailed financial analysis, please contact our financial advisory team."}
+    `.trim();
+
+    const blob = new Blob([report], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `ROI-Analysis-${new Date().toISOString().split("T")[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   return (
-    <div className="rounded-xl border border-[var(--accent-primary)]/30 bg-[var(--accent-primary-light)] p-6">
-      <div className="mb-4">
-        <h4 className="text-lg font-semibold text-white mb-2">
-          {lang === "zh" ? "ROI 预估" : "ROI Projection"}
-        </h4>
-        <p className="text-sm text-[var(--dark-bg-text-secondary)]">
-          {lang === "zh"
-            ? "基于设备容量和行业平均周转率的年度营收预估"
-            : "Annual revenue projection based on capacity and industry average turnover"}
-        </p>
-      </div>
-
-      {/* Key Metrics */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="rounded-lg bg-white/5 p-4 border border-white/10">
-          <div className="text-xs text-[var(--dark-bg-text-tertiary)] mb-1">
-            {lang === "zh" ? "总容量" : "Total Capacity"}
-          </div>
-          <div className="text-2xl font-bold text-[var(--accent-primary)]">{totalCapacity}</div>
-          <div className="text-xs text-[var(--dark-bg-text-tertiary)] mt-1">
-            {lang === "zh" ? "乘客/次" : "riders/cycle"}
-          </div>
+    <div className={`rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 md:p-8 ${className}`}>
+      <div className="mb-6 flex items-center gap-3">
+        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--accent-primary-light)] text-[var(--accent-primary)]">
+          <Calculator className="h-6 w-6" />
         </div>
-        <div className="rounded-lg bg-white/5 p-4 border border-white/10">
-          <div className="text-xs text-[var(--dark-bg-text-tertiary)] mb-1">
-            {lang === "zh" ? "设备数量" : "Products"}
-          </div>
-          <div className="text-2xl font-bold text-[var(--accent-primary)]">{products.length}</div>
-          <div className="text-xs text-[var(--dark-bg-text-tertiary)] mt-1">
-            {lang === "zh" ? "个设备" : "products"}
-          </div>
+        <div>
+          <h2 className="text-2xl font-bold text-[var(--text-primary)]">
+            {isZh ? "ROI 计算器" : "ROI Calculator"}
+          </h2>
+          <p className="text-sm text-[var(--text-secondary)]">
+            {isZh ? "计算您的投资回报率和净现值" : "Calculate your return on investment and net present value"}
+          </p>
         </div>
       </div>
 
-      {/* Revenue Growth Chart */}
-      <div className="mb-4">
-        <h5 className="text-sm font-medium text-white/90 mb-4">
-          {lang === "zh" ? "5年营收增长曲线" : "5-Year Revenue Growth Curve"}
-        </h5>
-        <div className="space-y-3">
-          {revenueProjections.map((projection, index) => {
-            const percentage = (projection.revenue / maxRevenue) * 100;
-            return (
-              <div
-                key={projection.year}
-                className="relative transition-opacity"
-              >
-                <div className="flex items-center gap-3 mb-1">
-                  <span className="text-xs font-medium text-[var(--dark-bg-text-secondary)] w-12">
-                    {lang === "zh" ? `第${projection.year}年` : `Year ${projection.year}`}
-                  </span>
-                  <div className="flex-1 h-6 bg-white/10 rounded-lg overflow-hidden relative">
-                    <div
-                      style={{ width: `${percentage}%` }}
-                      className="h-full bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-end pr-2 transition-all"
-                    >
-                      <span className="text-xs font-semibold text-[var(--text-inverse)]">
-                        ${(projection.revenue / 1000).toFixed(0)}K
-                      </span>
-                    </div>
-                  </div>
-                  <span className="text-xs font-semibold text-[var(--accent-primary)] w-20 text-right">
-                    ${projection.revenue.toLocaleString()}
-                  </span>
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* Input Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-[var(--text-primary)]">
+            {isZh ? "输入参数" : "Input Parameters"}
+          </h3>
+          
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[var(--text-primary)]">
+              {isZh ? "场地面积 (平方米)" : "Venue Area (m²)"}
+            </label>
+            <input
+              type="number"
+              value={venueArea}
+              onChange={(e) => setVenueArea(e.target.value)}
+              placeholder={isZh ? "例如: 1000" : "e.g., 1000"}
+              className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent-primary)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[var(--text-primary)]">
+              {isZh ? "目标客流量 (每日)" : "Target Visitors (Daily)"}
+            </label>
+            <input
+              type="number"
+              value={dailyVisitors}
+              onChange={(e) => setDailyVisitors(e.target.value)}
+              placeholder={isZh ? "例如: 500" : "e.g., 500"}
+              className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent-primary)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[var(--text-primary)]">
+              {isZh ? "平均票价 (美元)" : "Average Ticket Price (USD)"}
+            </label>
+            <input
+              type="number"
+              value={avgTicketPrice}
+              onChange={(e) => setAvgTicketPrice(e.target.value)}
+              placeholder={isZh ? "例如: 25" : "e.g., 25"}
+              className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent-primary)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[var(--text-primary)]">
+              {isZh ? "运营天数 (每年)" : "Operating Days (Per Year)"}
+            </label>
+            <input
+              type="number"
+              value={operatingDays}
+              onChange={(e) => setOperatingDays(e.target.value)}
+              placeholder={isZh ? "例如: 300" : "e.g., 300"}
+              className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent-primary)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[var(--text-primary)]">
+              {isZh ? "设备投资预算 (美元)" : "Equipment Investment Budget (USD)"}
+            </label>
+            <input
+              type="number"
+              value={equipmentInvestment}
+              onChange={(e) => setEquipmentInvestment(e.target.value)}
+              placeholder={isZh ? "例如: 500000" : "e.g., 500000"}
+              className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent-primary)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[var(--text-primary)]">
+              {isZh ? "运营成本占比 (%)" : "Operating Cost % (of revenue)"}
+            </label>
+            <input
+              type="number"
+              value={operatingCost}
+              onChange={(e) => setOperatingCost(e.target.value)}
+              placeholder={isZh ? "例如: 30" : "e.g., 30"}
+              className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent-primary)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-[var(--text-primary)]">
+              {isZh ? "贴现率 (%)" : "Discount Rate (%)"}
+            </label>
+            <input
+              type="number"
+              value={discountRate}
+              onChange={(e) => setDiscountRate(e.target.value)}
+              placeholder="10"
+              className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent-primary)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/20"
+            />
+          </div>
+        </div>
+
+        {/* Results Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-[var(--text-primary)]">
+            {isZh ? "计算结果" : "Results"}
+          </h3>
+
+          {results ? (
+            <>
+              <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4">
+                <div className="mb-2 flex items-center gap-2 text-sm font-medium text-[var(--text-tertiary)]">
+                  <TrendingUp className="h-4 w-4" />
+                  {isZh ? "预计年收入" : "Projected Annual Revenue"}
+                </div>
+                <div className="text-2xl font-bold text-[var(--accent-primary)]">
+                  {formatCurrency(results.annualRevenue)}
                 </div>
               </div>
-            );
-          })}
-        </div>
-      </div>
 
-      {/* Assumptions */}
-      <div className="mt-6 pt-4 border-t border-white/10">
-        <p className="text-xs text-[var(--dark-bg-text-tertiary)]">
-          {lang === "zh" ? (
-            <>
-              <strong>假设条件：</strong>
-              平均票价 ${AVERAGE_TICKET_PRICE}，日运营 {DAILY_OPERATING_HOURS} 小时，
-              容量利用率 {Math.round(TURNOVER_RATE * 100)}%，年增长率{" "}
-              {Math.round(ANNUAL_GROWTH_RATE * 100)}%。实际结果可能因市场条件而异。
+              <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4">
+                <div className="mb-2 flex items-center gap-2 text-sm font-medium text-[var(--text-tertiary)]">
+                  <Calendar className="h-4 w-4" />
+                  {isZh ? "投资回报周期" : "Payback Period"}
+                </div>
+                <div className="text-2xl font-bold text-[var(--accent-primary)]">
+                  {results.paybackPeriod.toFixed(1)} {isZh ? "年" : "years"}
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4">
+                <div className="mb-2 flex items-center gap-2 text-sm font-medium text-[var(--text-tertiary)]">
+                  <DollarSign className="h-4 w-4" />
+                  {isZh ? "5年净现值 (NPV)" : "5-Year Net Present Value (NPV)"}
+                </div>
+                <div className={`text-2xl font-bold ${results.npv >= 0 ? "text-[var(--accent-primary)]" : "text-red-500"}`}>
+                  {formatCurrency(results.npv)}
+                </div>
+              </div>
+
+              <div className="mt-6 space-y-3">
+                <button
+                  onClick={handleExportReport}
+                  className="w-full rounded-lg border border-[var(--action-primary)] bg-[var(--action-primary)] px-4 py-3 text-sm font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation flex items-center justify-center gap-2"
+                >
+                  <FileText className="h-4 w-4" />
+                  <span>{isZh ? "下载财务分析报告" : "Download Financial Analysis Report"}</span>
+                </button>
+                <Link
+                  href="/contact?type=financial-consultation"
+                  className="block w-full rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-4 py-3 text-center text-sm font-semibold text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] touch-manipulation"
+                >
+                  {isZh ? "预约财务顾问咨询" : "Schedule Financial Advisor Consultation"}
+                </Link>
+              </div>
             </>
           ) : (
-            <>
-              <strong>Assumptions:</strong> Average ticket ${AVERAGE_TICKET_PRICE},{" "}
-              {DAILY_OPERATING_HOURS}h daily operation, {Math.round(TURNOVER_RATE * 100)}%
-              capacity utilization, {Math.round(ANNUAL_GROWTH_RATE * 100)}% annual growth.
-              Actual results may vary based on market conditions.
-            </>
+            <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
+              <p className="text-[var(--text-secondary)]">
+                {isZh ? "填写左侧参数以查看计算结果" : "Fill in the parameters on the left to see results"}
+              </p>
+            </div>
           )}
-        </p>
+        </div>
       </div>
     </div>
   );
 }
-
-
-

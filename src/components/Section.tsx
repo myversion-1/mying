@@ -13,9 +13,11 @@ type SectionProps = {
 
 export function Section({ id, title, eyebrow, subtitle, children, className = "" }: SectionProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    setMounted(true);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -44,11 +46,12 @@ export function Section({ id, title, eyebrow, subtitle, children, className = ""
     <section 
       ref={ref}
       id={id} 
-      className={`${className} ${isVisible ? 'revealed' : ''}`}
+      className={`${className} ${mounted && isVisible ? 'revealed' : ''}`}
       style={{
         // Prevent layout shift by reserving minimum space
         minHeight: '1px',
       }}
+      suppressHydrationWarning
     >
       <div className="mx-auto w-full max-w-screen-2xl px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
         {(title || subtitle) && (

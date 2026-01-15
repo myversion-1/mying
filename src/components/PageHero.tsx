@@ -4,9 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { copy } from "../content/copy";
-import { useLanguage } from "./language";
+import { useLanguage, type Lang } from "./language";
 import { trackCTAClick } from "../lib/analytics";
 import { CheckCircle2, Award, Globe2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type Props = {
   headline?: string;
@@ -17,6 +18,7 @@ type Props = {
   primaryCtaText?: string;
   secondaryCtaText?: string;
   heroImage?: string; // Optional hero image (3D render or factory photo)
+  lang?: Lang; // Optional: pass lang from server to prevent hydration mismatch
 };
 
 export function PageHero({
@@ -28,9 +30,26 @@ export function PageHero({
   primaryCtaText,
   secondaryCtaText,
   heroImage = "/products/米盈游乐设备产品介绍 conv 0.jpeg", // Default factory photo
+  lang: langProp,
 }: Props) {
-  const { lang } = useLanguage();
+  const { lang: langFromContext } = useLanguage();
   const pathname = usePathname();
+  
+  // Use prop lang if provided (from server), otherwise use context (client-only)
+  // This prevents hydration mismatch when used in server components
+  // Initialize with prop if available, otherwise use context
+  const [mounted, setMounted] = useState(false);
+  
+  // Only use context lang after mount to prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  // Use prop lang during SSR and initial render, context lang after mount
+  // If langProp is provided, always use it (from server)
+  // Otherwise, use context lang after mount
+  const lang = langProp || (mounted ? langFromContext : "en");
+  
   const c = copy(lang);
 
   // Primary CTA: "Get a Quote" - Solid fill style

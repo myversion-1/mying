@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import type { BlogPost } from "../content/types/blog";
+import { Skeleton } from "./Skeleton";
 
 type BlogPostCardProps = {
   post: BlogPost;
@@ -12,6 +13,7 @@ type BlogPostCardProps = {
 
 export function BlogPostCard({ post, featured = false }: BlogPostCardProps) {
   const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -33,14 +35,28 @@ export function BlogPostCard({ post, featured = false }: BlogPostCardProps) {
         <div className={`relative overflow-hidden bg-gradient-to-br from-white/10 to-white/5 ${
           featured ? "h-64" : "h-48"
         }`}>
+          {/* Skeleton placeholder - prevents CLS */}
+          {imageLoading && !imageError && (
+            <Skeleton
+              variant="rectangular"
+              className="absolute inset-0 h-full w-full bg-[var(--surface-elevated)]"
+              animation="pulse"
+            />
+          )}
           {!imageError ? (
             <Image
               src={post.image}
               alt={post.title}
               fill
-              className="object-cover transition-opacity group-hover:opacity-95"
+              className={`object-cover transition-opacity duration-300 group-hover:opacity-95 ${
+                imageLoading ? "opacity-0" : "opacity-100"
+              }`}
               sizes={featured ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 50vw"}
-              onError={() => setImageError(true)}
+              onError={() => {
+                setImageError(true);
+                setImageLoading(false);
+              }}
+              onLoad={() => setImageLoading(false)}
               quality={65}
               loading="lazy"
             />

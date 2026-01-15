@@ -119,3 +119,14 @@ export function clearGeometricCache(): void {
   rectCache.clear();
 }
 
+
+
+
+
+
+
+
+
+
+
+

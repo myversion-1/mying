@@ -11,6 +11,7 @@ import { ProductSpecs } from "../../../components/ProductSpecs";
 import Link from "next/link";
 import Image from "next/image";
 import { encodeImagePath, hasNonASCIICharacters } from "../../../utils/image-utils";
+import { Download, FileSpreadsheet } from "lucide-react";
 
 type ComparisonProduct = {
   id: string;
@@ -146,6 +147,43 @@ function ComparePageContent() {
 
   const isZh = lang === "zh";
 
+  // Export comparison table to CSV
+  const handleExportCSV = () => {
+    if (selectedProducts.length === 0) return;
+
+    const headers = [
+      isZh ? "规格" : "Specification",
+      ...selectedProducts.map((p) => p.name),
+    ];
+
+    const rows = [
+      headers,
+      ...comparisonFields.map((field) => [
+        field.label[isZh ? "zh" : "en"],
+        ...selectedProducts.map((product) => product[field.key] || "—"),
+      ]),
+      [
+        isZh ? "安全认证" : "Safety Compliance",
+        ...selectedProducts.map((product) =>
+          product.safetyCompliance && product.safetyCompliance.length > 0
+            ? product.safetyCompliance.slice(0, 3).join("; ")
+            : "—"
+        ),
+      ],
+    ];
+
+    const csvContent = rows.map((row) => row.map((cell) => `"${cell}"`).join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Product-Comparison-${new Date().toISOString().split("T")[0]}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="mx-auto w-full max-w-screen-2xl px-4 py-8 md:px-8 md:py-12">
       {/* Page Header */}
@@ -241,6 +279,17 @@ function ComparePageContent() {
           id="comparison-table"
           title={isZh ? "产品对比表" : "Product Comparison"}
         >
+          {/* Export Button */}
+          <div className="mb-4 flex justify-end">
+            <button
+              onClick={handleExportCSV}
+              className="flex items-center gap-2 rounded-lg border border-[var(--action-primary)] bg-[var(--action-primary)] px-4 py-2 text-sm font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+            >
+              <Download className="h-4 w-4" />
+              <span>{isZh ? "导出对比表 (CSV)" : "Export Comparison (CSV)"}</span>
+            </button>
+          </div>
+          
           <div className="overflow-x-auto">
             <table className="w-full min-w-[800px] border-collapse">
               <thead>

@@ -168,6 +168,40 @@ export function TrustLayer({
 
   const displayPartners = maxPartners ? partners.slice(0, maxPartners) : partners;
 
+  // Key metrics for trust building (first row after certifications)
+  const keyMetrics = [
+    {
+      number: "500",
+      suffix: "+",
+      label: lang === "zh" ? "成功项目" : "Successful Projects",
+      description: lang === "zh" ? "全球交付记录" : "Global delivery record",
+    },
+    {
+      number: "80",
+      suffix: "+",
+      label: lang === "zh" ? "出口国家" : "Export Countries",
+      description: lang === "zh" ? "全球市场覆盖" : "Global market coverage",
+    },
+    {
+      number: "98",
+      suffix: "%",
+      label: lang === "zh" ? "客户满意度" : "Client Satisfaction",
+      description: lang === "zh" ? "持续高质量服务" : "Consistent quality service",
+    },
+    {
+      number: "24/7",
+      suffix: "",
+      label: lang === "zh" ? "技术支持" : "Technical Support",
+      description: lang === "zh" ? "全天候服务保障" : "Round-the-clock service",
+    },
+    {
+      number: "15",
+      suffix: "+",
+      label: lang === "zh" ? "年经验" : "Years Experience",
+      description: lang === "zh" ? "行业领先专业知识" : "Industry-leading expertise",
+    },
+  ];
+
   return (
     <section className="py-12 md:py-16 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent">
       <div className="mx-auto w-full max-w-screen-2xl px-4 md:px-8">
@@ -186,12 +220,89 @@ export function TrustLayer({
         )}
 
         <div className={variant === "compact" ? "space-y-8" : "space-y-12"}>
-          {/* Client Logos / Partners */}
+          {/* First Row: Core Certifications (3 main ones) */}
+          {showCertifications && certifications.length > 0 && (
+            <div ref={certificationsRef}>
+              {variant === "full" && (
+                <h3 className="mb-6 text-center text-xl font-semibold text-[var(--text-primary)]">
+                  {c.aboutPage?.certifications?.title || (lang === "zh" ? "核心认证" : "Core Certifications")}
+                </h3>
+              )}
+              <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+                {visibleSections.certifications ? (
+                  certifications.map((cert, idx) => (
+                    <div
+                      key={idx}
+                      className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 text-center transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)] hover:shadow-lg"
+                    >
+                      <div className="mb-3 flex items-center justify-center">
+                        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--accent-primary-light)] text-[var(--accent-primary)] text-2xl font-bold border border-[var(--accent-primary)]/30">
+                          ✓
+                        </div>
+                      </div>
+                      <h4 className="mb-2 text-lg font-semibold text-[var(--text-primary)]">
+                        {cert.name}
+                      </h4>
+                      <p className="mb-3 text-sm text-[var(--text-secondary)] leading-relaxed">
+                        {cert.description}
+                      </p>
+                      <span className="inline-flex items-center rounded-full bg-[var(--accent-primary-light)] px-3 py-1 text-xs font-semibold text-[var(--accent-primary)] border border-[var(--accent-primary)]/30">
+                        {cert.badge}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  // Placeholder skeleton
+                  Array.from({ length: 4 }).map((_, idx) => (
+                    <div
+                      key={idx}
+                      className="h-48 animate-pulse rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]"
+                    />
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Second Row: Key Metrics (5 quantifiable indicators) */}
+          {variant === "full" && (
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 md:p-8">
+              <h3 className="mb-6 text-center text-xl font-semibold text-[var(--text-primary)]">
+                {lang === "zh" ? "核心数据指标" : "Key Performance Metrics"}
+              </h3>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+                {keyMetrics.map((metric, idx) => (
+                  <div
+                    key={idx}
+                    className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 text-center transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
+                  >
+                    <div className="mb-2 flex items-baseline justify-center gap-1">
+                      <span className="text-3xl font-bold text-[var(--accent-primary)] md:text-4xl">
+                        {metric.number}
+                      </span>
+                      {metric.suffix && (
+                        <span className="text-2xl font-bold text-[var(--accent-primary)] md:text-3xl">
+                          {metric.suffix}
+                        </span>
+                      )}
+                    </div>
+                    <div className="mb-1 text-sm font-semibold text-[var(--text-primary)]">
+                      {metric.label}
+                    </div>
+                    <div className="text-xs text-[var(--text-tertiary)]">
+                      {metric.description}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {/* Third Row: Client Logos / Partners */}
           {showPartners && displayPartners.length > 0 && (
             <div ref={partnersRef}>
               {variant === "full" && (
                 <h3 className="mb-6 text-center text-xl font-semibold text-[var(--text-primary)]">
-                  {lang === "zh" ? "我们的客户" : "Our Clients"}
+                  {lang === "zh" ? "全球合作伙伴" : "Global Partners"}
                 </h3>
               )}
               <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
@@ -237,51 +348,7 @@ export function TrustLayer({
             </div>
           )}
 
-          {/* Certifications & Compliance */}
-          {showCertifications && certifications.length > 0 && (
-            <div ref={certificationsRef}>
-              {variant === "full" && (
-                <h3 className="mb-6 text-center text-xl font-semibold text-[var(--text-primary)]">
-                  {c.aboutPage?.certifications?.title || (lang === "zh" ? "行业认证与合规" : "Industry Certifications & Compliance")}
-                </h3>
-              )}
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {visibleSections.certifications ? (
-                  certifications.map((cert, idx) => (
-                    <div
-                      key={idx}
-                      className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 text-center transition hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)]"
-                    >
-                      <div className="mb-3 flex items-center justify-center">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent-primary-light)] text-[var(--accent-primary)] text-xl font-bold">
-                          ✓
-                        </div>
-                      </div>
-                      <h4 className="mb-2 text-lg font-semibold text-[var(--text-primary)]">
-                        {cert.name}
-                      </h4>
-                      <p className="mb-3 text-sm text-[var(--text-secondary)] leading-relaxed">
-                        {cert.description}
-                      </p>
-                      <span className="inline-flex items-center rounded-full bg-[var(--accent-primary-light)] px-3 py-1 text-xs font-semibold text-[var(--accent-primary)] border border-[var(--accent-primary)]/30">
-                        {cert.badge}
-                      </span>
-                    </div>
-                  ))
-                ) : (
-                  // Placeholder skeleton
-                  Array.from({ length: 4 }).map((_, idx) => (
-                    <div
-                      key={idx}
-                      className="h-48 animate-pulse rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]"
-                    />
-                  ))
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Factory Photos */}
+          {/* Fourth Row: Factory Photos */}
           {showFactoryPhotos && factoryPhotos.length > 0 && (
             <div ref={factoryPhotosRef}>
               <h3 className="mb-6 text-center text-xl font-semibold text-[var(--text-primary)]">

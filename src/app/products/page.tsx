@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import { PageHero } from "../../components/PageHero";
 import { Section } from "../../components/Section";
-import { ProductGrid } from "../../components/ProductGrid";
 import { ProductGridSkeleton } from "../../components/Skeleton";
-import { getProducts, copy } from "../../content/copy";
+import { PatentBanner } from "../../components/PatentBanner";
+import { copy } from "../../content/copy";
 import type { Lang } from "../../components/language";
 import { StructuredDataServer } from "../../components/StructuredDataServer";
 import { ProductsContentClient } from "./ProductsContentClient";
@@ -47,7 +47,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   // Optimized parallel data fetching using Promise.all()
   // Fetches products, metadata, and certification status in parallel
   // This reduces total data fetching time and improves LCP
-  const { products, metadata, certifications } = await fetchProductData(lang);
+  const { products, metadata } = await fetchProductData(lang);
 
   // Patent statistics (from parallel fetched metadata)
   const patentCount = metadata.patentCount > 0 ? `${metadata.patentCount}+` : "15+";
@@ -77,30 +77,18 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               ctaPrimaryHref="/contact"
               ctaSecondaryHref="/visit"
               badge={c.pageBadges.catalog}
+              lang={lang}
             />
           </div>
         </div>
 
         {/* Patent Statistics Banner */}
-        <div className="mx-auto w-full max-w-screen-2xl px-4 md:px-8">
-          <div className="flex items-center justify-center gap-8 rounded-2xl border border-[#7df6ff]/20 bg-gradient-to-r from-[#7df6ff]/10 to-[#00eaff]/10 p-6">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#7df6ff]/20 text-[#7df6ff]">
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <div className="text-center md:text-left">
-                <div className="text-4xl font-bold text-[#00eaff]">{patentCount}</div>
-                <div className="text-lg font-semibold text-white">{patentLabel}</div>
-              </div>
-            </div>
-            <div className="hidden h-12 w-px bg-white/20 md:block" />
-            <div className="hidden text-sm text-[var(--dark-bg-text-secondary)] md:block">
-              {patentDescription}
-            </div>
-          </div>
-        </div>
+        <PatentBanner
+          count={patentCount}
+          label={patentLabel}
+          description={patentDescription}
+          lang={lang}
+        />
 
         {/* Products Grid - Client Component for interactivity */}
         <Suspense fallback={

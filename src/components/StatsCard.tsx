@@ -5,13 +5,14 @@ import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
 // Dynamic import for CountUp to reduce initial bundle size
-// Using lazy loading to avoid preload warnings
-const CountUp = dynamic(() => import("react-countup").then((mod) => mod.default), {
-  ssr: false, // CountUp doesn't need SSR
-  loading: () => <span>0</span>, // Fallback during loading
-  // Prevent preloading to avoid unused preload warnings
-  // The component will load when actually needed (when inView becomes true)
-});
+// Using lazy loading to avoid preload warnings and 404 errors
+const CountUp = dynamic(
+  () => import("react-countup").then((mod) => ({ default: mod.default })),
+  {
+    ssr: false, // CountUp doesn't need SSR
+    loading: () => <span>0</span>, // Fallback during loading
+  }
+);
 
 type StatsCardProps = {
   number: string | number;
@@ -20,6 +21,8 @@ type StatsCardProps = {
   description?: string;
   icon?: React.ReactNode;
   className?: string;
+  // Allow parent to indicate if this is above the fold
+  aboveTheFold?: boolean;
 };
 
 export function StatsCard({ 
@@ -28,21 +31,28 @@ export function StatsCard({
   label, 
   description, 
   icon, 
-  className = "" 
+  className = "",
+  aboveTheFold = false
 }: StatsCardProps) {
-  const [inView, setInView] = useState(false);
+  const [inView, setInView] = useState(aboveTheFold); // Start true if above the fold
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // If above the fold, load immediately
+    if (aboveTheFold) {
+      setInView(true);
+      return;
+    }
+
+    // For below-the-fold cards, use Intersection Observer
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
-          // Disconnect after first trigger
           observer.disconnect();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1, rootMargin: '50px' } // Lower threshold and add margin for earlier loading
     );
 
     if (cardRef.current) {
@@ -50,7 +60,7 @@ export function StatsCard({
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [aboveTheFold]);
 
   // Convert number to numeric value for CountUp
   const numericValue = typeof number === "string" 
@@ -60,15 +70,15 @@ export function StatsCard({
   return (
     <div
       ref={cardRef}
-      className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.05] via-white/[0.03] to-white/[0.01] p-6 transition-all duration-300 hover:border-[#7df6ff]/30 hover:bg-white/[0.08] hover:shadow-lg hover:shadow-[#7df6ff]/10 ${className}`}
+      className={`group relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 transition-all duration-300 hover:border-[var(--accent-primary)]/30 hover:bg-[var(--surface-hover)] hover:shadow-lg ${className}`}
     >
-      {/* Background accent - subtle gray/brand color */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#7df6ff]/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      {/* Background accent - subtle brand color on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-primary)]/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       
       <div className="relative flex flex-col gap-4">
         {/* Icon */}
         {icon && (
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#7df6ff]/10 text-[#7df6ff] transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#7df6ff]/20">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[var(--accent-primary-light)] text-[var(--accent-primary)] transition-transform duration-300 group-hover:scale-110 group-hover:bg-[var(--accent-primary)]/20 border border-[var(--accent-primary)]/30">
             {icon}
           </div>
         )}
@@ -77,7 +87,7 @@ export function StatsCard({
         <div className="space-y-2">
           {/* Number with CountUp animation */}
           <div className="flex items-baseline gap-1">
-            <span className="text-4xl font-bold text-[#00eaff] md:text-5xl">
+            <span className="text-4xl font-bold text-[var(--accent-primary)] md:text-5xl">
               {inView ? (
                 <CountUp
                   start={0}
@@ -85,26 +95,27 @@ export function StatsCard({
                   duration={2.5}
                   decimals={0}
                   separator=","
+                  enableScrollSpy={false}
                 />
               ) : (
                 "0"
               )}
             </span>
             {suffix && (
-              <span className="text-3xl font-bold text-[#00eaff] md:text-4xl">
+              <span className="text-3xl font-bold text-[var(--accent-primary)] md:text-4xl">
                 {suffix}
               </span>
             )}
           </div>
           
           {/* Label */}
-          <div className="text-lg font-semibold text-white md:text-xl">
+          <div className="text-base font-semibold text-[var(--text-primary)] md:text-lg">
             {label}
           </div>
           
           {/* Description */}
           {description && (
-            <p className="text-sm text-[var(--dark-bg-text-tertiary)] md:text-base">
+            <p className="text-sm text-[var(--text-secondary)] md:text-base">
               {description}
             </p>
           )}
@@ -112,7 +123,7 @@ export function StatsCard({
       </div>
       
       {/* Hover effect overlay */}
-      <div className="absolute inset-0 bg-[#7df6ff]/0 transition-colors duration-300 group-hover:bg-[#7df6ff]/5 pointer-events-none" />
+      <div className="absolute inset-0 bg-[var(--accent-primary)]/0 transition-colors duration-300 group-hover:bg-[var(--accent-primary)]/5 pointer-events-none" />
     </div>
   );
 }
