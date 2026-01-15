@@ -283,7 +283,7 @@ export function SmartSelector({
       {/* ROI Calculator - Show when filters are active */}
       {hasActiveFilters && filteredProducts.length > 0 && (
         <div className="mt-6 pt-6 border-t border-[var(--border)] transition-opacity">
-          <ROICalculator products={filteredProducts} />
+          <ROICalculator lang={lang} />
         </div>
       )}
     </div>
