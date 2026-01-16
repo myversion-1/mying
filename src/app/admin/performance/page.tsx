@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useWebVitals } from "../../components/web-vitals";
+import { useWebVitals } from "../../components/WebVitals";
 
 /**
  * Performance Dashboard Page
