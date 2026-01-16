@@ -35,16 +35,16 @@ export function StickyProductCTA({ productName, lang }: StickyProductCTAProps) {
                 : `Get a custom quote for ${productName} or download detailed specifications`}
             </p>
           </div>
-          <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:gap-3">
             <Link
               href={`/quote?product=${encodeURIComponent(productName)}`}
-              className="rounded-lg bg-[var(--action-primary)] px-6 py-3 text-sm font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation text-center flex items-center justify-center"
+              className="rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-5 py-3 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-xl hover:shadow-[var(--action-primary)]/50 transition-all duration-200 hover:-translate-y-0.5 hover:brightness-110 active:scale-95 min-h-[44px] touch-manipulation text-center flex items-center justify-center text-[var(--action-primary-text)] border border-[var(--action-primary)]/20"
             >
               {c.cta.requestQuote || (lang === "zh" ? "获取报价" : "Request Quote")}
             </Link>
             <Link
               href="/resources"
-              className="rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-6 py-3 text-sm font-semibold text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] touch-manipulation text-center flex items-center justify-center"
+              className="rounded-xl border-2 border-[var(--action-primary)] bg-[var(--action-primary)]/5 px-5 py-3 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold text-[var(--action-primary)] shadow-md hover:shadow-lg hover:shadow-[var(--action-primary)]/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--action-primary)]/15 active:scale-95 min-h-[44px] touch-manipulation text-center flex items-center justify-center"
             >
               {c.cta.downloadSpecs || (lang === "zh" ? "下载规格" : "Download Specs")}
             </Link>

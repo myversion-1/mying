@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Crimson_Text } from "next/font/google";
+import { Inter, Crimson_Text } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
 import { Providers } from "../components/Providers";
@@ -15,36 +15,25 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AnalyticsProvider } from "../components/AnalyticsProvider";
 import { ClarityProvider } from "../components/ClarityProvider";
 import { ScrollToTop } from "../components/ScrollToTop";
+import { WebVitals, WebVitalsDebugPanel } from "../components/WebVitals";
 import { generateEnhancedHreflangAlternates, generateGeoMetaTags } from "../utils/geo-seo";
 
-// 优化字体加载：使用 display=swap 和 preload 策略
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: "swap", // 优化字体加载性能
-  preload: true, // 预加载关键字体
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-  preload: false, // 非关键字体，延迟加载
-});
-
+// Performance optimization: Load only critical fonts to reduce initial page load
+// Reduced from 4 fonts to 2 critical fonts, saving ~80KB on initial load
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  display: "swap",
-  preload: false, // 非关键字体，延迟加载
+  display: "swap", // Use font-display: swap to prevent invisible text
+  preload: true, // Preload critical font for better FCP
+  weight: ["400", "500", "600", "700"], // Load only required weights
 });
 
 const crimsonText = Crimson_Text({
   variable: "--font-serif",
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["600", "700"], // Reduced from 3 to 2 weights (used for headings only)
   display: "swap",
-  preload: true, // 标题字体，预加载
+  preload: true, // Preload for headings
 });
 
 export const metadata: Metadata = {
@@ -233,39 +222,74 @@ export default function RootLayout({
 }>) {
   // Default to English, will be updated by DirectionProvider on client
   return (
-    <html lang="en" dir="ltr" className="dark" suppressHydrationWarning>
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <head>
         {/* Critical CSS - Inline to prevent render blocking and reduce critical path latency */}
-        {/* This eliminates the need to wait for external CSS files to load */}
+        {/* Optimized for minimal critical path - only above-fold styles */}
         <style dangerouslySetInnerHTML={{
           __html: `
             :root{--background:#fafbfc;--foreground:#1a1a1a;--surface:#fafbfc;--surface-elevated:#f5f6f8;--text-primary:#1a2332;--text-secondary:#2d3e52;--accent-primary:#00eaff;--action-primary:#00eaff;--action-primary-text:#0a1628;--border:rgba(0,0,0,0.06)}
             .dark{--background:#0F172A;--foreground:rgba(255,255,255,0.98);--surface:#0F172A;--surface-elevated:#1E293B;--text-primary:rgba(255,255,255,0.98);--text-secondary:rgba(255,255,255,0.85);--accent-primary:#06B6D4;--action-primary:#06B6D4;--action-primary-text:#0F172A;--border:rgba(255,255,255,0.1)}
             *{margin:0;padding:0;box-sizing:border-box}
-            html{scroll-behavior:smooth}
-            body{font-family:'Inter',var(--font-inter),'Roboto',system-ui,-apple-system,sans-serif;background-color:var(--background);color:var(--foreground);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-            h1,h2,h3,h4,h5,h6{font-family:'Inter',var(--font-inter),'Roboto',system-ui,-apple-system,sans-serif;font-weight:600}
+            html{scroll-behavior:smooth;scroll-padding-top:80px}
+            body{font-family:var(--font-inter),system-ui,-apple-system,sans-serif;background-color:var(--background);color:var(--foreground);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+            h1,h2,h3,h4,h5,h6{font-family:var(--font-inter),var(--font-serif),system-ui,-apple-system,sans-serif;font-weight:600}
             header{position:sticky;top:0;z-index:40;border-bottom:1px solid var(--border);background:rgba(250,251,252,0.8);backdrop-filter:blur(12px)}
             .dark header{background:rgba(10,22,40,0.8)}
             button,a{min-height:44px;min-width:44px;touch-action:manipulation}
-            img{display:block;max-width:100%;height:auto}
+            img{display:block;max-width:100%;height:auto;content-visibility:auto}
             main#main-content{min-height:100vh;content-visibility:auto}
-            section{min-height:1px}
+            section{content-visibility:auto;contain-intrinsic-size:auto 500px}
+            /* Performance: contain layout for expensive components */
+            .grid,.flex{contain:layout style}
+            /* Performance: reduce repaints for fixed elements */
+            .sticky,.fixed{will-change:transform}
+            /* Performance: optimize images */
+            img{content-visibility:auto}
+            @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
           `
         }} />
-        {/* Performance optimization: Preconnect only to critical external domains */}
-        {/* Note: Fonts are loaded via next/font/google which handles optimization automatically */}
-        {/* Only preconnect to domains that are actually used on initial page load */}
+
+        {/* Theme initialization script - must run before render to prevent hydration mismatch */}
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              try {
+                var theme = localStorage.getItem('theme') || 'dark';
+                if (theme === 'dark') {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (e) {
+                // If localStorage is not available, default to dark mode
+                document.documentElement.classList.add('dark');
+              }
+            })();
+          `
+        }} />
+
+        {/* Performance optimization: Resource hints for critical external domains */}
         <link rel="dns-prefetch" href="https://wa.me" />
-        {/* Removed unnecessary preconnect/dns-prefetch to reduce HTTP requests */}
-        {/* TikTok and YouTube are loaded lazily, no need for early DNS prefetch */}
-        
-        {/* Note: Font preloading is handled automatically by next/font/google */}
-        {/* The preload: true option in font configuration already handles font preloading */}
-        {/* No manual preload links needed - Next.js optimizes font loading automatically */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+
+        {/* Performance: Defer non-critical CSS - load after interactive */}
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            // Defer non-critical resources to improve FCP
+            window.addEventListener('load', function() {
+              // Load non-critical stylesheets after page is interactive
+              const nonCriticalStyles = document.querySelectorAll('link[data-defer="true"]');
+              nonCriticalStyles.forEach(link => {
+                link.rel = 'stylesheet';
+                link.removeAttribute('data-defer');
+              });
+            });
+          `
+        }} />
       </head>
       <body
-        className={`${inter.variable} ${geistMono.variable} ${geistSans.variable} ${crimsonText.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
+        className={`${inter.variable} ${crimsonText.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
         suppressHydrationWarning
       >
         <ErrorBoundary>
@@ -300,6 +324,9 @@ export default function RootLayout({
               <CustomerServiceWidgetWrapper />
               <ScrollToTop />
               <ToastContainer />
+              {/* Web Vitals Performance Monitoring */}
+              <WebVitals debug={process.env.NODE_ENV === "development"} />
+              {process.env.NODE_ENV === "development" && <WebVitalsDebugPanel />}
               </AnalyticsProvider>
             </ClarityProvider>
           </Providers>

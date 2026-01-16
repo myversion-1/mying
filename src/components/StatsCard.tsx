@@ -1,18 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-// Dynamic import for CountUp to reduce initial bundle size
-import dynamic from "next/dynamic";
-
-// Dynamic import for CountUp to reduce initial bundle size
-// Using lazy loading to avoid preload warnings and 404 errors
-const CountUp = dynamic(
-  () => import("react-countup").then((mod) => ({ default: mod.default })),
-  {
-    ssr: false, // CountUp doesn't need SSR
-    loading: () => <span>0</span>, // Fallback during loading
-  }
-);
+import CountUp from "react-countup";
 
 type StatsCardProps = {
   number: string | number;
@@ -25,12 +14,12 @@ type StatsCardProps = {
   aboveTheFold?: boolean;
 };
 
-export function StatsCard({ 
-  number, 
-  suffix = "", 
-  label, 
-  description, 
-  icon, 
+export function StatsCard({
+  number,
+  suffix = "",
+  label,
+  description,
+  icon,
   className = "",
   aboveTheFold = false
 }: StatsCardProps) {
@@ -63,7 +52,7 @@ export function StatsCard({
   }, [aboveTheFold]);
 
   // Convert number to numeric value for CountUp
-  const numericValue = typeof number === "string" 
+  const numericValue = typeof number === "string"
     ? parseFloat(number.replace(/[^0-9.]/g, "")) || 0
     : number;
 
@@ -74,7 +63,7 @@ export function StatsCard({
     >
       {/* Background accent - subtle brand color on hover */}
       <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-primary)]/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-      
+
       <div className="relative flex flex-col gap-4">
         {/* Icon */}
         {icon && (
@@ -82,7 +71,7 @@ export function StatsCard({
             {icon}
           </div>
         )}
-        
+
         {/* Content */}
         <div className="space-y-2">
           {/* Number with CountUp animation */}
@@ -107,12 +96,12 @@ export function StatsCard({
               </span>
             )}
           </div>
-          
+
           {/* Label */}
           <div className="text-base font-semibold text-[var(--text-primary)] md:text-lg">
             {label}
           </div>
-          
+
           {/* Description */}
           {description && (
             <p className="text-sm text-[var(--text-secondary)] md:text-base">
@@ -121,7 +110,7 @@ export function StatsCard({
           )}
         </div>
       </div>
-      
+
       {/* Hover effect overlay */}
       <div className="absolute inset-0 bg-[var(--accent-primary)]/0 transition-colors duration-300 group-hover:bg-[var(--accent-primary)]/5 pointer-events-none" />
     </div>

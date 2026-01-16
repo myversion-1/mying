@@ -107,7 +107,7 @@ export function PageHero({
           </p>
           
           {/* CTA Buttons - Clear Visual Hierarchy */}
-          <div className="flex flex-col gap-4 sm:flex-row sm:gap-4 pt-2">
+          <div className="flex flex-col gap-4 sm:flex-row sm:gap-4 pt-4" suppressHydrationWarning>
             {/* Primary CTA: Solid Fill - "Get a Quote" */}
             <Link
               href={ctaPrimaryHref}
@@ -123,11 +123,12 @@ export function PageHero({
                   section: "hero_primary",
                 });
               }}
-              className="rounded-md bg-[var(--action-primary)] px-8 py-4 text-base font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[48px] touch-manipulation text-center flex items-center justify-center flex-1 sm:flex-none sm:w-auto"
+              className="rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-6 py-4 sm:px-10 sm:py-4 text-base sm:text-lg font-semibold shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-2xl hover:shadow-[var(--action-primary)]/50 transition-all duration-200 hover:-translate-y-1 hover:brightness-110 active:scale-95 touch-manipulation text-center flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px] text-[var(--action-primary-text)] border border-[var(--action-primary)]/20"
+              suppressHydrationWarning
             >
               {primaryCTA}
             </Link>
-            
+
             {/* Secondary CTA: Outline Style - "Download Specs" */}
             <Link
               href={ctaSecondaryHref}
@@ -143,14 +144,15 @@ export function PageHero({
                   section: "hero_secondary",
                 });
               }}
-              className="rounded-md border-2 border-[var(--action-primary)] bg-transparent px-8 py-4 text-base font-semibold text-[var(--action-primary)] transition-colors hover:bg-[var(--action-primary)]/10 min-h-[48px] touch-manipulation text-center flex items-center justify-center flex-1 sm:flex-none sm:w-auto"
+              className="rounded-xl border-2 border-[var(--action-primary)] bg-[var(--action-primary)]/5 px-6 py-4 sm:px-10 sm:py-4 text-base sm:text-lg font-semibold text-[var(--action-primary)] shadow-md hover:shadow-lg hover:shadow-[var(--action-primary)]/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--action-primary)]/15 active:scale-95 touch-manipulation text-center flex items-center justify-center flex-1 sm:flex-none sm:min-w-[200px]"
+              suppressHydrationWarning
             >
               {secondaryCTA}
             </Link>
           </div>
 
           {/* Trust Badges - Minimal Icon Style Below CTAs */}
-          <div className="flex flex-wrap items-center gap-6 pt-4">
+          <div className="flex flex-wrap items-center gap-6 pt-4" suppressHydrationWarning>
             {trustBadges.map((badge, index) => {
               const Icon = badge.icon;
               return (

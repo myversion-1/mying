@@ -3,6 +3,13 @@
 /* CLS Prevention - Layout Stability */
 /* Prevent layout shifts by reserving space and using stable dimensions */
 
+/* Fix horizontal overflow at the root level */
+html {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
 /* Main content area - prevent layout shift */
 main#main-content {
   /* Reserve minimum space to prevent initial layout shift */
@@ -10,6 +17,10 @@ main#main-content {
   /* Use content-visibility for better performance */
   content-visibility: auto;
   contain-intrinsic-size: auto 100vh;
+  /* Fix horizontal overflow */
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* Section elements - 8px grid system with increased whitespace */
@@ -31,8 +42,8 @@ section {
 
 @media (min-width: 1024px) {
   section {
-    /* 8px grid system: 80px = 10 × 8px - increased whitespace */
-    padding-top: 5rem;     /* 80px - 10 × 8px */
+    /* Reduced top padding for tighter header-to-content spacing */
+    padding-top: 4rem;     /* 64px - 8 × 8px (reduced from 5rem) */
     padding-bottom: 5rem;  /* 80px - 10 × 8px */
   }
 }
@@ -243,15 +254,15 @@ section {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  /* Enhanced padding for better breathing room - default 5rem */
-  padding-top: 5rem;
+  /* Enhanced padding for better breathing room - reduced for tighter layout */
+  padding-top: 4rem;
   padding-bottom: 5rem;
 }
 
 /* Desktop: increased padding to 8rem (33% increase) */
 @media (min-width: 1024px) {
   section {
-    padding-top: 8rem;
+    padding-top: 6rem;
     padding-bottom: 8rem;
   }
 }
@@ -339,13 +350,13 @@ img:not([data-loaded="true"]),
 .next-image-wrapper img:not([data-loaded="true"]) {
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.1) 25%,
-    rgba(255, 255, 255, 0.15) 50%,
-    rgba(255, 255, 255, 0.1) 75%
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.05) 75%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-  opacity: 0.7;
+  animation: shimmer 2s ease-in-out infinite;
+  opacity: 0.5;
 }
 
 img[src][data-loaded="true"],
@@ -390,20 +401,22 @@ img[data-loading="lazy"][data-loaded="true"],
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.05) 25%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0.05) 75%
+    rgba(255, 255, 255, 0.02) 25%,
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.02) 75%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-  z-index: 1;
+  animation: shimmer 2.5s ease-in-out infinite;
+  z-index: 0;
   pointer-events: none;
+  opacity: 0.3;
 }
 
 .next-image-wrapper img[data-loaded="true"] ~ ::before,
 .next-image-wrapper[data-loaded="true"]::before {
-  opacity: 0;
-  transition: opacity 0.3s ease-out;
+  opacity: 0 !important;
+  animation: none !important;
+  transition: opacity 0.2s ease-out;
 }
 
 /* Enhanced typography for better readability */
@@ -811,7 +824,7 @@ body {
   /* Use CSS variables for theme-aware colors */
   background-color: var(--background);
   color: var(--foreground);
-  
+
   /* Typography System - Sans-serif (Inter/Roboto) for all text */
   /* Use fallback font first to prevent layout shift during font loading */
   font-family: 'Inter', var(--font-inter), 'Roboto', system-ui, -apple-system, sans-serif;
@@ -822,10 +835,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  
+
   /* Enhanced gradient overlays - more sophisticated and modern */
   /* Added more layers for depth and visual interest */
-  background-image: 
+  background-image:
     /* Top-left accent glow - subtle cyan/blue */
     radial-gradient(
       circle at 10% 10%,
@@ -859,9 +872,14 @@ body {
   background-repeat: no-repeat;
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
-  
+
   /* Add subtle texture for depth */
   position: relative;
+
+  /* Fix horizontal overflow */
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* Add subtle noise texture overlay for premium feel */
@@ -1175,36 +1193,54 @@ header[data-scrolled="true"].header-modern {
   transform: translateY(-2px);
 }
 
-/* Shimmer CTA Button */
+/* ========================================
+   Shimmer CTA Button - Professional B2B Style
+   Enhanced for clarity, hierarchy, and professionalism
+   ======================================== */
 .shimmer-cta-button {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1.5rem;
-  min-height: 44px;
-  font-size: 0.875rem;
+  gap: 0.625rem; /* Increased from 0.5rem for better icon-text spacing */
+  padding: 0.75rem 1.75rem; /* Increased: 12px 28px - more prominent */
+  min-height: 48px; /* Increased from 44px - better visual weight */
+  font-size: 0.9375rem; /* 15px - improved readability */
   font-weight: 700;
+  letter-spacing: 0.01em; /* Slightly improved character spacing */
   white-space: nowrap;
-  border-radius: 0.75rem;
+  border-radius: 0.625rem; /* 10px - more professional than 12px */
   overflow: hidden;
-  transition: transform 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother easing */
   touch-action: manipulation;
-  
-  /* Gradient background */
+
+  /* Gradient background - Richer depth */
   background: linear-gradient(135deg, var(--action-primary) 0%, var(--accent-primary) 100%);
-  color: var(--action-primary-text);
-  
-  /* Hover scale animation */
+  color: #ffffff;
+
+  /* Professional shadow - Adds depth and prominence */
+  box-shadow:
+    0 2px 8px rgba(6, 182, 212, 0.25),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+
+  /* Subtle shimmer effect - Only on hover */
 }
 
+/* Hover state - More pronounced interaction feedback */
 .shimmer-cta-button:hover {
-  transform: scale(1.05);
+  transform: scale(1.05) translateY(-1px); /* Enhanced lift effect */
+  box-shadow:
+    0 6px 16px rgba(6, 182, 212, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.15);
+  opacity: 1; /* Removed opacity reduction for cleaner look */
 }
 
+/* Active state - Tactile feedback */
 .shimmer-cta-button:active {
-  transform: scale(0.98);
+  transform: scale(1.02) translateY(0);
+  box-shadow:
+    0 2px 6px rgba(6, 182, 212, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .shimmer-cta-content {
@@ -1212,33 +1248,49 @@ header[data-scrolled="true"].header-modern {
   z-index: 10;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.625rem; /* Consistent with parent gap */
+  font-weight: 600; /* Slightly lighter than 700 for elegance */
 }
 
-.shimmer-overlay {
+/* Simplified shimmer - Subtle and professional */
+.shimmer-cta-button::after {
+  content: '';
   position: absolute;
   top: 0;
   left: -100%;
-  width: 100%;
+  width: 50%;
   height: 100%;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.2) 50%,
     transparent 100%
   );
-  animation: shimmer 3s infinite;
-  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease, left 0.8s ease;
+  pointer-events: none;
 }
 
-@keyframes shimmer {
-  0% {
-    left: -100%;
+.shimmer-cta-button:hover::after {
+  opacity: 1;
+  left: 100%;
+  transition: opacity 0.4s ease, left 0.8s ease;
+}
+
+/* ========================================
+   Responsive CTA - Smaller version for compact layouts
+   ======================================== */
+@media (max-width: 1280px) {
+  .shimmer-cta-button {
+    padding: 0.625rem 1.5rem; /* 10px 24px - slightly compact */
+    font-size: 0.875rem; /* 14px on smaller screens */
   }
-  50%,
-  100% {
-    left: 100%;
-  }
+}
+
+/* Focus state for accessibility */
+.shimmer-cta-button:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
 }
 
 /* Dark mode adjustments for mega menu */

@@ -122,19 +122,7 @@ export default function Home() {
   // Defer loading services data until needed (lazy evaluation)
   const services = getServices(lang);
   const isRTL = lang === "ar";
-  
-  // Use state to prevent hydration mismatch for responsive columns
-  // Default to 5 columns (desktop) during SSR, update after mount
-  const [mounted, setMounted] = useState(false);
-  const [statsColumns, setStatsColumns] = useState<2 | 5>(5);
-  
-  useEffect(() => {
-    setMounted(true);
-    // Only check device type after mount to prevent hydration mismatch
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    setStatsColumns(isMobile ? 2 : 5);
-  }, []);
-  
+
   // Defer loading products data - only load when ProductGrid is visible
   // This reduces initial JavaScript execution time
 
@@ -175,10 +163,11 @@ export default function Home() {
                 : "Data-driven proof of our expertise and global delivery capabilities"}
             </p>
           </div>
-          <StatsGrid 
-            stats={homePageStats} 
-            lang={lang} 
-            columns={statsColumns} 
+          <StatsGrid
+            stats={homePageStats}
+            lang={lang}
+            columns={5}
+            suppressHydrationWarning
           />
         </div>
       </section>
@@ -344,7 +333,7 @@ export default function Home() {
                     <Link
                       href={`/contact?service=${encodeURIComponent(service.title)}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--action-primary)] px-6 py-3 text-sm font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation w-full"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-5 py-3 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-xl hover:shadow-[var(--action-primary)]/50 transition-all duration-200 hover:-translate-y-1 hover:brightness-110 active:scale-95 min-h-[44px] touch-manipulation w-full text-[var(--action-primary-text)] border border-[var(--action-primary)]/20"
                     >
                       <span>{c.cta.getTechnicalConsultation || (lang === "zh" ? "获取技术咨询" : "Get Technical Consultation")}</span>
                       <ChevronRight className="h-4 w-4" />
@@ -360,7 +349,7 @@ export default function Home() {
         <div className="text-center">
           <Link
             href="/contact?type=service"
-            className="inline-flex items-center gap-2 rounded-lg bg-[var(--action-primary)] px-8 py-4 text-base font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-6 py-4 sm:px-10 sm:py-4 text-base sm:text-lg font-semibold shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-2xl hover:shadow-[var(--action-primary)]/50 transition-all duration-200 hover:-translate-y-1 hover:brightness-110 active:scale-95 min-h-[44px] touch-manipulation text-[var(--action-primary-text)] border border-[var(--action-primary)]/20"
           >
             <span>{c.cta.scheduleConsultation || (lang === "zh" ? "预约服务咨询" : "Schedule Service Consultation")}</span>
             <ChevronRight className="h-5 w-5" />
@@ -408,7 +397,7 @@ export default function Home() {
                   </div>
                   <Link
                     href={`/quote?category=${encodeURIComponent(category.mainCategory)}&subCategory=${encodeURIComponent(category.subCategory)}`}
-                    className="inline-flex items-center gap-2 rounded-lg bg-[var(--action-primary)] px-6 py-3 text-sm font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+                    className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-5 py-3 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-xl hover:shadow-[var(--action-primary)]/50 transition-all duration-200 hover:-translate-y-1 hover:brightness-110 active:scale-95 min-h-[44px] touch-manipulation text-[var(--action-primary-text)] border border-[var(--action-primary)]/20"
                   >
                     <span>{c.cta.requestPricing || (lang === "zh" ? "获取定价" : "Request Pricing")}</span>
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -436,7 +425,7 @@ export default function Home() {
         <div className="mt-12 text-center space-y-4">
           <Link
             href="/resources"
-            className="inline-flex items-center gap-2 rounded-lg bg-[var(--action-primary)] px-8 py-4 text-base font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-6 py-4 sm:px-10 sm:py-4 text-base sm:text-lg font-semibold shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-2xl hover:shadow-[var(--action-primary)]/50 transition-all duration-200 hover:-translate-y-1 hover:brightness-110 active:scale-95 min-h-[44px] touch-manipulation text-[var(--action-primary-text)] border border-[var(--action-primary)]/20"
           >
             <span>{c.cta.downloadDatasheet || (lang === "zh" ? "下载产品目录" : "Download Product Catalog")}</span>
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -448,7 +437,7 @@ export default function Home() {
           </p>
           <Link
             href="/quote"
-            className="inline-flex items-center gap-2 rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-8 py-4 text-base font-semibold text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] touch-manipulation"
+            className="inline-flex items-center gap-2 rounded-xl border-2 border-[var(--action-primary)] bg-[var(--action-primary)]/5 px-6 py-4 sm:px-10 sm:py-4 text-base sm:text-lg font-semibold text-[var(--action-primary)] shadow-md hover:shadow-lg hover:shadow-[var(--action-primary)]/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--action-primary)]/15 active:scale-95 min-h-[44px] touch-manipulation"
           >
             <span>{c.cta.getCustomQuote || (lang === "zh" ? "获取定制报价" : "Get Custom Quote")}</span>
           </Link>

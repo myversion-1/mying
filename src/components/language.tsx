@@ -33,14 +33,8 @@ function getInitialLanguage(): Lang {
     console.warn("Failed to read language from localStorage:", error);
   }
 
-  // Try to detect from browser language
-  if (typeof navigator !== "undefined" && navigator.language) {
-    const browserLang = navigator.language.split("-")[0];
-    if (isValidLang(browserLang)) {
-      return browserLang as Lang;
-    }
-  }
-
+  // Always use English as default - disable browser auto-detect to prevent hydration mismatch
+  // Users can manually change language using the language selector
   return DEFAULT_LANG;
 }
 

@@ -153,12 +153,16 @@ ${product.year ? `${labels.year}: ${product.year}` : ''}
             onClick={handleExportPDF}
             disabled={isExporting}
             className="
-              flex items-center gap-2 rounded-md border border-[var(--action-primary)]/50 
-              bg-[var(--action-primary)] px-4 py-2 text-sm font-semibold 
-              text-[var(--action-primary-text)] transition-colors 
-              hover:bg-[var(--action-primary-hover)] hover:border-[var(--action-primary)]
-              disabled:opacity-50 disabled:cursor-not-allowed
+              flex items-center gap-2 rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)]
+              px-4 py-2 text-sm font-semibold sm:px-5 sm:py-2.5
+              text-[var(--action-primary-text)]
+              shadow-lg shadow-[var(--action-primary)]/30
+              hover:shadow-xl hover:shadow-[var(--action-primary)]/50
+              hover:-translate-y-0.5 hover:brightness-110 active:scale-95
+              transition-all duration-200
+              disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0
               min-h-[44px] touch-manipulation
+              border border-[var(--action-primary)]/20
             "
           >
             {isExporting ? (

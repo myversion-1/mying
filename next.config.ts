@@ -60,10 +60,15 @@ const nextConfig: NextConfig = {
     // 优化包导入
     optimizePackageImports: [
       '@vercel/analytics',
-      'react-icons',
+      '@vercel/speed-insights',
+      'lucide-react',
     ],
     // 启用现代 JavaScript，减少转译
     // Next.js 16+ 默认支持现代浏览器，减少不必要的 polyfills
+    // 启用 PPR (Partial Prerendering) 用于更好的性能
+    ppr: false, // Disable PPR for now - enable when ready
+    // 启用优化
+    optimizeServerReact: true,
   },
   
   // JavaScript 压缩优化
@@ -83,6 +88,7 @@ const nextConfig: NextConfig = {
           chunks: 'all',
           maxInitialRequests: 25, // 增加初始请求限制以支持更好的代码分割
           minSize: 20000, // 最小 chunk 大小（20KB）
+          maxSize: 244000, // 最大 chunk 大小（244KB）- 更好的 HTTP/2 利用
           cacheGroups: {
             default: false,
             vendors: false,
@@ -100,23 +106,41 @@ const nextConfig: NextConfig = {
               chunks: 'all',
               test: /node_modules/,
               priority: 20,
+              minChunks: 1,
             },
             // 将 React 相关库单独打包
             react: {
               name: 'react',
               chunks: 'all',
-              test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler|use-sync-external-store)[\\/]/,
               priority: 30,
             },
             // 将 Next.js 相关库单独打包
             nextjs: {
               name: 'nextjs',
               chunks: 'all',
-              test: /[\\/]node_modules[\\/](next)[\\/]/,
+              test: /[\\/]node_modules[\\/](next|next-intl)[\\/]/,
               priority: 25,
+            },
+            // Lucide React icons - 单独打包以便按需加载
+            lucide: {
+              name: 'lucide',
+              test: /[\\/]node_modules[\\/](lucide-react)[\\/]/,
+              priority: 22,
+              minChunks: 1,
             },
           },
         },
+        // 启用模块导出优化
+        usedExports: true,
+        sideEffects: true,
+      };
+
+      // 添加性能预算
+      config.performance = {
+        maxAssetSize: 512000, // 500KB max per asset
+        maxEntrypointSize: 512000, // 500KB max for entry points
+        hints: 'warning',
       };
     }
     return config;

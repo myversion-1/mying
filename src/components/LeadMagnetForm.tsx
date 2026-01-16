@@ -212,14 +212,14 @@ export function LeadMagnetForm({ asset, onSuccess, onClose }: LeadMagnetFormProp
           <div className="space-y-4">
             <button
               onClick={handleDownload}
-              className="w-full rounded-lg bg-[var(--action-primary)] px-8 py-4 text-base font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+              className="w-full rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-6 py-4 sm:px-10 sm:py-4 text-base sm:text-lg font-semibold shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-2xl hover:shadow-[var(--action-primary)]/50 transition-all duration-200 hover:-translate-y-1 hover:brightness-110 active:scale-95 min-h-[44px] touch-manipulation text-[var(--action-primary-text)] border border-[var(--action-primary)]/20"
             >
               {lang === "zh" ? "立即下载" : "Download Now"}
             </button>
             {onClose && (
               <button
                 onClick={onClose}
-                className="w-full rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-8 py-3 text-sm font-semibold text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] touch-manipulation"
+                className="w-full rounded-xl border-2 border-[var(--action-primary)] bg-transparent px-6 py-4 sm:px-10 sm:py-4 text-base sm:text-lg font-semibold text-[var(--action-primary)] shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--action-primary)]/10 active:scale-95 min-h-[44px] touch-manipulation"
               >
                 {lang === "zh" ? "关闭" : "Close"}
               </button>
@@ -327,7 +327,7 @@ export function LeadMagnetForm({ asset, onSuccess, onClose }: LeadMagnetFormProp
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-lg bg-[var(--action-primary)] px-8 py-4 text-base font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] touch-manipulation"
+            className="w-full rounded-xl bg-[var(--action-primary)] px-6 py-4 sm:px-10 sm:py-4 text-base sm:text-lg font-semibold shadow-md hover:shadow-xl transition-all duration-200 hover:-translate-y-1 hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:shadow-md min-h-[44px] touch-manipulation text-[var(--action-primary-text)]"
           >
             {isSubmitting
               ? lang === "zh"

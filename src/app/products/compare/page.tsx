@@ -254,7 +254,7 @@ function ComparePageContent() {
                 {isSelected ? (
                   <button
                     onClick={() => removeProduct(product.id)}
-                    className="w-full rounded-lg border border-[var(--action-primary)] bg-[var(--action-primary)] px-4 py-2 text-sm font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+                    className="w-full rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-4 py-2 text-sm font-semibold sm:px-5 sm:py-2.5 text-[var(--action-primary-text)] shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-xl hover:shadow-[var(--action-primary)]/50 hover:-translate-y-0.5 hover:brightness-110 active:scale-95 transition-all duration-200 min-h-[44px] touch-manipulation border border-[var(--action-primary)]/20"
                   >
                     {isZh ? "移除" : "Remove"}
                   </button>
@@ -283,7 +283,7 @@ function ComparePageContent() {
           <div className="mb-4 flex justify-end">
             <button
               onClick={handleExportCSV}
-              className="flex items-center gap-2 rounded-lg border border-[var(--action-primary)] bg-[var(--action-primary)] px-4 py-2 text-sm font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-4 py-2 text-sm font-semibold sm:px-5 sm:py-2.5 text-[var(--action-primary-text)] shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-xl hover:shadow-[var(--action-primary)]/50 hover:-translate-y-0.5 hover:brightness-110 active:scale-95 transition-all duration-200 min-h-[44px] touch-manipulation border border-[var(--action-primary)]/20"
             >
               <Download className="h-4 w-4" />
               <span>{isZh ? "导出对比表 (CSV)" : "Export Comparison (CSV)"}</span>
@@ -373,7 +373,7 @@ function ComparePageContent() {
             ))}
             <Link
               href={`/quote?products=${selectedProducts.map((p) => p.id).join(",")}`}
-              className="flex-1 rounded-lg bg-[var(--action-primary)] px-4 py-3 text-center font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+              className="flex-1 rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-5 py-3 sm:px-6 sm:py-3 text-base font-semibold text-[var(--action-primary-text)] shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-xl hover:shadow-[var(--action-primary)]/50 hover:-translate-y-0.5 hover:brightness-110 active:scale-95 transition-all duration-200 min-h-[44px] touch-manipulation border border-[var(--action-primary)]/20"
             >
               {isZh ? "获取报价" : "Get Quote"}
             </Link>
@@ -391,7 +391,7 @@ function ComparePageContent() {
           </p>
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 rounded-lg bg-[var(--action-primary)] px-6 py-3 font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-6 py-3 sm:px-8 sm:py-3 text-base font-semibold text-[var(--action-primary-text)] shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-xl hover:shadow-[var(--action-primary)]/50 hover:-translate-y-0.5 hover:brightness-110 active:scale-95 transition-all duration-200 min-h-[44px] touch-manipulation border border-[var(--action-primary)]/20"
           >
             <span>{isZh ? "浏览产品" : "Browse Products"}</span>
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

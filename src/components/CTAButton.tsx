@@ -84,9 +84,9 @@ export function CTAButton({
   const baseClasses = "rounded-lg font-semibold transition-colors min-h-[44px] min-w-[44px] touch-manipulation text-center flex items-center justify-center";
   
   const variantClasses = {
-    primary: "bg-[var(--action-primary)] text-[var(--action-primary-text)] !text-[var(--action-primary-text)] hover:bg-[var(--action-primary-hover)] px-8 py-4",
-    secondary: "border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] text-[var(--action-secondary-text)] hover:bg-[var(--action-secondary-hover-bg)] px-8 py-4",
-    outline: "border border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--text-primary)] hover:bg-[var(--surface-hover)] hover:border-[var(--border-hover)] px-6 py-3",
+    primary: "bg-[var(--action-primary)] text-[var(--action-primary-text)] hover:bg-[var(--action-primary-hover)] px-5 py-2.5",
+    secondary: "border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] text-[var(--action-secondary-text)] hover:bg-[var(--action-secondary-hover-bg)] px-5 py-2.5",
+    outline: "border border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--text-primary)] hover:bg-[var(--surface-hover)] hover:border-[var(--border-hover)] px-4 py-2",
   };
 
   const ctaText = getCTAText();

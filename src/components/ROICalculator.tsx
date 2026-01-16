@@ -280,17 +280,17 @@ ${isZh ? "如需更详细的财务分析，请联系我们的财务顾问团队�
                 </div>
               </div>
 
-              <div className="mt-6 space-y-3">
+              <div className="mt-6 space-y-4">
                 <button
                   onClick={handleExportReport}
-                  className="w-full rounded-lg border border-[var(--action-primary)] bg-[var(--action-primary)] px-4 py-3 text-sm font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation flex items-center justify-center gap-2"
+                  className="w-full rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-5 py-3 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-xl hover:shadow-[var(--action-primary)]/50 transition-all duration-200 hover:-translate-y-0.5 hover:brightness-110 active:scale-95 min-h-[44px] touch-manipulation flex items-center justify-center gap-2 text-[var(--action-primary-text)] border border-[var(--action-primary)]/20"
                 >
                   <FileText className="h-4 w-4" />
                   <span>{isZh ? "下载财务分析报告" : "Download Financial Analysis Report"}</span>
                 </button>
                 <Link
                   href="/contact?type=financial-consultation"
-                  className="block w-full rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-4 py-3 text-center text-sm font-semibold text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] touch-manipulation"
+                  className="block w-full rounded-xl border-2 border-[var(--action-primary)] bg-[var(--action-primary)]/5 px-5 py-3 sm:px-7 sm:py-3 text-center text-sm sm:text-base font-semibold text-[var(--action-primary)] shadow-md hover:shadow-lg hover:shadow-[var(--action-primary)]/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--action-primary)]/15 active:scale-95 min-h-[44px] touch-manipulation"
                 >
                   {isZh ? "预约财务顾问咨询" : "Schedule Financial Advisor Consultation"}
                 </Link>

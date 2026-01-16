@@ -146,9 +146,13 @@ export function Header() {
             </div>
             
           {/* Right: LanguageToggle, ThemeToggle, CTA Button */}
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex items-center gap-4 flex-shrink-0">
             <ToggleWrapper />
-            {/* Shimmer CTA Button - Prominent with shimmer effect */}
+
+            {/* Visual separator before CTA - Enhances visual hierarchy */}
+            <div className="hidden lg:block w-px h-8 bg-[var(--border)] mx-1" />
+
+            {/* Shimmer CTA Button - Prominent with enhanced spacing */}
             <div className="hidden lg:block">
               <ShimmerCTA className="lg:inline-flex" />
             </div>

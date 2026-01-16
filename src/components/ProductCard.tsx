@@ -97,7 +97,7 @@ function ProductCardComponent({ product, lang, index, isRTL }: ProductCardProps)
                 height={450}
                 style={{ aspectRatio: '16 / 9' }}
                 loading="lazy"
-                fetchPriority="auto"
+                fetchPriority="low"
                 decoding="async"
                 suppressHydrationWarning
                 onLoad={(e) => {
@@ -131,7 +131,7 @@ function ProductCardComponent({ product, lang, index, isRTL }: ProductCardProps)
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 loading="lazy"
                 quality={65}
-                fetchPriority="auto"
+                fetchPriority="low"
                 onLoad={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.setAttribute('data-loaded', 'true');
@@ -240,11 +240,15 @@ function ProductCardComponent({ product, lang, index, isRTL }: ProductCardProps)
               });
             }}
             className="
-              w-full rounded-md bg-[var(--action-primary)] 
-              px-4 py-2.5 text-center text-sm 
-              font-semibold text-[var(--action-primary-text)] 
-              transition-colors hover:bg-[var(--action-primary-hover)]
+              w-full rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)]
+              px-4 py-2.5 text-center text-sm sm:px-5 sm:py-3
+              font-semibold text-[var(--action-primary-text)]
+              shadow-lg shadow-[var(--action-primary)]/30
+              hover:shadow-xl hover:shadow-[var(--action-primary)]/50
+              hover:-translate-y-0.5 hover:brightness-110 active:scale-95
+              transition-all duration-200
               min-h-[44px] touch-manipulation
+              border border-[var(--action-primary)]/20
             "
           >
             {lang === "zh" ? "获取报价" : "Request Quote"}
@@ -262,10 +266,12 @@ function ProductCardComponent({ product, lang, index, isRTL }: ProductCardProps)
               });
             }}
             className="
-              w-full rounded-md border border-[var(--action-primary)] 
-              bg-transparent px-4 py-2.5 text-center text-sm font-semibold 
-              text-[var(--action-primary)] 
-              transition-colors hover:bg-[var(--action-primary)]/10
+              w-full rounded-xl border-2 border-[var(--action-primary)]
+              bg-[var(--action-primary)]/5 px-4 py-2.5 text-center text-sm font-semibold
+              text-[var(--action-primary)] sm:px-5 sm:py-3
+              shadow-md hover:shadow-lg hover:shadow-[var(--action-primary)]/20
+              hover:-translate-y-0.5 hover:bg-[var(--action-primary)]/15 active:scale-95
+              transition-all duration-200
               min-h-[44px] touch-manipulation
             "
           >

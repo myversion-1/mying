@@ -40,9 +40,10 @@ type StatsGridProps = {
   stats: StatItem[];
   lang?: string;
   columns?: 2 | 3 | 4 | 5;
+  suppressHydrationWarning?: boolean;
 };
 
-export function StatsGrid({ stats, lang = "en", columns = 4 }: StatsGridProps) {
+export function StatsGrid({ stats, lang = "en", columns = 4, suppressHydrationWarning }: StatsGridProps) {
   const getLocalizedLabel = (stat: StatItem) => {
     if (lang === "zh") {
       return stat.labelZh || stat.label;
@@ -66,7 +67,7 @@ export function StatsGrid({ stats, lang = "en", columns = 4 }: StatsGridProps) {
   };
 
   return (
-    <div className={`grid gap-4 md:gap-6 ${gridCols[columns]}`}>
+    <div className={`grid gap-4 md:gap-6 ${gridCols[columns]}`} suppressHydrationWarning={suppressHydrationWarning}>
       {stats.map((stat, index) => (
         <StatsCard
           key={index}

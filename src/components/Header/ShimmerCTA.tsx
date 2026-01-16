@@ -51,8 +51,6 @@ export function ShimmerCTA({ href = "/quote", className = "" }: ShimmerCTAProps)
             (lang === "zh" ? "获取报价" : "Get Quote")}
         </span>
       </span>
-      {/* Shimmer effect overlay */}
-      <span className="shimmer-overlay" />
     </Link>
   );
 }

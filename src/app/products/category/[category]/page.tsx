@@ -152,7 +152,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               <div className="mt-8 text-center">
                 <Link
                   href={`/products?mainCategory=${encodeURIComponent(category)}`}
-                  className="inline-flex items-center gap-2 rounded-lg bg-[var(--action-primary)] px-6 py-3 font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-6 py-3 sm:px-8 sm:py-3 text-base font-semibold shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-xl hover:shadow-[var(--action-primary)]/50 hover:-translate-y-0.5 hover:brightness-110 active:scale-95 transition-all duration-200 min-h-[44px] touch-manipulation text-[var(--action-primary-text)] border border-[var(--action-primary)]/20"
                 >
                   <span>{isZh ? "查看所有型号" : "View All Models"}</span>
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -292,7 +292,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           </p>
           <Link
             href={`/quote?category=${encodeURIComponent(category)}`}
-            className="inline-flex items-center gap-2 rounded-lg bg-[var(--action-primary)] px-8 py-4 font-semibold text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-6 py-4 sm:px-10 sm:py-4 text-base sm:text-lg font-semibold shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-2xl hover:shadow-[var(--action-primary)]/50 hover:-translate-y-1 hover:brightness-110 active:scale-95 transition-all duration-200 min-h-[44px] touch-manipulation text-[var(--action-primary-text)] border border-[var(--action-primary)]/20"
           >
             <span>{isZh ? "请求报价" : "Request Quote"}</span>
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

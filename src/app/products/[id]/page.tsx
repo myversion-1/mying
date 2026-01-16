@@ -573,14 +573,14 @@ export default function ProductPage({ params }: Props) {
             {/* Primary CTA: Single conversion action */}
             <Link
               href={`/quote?product=${encodeURIComponent(product.name)}`}
-              className="rounded-lg bg-[var(--action-primary)] px-8 py-3 font-semibold text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] min-w-[44px] touch-manipulation"
+              className="rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-6 py-3 sm:px-10 sm:py-3 text-base sm:text-lg font-semibold shadow-lg shadow-[var(--action-primary)]/30 hover:shadow-2xl hover:shadow-[var(--action-primary)]/50 hover:-translate-y-1 hover:brightness-110 active:scale-95 transition-all duration-200 min-h-[44px] min-w-[44px] touch-manipulation text-[var(--action-primary-text)] border border-[var(--action-primary)]/20"
             >
               {lang === "zh" ? "获取报价" : "Request Quote"}
             </Link>
             {/* Secondary: Auxiliary action */}
             <Link
               href="/contact"
-              className="rounded-lg border border-[var(--action-secondary-border)] bg-[var(--action-secondary)] px-8 py-3 font-semibold text-[var(--action-secondary-text)] transition-colors hover:bg-[var(--action-secondary-hover-bg)] min-h-[44px] min-w-[44px] touch-manipulation"
+              className="rounded-xl border-2 border-[var(--action-primary)] bg-[var(--action-primary)]/5 px-6 py-3 sm:px-10 sm:py-3 text-base sm:text-lg font-semibold text-[var(--action-primary)] shadow-md hover:shadow-lg hover:shadow-[var(--action-primary)]/20 hover:-translate-y-0.5 hover:bg-[var(--action-primary)]/15 active:scale-95 transition-all duration-200 min-h-[44px] min-w-[44px] touch-manipulation"
             >
               {lang === "zh" ? "联系我们" : "Contact Us"}
             </Link>

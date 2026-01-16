@@ -113,26 +113,15 @@ function AnalyticsProviderInner({ children }: { children: React.ReactNode }) {
 
     const handleBeforeUnload = () => {
       const timeOnPage = Date.now() - startTime;
-      
-      // Use sendBeacon for reliable tracking on page unload
-      // This doesn't block the main thread
-      if (navigator.sendBeacon) {
-        const data = JSON.stringify({
-          page: pathname,
-          timeOnPage,
-          scrollDepth: maxScrollDepth,
-        });
-        navigator.sendBeacon("/api/analytics/page-exit", data);
-      } else {
-        // Fallback: defer to idle time (though this may not execute on unload)
-        onIdle(() => {
-          trackPageExit({
-            page: pathname,
-            timeOnPage,
-            scrollDepth: maxScrollDepth,
-          });
-        }, 0);
-      }
+
+      // Page exit tracking disabled - API endpoint doesn't exist yet
+      // TODO: Create /api/analytics/page-exit endpoint to enable this tracking
+      // const data = JSON.stringify({
+      //   page: pathname,
+      //   timeOnPage,
+      //   scrollDepth: maxScrollDepth,
+      // });
+      // navigator.sendBeacon("/api/analytics/page-exit", data);
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);

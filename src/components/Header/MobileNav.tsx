@@ -284,8 +284,8 @@ export function MobileNav({ links, isOpen, onClose }: MobileNavProps) {
             </Link>
           );
         })}
-        {/* Mobile CTA Button - Single prominent button */}
-        <div className="mt-4 pt-4 border-t border-[var(--border)]">
+        {/* Mobile CTA Button - Enhanced prominence for conversions */}
+        <div className="mt-6 pt-6 border-t border-[var(--border)]">
           <Link
             href="/quote"
             onClick={() => {
@@ -299,22 +299,18 @@ export function MobileNav({ links, isOpen, onClose }: MobileNavProps) {
               });
               onClose();
             }}
-            className="flex items-center justify-center gap-2 w-full rounded-xl bg-[var(--action-primary)] px-4 py-3 text-sm font-bold text-center text-[var(--action-primary-text)] !text-[var(--action-primary-text)] transition-colors hover:bg-[var(--action-primary-hover)] min-h-[44px] touch-manipulation"
+            className="flex items-center justify-center gap-2.5 w-full rounded-xl bg-gradient-to-r from-[var(--action-primary)] to-[var(--accent-primary)] px-5 py-4 text-base font-bold text-center text-white shadow-lg hover:shadow-xl transition-all min-h-[52px] touch-manipulation relative overflow-hidden group"
           >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-              />
+            {/* Subtle gradient overlay for depth */}
+            <span className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+            {/* Icon with consistent sizing */}
+            <svg className="h-5 w-5 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
             </svg>
-            <span>
+
+            {/* Text with improved weight and spacing */}
+            <span className="relative z-10 tracking-wide">
               {c.cta.requestQuote || (lang === "zh" ? "获取报价" : "Get Quote")}
             </span>
           </Link>
